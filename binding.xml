@@ -1,0 +1,17 @@
+<binding>
+	<complexTypeBinding name="/DMSType/@deg">
+		<member java-type="int"/>
+	</complexTypeBinding>
+	<complexTypeBinding name="/DMSType/@min">
+		<member java-type="int"/>
+	</complexTypeBinding>
+	<complexTypeBinding name="/HMSType/@hrs">
+		<member java-type="int"/>
+	</complexTypeBinding>
+	<complexTypeBinding name="/HMSType/@min">
+		<member java-type="int"/>
+	</complexTypeBinding>
+	<elementBinding name="/Epoch/Omega">
+		<java-class name="OmegaDay"/>
+	</elementBinding>
+</binding>

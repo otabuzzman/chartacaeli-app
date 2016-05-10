@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Text output is line oriented. The //AnnotationStraight element defines a single line of text. Control characters like LF and CR are not supported. To output a paragraph one have to define it line by line placing each line at a proper position. Text output starts relative to an anchor. The value of //AnnotationStraight@anchor defines a position at the bounding box of the given text line. The anchor position is tied to a page position and thus defines the actual bounding box position on the page. The page position derives from the optional //AnnotationStraight/Frame element.
+
+A layout is used to output text at any page position, for instance a title, a legend or a description comprised of multiple lines. A layout formats a chart like a spreadsheet. The cells of a layout are called frames. Frames are numbered starting with a value of one. Counting starts top left and goes column by column, row by row. Each frame has an anchor point as well. The value of //Frame@anchor defines a position at the frame outline to which the anchor point of the text line is tied to.
+
+The prefeferences file stores layout definitions in //node[@name='ChartPage']/map/entry[@key='layout']. The syntax of the value to define a layout with multiple frames is <xdimframe1>:..:<xdimframeN>x<ydimframe1>:..:<ydimframeN>. The definition for a layout of four equal sized frames organized in two columns and two rows is 50:50x50:50. The percentage width of a column is the xdim value divided by the sum of all xdim values. The percentage height of a row is calculated accordingly. This means that for instance 60:60x12.23:12.23 is equvalent to the premier definition. This means further that for instance 1x1, 100x100 and 12.23x12.23 are equivalent to one single frame with page dimensions.
+
+Use //ChartPage@name to select a particular layout and //Frame@number for a particular frame.
+-->
+<ChartaCaeli xmlns="http://www.chartacaeli.eu/chartacaeli/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.eu/chartacaeli/model
+../chartacaeli.xsd">
+	<Chart>
+		<ChartAzimuthal scale="100" projection="stereographic">
+			<ChartPage view="100" size="a4"/>
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="topleft">
+						<Script purpose="2.4" value="No //AnnotationStraight/Frame element hence a layout with no frames at all. Text output is tied to top left corner of chart page. //AnnotationStraight@anchor should be 'topleft'. Try other vaules to find out why."/>
+					</AnnotationStraight>
+				</HorizonEquatorial>
+			</Horizon>
+		</ChartAzimuthal>
+	</Chart>
+	<Chart>
+		<ChartAzimuthal scale="100" projection="stereographic">
+			<ChartPage view="50" size="a4"/>
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="2.4" value="Again no //AnnotationStraight/Frame element."/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="2.4" value="Thus again text output tied to top left corner of chart page."/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="2.4" value="But with //ChartPage@view set to 50 (percent)..."/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="topright">
+						<Script purpose="2.4" value="...chart page dimensions shrink to the half"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="topleft">
+						<Script purpose="2.4" value="so //AnnotationStraight@anchor can have any available value."/>
+					</AnnotationStraight>
+				</HorizonEquatorial>
+			</Horizon>
+		</ChartAzimuthal>
+	</Chart>
+	<Chart>
+		<ChartAzimuthal scale="100" projection="stereographic">
+			<ChartPage view="50" size="a4"/>
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
+						<Script purpose="2.4" value="This sample uses the single-frame layout defined in system preferences"/>
+						<Frame number="1" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="2.4" value="(//node[@name='ChartPage']/map/entry[@key='layout'] in preferences file)."/>
+						<Frame number="1" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="topmiddle">
+						<Script purpose="2.4" value="Note difference to previous sample: explicit layout definition not tied to //ChartPage@view but full page."/>
+						<Frame number="1" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="topleft">
+						<Script purpose="1.2" value="//AnnotationStraight/Frame[@anchor=topleft], //AnnotationStraight[@anchor=topleft]"/>
+						<Frame number="1" anchor="topleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="topright">
+						<Script purpose="1.2" value="//AnnotationStraight/Frame[@anchor=topright], //AnnotationStraight[@anchor=topright]"/>
+						<Frame number="1" anchor="topright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="1.2" value="//AnnotationStraight/Frame[@anchor=middleright], //AnnotationStraight[@anchor=bottomright]"/>
+						<Frame number="1" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="1.2" value="//AnnotationStraight/Frame[@anchor=middleright], //AnnotationStraight[@anchor=middleright]"/>
+						<Frame number="1" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="topright">
+						<Script purpose="1.2" value="//AnnotationStraight/Frame[@anchor=middleright], //AnnotationStraight[@anchor=topright]"/>
+						<Frame number="1" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
+						<Script purpose="1.2" value="//AnnotationStraight/Frame[@anchor=bottommiddle], //AnnotationStraight[@anchor=bottommiddle]"/>
+						<Frame number="1" anchor="bottommiddle"/>
+					</AnnotationStraight>
+				</HorizonEquatorial>
+			</Horizon>
+		</ChartAzimuthal>
+	</Chart>
+	<Chart>
+		<ChartAzimuthal scale="42" projection="stereographic">
+			<ChartPage name="useful" view="100" size="a4"/>
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="12" value="CHARTA CAELI"/>
+						<Frame number="21" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
+						<Script purpose="6" value="A custom layout example."/>
+						<Frame number="27" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="3.2" value="Legend"/>
+						<Frame number="248" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="2.8" value="Symbol"/>
+						<Frame number="248" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="2.8" value="Description"/>
+						<Frame number="249" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf810;"/>
+						<Frame number="254" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Point of interest."/>
+						<Frame number="255" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf811;"/>
+						<Frame number="260" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Common star."/>
+						<Frame number="261" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf812;"/>
+						<Frame number="266" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Double star."/>
+						<Frame number="267" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf813;"/>
+						<Frame number="272" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Multiple star."/>
+						<Frame number="273" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf814;"/>
+						<Frame number="278" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Variable star."/>
+						<Frame number="279" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf815;"/>
+						<Frame number="284" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Variable star with large amplitude and high frequency."/>
+						<Frame number="285" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf816;"/>
+						<Frame number="290" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Variable star with large amplitude and low frequency."/>
+						<Frame number="291" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf817;"/>
+						<Frame number="296" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Variable star with low amplitude and high frequency."/>
+						<Frame number="297" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf818;"/>
+						<Frame number="302" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Variable star with low amplitude and low frequency."/>
+						<Frame number="303" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf819;"/>
+						<Frame number="308" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Bright nebluae."/>
+						<Frame number="309" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf81a;"/>
+						<Frame number="314" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Dark nebluae."/>
+						<Frame number="315" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf81b;"/>
+						<Frame number="320" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Planetary nebluae."/>
+						<Frame number="321" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf81c;"/>
+						<Frame number="326" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Open cluster."/>
+						<Frame number="327" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf81d;"/>
+						<Frame number="332" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Globular cluster."/>
+						<Frame number="333" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf81e;"/>
+						<Frame number="338" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Flat galaxy with eliptic shape."/>
+						<Frame number="339" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf81f;"/>
+						<Frame number="344" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Galaxy with eliptic shape."/>
+						<Frame number="345" anchor="middleleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="1.6" value="&#xf820;"/>
+						<Frame number="350" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="1.6" value="Galaxy with circular shape."/>
+						<Frame number="351" anchor="middleleft"/>
+					</AnnotationStraight>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Annotation>
+								<AnnotationCurved reverse="true" distance="50" anchor="bottommiddle">
+									<Script purpose="2.4" value="//CircleParallel for declination (&#x03b4;) 0°"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Angle>
+								<Rational value="0"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+				</HorizonEquatorial>
+			</Horizon>
+		</ChartAzimuthal>
+	</Chart>
+</ChartaCaeli>

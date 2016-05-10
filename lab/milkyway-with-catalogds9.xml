@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ChartaCaeli xmlns="http://www.chartacaeli.eu/chartacaeli/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.eu/chartacaeli/model
+../chartacaeli.xsd">
+	<Chart>
+		<ChartAzimuthal scale="42" projection="stereographic">
+			<ChartPage name="useful" view="100" size="a4"/>
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="12" value="CHARTA CAELI"/>
+						<Frame number="21" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
+						<Script purpose="6" value="The Milkyway Contour Catalogue"/>
+						<Frame number="27" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
+						<Script purpose="4.8" value="(based on Mellinger's Milky Way Panorama)"/>
+						<Frame number="33" anchor="bottomright"/>
+					</AnnotationStraight>
+					<!--
+					CatalogDS9 shows areas of equal brightness from phenomena with areal extension. A typical example is our galaxy - the Milkyway - as seen from earth. The name DS9 derives from the SAOImage DS9 project an astronomical imaging and data visualization application. Among it's many features DS9 can extract contour information from astronomical photos.
+					-->
+					<Catalog>
+						<CatalogDS9 url="lib/cat/MCCM/cat_%04d.con">
+							<CatalogDS9Record name="cat_0000.con" select="true" contour="line"/>
+							<CatalogDS9Record name="cat_0001.con" select="true" contour="line"/>
+							<CatalogDS9Record name="cat_0002.con" select="true" contour="line"/>
+							<CatalogDS9Record name="cat_0003.con" select="true" contour="line"/>
+							<CatalogDS9Record name="cat_0004.con" select="true"/>
+							<CatalogDS9Record name="cat_0005.con" select="true"/>
+							<CatalogDS9Record name="cat_0006.con" select="true"/>
+							<CatalogDS9Record name="cat_0007.con" select="true"/>
+							<CatalogDS9Record name="cat_0008.con" select="true"/>
+							<CatalogDS9Record name="cat_0010.con" select="true"/>
+							<CatalogDS9Record name="cat_0011.con" select="true"/>
+						</CatalogDS9>
+					</Catalog>
+				</HorizonEquatorial>
+			</Horizon>
+		</ChartAzimuthal>
+	</Chart>
+</ChartaCaeli>

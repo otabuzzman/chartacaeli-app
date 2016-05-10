@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<preferences>
+	<!--Windows 7, system node storage-->
+	<!--HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Prefs\chartacaeli-->
+	<!--HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\JavaSoft\Prefs\chartacaeli-->
+	<!--Windows 7, user node storage-->
+	<!--HKEY_CURRENT_USER\SOFTWARE\JavaSoft\Prefs\chartacaeli-->
+	<root type="user">
+		<map/>
+		<node name="chartacaeli">
+			<map/>
+			<node name="ChartPage">
+				<map/>
+				<node name="useful">
+					<map>
+						<entry key="layout" value="2:1:5:3:3:2x2:2:2:9:5:5:5:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:6:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:2:2:2"/>
+					</map>
+				</node>
+			</node>
+		</node>
+	</root>
+</preferences>
