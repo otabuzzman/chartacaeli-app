@@ -66,7 +66,6 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 		Process viewerProc ;
 		TeeOutputStream out ;
 		ApplicationPostscriptStream ps ;
-		boolean verbose ;
 
 		try {
 			prop = ChartaCaeli.class.getPackage().getName()+".app" ;
@@ -78,11 +77,8 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			preferences = new File( path ) ;
 			Configuration.importPreferences( preferences ) ;
 
-			verbose = Configuration.getValue( ChartaCaeli.class, CK_VERBOSE, DEFAULT_VERBOSE ) ;
-			if ( verbose ) {
-				Configuration.verbose() ;
-				ApplicationResource.verbose() ;
-			}
+			Configuration.verbose() ;
+			ApplicationResource.verbose() ;
 
 			viewerDecl = Configuration.getValue( ChartaCaeli.class, CK_VIEWER, null ) ;
 			out =  new TeeOutputStream( System.out ) ;
@@ -125,10 +121,8 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			Registry.degister( Epoch.class.getName() ) ;
 			Registry.remove() ;
 
-			if ( verbose ) {
-				Configuration.verbose() ;
-				ApplicationResource.verbose() ;
-			}
+			Configuration.verbose() ;
+			ApplicationResource.verbose() ;
 		} catch ( Exception e ) {
 			e.printStackTrace() ;
 			System.exit( 1 ) ;

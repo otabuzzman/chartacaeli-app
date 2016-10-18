@@ -32,8 +32,8 @@ public class ApplicationResource {
 			r = m.invoke( clazz, (Object[]) null ) ;
 			if ( r instanceof String && ( (String) r ).length()>0 )
 				instance =
-					( (String) r )
-					.replaceAll( "/", "\\." ) ;
+				( (String) r )
+				.replaceAll( "/", "\\." ) ;
 		} catch ( NoSuchMethodException e ) {
 		} catch ( IllegalAccessException e ) {
 		} catch ( InvocationTargetException e ) {
@@ -72,6 +72,14 @@ public class ApplicationResource {
 		return val == null ? def : val ;
 	}
 
+	public static boolean verbose() {
+		boolean config = Configuration.getValue( ApplicationResource.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
+
+		if ( config )
+			return ! ( verbose = ! verbose ) ;
+		return verbose ;
+	}
+
 	private String recurseC( Class<?> clazz, String key ) {
 		String val ;
 
@@ -90,13 +98,13 @@ public class ApplicationResource {
 
 		if ( instance == null )
 			k =
-				clazz.getName()
-				+"."+key ;
+			clazz.getName()
+			+"."+key ;
 		else
 			k =
-				clazz.getName()
-				+"."+instance
-				+"."+key ;
+			clazz.getName()
+			+"."+instance
+			+"."+key ;
 		try {
 			return catalog.getString( k ) ;
 		} catch ( MissingResourceException e ) {
@@ -111,10 +119,6 @@ public class ApplicationResource {
 		if ( 0>p )
 			return recurseI( clazz, null, key ) ;
 		return recurseI( clazz, instance.substring( 0, p ), key ) ;
-	}
-
-	public static boolean verbose() {
-		return ! ( verbose = ! verbose ) ;
 	}
 
 	private String par4PNV( String key ) {

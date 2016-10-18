@@ -288,7 +288,11 @@ public final class Configuration {
 	}
 
 	public static boolean verbose() {
-		return ! ( verbose = ! verbose ) ;
+		boolean config = Configuration.getValue( Configuration.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
+
+		if ( config )
+			return ! ( verbose = ! verbose ) ;
+		return config ;
 	}
 
 	private String par4PNV( String key ) {
