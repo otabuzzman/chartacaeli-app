@@ -104,6 +104,14 @@ abstract public class ChartType extends chartacaeli.model.ChartType implements P
 
 	abstract public Coordinate project( Coordinate celestial, boolean inverse ) ;
 
+	public Object clone() {
+		try {
+			return (ChartType) super.clone() ;
+		} catch ( CloneNotSupportedException e ) {
+			return null ;
+		}
+	}
+
 	private void horizon( ApplicationPostscriptStream ps, chartacaeli.model.HorizonLocal peer ) {
 		HorizonLocal horizon ;
 

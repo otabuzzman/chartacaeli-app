@@ -111,4 +111,12 @@ public class P4Stereographic implements P4Projector {
 
 		return lamphi ;
 	}
+
+	public Object clone() {
+		try {
+			return super.clone() ;
+		} catch ( CloneNotSupportedException e ) {
+			return null ;
+		}
+	}
 }

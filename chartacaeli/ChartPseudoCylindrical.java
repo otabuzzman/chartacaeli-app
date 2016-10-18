@@ -53,6 +53,15 @@ public class ChartPseudoCylindrical extends ChartType {
 		}
 	}
 
+	public Object clone() {
+		ChartPseudoCylindrical clone ;
+
+		clone = (ChartPseudoCylindrical) super.clone() ;
+		clone.projector = (P4Projector) projector.clone() ;
+
+		return clone ;
+	}
+
 	static {
 		projection.put( AV_MOLLWEIDE, new P4Mollweide() ) ;
 	}

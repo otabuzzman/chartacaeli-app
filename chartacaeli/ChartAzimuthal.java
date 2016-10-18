@@ -48,6 +48,15 @@ public class ChartAzimuthal extends ChartType {
 					projector.forward( coordinate ) ;
 	}
 
+	public Object clone() {
+		ChartAzimuthal clone ;
+
+		clone = (ChartAzimuthal) super.clone() ;
+		clone.projector = (P4Projector) projector.clone() ;
+
+		return clone ;
+	}
+
 	static {
 		projection.put( AV_ORTHOGRAPHIC, new P4Orthographic() ) ;
 		projection.put( AV_STEREOGRAPHIC, new P4Stereographic() ) ;
