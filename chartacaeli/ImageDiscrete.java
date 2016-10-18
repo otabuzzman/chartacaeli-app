@@ -1,70 +1,76 @@
 
 package chartacaeli;
 
-import java.awt.image.BufferedImage;
-
 public class ImageDiscrete implements PostscriptEmitter {
 
 	// configuration key (CK_), node (CN_)
-	private final static String CK_ALPHA			= "alpha" ;
+	private final static String CK_BACKGROUND		= "background" ;
 	private final static String CK_TONEMAP			= "tonemap" ;
 
-	private final static String DEFAULT_ALPHA		= "0:0:0,0:0:0" ;
+	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
 	private final static String DEFAULT_TONEMAP		= "0:0:0,1:1:1" ;
 
-	private BufferedImage image ;
+	private int[] image ;
+	private int dimx ;
+	private int dimy ;
 
-	public ImageDiscrete( BufferedImage image ) {
+	public ImageDiscrete( int[] image, int dimx, int dimy ) {
 		this.image = image ;
+		this.dimx = dimx ;
+		this.dimy = dimy ;
 	}
 
 	public void headPS( ApplicationPostscriptStream ps ) {
 	}
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
-		String[] av ;
-		int a0, a1, a2, a ;
-		String[] tmv, tmva, tmvo ;
-		double tma0, tma1, tma2 ;
-		double tmo0, tmo1, tmo2 ;
-		double tmd0, tmd1, tmd2 ;
-		int w, h, p ;
+		String[] bgv, bgav, bgov ;
+		int bgar, bgag, bgab, bga ;
+		int bgor, bgog, bgob, bgo ;
+		String[] tmv, tmav, tmov ;
+		double tmar, tmag, tmab ;
+		double tmor, tmog, tmob ;
+		double tmr, tmg, tmb ;
+		int p ;
 		double r, g, b ;
 
-		av = Configuration.getValue( this, CK_ALPHA, DEFAULT_ALPHA )
-		.split( "," )[0].split( ":" ) ;
-		a0 = (int) ( Double.parseDouble( av[0] )*255 )&0xff ;
-		a1 = (int) ( Double.parseDouble( av[1] )*255 )&0xff ;
-		a2 = (int) ( Double.parseDouble( av[2] )*255 )&0xff ;
-		a = a0<<16|a1<<8|a2 ;
+		bgv = Configuration.getValue( this, CK_BACKGROUND, DEFAULT_BACKGROUND )
+				.split( "," ) ;
+		bgav = bgv[0].split( ":" ) ;
+		bgar = (int) ( Double.parseDouble( bgav[0] )*255 ) ;
+		bgag = (int) ( Double.parseDouble( bgav[1] )*255 ) ;
+		bgab = (int) ( Double.parseDouble( bgav[2] )*255 ) ;
+		bgov = bgv[1].split( ":" ) ;
+		bga = bgar<<16|bgag<<8|bgab ;
+		bgor = (int) ( Double.parseDouble( bgov[0] )*255 ) ;
+		bgog = (int) ( Double.parseDouble( bgov[1] )*255 ) ;
+		bgob = (int) ( Double.parseDouble( bgov[2] )*255 ) ;
+		bgo = bgor<<16|bgog<<8|bgob ;
 
 		tmv = Configuration.getValue( this, CK_TONEMAP, DEFAULT_TONEMAP )
-		.split( "," ) ;
-		tmva = tmv[0].split( ":" ) ;
-		tma0 = Double.parseDouble( tmva[0] ) ;
-		tma1 = Double.parseDouble( tmva[1] ) ;
-		tma2 = Double.parseDouble( tmva[2] ) ;
-		tmvo = tmv[1].split( ":" ) ;
-		tmo0 = Double.parseDouble( tmvo[0] ) ;
-		tmo1 = Double.parseDouble( tmvo[1] ) ;
-		tmo2 = Double.parseDouble( tmvo[2] ) ;
-		tmd0 = tmo0-tma0 ;
-		tmd1 = tmo1-tma1 ;
-		tmd2 = tmo2-tma2 ;
+				.split( "," ) ;
+		tmav = tmv[0].split( ":" ) ;
+		tmar = Double.parseDouble( tmav[0] ) ;
+		tmag = Double.parseDouble( tmav[1] ) ;
+		tmab = Double.parseDouble( tmav[2] ) ;
+		tmov = tmv[1].split( ":" ) ;
+		tmor = Double.parseDouble( tmov[0] ) ;
+		tmog = Double.parseDouble( tmov[1] ) ;
+		tmob = Double.parseDouble( tmov[2] ) ;
+		tmr = tmor-tmar ;
+		tmg = tmog-tmag ;
+		tmb = tmob-tmab ;
 
-		w = image.getWidth() ;
-		h = image.getHeight() ;
+		for ( int y=0 ; dimy>y ; y++ )
+			for ( int x=0 ; dimx>x ; x++ ) {
+				p = image[y*dimx+x]&0xffffff ;
 
-		for ( int y=0 ; h>y ; y++ )
-			for ( int x=0 ; w>x ; x++ ) {
-				p = image.getRGB( x, -y+h-1 )&0xffffff ;
-
-				if ( p == a )
+				if ( p>=bga && bgo>=p )
 					continue ;
 
-				r = tma0+( ( p>>16)&0xff )*tmd0/255 ;
-				g = tma1+( ( p>>8)&0xff )*tmd1/255 ;
-				b = tma2+( p&0xff )*tmd2/255 ;
+				r = tmar+( ( p>>16)&0xff )*tmr/255 ;
+				g = tmag+( ( p>>8)&0xff )*tmg/255 ;
+				b = tmab+( p&0xff )*tmb/255 ;
 
 				ps.op( "gsave" ) ;
 				ps.op( "currentpoint" ) ;

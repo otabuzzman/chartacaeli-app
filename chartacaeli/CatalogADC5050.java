@@ -128,27 +128,22 @@ public class CatalogADC5050 extends chartacaeli.model.CatalogADC5050 implements 
 		CAA2DCoordinate cpm, ceq ;
 		double e, ra, de, pmRA, pmDE ;
 		Epoch epoch ;
-		boolean verbose ;
 
 		for ( int a=0 ; a<getArtworkCount() ; a++ ) {
-			emitter = new Artwork( projector ) ;
-			getArtwork( a ).copyValues( emitter ) ;
+			Artwork artwork = new Artwork( projector ) ;
+			getArtwork( a ).copyValues( artwork ) ;
+			artwork.load() ;
+			artwork.init() ;
 
-			verbose = Configuration.getValue( emitter, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
-
-			if ( verbose )
-				Artwork.verbose() ;
-
+			Artwork.verbose() ;
 			ps.op( "gsave" ) ;
 
-			emitter.headPS( ps ) ;
-			emitter.emitPS( ps ) ;
-			emitter.tailPS( ps ) ;
+			artwork.headPS( ps ) ;
+			artwork.emitPS( ps ) ;
+			artwork.tailPS( ps ) ;
 
 			ps.op( "grestore" ) ;
-
-			if ( verbose )
-				Artwork.verbose() ;
+			Artwork.verbose() ;
 		}
 
 		for ( int s=0 ; s<getSignCount() ; s++ ) {

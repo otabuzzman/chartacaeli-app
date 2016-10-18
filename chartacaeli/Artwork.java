@@ -6,6 +6,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,6 +15,8 @@ import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.geometry.euclidean.threed.Line;
 import org.apache.commons.math3.geometry.euclidean.threed.Plane;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
@@ -27,67 +30,201 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
+import edu.rit.pj2.Loop;
+import edu.rit.pj2.Task;
+
 @SuppressWarnings("serial")
 public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmitter {
 
-	private static boolean verbose = false ;
-
-	// configuration key (CK_), node (CN_)
+	// configuration key (CK_)
 	private final static String CK_PSUNIT			= "psunit" ;
 	private final static String CK_DPI				= "dpi" ;
 	private final static String CK_INTERVAL			= "interval" ;
 	private final static String CK_IMAGEOP			= "imageop" ;
-	private final static String CK_NOIMAGE			= "noimage" ;
-	private final static String CK_MINSECTION		= "minsection" ;
-	private final static String CK_ALPHA			= "alpha" ;
+	private final static String CK_MINVISIBLE		= "minvisible" ;
+	private final static String CK_BACKGROUND		= "background" ;
+	private final static String CK_PJ2CLASS			= "pj2class" ;
 
 	private final static double DEFAULT_PSUNIT		= 2.834646 ;
 	private final static double DEFAULT_DPI			= 72 ;
-	private final static boolean DEFAULT_IMAGEOP	= false ;
-	private final static boolean DEFAULT_NOIMAGE	= false ;
-	private final static double DEFAULT_MINSECTION	= 25 ;
 	private final static int DEFAULT_INTERVAL		= 1 ;
-	private final static String DEFAULT_ALPHA		= "0:0:0,0:0:0" ;
+	private final static boolean DEFAULT_IMAGEOP	= false ;
+	private final static double DEFAULT_MINVISIBLE	= 25 ;
+	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
+	private final static String DEFAULT_PJ2CLASS	= "chartacaeli.Artwork$PJ2TextureMapperSeq" ;
+
+	private final static Log log = LogFactory.getLog( Artwork.class ) ;
+	private static boolean verbose = false ;
 
 	private Projector projector ;
+
+	// global FOV
+	private Geometry got ;
+
+	// cartesian poppers P1, P2 and P3 of heaven
+	private Coordinate popHP1 ;
+	private Coordinate popHP2 ;
+	private Coordinate popHP3 ;
+
+	// cartesian poppers P1, P2 and P3 of texture
+	private Coordinate popTP1 ;
+	private Coordinate popTP2 ;
+	private Coordinate popTP3 ;
+
+	// texture image and it's features, top left origin
+	private int[] texture ;
+	// names of texture coordinates are o, p
+	private int dimo, dimp ;
+	private int maxo, maxp ;
+
+	// mapping image of texture projection
+	private int[] mapping ;
+
+	// constant for cartesian origin
+	private Vector3D vO = new Vector3D( 0, 0, 0 ) ;
+	// spatial plane of texture in heaven's coordinate system
+	private Plane spT ;
+
+	// units per dot
+	private double ups ;
+
+	// names of mapping coordinates are s, t
+	private int dims, dimt ;
+	private double maxs, maxt ;
+
+	// outline of texture projection
+	private Coordinate[] cOPT ;
+	// bounding box of texture projection
+	private Coordinate[] cBBT ;
+
+	// transformation matrices
+	private RealMatrix tmT2H ; // transform texture to heaven coordinates...
+	private RealMatrix tmH2T ; // ...and vice versa
+	private RealMatrix tmM2P ; // transform texture mapping to projection coordinates
+
+	@SuppressWarnings("unused")
+	private class PJ2TextureMapperSeq extends Task {
+
+		public PJ2TextureMapperSeq() {
+		}
+
+		public void main( String[] argv ) throws Exception {
+			chartacaeli.Coordinate eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
+			double s, t, t0[], op[] ;
+			Coordinate uv, ca ;
+			Vector3D V, X ;
+
+			for ( int y=0 ; dimt>y ; y++ ) {
+				t = y*ups ;
+
+				for ( int x=0 ; dims>x ; x++ ) {
+					s = x*ups ;
+
+					t0 = tmM2P.operate( new double[] { s, t, 1 } ) ;
+					uv = new Coordinate( t0[0], t0[1] ) ;
+
+					if ( got.covers( new GeometryFactory().createPoint( uv ) ) ) {
+						eq.setCoordinate( projector.project( uv, true ) ) ;
+						ca = eq.cartesian() ;
+
+						V = new Vector3D( ca.x, ca.y, ca.z ) ;
+						X = spT.intersection( new Line( vO, V, 1.0e-10 ) ) ;
+
+						op = tmH2T.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
+
+						if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
+							mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
+					}
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private class PJ2TextureMapperSmp extends Task {
+
+		public PJ2TextureMapperSmp() {
+		}
+
+		public void main( String[] argv ) throws Exception {
+			parallelFor( 0, dims*dimt-1 ).exec( new Loop() {
+				public void run ( int i ) {
+					chartacaeli.Coordinate eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
+					double s, t, t0[], op[] ;
+					Coordinate uv, ca ;
+					Vector3D V, X ;
+					int x, y ;
+
+					x = i%dims ;
+					y = i%dimt ;
+
+					s = x*ups ;
+					t = y*ups ;
+
+					t0 = tmM2P.operate( new double[] { s, t, 1 } ) ;
+					uv = new Coordinate( t0[0], t0[1] ) ;
+
+					if ( got.covers( new GeometryFactory().createPoint( uv ) ) ) {
+						eq.setCoordinate( projector.project( uv, true ) ) ;
+						ca = eq.cartesian() ;
+
+						V = new Vector3D( ca.x, ca.y, ca.z ) ;
+						X = spT.intersection( new Line( vO, V, 1.0e-10 ) ) ;
+
+						op = tmH2T.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
+
+						if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
+							mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
+					}
+				}
+			} );
+		}
+	}
 
 	public Artwork( Projector projector ) {
 		this.projector = projector ;
 	}
 
-	public void headPS( ApplicationPostscriptStream ps ) {
+	public void load() {
+		chartacaeli.Coordinate c ;
+
+		// poppers of heaven
+		c = new chartacaeli.Coordinate( valueOf( getPopper( 0 ).getPosition() ) ) ;
+		popHP1 = c.cartesian() ;
+		c.setCoordinate( valueOf( getPopper( 1 ).getPosition() ) );
+		popHP2 = c.cartesian() ;
+		c.setCoordinate( valueOf( getPopper( 2 ).getPosition() ) );
+		popHP3 = c.cartesian() ;
+
+		// poppers of texture
+		popTP1 = valueOf( getPopper( 0 ).getCartesian() ) ;
+		popTP2 = valueOf( getPopper( 1 ).getCartesian() ) ;
+		popTP3 = valueOf( getPopper( 2 ).getCartesian() ) ;
 	}
 
-	public void emitPS( ApplicationPostscriptStream ps ) {
-		InputStream input ;
-		BufferedImage source, image ;
-		int sdimx, sdimy, idimx, idimy, x, y ;
-		Coordinate popC[], popH[], zH, popI[] ;
-		RealMatrix T, H, TH, HT = null ;
-		RealMatrix C, TC, CT = null ;
-		RealMatrix M, P, MP ;
-		Geometry p, mbr ;
-		Coordinate[] pc, mbrc ;
-		Geometry fov, got ;
-		double minsection ;
-		double u, d, r, interval ;
-		double maxs, maxt ;
-		String av[] ;
-		int a0, a1, a2, a ;
-		chartacaeli.Coordinate eq ;
-		Coordinate c, xyz ;
-		double[] xy, uv ;
-		Plane texture = null ;
-		Vector3D O = null, V, X ;
-		Vector2D A, B, R ;
-		PostscriptEmitter artwork ;
+	public void init() {
+		BufferedImage image ;
+		Coordinate cHZ ;
+		RealMatrix bmH, bmT ;	// base matrices for heaven and texture
+		RealMatrix bmP, bmM ;	// base matrices for projection and mapping
+		double dpi, psu ;		// dots per inch, dots per unit
+		String bgv[] ;
+		int bgr, bgg, bgb, bg ;
 
 		try {
-			input = reader() ;
-			source = ImageIO.read( input ) ;
+			image = ImageIO.read( reader() ) ;
 
-			sdimx = source.getWidth() ;
-			sdimy = source.getHeight() ;
+			dimo = image.getWidth() ;
+			dimp = image.getHeight() ;
+			maxo = dimo-1 ;
+			maxp = dimp-1 ;
+			texture = new int[dimo*dimp] ;
+
+			// assuming TYPE_4BYTE_ABGR
+			for ( int p=0 ; dimp>p ; p++ )
+				for ( int o=0 ; dimo>o ; o++ )
+					texture[p*dimo+o] = image.getRGB( o, p ) ;
+
 		} catch ( URISyntaxException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		} catch ( MalformedURLException e ) {
@@ -96,246 +233,169 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			throw new RuntimeException( e.toString() ) ;
 		}
 
-		u = Configuration.getValue( this, CK_PSUNIT, DEFAULT_PSUNIT ) ;
-		d = Configuration.getValue( this, CK_DPI, DEFAULT_DPI) ;
-		interval = 72/( u*d ) ;
+		spT = new Plane(
+				new Vector3D( popHP1.x, popHP1.y, popHP1.z ),
+				new Vector3D( popHP2.x, popHP2.y, popHP2.z ),
+				new Vector3D( popHP3.x, popHP3.y, popHP3.z ), 1.0e-10
+				) ;
 
-		popC = prepPopper4Canvas() ;
-		popI = prepPopperOfImage() ;
+		// base matrix of heaven
+		cHZ = calcZ( popHP1, popHP2, popHP3 ) ;
+		bmH = MatrixUtils.createRealMatrix( new double[][] {
+				{ popHP1.x, popHP1.y, popHP1.z, 1 },
+				{ popHP2.x, popHP2.y, popHP2.z, 1 },
+				{ popHP3.x, popHP3.y, popHP3.z, 1 },
+				{ cHZ.x, cHZ.y, cHZ.z, 1 }
+		} )
+		.transpose() ;
 
-		if ( getHeaven() ) {
-			popH = prepPopper4Heaven() ;
+		// base matrix of texture
+		bmT = MatrixUtils.createRealMatrix( new double[][] {
+				{ popTP1.x, popTP1.y, 0, 1 },
+				{ popTP2.x, popTP2.y, 0, 1 },
+				{ popTP3.x, popTP3.y, 0, 1 },
+				{ 0, 0, 1, 1 }
+		} )
+		.transpose() ;
 
-			texture = new Plane(
-					new Vector3D( popH[0].x, popH[0].y, popH[0].z ),
-					new Vector3D( popH[1].x, popH[1].y, popH[1].z ),
-					new Vector3D( popH[2].x, popH[2].y, popH[2].z ), 1.0e-10
-					) ;
-			O = new Vector3D( 0, 0, 0 ) ;
+		// transformation matrix texture to heaven
+		tmT2H = bmH.multiply( new LUDecomposition( bmT ).getSolver().getInverse() ) ;
+		// transformation matrix heaven to texture
+		tmH2T = new LUDecomposition( tmT2H ).getSolver().getInverse() ;
 
-			zH = calcVectorZ( popH ) ;
-			H = MatrixUtils
-					.createRealMatrix( new double[][] {
-							{ popH[0].x, popH[0].y, popH[0].z, 1 },
-							{ popH[1].x, popH[1].y, popH[1].z, 1 },
-							{ popH[2].x, popH[2].y, popH[2].z, 1 },
-							{ zH.x, zH.y, zH.z, 1 }
-					} )
-					.transpose() ;
-			T = MatrixUtils
-					.createRealMatrix( new double[][] {
-							{ popI[0].x, -1+sdimy-popI[0].y, 0, 1 },
-							{ popI[1].x, -1+sdimy-popI[1].y, 0, 1 },
-							{ popI[2].x, -1+sdimy-popI[2].y, 0, 1 },
-							{ popI[0].x, -1+sdimy-popI[0].y, -1+sdimx, 1 }
-					} )
-					.transpose() ;
+		// dimensions of texture mapping
+		cBBT = calcBBT() ;
+		maxs = cBBT[0].distance( cBBT[1] ) ;
+		maxt = cBBT[0].distance( cBBT[3] ) ;
+		psu = Configuration.getValue( this, CK_PSUNIT, DEFAULT_PSUNIT ) ;	// ps dots per app unit
+		dpi = Configuration.getValue( this, CK_DPI, DEFAULT_DPI) ;			// dots per inch
+		ups = 72/( psu*dpi ) ;												// app units per ps dot
+		dims = (int) ( maxs/ups+1 ) ;
+		dimt = (int) ( maxt/ups+1 ) ;
+		mapping = new int[dims*dimt] ;
 
-			TH = H.multiply( new LUDecomposition( T ).getSolver().getInverse() ) ;
-			HT = new LUDecomposition( TH ).getSolver().getInverse() ;
-
-			pc = calcP4Heaven( TH, sdimx, sdimy ) ;
-		} else {
-			C = MatrixUtils
-					.createRealMatrix( new double[][] {
-							{ popC[0].x, popC[0].y, 0, 1 },
-							{ popC[1].x, popC[1].y, 0, 1 },
-							{ popC[2].x, popC[2].y, 0, 1 },
-							{ 0, 0, 1, 1 }
-					} )
-					.transpose() ;
-			T = MatrixUtils
-					.createRealMatrix( new double[][] {
-							{ popI[0].x, -1+sdimy-popI[0].y, 0, 1 },
-							{ popI[1].x, -1+sdimy-popI[1].y, 0, 1 },
-							{ popI[2].x, -1+sdimy-popI[2].y, 0, 1 },
-							{ 0, 0, 1, 1 }
-					} )
-					.transpose() ;
-
-			TC = C.multiply( new LUDecomposition( T ).getSolver().getInverse() ) ;
-			CT = new LUDecomposition( TC ).getSolver().getInverse() ;
-
-			pc = calcP4Canvas( TC, sdimx, sdimy ) ;
-		}
-
-		mbrc = new MinimumDiameter( new GeometryFactory().createLinearRing( pc ) )
-		.getMinimumRectangle()
-		.getCoordinates() ;
-		mbr = new GeometryFactory().createPolygon( mbrc ) ;
-		maxs = mbrc[0].distance( mbrc[1] ) ;
-		maxt = mbrc[0].distance( mbrc[3] ) ;
-
-		fov = ChartType.findFieldOfView() ;
-		if ( fov != null && ! fov.intersects( mbr ) )
-			return ;
-		if ( fov == null || fov.contains( mbr ) )
-			got = mbr ;
-		else {
-			got = fov.intersection( mbr ) ;
-
-			minsection = Configuration.getValue( this, CK_MINSECTION, DEFAULT_MINSECTION )/100 ;
-			p = new GeometryFactory().createPolygon( pc ) ;
-			if ( minsection>got.getArea()/p.getArea() )
-				return ;
-
-			mbrc = new MinimumDiameter( new GeometryFactory().createLinearRing( got.getCoordinates() ) )
-			.getMinimumRectangle()
-			.getCoordinates() ;
-			maxs = mbrc[0].distance( mbrc[1] ) ;
-			maxt = mbrc[0].distance( mbrc[3] ) ;
-		}
-
-		P = MatrixUtils
-				.createRealMatrix( new double[][] {
-						{ mbrc[1].x, mbrc[1].y, 1 },
-						{ mbrc[3].x, mbrc[3].y, 1 },
-						{ mbrc[0].x, mbrc[0].y, 1 }
-				} )
-				.transpose() ;
-		M = MatrixUtils
-				.createRealMatrix( new double[][] {
-						{ maxs, 0, 1 },
-						{ 0, maxt, 1 },
-						{ 0, 0, 1 }
-				} )
-				.transpose() ;
-
-		MP = P.multiply( new LUDecomposition( M ).getSolver().getInverse() ) ;
-
-		if ( verbose ) {
-			ps.op( "gsave" ) ;
-
-			ps.push( 0 ) ;
-			ps.op( "setgray" ) ;
-			linePS( ps, popC ) ;
-			ps.push( 1 ) ;
-			ps.push( 0 ) ;
-			ps.push( 0 ) ;
-			ps.op( "setrgbcolor" ) ;
-			linePS( ps, pc ) ;
-			ps.push( 0 ) ;
-			ps.push( 1 ) ;
-			ps.push( 0 ) ;
-			ps.op( "setrgbcolor" ) ;
-			linePS( ps, mbrc ) ;
-			ps.push( 0 ) ;
-			ps.push( 0 ) ;
-			ps.push( 1 ) ;
-			ps.op( "setrgbcolor" ) ;
-			linePS( ps, got.getCoordinates() ) ;
-
-			ps.push( 0 ) ;
-			ps.op( "setgray" ) ;
-			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), mbrc[0] }  ) ;
-			ps.push( .4 ) ;
-			ps.op( "setgray" ) ;
-			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), mbrc[1] }  ) ;
-			ps.push( .8 ) ;
-			ps.op( "setgray" ) ;
-			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), mbrc[2] }  ) ;
-
-			ps.push( 0 ) ;
-			ps.push( 1 ) ;
-			ps.push( 1 ) ;
-			ps.op( "setrgbcolor" ) ;
-			ps.push( 0 ) ;
-			ps.push( 0 ) ;
-			ps.op( "moveto" ) ;
-			ps.push( maxs ) ;
-			ps.push( maxt ) ;
-			ps.op( "lineto" ) ;
-			ps.op( "stroke" ) ;
-
-			ps.op( "grestore" ) ;
-		}
-
-		if ( Configuration.getValue( this, CK_NOIMAGE, DEFAULT_NOIMAGE ) )
-			return ;
-
-		idimx = (int) ( maxs/interval+1 ) ;
-		idimy = (int) ( maxt/interval+1 ) ;
-		image = new BufferedImage( idimx, idimy, BufferedImage.TYPE_INT_ARGB ) ;
-
-		av = Configuration.getValue( this, CK_ALPHA, DEFAULT_ALPHA )
+		bgv = Configuration.getValue( this, CK_BACKGROUND, DEFAULT_BACKGROUND )
 				.split( "," )[0].split( ":" ) ;
-		a0 = (int) ( Double.parseDouble( av[0] )*255 )&0xff ;
-		a1 = (int) ( Double.parseDouble( av[1] )*255 )&0xff ;
-		a2 = (int) ( Double.parseDouble( av[2] )*255 )&0xff ;
-		a = a0<<16|a1<<8|a2 ;
+		bgr = (int) ( Double.parseDouble( bgv[0] )*255 )&0xff ;
+		bgg = (int) ( Double.parseDouble( bgv[1] )*255 )&0xff ;
+		bgb = (int) ( Double.parseDouble( bgv[2] )*255 )&0xff ;
+		bg = bgr<<16|bgg<<8|bgb ;
 
-		x = 0 ;
-		y = idimy-1 ;
+		for ( int t=0 ; dimt>t ; t++ )
+			for ( int s=0 ; dims>s ; s++ )
+				mapping[t*dims+s] = bg ;
 
-		eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
+		// base matrix of texture projection
+		bmP = MatrixUtils.createRealMatrix( new double[][] {
+				{ cBBT[1].x, cBBT[1].y, 1 },
+				{ cBBT[3].x, cBBT[3].y, 1 },
+				{ cBBT[0].x, cBBT[0].y, 1 }
+		} )
+		.transpose() ;
 
-		for ( double t=0 ; maxt>t ; t+=interval ) {
-			for ( double s=0 ; maxs>s ; s+=interval ) {
-				xy = MP.operate( new double[] { s, t, 1 } ) ;
-				c = new Coordinate( xy[0], xy[1] ) ;
+		// base matrix of texture mapping
+		bmM = MatrixUtils.createRealMatrix( new double[][] {
+				{ maxs, 0, 1 },
+				{ 0, maxt, 1 },
+				{ 0, 0, 1 }
+		} )
+		.transpose() ;
 
-				image.setRGB( x, y, a ) ;
+		// transformation matrix texture mapping to projection
+		tmM2P = bmP.multiply( new LUDecomposition( bmM ).getSolver().getInverse() ) ;
+	}
 
-				if ( got.covers( new GeometryFactory().createPoint( c ) ) ) {
-					if ( getHeaven() ) {
-						eq.setCoordinate( projector.project( c, true ) ) ;
-						xyz = eq.cartesian() ;
+	@Override
+	public void headPS( ApplicationPostscriptStream ps ) {
+	}
 
-						V = new Vector3D( xyz.x, xyz.y, xyz.z ) ;
-						X = texture.intersection( new Line( O, V, 1.0e-10 ) ) ;
+	@Override
+	public void emitPS( ApplicationPostscriptStream ps ) {
+		PostscriptEmitter psimage ;
+		Vector2D A, B, R ;
+		double r ;
 
-						uv = HT.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
-					} else
-						uv = CT.operate( new double[] { xy[0], xy[1], 0, 1 } ) ;
-
-					if ( uv[0]>=0 && uv[1]>=0 && sdimx>uv[0] && sdimy>uv[1] )
-						image.setRGB( x, y, source.getRGB( (int) uv[0], (int) -uv[1]+sdimy-1 ) ) ;
-				}
-
-				x = ( x+1 )%idimx ;
-			}
-
-			y-- ;
+		try {
+			parallelTask() ;
+		} catch ( Exception e ) {
+			throw new RuntimeException( e.toString() ) ;
 		}
 
-		A = new Vector2D( mbrc[0].x, mbrc[0].y ) ;
-		B = new Vector2D( mbrc[1].x, mbrc[1].y ) ;
+		A = new Vector2D( cBBT[0].x, cBBT[0].y ) ;
+		B = new Vector2D( cBBT[1].x, cBBT[1].y ) ;
 		R = B.subtract( A ) ;
 		r = Math.atan2( R.getY(), R.getX() ) ;
 
-		ps.push( mbrc[0].x ) ;
-		ps.push( mbrc[0].y ) ;
+		ps.op( "gsave" ) ;
+
+		ps.push( cBBT[0].x ) ;
+		ps.push( cBBT[0].y ) ;
 		ps.op( "translate" ) ;
 		ps.push( r ) ;
 		ps.op( "rotate" ) ;
 
 		if ( Configuration.getValue( this, CK_IMAGEOP, DEFAULT_IMAGEOP ) ) {
-			artwork = new ImageOperator( image ) ;
+			psimage = new ImageOperator( mapping, dims, dimt ) ;
 
 			ps.push( maxs ) ;
 			ps.push( maxt ) ;
 		} else {
-			artwork = new ImageDiscrete( image ) ;
+			psimage = new ImageDiscrete( mapping, dims, dimt ) ;
 
-			ps.push( interval ) ;
-			ps.push( interval ) ;
+			ps.push( ups ) ;
+			ps.push( ups ) ;
 		}
 		ps.op( "scale" ) ;
 
-		ps.op( "gsave" ) ;
-
-		artwork.headPS( ps ) ;
-		artwork.emitPS( ps ) ;
-		artwork.tailPS( ps ) ;			
+		psimage.headPS( ps ) ;
+		psimage.emitPS( ps ) ;
+		psimage.tailPS( ps ) ;			
 
 		ps.op( "grestore" ) ;
+
+		if ( verbose ) {
+			linePS( ps, cOPT, 1, 0, 0 ) ; // outline projection of texture
+			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[0] }, 1, 0, 0  ) ; // P1, P(2+i), P(3+j)
+			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.333 )] }, 0, 1, 0  ) ;
+			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.666 )] }, 0, 0, 1  ) ;
+			linePS( ps, cBBT, 0, 1, 0 ) ; // bounding box of outline
+			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[0] }, 1, 0, 0  ) ; // P1, P2, P3
+			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[1] }, 0, 1, 0  ) ;
+			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[2] }, 0, 0, 1  ) ;
+		}
 	}
 
+	private void parallelTask() throws Exception {
+		String classconf ;
+		Class<?> classtask ;
+		Constructor<?> thisctor ;
+		Task taskinst ;
+
+		classconf = Configuration.getValue( this, CK_PJ2CLASS, DEFAULT_PJ2CLASS ) ;
+		classtask = Class.forName( classconf ) ;
+
+		if ( Task.class.isAssignableFrom( classtask ) ) {
+			thisctor = classtask.getDeclaredConstructor( Artwork.class ) ;
+			taskinst = (Task) thisctor.newInstance( this ) ;
+		} else
+			throw new ParameterNotValidException() ;
+
+		long t0 = System.currentTimeMillis() ;
+		taskinst.main( null ) ;
+		long t1 = System.currentTimeMillis() ;
+		log.info( classconf+" took "+( t1-t0 )+" msec" ) ;
+	}
+
+	@Override
 	public void tailPS( ApplicationPostscriptStream ps ) {
 	}
 
 	public static boolean verbose() {
-		return ! ( verbose = ! verbose ) ;
+		boolean config = Configuration.getValue( Artwork.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
+
+		if ( config )
+			return ! ( verbose = ! verbose ) ;
+		return config ;
 	}
 
 	private InputStream reader() throws URISyntaxException, MalformedURLException {
@@ -369,172 +429,180 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		}
 	}
 
-	private Coordinate[] prepPopper4Heaven() {
-		return new Coordinate[] {
-				new chartacaeli.Coordinate( valueOf( getPopper( 0 ).getPosition() ) ).cartesian(),
-				new chartacaeli.Coordinate( valueOf( getPopper( 1 ).getPosition() ) ).cartesian(),
-				new chartacaeli.Coordinate( valueOf( getPopper( 2 ).getPosition() ) ).cartesian()
-		} ;
-	} ;
-
-	private Coordinate[] prepPopper4Canvas() {
-		return new Coordinate[] {
-				projector.project( valueOf( getPopper( 0 ).getPosition() ), false ),
-				projector.project( valueOf( getPopper( 1 ).getPosition() ), false ),
-				projector.project( valueOf( getPopper( 2 ).getPosition() ), false )
-		} ;
-	}
-
-	private Coordinate[] prepPopperOfImage() {
-		return new Coordinate[] {
-				valueOf( getPopper( 0 ).getCartesian() ),
-				valueOf( getPopper( 1 ).getCartesian() ),
-				valueOf( getPopper( 2 ).getCartesian() )
-		} ;
-	}
-
-	private Coordinate calcVectorZ( Coordinate[] popper ) {
+	// calculate vector perpendicular to plane spanned by c1, c2 and c3
+	private Coordinate calcZ( Coordinate c1, Coordinate c2, Coordinate c3 ) {
 		Vector v0, va, vb, vz ;
 
-		v0 = new Vector( popper[0] ) ;
-		va = new Vector( popper[1] ).sub( v0 ) ;
-		vb = new Vector( popper[2] ).sub( v0 ) ;
+		v0 = new Vector( c1 ) ;
+		va = new Vector( c2 ).sub( v0 ) ;
+		vb = new Vector( c3 ).sub( v0 ) ;
 		vz = v0.add( new Vector( va ).cross( vb ) ) ;
 
 		return vz ;
 	}
 
-	private Coordinate[] calcP4Heaven( RealMatrix TH, int dimx, int dimy ) {
-		java.util.Vector<Coordinate> r = new java.util.Vector<Coordinate>() ;
-		double c[], m, n ;
-		Vector v0, v1, v2, va, vb ;
-		int dx, dy, pref, interval ;
+	// calculate bounding box of texture projection, take FOV into account
+	private Coordinate[] calcBBT() {
+		Coordinate[] cBB ;
+		Geometry t0, gBB, fov ;
+		double minsection ;
 
-		dx = -1+dimx ;
-		dy = -1+dimy ;
+		cOPT = projT() ;
+		cBB = new MinimumDiameter( new GeometryFactory().createLinearRing( cOPT ) )
+		.getMinimumRectangle()
+		.getCoordinates() ;
+		gBB = new GeometryFactory().createPolygon( cBB ) ;
 
-		pref = Configuration.getValue( this, CK_INTERVAL, DEFAULT_INTERVAL ) ;
+		fov = ChartType.findFieldOfView() ;
+		if ( fov != null && ! fov.intersects( gBB ) )
+			return null ;
+		if ( fov == null || fov.contains( gBB ) )
+			got = gBB ;
+		else {
+			got = fov.intersection( gBB ) ;
 
-		// vector AB
-		c = TH.operate( new double[] { 0, 0, 0, 1 } ) ;
-		v0 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		c = TH.operate( new double[] { dx/2, 0, 0, 1 } ) ;
-		v1 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		c = TH.operate( new double[] { dx, 0, 0, 1 } ) ;
-		v2 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+			minsection = Configuration.getValue( this, CK_MINVISIBLE, DEFAULT_MINVISIBLE )/100 ;
+			t0 = new GeometryFactory().createPolygon( cOPT ) ;
+			if ( minsection>got.getArea()/t0.getArea() )
+				return null ;
 
-		va = new Vector( v1 ).sub( v0 ) ;
-		vb = new Vector( v2 ).sub( v1 ) ;
-
-		m = new Vector( va ).dot( vb ) ;
-		n = va.abs()*vb.abs() ;
-
-		interval = pref ;
-		if ( (int) m-(int) n == 0 )
-			interval = dx ;
-
-		r.add( v0 ) ;
-		for ( int x=interval ; dx-1>x ; x+=interval ) {
-			c = TH.operate( new double[] { x, 0, 0, 1 } ) ;
-			r.add( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+			cBB = new MinimumDiameter( new GeometryFactory().createLinearRing( got.getCoordinates() ) )
+			.getMinimumRectangle()
+			.getCoordinates() ;
 		}
 
-		// vector BC
-		c = TH.operate( new double[] { dx, 0, 0, 1 } ) ;
-		v0 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		c = TH.operate( new double[] { dx, dy/2, 0, 1 } ) ;
-		v1 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		c = TH.operate( new double[] { dx, dy, 0, 1 } ) ;
-		v2 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-
-		va = new Vector( v1 ).sub( v0 ) ;
-		vb = new Vector( v2 ).sub( v1 ) ;
-
-		m = new Vector( va ).dot( vb ) ;
-		n = va.abs()*vb.abs() ;
-
-		interval = pref ;
-		if ( (int) m-(int) n == 0 )
-			interval = dy ;
-
-		r.add( v0 ) ;
-		for ( int y=interval ; dy-1>y ; y+=interval ) {
-			c = TH.operate( new double[] { dx, y, 0, 1 } ) ;
-			r.add( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		}
-
-		// vector CD
-		c = TH.operate( new double[] { dx, dy, 0, 1 } ) ;
-		v0 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		c = TH.operate( new double[] { dx/2, dy, 0, 1 } ) ;
-		v1 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		c = TH.operate( new double[] { 0, dy, 0, 1 } ) ;
-		v2 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-
-		va = new Vector( v1 ).sub( v0 ) ;
-		vb = new Vector( v2 ).sub( v1 ) ;
-
-		m = new Vector( va ).dot( vb ) ;
-		n = va.abs()*vb.abs() ;
-
-		interval = pref ;
-		if ( (int) m-(int) n == 0 )
-			interval = dx ;
-
-		r.add( v0 ) ;
-		for ( int x=dx-interval ; x+1>interval ; x-=interval ) {
-			c = TH.operate( new double[] { x, dy, 0, 1 } ) ;
-			r.add( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		}
-
-		// vector DA
-		c = TH.operate( new double[] { 0, dy, 0, 1 } ) ;
-		v0 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		c = TH.operate( new double[] { 0, dy/2, 0, 1 } ) ;
-		v1 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		c = TH.operate( new double[] { 0, 0, 0, 1 } ) ;
-		v2 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-
-		va = new Vector( v1 ).sub( v0 ) ;
-		vb = new Vector( v2 ).sub( v1 ) ;
-
-		m = new Vector( va ).dot( vb ) ;
-		n = va.abs()*vb.abs() ;
-
-		interval = pref ;
-		if ( (int) m-(int) n == 0 )
-			interval = dy ;
-
-		r.add( v0 ) ;
-		for ( int y=dy-interval ; y+1>interval ; y-=interval ) {
-			c = TH.operate( new double[] { 0, y, 0, 1 } ) ;
-			r.add( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
-		}
-
-		r.add( r.firstElement() ) ;
-
-		return r.toArray( new Coordinate[0] ) ;
+		return cBB ;
 	}
 
-	private Coordinate[] calcP4Canvas( RealMatrix TC, int dimx, int dimy ) {
-		Coordinate[] r = new Coordinate[5] ;
-		double[] c ;
-		int dx, dy ;
+	// project texture outline on chart page
+	private Coordinate[] projT() {
+		java.util.Vector<Coordinate> outline = new java.util.Vector<Coordinate>() ;
+		double c[], m, n ;
+		Vector v0, v1, v2, va, vb ;
+		int interval, stepping ;
 
-		dx = -1+dimx ;
-		dy = -1+dimy ;
+		interval = Configuration.getValue( this, CK_INTERVAL, DEFAULT_INTERVAL ) ;
 
-		c = TC.operate( new double[] { 0, 0, 0, 1 } ) ;
-		r[0] = new Coordinate( c[0], c[1] ) ;
-		c = TC.operate( new double[] { dx, 0, 0, 1 } ) ;
-		r[1] = new Coordinate( c[0], c[1] ) ;
-		c = TC.operate( new double[] { dx, dy, 0, 1 } ) ;
-		r[2] = new Coordinate( c[0], c[1] ) ;
-		c = TC.operate( new double[] { 0, dy, 0, 1 } ) ;
-		r[3] = new Coordinate( c[0], c[1] ) ;
-		r[4] = r[0] ;
+		// check if projection of edge AB is bend:
+		// 1. divide image edge arbitrarily in two halves
+		// 2. project three resulting position vectors
+		// 3. calculate differences between 2nd and 1st as well as 3rd and 2nd
+		// 4. check if dot product (almost) equals product of vector magnitudes
+		c = tmT2H.operate( new double[] { 0, 0, 0, 1 } ) ;
+		v0 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		c = tmT2H.operate( new double[] { maxo/2, 0, 0, 1 } ) ;
+		v1 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		c = tmT2H.operate( new double[] { maxo, 0, 0, 1 } ) ;
+		v2 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
 
-		return r ;
+		va = new Vector( v1 ).sub( v0 ) ;
+		vb = new Vector( v2 ).sub( v1 ) ;
+
+		m = new Vector( va ).dot( vb ) ;
+		n = va.abs()*vb.abs() ;
+
+		stepping = interval ;
+		if ( (int) m-(int) n == 0 )
+			stepping = maxo ;
+
+		outline.add( v0 ) ;
+		for ( int o=stepping ; maxo-1>o ; o+=stepping ) {
+			c = tmT2H.operate( new double[] { o, 0, 0, 1 } ) ;
+			outline.add( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		}
+
+		// edge BC
+		c = tmT2H.operate( new double[] { maxo, 0, 0, 1 } ) ;
+		v0 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		c = tmT2H.operate( new double[] { maxo, maxp/2, 0, 1 } ) ;
+		v1 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		c = tmT2H.operate( new double[] { maxo, maxp, 0, 1 } ) ;
+		v2 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+
+		va = new Vector( v1 ).sub( v0 ) ;
+		vb = new Vector( v2 ).sub( v1 ) ;
+
+		m = new Vector( va ).dot( vb ) ;
+		n = va.abs()*vb.abs() ;
+
+		stepping = interval ;
+		if ( (int) m-(int) n == 0 )
+			stepping = maxp ;
+
+		outline.add( v0 ) ;
+		for ( int p=stepping ; maxp-1>p ; p+=stepping ) {
+			c = tmT2H.operate( new double[] { maxo, p, 0, 1 } ) ;
+			outline.add( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		}
+
+		// edge CD
+		c = tmT2H.operate( new double[] { maxo, maxp, 0, 1 } ) ;
+		v0 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		c = tmT2H.operate( new double[] { maxo/2, maxp, 0, 1 } ) ;
+		v1 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		c = tmT2H.operate( new double[] { 0, maxp, 0, 1 } ) ;
+		v2 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+
+		va = new Vector( v1 ).sub( v0 ) ;
+		vb = new Vector( v2 ).sub( v1 ) ;
+
+		m = new Vector( va ).dot( vb ) ;
+		n = va.abs()*vb.abs() ;
+
+		stepping = interval ;
+		if ( (int) m-(int) n == 0 )
+			stepping = maxo ;
+
+		outline.add( v0 ) ;
+		for ( int o=maxo-stepping ; o+1>stepping ; o-=stepping ) {
+			c = tmT2H.operate( new double[] { o, maxp, 0, 1 } ) ;
+			outline.add( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		}
+
+		// edge DA
+		c = tmT2H.operate( new double[] { 0, maxp, 0, 1 } ) ;
+		v0 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		c = tmT2H.operate( new double[] { 0, maxp/2, 0, 1 } ) ;
+		v1 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		c = tmT2H.operate( new double[] { 0, 0, 0, 1 } ) ;
+		v2 = new Vector( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+
+		va = new Vector( v1 ).sub( v0 ) ;
+		vb = new Vector( v2 ).sub( v1 ) ;
+
+		m = new Vector( va ).dot( vb ) ;
+		n = va.abs()*vb.abs() ;
+
+		stepping = interval ;
+		if ( (int) m-(int) n == 0 )
+			stepping = maxp ;
+
+		outline.add( v0 ) ;
+		for ( int p=maxp-stepping ; p+1>stepping ; p-=stepping ) {
+			c = tmT2H.operate( new double[] { 0, p, 0, 1 } ) ;
+			outline.add( projector.project( new chartacaeli.Coordinate( c[0], c[1], c[2] ).spherical(), false ) ) ;
+		}
+
+		// close geometry in terms of JTS
+		outline.add( outline.firstElement() ) ;
+
+		return outline.toArray( new Coordinate[0] ) ;
+	}
+
+	private void linePS( ApplicationPostscriptStream ps, Coordinate[] list, double gray ) {
+		ps.push( gray ); ;
+		ps.op( "setgray" );
+
+		linePS( ps, list ) ;
+	}
+
+	private void linePS( ApplicationPostscriptStream ps, Coordinate[] list, double r, double g, double b ) {
+		ps.push( r ) ;
+		ps.push( g ) ;
+		ps.push( b ) ;
+		ps.op( "setrgbcolor" ) ;
+
+		linePS( ps, list ) ;
 	}
 
 	private void linePS( ApplicationPostscriptStream ps, Coordinate[] list ) {

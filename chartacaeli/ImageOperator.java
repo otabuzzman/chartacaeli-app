@@ -1,60 +1,59 @@
 
 package chartacaeli;
 
-import java.awt.image.BufferedImage;
-
 public class ImageOperator implements PostscriptEmitter {
 
 	// configuration key (CK_), node (CN_)
-	private final static String CK_ALPHA			= "alpha" ;
+	private final static String CR_BACKGROUND		= "background" ;
 	private final static String CK_TONEMAP			= "tonemap" ;
 
-	private final static String DEFAULT_ALPHA		= "0:0:0,0:0:0" ;
+	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
 	private final static String DEFAULT_TONEMAP		= "0:0:0,1:1:1" ;
 
-	private BufferedImage image ;
+	private int[] image ;
+	private int dimx ;
+	private int dimy ;
 
-	public ImageOperator( BufferedImage image ) {
+	public ImageOperator( int[] image, int dimx, int dimy ) {
 		this.image = image ;
+		this.dimx = dimx ;
+		this.dimy = dimy ;
 	}
 
 	public void headPS( ApplicationPostscriptStream ps ) {
 	}
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
-		String[] av, ava, avo ;
-		int aa0, aa1, aa2 ;
-		int ao0, ao1, ao2 ;		
-		String[] tmv, tmva, tmvo ;
-		double tma0, tma1, tma2 ;
-		double tmo0, tmo1, tmo2 ;
+		String[] bgv, bgav, bgov ;
+		int bgar, bgag, bgab ;
+		int bgor, bgog, bgob ;		
+		String[] tmv, tmav, tmov ;
+		double tmar, tmag, tmab ;
+		double tmor, tmog, tmob ;
 		ASCII85StringBuilder a85 ;
-		int w, h, p, r, g, b ;
+		int p, r, g, b ;
 
-		av = Configuration.getValue( this, CK_ALPHA, DEFAULT_ALPHA )
-		.split( "," ) ;
-		ava = av[0].split( ":" ) ;
-		aa0 = (int) ( Double.parseDouble( ava[0] )*255 ) ;
-		aa1 = (int) ( Double.parseDouble( ava[1] )*255 ) ;
-		aa2 = (int) ( Double.parseDouble( ava[2] )*255 ) ;
-		avo = av[1].split( ":" ) ;
-		ao0 = (int) ( Double.parseDouble( avo[0] )*255 ) ;
-		ao1 = (int) ( Double.parseDouble( avo[1] )*255 ) ;
-		ao2 = (int) ( Double.parseDouble( avo[2] )*255 ) ;
+		bgv = Configuration.getValue( this, CR_BACKGROUND, DEFAULT_BACKGROUND )
+				.split( "," ) ;
+		bgav = bgv[0].split( ":" ) ;
+		bgar = (int) ( Double.parseDouble( bgav[0] )*255 ) ;
+		bgag = (int) ( Double.parseDouble( bgav[1] )*255 ) ;
+		bgab = (int) ( Double.parseDouble( bgav[2] )*255 ) ;
+		bgov = bgv[1].split( ":" ) ;
+		bgor = (int) ( Double.parseDouble( bgov[0] )*255 ) ;
+		bgog = (int) ( Double.parseDouble( bgov[1] )*255 ) ;
+		bgob = (int) ( Double.parseDouble( bgov[2] )*255 ) ;
 
 		tmv = Configuration.getValue( this, CK_TONEMAP, DEFAULT_TONEMAP )
-		.split( "," ) ;
-		tmva = tmv[0].split( ":" ) ;
-		tma0 = Double.parseDouble( tmva[0] ) ;
-		tma1 = Double.parseDouble( tmva[1] ) ;
-		tma2 = Double.parseDouble( tmva[2] ) ;
-		tmvo = tmv[1].split( ":" ) ;
-		tmo0 = Double.parseDouble( tmvo[0] ) ;
-		tmo1 = Double.parseDouble( tmvo[1] ) ;
-		tmo2 = Double.parseDouble( tmvo[2] ) ;
-
-		w = image.getWidth() ;
-		h = image.getHeight() ;
+				.split( "," ) ;
+		tmav = tmv[0].split( ":" ) ;
+		tmar = Double.parseDouble( tmav[0] ) ;
+		tmag = Double.parseDouble( tmav[1] ) ;
+		tmab = Double.parseDouble( tmav[2] ) ;
+		tmov = tmv[1].split( ":" ) ;
+		tmor = Double.parseDouble( tmov[0] ) ;
+		tmog = Double.parseDouble( tmov[1] ) ;
+		tmob = Double.parseDouble( tmov[2] ) ;
 
 		ps.script( "/DeviceRGB" ) ;
 		ps.op( "setcolorspace" ) ;
@@ -63,15 +62,15 @@ public class ImageOperator implements PostscriptEmitter {
 		ps.script( "/ImageType" ) ;
 		ps.push( 4 ) ;
 		ps.script( "/Width" ) ;
-		ps.push( w ) ;
+		ps.push( dimx ) ;
 		ps.script( "/Height" ) ;
-		ps.push( h ) ;
+		ps.push( dimy ) ;
 		ps.script( "/ImageMatrix" ) ;
 		ps.array( true ) ;
-		ps.push( w ) ;
+		ps.push( dimx ) ;
 		ps.push( 0 ) ;
 		ps.push( 0 ) ;
-		ps.push( h ) ;
+		ps.push( dimy ) ;
 		ps.push( 0 ) ;
 		ps.push( 0 ) ;
 		ps.array( false ) ;
@@ -79,21 +78,21 @@ public class ImageOperator implements PostscriptEmitter {
 		ps.push( 8 ) ;
 		ps.script( "/MaskColor" ) ;
 		ps.array( true ) ;
-		ps.push( aa0 ) ;
-		ps.push( ao0 ) ;
-		ps.push( aa1 ) ;
-		ps.push( ao1 ) ;
-		ps.push( aa2 ) ;
-		ps.push( ao2 ) ;
+		ps.push( bgar ) ;
+		ps.push( bgor ) ;
+		ps.push( bgag ) ;
+		ps.push( bgog ) ;
+		ps.push( bgab ) ;
+		ps.push( bgob ) ;
 		ps.array( false ) ;
 		ps.script( "/Decode" ) ;
 		ps.array( true ) ;
-		ps.push( tma0 ) ;
-		ps.push( tmo0 ) ;
-		ps.push( tma1 ) ;
-		ps.push( tmo1 ) ;
-		ps.push( tma2 ) ;
-		ps.push( tmo2 ) ;
+		ps.push( tmar ) ;
+		ps.push( tmor ) ;
+		ps.push( tmag ) ;
+		ps.push( tmog ) ;
+		ps.push( tmab ) ;
+		ps.push( tmob ) ;
 		ps.array( false ) ;
 		ps.script( "/DataSource" ) ;
 		ps.op( "currentfile" ) ;
@@ -105,9 +104,9 @@ public class ImageOperator implements PostscriptEmitter {
 
 		a85 = new ASCII85StringBuilder() ;
 
-		for ( int y=h-1 ; y>=0 ; y-- )
-			for ( int x=0 ; w>x ; x++ ) {
-				p = image.getRGB( x, y ) ;
+		for ( int y=0 ; dimy>y ; y++ )
+			for ( int x=0 ; dimx>x ; x++ ) {
+				p = image[y*dimx+x] ;
 
 				r = ( p>>16 )&0xff ;
 				g = ( p>>8 )&0xff ;

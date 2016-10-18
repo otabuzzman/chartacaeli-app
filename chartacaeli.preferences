@@ -14,34 +14,35 @@
 				<map/>
 				<node name="Object">
 					<map>
+						<!--used by Configuration, ApplicationResource, Artwork-->
 						<entry key="verbose" value="false"/>
-						<!--used by ChartaCaeli, FieldOfView.-->
+						<!--used by ChartaCaeli, FieldOfView-->
 						<entry key="viewer" value="gswin32c.exe -dBATCH -dNOPAUSE -q -"/>
-						<!--used by DMS, Rational, ProstscriptStream, HorizonType.-->
+						<!--used by DMS, Rational, ProstscriptStream, HorizonType-->
 						<entry key="precision" value="2"/>
-						<!--used by CircleMeridian, CircleParallel, BodyPlanet, BodyMoon, BodySun, ShapeElliptical, Artwork.-->
+						<!--used by CircleMeridian, CircleParallel, BodyPlanet, BodyMoon, BodySun, ShapeElliptical, Artwork-->
 						<entry key="interval" value="1"/>
 						<!--used by CircleMeridian, CircleParallel, BodyOrbitalType-->
 						<entry key="segmin" value="3"/>
-						<!--used by CircleMeridian, CircleParallel, BodyAreal, BodyPlanet, BodyMoon, BodySun, CatalogADC6049Record, CatalogDS9Record, ShapeElliptical.-->
+						<!--used by CircleMeridian, CircleParallel, BodyAreal, BodyPlanet, BodyMoon, BodySun, CatalogADC6049Record, CatalogDS9Record, ShapeElliptical-->
 						<entry key="distance" value="0"/>
 						<!--postscript value (0..1) of brightness to fade to from current-->
 						<entry key="fade" value="1"/>
-						<!--used by BodyAreal, BodyMoon, BodyPlanet, BodySun, CircleMeridian, CircleParallel, Scaleline, ListCutter, ShapeElliptical.-->
+						<!--used by BodyAreal, BodyMoon, BodyPlanet, BodySun, CircleMeridian, CircleParallel, Scaleline, ListCutter, ShapeElliptical-->
 						<!--percent of linewidth-->
 						<entry key="halo" value="4"/>
 						<!--chartacaeli units-->
 						<entry key="halomin" value=".08"/>
 						<entry key="halomax" value=".4"/>
-						<!--used by ChartPage, Artwork.-->
+						<!--used by ChartPage, Artwork-->
 						<!--postscript units (1/72 inch) per chartacaeli unit-->
 						<entry key="psunit" value="2.834646"/>
-						<!--used by ASCII85Encoder.-->
+						<!--used by ASCII85Encoder-->
 						<entry key="cpl" value="72"/>
-						<!--used by Artwork, ImageOperator, ImageDiscrete.-->
+						<!--used by Artwork, ImageOperator, ImageDiscrete-->
 						<!--RGB 0..1 each-->
-						<entry key="alpha" value="0:0:0,.0833:.0833:.0833"/>
-						<!--used by ImageOperator, ImageDiscrete.-->
+						<entry key="background" value="0:0:0,.0833:.0833:.0833"/>
+						<!--used by ImageOperator, ImageDiscrete-->
 						<!--RGB 0..1 each-->
 						<entry key="tonemap" value=".8157:.8157:.8157,.9569:.9569:.9569"/>
 					</map>
@@ -54,7 +55,7 @@
 				<map/>
 				<node name="HorizonType">
 					<map>
-						<!--keys must equal to allowed values of concerning attributes in XSD.-->
+						<!--keys must equal to allowed values of concerning attributes in XSD-->
 						<!--attribute practicality-->
 						<entry key="none" value="1 setgray"/>
 						<entry key="seldom" value=".75 setgray"/>
@@ -65,7 +66,7 @@
 				</node>
 				<node name="CircleType">
 					<map>
-						<!--keys must equal to allowed values of concerning attributes in XSD.-->
+						<!--keys must equal to allowed values of concerning attributes in XSD-->
 						<!--attribute importance-->
 						<entry key="canonical" value=".1 setlinewidth [] 0 setdash"/>
 						<entry key="cardinal" value=".5 setlinewidth [] 0 setdash"/>
@@ -75,7 +76,7 @@
 					<map/>
 					<node name="default">
 						<map>
-							<!--keys must equal to method names in model class.-->
+							<!--keys must equal to method names in model class-->
 							<entry key="setTurn,java.lang.Double" value="0"/>
 							<entry key="setSpin,java.lang.Double" value="0"/>
 						</map>
@@ -83,7 +84,7 @@
 				</node>
 				<node name="BodyArealType">
 					<map>
-						<!--keys must equal to allowed values of concerning attributes in XSD.-->
+						<!--keys must equal to allowed values of concerning attributes in XSD-->
 						<!--attribute nature-->
 						<entry key="arbitrary" value=".36 setlinewidth [1.8 dup .25 mul] 0 setdash"/>
 						<entry key="authentic" value=".28 setlinewidth [] 0 setdash"/>
@@ -93,14 +94,14 @@
 					<map/>
 					<node name="default">
 						<map>
-							<!--keys must equal to method names in model class.-->
+							<!--keys must equal to method names in model class-->
 							<entry key="setNature,java.lang.String" value="arbitrary"/>
 						</map>
 					</node>
 				</node>
 				<node name="BodyOrbitalType">
 					<map>
-						<!--keys must equal to allowed values of concerning attributes in XSD.-->
+						<!--keys must equal to allowed values of concerning attributes in XSD-->
 						<!--attribute nature-->
 						<entry key="artificial" value=".36 setlinewidth [2.4 dup .125 mul] 0 setdash"/>
 						<entry key="celestial" value=".38 setlinewidth [] 0 setdash"/>
@@ -108,7 +109,7 @@
 				</node>
 				<node name="Script">
 					<map>
-						<!--keys must equal to allowed values of concerning attributes in XSD.-->
+						<!--keys must equal to allowed values of concerning attributes in XSD-->
 						<entry key="none" value="0"/>
 						<entry key="bodylettering0" value="3.0"/>
 						<entry key="bodylettering7" value="1.4"/>
@@ -301,7 +302,7 @@
 			</node>
 			<node name="ChartPage">
 				<map>
-					<!--keys must equal to allowed values of concerning attributes in XSD.-->
+					<!--keys must equal to allowed values of concerning attributes in XSD-->
 					<entry key="a0" value="840x1188"/>
 					<entry key="a1" value="594x840"/>
 					<entry key="a2" value="420x594"/>
@@ -631,19 +632,18 @@
 			</node>
 			<node name="Artwork">
 				<map>
-					<entry key="verbose" value="false"/>
 					<entry key="dpi" value="36"/>
 					<entry key="interval" value="16"/>
 					<entry key="imageop" value="false"/>
-					<entry key="noimage" value="false"/>
-					<!--percent-->
-					<entry key="minsection" value="25"/>
+					<!--percentage of minimum visible area of Artwork-->
+					<entry key="minvisible" value="25"/>
+					<entry key="pj2class" value="chartacaeli.Artwork$PJ2TextureMapperSeq"/>
 				</map>
 			</node>
 			<node name="Sign">
 				<map>
 					<entry key="shortening" value="2.62"/>
-					<!--keys must equal to allowed values of concerning attributes in XSD.-->
+					<!--keys must equal to allowed values of concerning attributes in XSD-->
 					<!--attribute nature-->
 					<entry key="constellation" value="1 setlinecap 0.92 setlinewidth"/>
 				</map>
