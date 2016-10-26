@@ -1,4 +1,10 @@
-# AA+ V1.63
+ifeq ($(OS),Windows_NT)
+	winos := 1
+else
+	linos := 1
+endif
+
+# AA+ V1.73
 JPKG  = caa
 CPKG  = aaplus
 
@@ -7,9 +13,17 @@ pkgdir  = $(JPKG)
 
 AAZIP = $(CPKG).zip
 AAURL = http://www.naughter.com/download/$(AAZIP)
+ifdef winos
 AADLL = $(CPKG).dll
+AAEXE = AATest.exe
 
 JAADLL = $(JPKG).dll
+else
+AADLL = lib$(CPKG).so
+AAEXE = AATest
+
+JAADLL = lib$(JPKG).so
+endif
 JAAJAR = $(JPKG).jar
 
 .PHONY: all clean tidy
@@ -95,22 +109,40 @@ vpath %.cpp $(srcdir)
 vpath %.cxx $(pkgdir)
 vpath %.java $(pkgdir)
 
+ifdef winos
 .cpp.o:
 	$(CXX) -Wall -shared -c $< -o $@
+else
+.cpp.o:
+	$(CXX) -Wall -shared -fPIC -c $< -o $@
+endif
 
 .h.cxx:
 .h.java:
 	$(CXXWRAP) --jni --jni-attributes --root=$(pkgdir) --package-prefix=$(JPKG) $(<F)
 	ln -f $(srcdir)/$(subst CAA,AA,$(<F)) $<
 
+ifdef winos
 .cxx.o:
-	$(CXX) -Wall -shared -I$(JDK)/include -I$(JDK)/include/win32 -I$(srcdir) -c $< -o $@
-	
+	$(CXX) -Wall -shared \
+	-I"$(JAVA_HOME)/include" \
+	-I"$(JAVA_HOME)/include/win32" \
+	-I$(srcdir) \
+	-c $< -o $@
+else
+.cxx.o:
+	$(CXX) -Wall -shared -fPIC \
+	-I$(JAVA_HOME)/include \
+	-I$(JAVA_HOME)/include/linux \
+	-I$(srcdir) \
+	-c $< -o $@
+endif
+
 .java.class:
-	$(JDK)/bin/javac -d . $<
+	javac -d . $<
 
 $(AAZIP):
-	wget -q $(AAURL)
+	wget -q -O $@ $(AAURL)
 
 $(srcdir): $(AAZIP)
 	unzip -o `basename $(AAURL)` -d $@
@@ -119,26 +151,45 @@ $(pkgdir):
 	mkdir $@
 
 all: $(srcdir) $(pkgdir)
-	make $(AADLL) AATest.exe $(JAADLL) $(JAAJAR)
+	make $(AADLL) $(AAEXE) $(JAADLL) $(JAAJAR)
 
 $(aaobj): %.o: $(srcdir)/%.cpp
 
+ifdef winos
 $(AADLL): $(aaobj)
-	$(CXX) -Wall -shared -Wl,--export-all-symbols -Wl,--add-stdcall-alias -o $@ $(aaobj)
+	$(CXX) -Wall -shared \
+	-Wl,--export-all-symbols -Wl,--add-stdcall-alias \
+	-o $@ $(aaobj)
+else
+$(AADLL): $(aaobj)
+	$(CXX) -Wall -shared -fPIC \
+	-o $@ $(aaobj)
+endif
 
-AATest.exe: AATest.o stdafx.o $(AADLL)
+$(AAEXE): AATest.o stdafx.o $(AADLL)
 	$(CXX) -o $@ $< -L. -l$(CPKG)
 
 $(jaahdr): $(pkgdir)/C%.h: $(srcdir)/%.h
 	$(CXX) -E -I$(srcdir) $< -o $@
-	
+
 $(jaaobj): $(pkgdir)/%.o: $(pkgdir)/%.cxx
 
+ifdef winos
 $(JAADLL): $(jaahdr) $(jaasrc) $(jaaobj)
-	$(CXX) -Wall -shared -Wl,--export-all-symbols -Wl,--add-stdcall-alias -o $@ $(jaaobj) -L. -l$(CPKG)
+	$(CXX) -Wall -shared \
+	-static-libgcc -static-libstdc++ \
+	-Wl,--export-all-symbols -Wl,--add-stdcall-alias \
+	-o $@ $(jaaobj) \
+	-L. -l$(CPKG)
+else
+$(JAADLL): $(jaahdr) $(jaasrc) $(jaaobj)
+	$(CXX) -Wall -shared -fPIC \
+	-o $@ $(jaaobj) \
+	-L. -l$(CPKG)
+endif
 
 $(JAAJAR): $(jaacls)
-	$(JDK)/bin/jar -cf $@ $(jaacls)
+	jar -cf $@ $(jaacls)
 
 # compiler objects
 clean:
@@ -147,13 +198,13 @@ clean:
 # local clean
 lclean: clean
 	rm -f $(pkgdir)/*.h $(pkgdir)/*.cxx $(pkgdir)/*.java
-	rm -f $(AADLL) AATest.exe $(JAADLL) $(JAAJAR)
+	rm -f $(AADLL) $(AAEXE) $(JAADLL) $(JAAJAR)
 	rm -rf $(srcdir) $(pkgdir)
 
 # real clean
 rclean: lclean
 	rm -rf $(AAZIP)
-	
+
 tidy: rclean
 
 

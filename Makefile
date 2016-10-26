@@ -1,10 +1,18 @@
+ifeq ($(OS),Windows_NT)
+	winos := 1
+else
+	linos := 1
+endif
+
 APP		= chartacaeli
 MOD		= $(APP).xsd
 
 PKG		= $(APP)
 
-JVO		= -Xcheck:jni \
-		  -Xmx1536m
+# Java VM non-standard options
+JVMX_OPTS = \
+		-Xcheck:jni \
+		-Xmx1536m
 
 topdir	= .
 srcdir	= $(subst .,/,$(PKG))
@@ -22,11 +30,12 @@ JARDEPEXT = $(libdir)/castor-core-1.3.3.jar \
 			$(libdir)/commons-math3-3.5.jar \
 			$(libdir)/commons-logging-1.2.jar
 JARDEPPKG = $(libdir)/caa.jar \
-			$(JARDEPEXT)
+			$(JARDEPEXT) \
+			$(PJ2_GENERAL_PATHJAR)
 JARDEPTMP = runcc-0.7.zip jts-1.14.zip
 
 UCBSRC = $(srcdir)/UnicodeBlock.java
-UCBCMD = $(topdir)/prepUnicodeBlock.sh
+UCBCMD = prepUnicodeBlock.sh
 UCBDEF = Blocks-4.1.0.txt
 UCBURL = ftp://unicode.org/Public/4.1.0/ucd/Blocks.txt
 
@@ -40,44 +49,56 @@ space = $(empty) $(empty)
 vpath %.class $(srcdir)/model
 vpath %.xml lab
 
+ifdef winos
+sep := ;
+
+natlibcaa := caa.dll
+natlibaap := aaplus.dll
+else
+sep := :
+
+natlibcaa := libcaa.so
+natlibaap := libaaplus.so
+endif
+
 all: $(JARDEPBLD) $(JARDEPPKG) $(UCBSRC) $(srcdir)/model
 	make $(srcdir)/*.class $(srcdir)/model/*.class $(srcdir)/model/descriptors/*.class
 
 .xml.ps:
-	@time $(JDK)/bin/java $(JVO) \
+	@time java $(JVMX_OPTS) \
 			-D$(PKG).app=$(APP) \
 			-Djava.library.path=$(libdir) \
-			-classpath $(subst $(space),\;, \
+			-classpath "$(subst $(space),$(sep), \
 			$(srcdir) \
 			$(srcdir)/model \
 			$(srcdir)/model/descriptors \
-			$(JARDEPPKG)) \
+			$(JARDEPPKG))" \
 			$(PKG).ChartaCaeli $< >$@
 
 .ps.pdf:
 	@time $${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
 
 .java.class:
-	$(JDK)/bin/javac \
-			-classpath $(subst $(space),\;, \
+	javac \
+			-classpath "$(subst $(space),$(sep), \
 			$(srcdir) \
 			$(srcdir)/model \
 			$(srcdir)/model/descriptors \
-			$(JARDEPPKG)) \
+			$(JARDEPPKG))" \
 			-d . $^
 
 .class.map:
-	@$(JDK)/bin/java $(JVO) \
-		-classpath $(subst $(space),\;, \
-		$(JARDEPEXT)) \
+	java $(JVMX_OPTS) \
+		-classpath "$(subst $(space),$(sep), \
+		$(JARDEPEXT))" \
 		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
 
 $(srcdir)/model: $(MOD)
 	@echo -n "Building model... "
-	@$(JDK)/bin/java $(JVO) \
-		-classpath $(subst $(space),\;, \
+	@java $(JVMX_OPTS) \
+		-classpath "$(subst $(space),$(sep), \
 		$(JARDEPBLD) \
-		$(JARDEPEXT)) \
+		$(JARDEPEXT))" \
 		org.exolab.castor.builder.SourceGeneratorMain -i $< \
 		-binding-file ./binding.xml \
 	@touch $@
@@ -87,9 +108,9 @@ $(UCBDEF):
 	wget -q -O $@ $(UCBURL)
 
 $(UCBSRC): $(UCBDEF) $(UCBCMD)
-	$(UCBCMD) $(UCBDEF) >$@
+	$${SHELL:-sh} $(UCBCMD) $(UCBDEF) >$@
 
-$(libdir)/caa.jar: $(caadir)/caa.jar $(caadir)/caa.dll $(caadir)/aaplus.dll
+$(libdir)/caa.jar: $(caadir)/caa.jar $(caadir)/$(natlibcaa) $(caadir)/$(natlibaap)
 	install $^ $(libdir)
 
 # compiler objects
@@ -103,7 +124,7 @@ mclean: clean
 # local clean
 lclean: mclean
 	rm -f $(UCBSRC)
-	rm -f $(libdir)/caa.jar $(libdir)/caa.dll $(libdir)/aaplus.dll
+	rm -f $(libdir)/caa.jar $(libdir)/$(natlibcaa) $(libdir)/$(natlibaap)
 
 # real clean
 rclean: lclean

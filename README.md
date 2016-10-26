@@ -6,25 +6,30 @@ A tool to make star charts. Just define your star chart in XML and run the tool.
 Charta Caeli reads definitions of star charts from XML files. These definition files must match a model given in XSD. The model is designed to allow chart definitions in common terms. Almost every metrics and other more technical information provides a preferences file. Finally there is a properties file to support different languages. Processing these files the tool generates Postscript code on stdout. Pipe it to Ghostscript (e.g.) to get PDF.
 
 ###  Build on Windows
-
 - Download and install [Cygwin](http://cygwin.com/). Consider a full install to avoid problems due to missing packages. Make sure that gcc, g++, mingw, flex, bison and make are installed as well as bzip, gzip, unzip and wget.
 - Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/).
 - Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7).
 - Download and install [Ghostscript](http://ghostscript.com/download/).
+- Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub.
 - Run a bash (Cygwin) and set shell variables:
 
   `CXX` to mingw C++ compiler.<br>
   `CXXWRAP` to cxxwrap.exe.<br>
-  `JDK` to JDK7 installation directory.<br>
-  Extend `PATH` with . and lib.<br>
-  Extend `PATH` with mingw bin directory.
+  `JAVA_HOME` to JDK installation directory.<br>
+  `PJ2_GENERAL_PATHJAR` to PJ2 jar file or directory.<br>
+  `PJ2_GENERAL_PATHLIB` to PJ2 native library directory.<br>
+  Extend `PATH` appropriately.<br>
 
   Commands for setting variables with common values:
+
   ```
   export CXX=x86_64-w64-mingw32-c++.exe
   export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
-  export JDK="/cygdrive/c/program\ files/java/jdk1.7.0_71"
-  export PATH=.:lib:/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
+  export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.7.0_71
+  export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
+  export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
+  export PATH=/cygdrive/c/program\ files/java/jdk1.7.0_71/bin:$PATH
+  export PATH=.:lib:$PJ2_GENERAL_PATHLIB:$PATH
   ```
 - Clone Charta Caeli from GitHub to local computer.
 - Change directory (bash) to top-level directory of Charta Caeli.
@@ -48,13 +53,52 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 	azimuthal-projection ; do ( make ${sample}.pdf ) ; done
   ```
 
-  Registry errors might occur during the first run without administrator priviliges. In that case run the tool once in a bash with admin rights. Further executions can be done with user rights.
+  Registry errors might occur during the first run without administrator privileges. In that case run the tool once in a bash with admin rights. Further executions can be done with user rights.
 
 ### Build on Linux
+- Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/).
+- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7).
+- Download and install [Ghostscript](http://ghostscript.com/download/).
+- Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub.
+- Set up the environment:
+  ```
+  export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
+  export JAVA_HOME=/usr/lib/jvm/java
+  export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
+  export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
+  export LD_LIBRARY_PATH=.:lib:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
 
-Not done yet.
+  # Install CXXWRAP
+  wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz
+  tar -zxf cxxwrap-20061217.tar.gz
+  ( cd cxxwrap-20061217 ; ./configure ; make )
+  # Install JDK (if missing)
+  sudo yum install java-1.7.0-openjdk-devel.x86_64
+  # Install Ghostscript
+  sudo yum install ghostscript
 
-### Weblinks worth noting
+  # Install Git shell (if missing)
+  sudo yum install git
+  # Clone PJ2AWS
+  ( cd ~/lab ; git clone https://github.com/otabuzzman/pj2aws.git )
+  # Build PJ2AWS (see README in repository)
+  ( cd ~/lab/pj2aws ; make pj2 jclean ; make S1build )
+  ```
+
+- Clone Charta Caeli from GitHub and build.
+  ```
+  # Clone Charta Caeli
+  cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli.git ; cd chartacaeli
+
+  cd caa
+  make all
+  cd ..
+  make all
+  ```
+
+- Run samples as described in section on Windows above.
+
+### Helpful links
 
 - [Sample Pages](http://www.skymaps.com/store/samples/Millennium%20Star%20Atlas.pdf) from The Millenium Star Atlas
 - [Making Your Own Color Astronomical Images](http://www.kellysky.net/DSScolor.ppt) is a hands-on guide utilizing the [Digitized Sky Survey](https://archive.stsci.edu/cgi-bin/dss_form)
