@@ -56,6 +56,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
 	private static boolean verbose = false ;
 
+	// set by init
+	private boolean initialized = false ;
+
 	private Projector projector ;
 
 	// global FOV
@@ -123,18 +126,16 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					t0 = tmM2P.operate( new double[] { s, t, 1 } ) ;
 					uv = new Coordinate( t0[0], t0[1] ) ;
 
-					if ( got.covers( new GeometryFactory().createPoint( uv ) ) ) {
-						eq.setCoordinate( projector.project( uv, true ) ) ;
-						ca = eq.cartesian() ;
+					eq.setCoordinate( projector.project( uv, true ) ) ;
+					ca = eq.cartesian() ;
 
-						V = new Vector3D( ca.x, ca.y, ca.z ) ;
-						X = spT.intersection( new Line( vO, V, 1.0e-10 ) ) ;
+					V = new Vector3D( ca.x, ca.y, ca.z ) ;
+					X = spT.intersection( new Line( vO, V, 1.0e-10 ) ) ;
 
-						op = tmH2T.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
+					op = tmH2T.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
 
-						if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
-							mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
-					}
+					if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
+						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
 				}
 			}
 		}
@@ -164,18 +165,16 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					t0 = tmM2P.operate( new double[] { s, t, 1 } ) ;
 					uv = new Coordinate( t0[0], t0[1] ) ;
 
-					if ( got.covers( new GeometryFactory().createPoint( uv ) ) ) {
-						eq.setCoordinate( projector.project( uv, true ) ) ;
-						ca = eq.cartesian() ;
+					eq.setCoordinate( projector.project( uv, true ) ) ;
+					ca = eq.cartesian() ;
 
-						V = new Vector3D( ca.x, ca.y, ca.z ) ;
-						X = spT.intersection( new Line( vO, V, 1.0e-10 ) ) ;
+					V = new Vector3D( ca.x, ca.y, ca.z ) ;
+					X = spT.intersection( new Line( vO, V, 1.0e-10 ) ) ;
 
-						op = tmH2T.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
+					op = tmH2T.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
 
-						if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
-							mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
-					}
+					if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
+						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
 				}
 			} );
 		}
@@ -202,7 +201,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		popTP3 = valueOf( getPopper( 2 ).getCartesian() ) ;
 	}
 
-	public void init() {
+	public boolean init() {
 		BufferedImage image ;
 		Coordinate cHZ ;
 		RealMatrix bmH, bmT ;	// base matrices for heaven and texture
@@ -265,6 +264,8 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 		// dimensions of texture mapping
 		cBBT = calcBBT() ;
+		if ( cBBT == null )
+			return initialized = false ;
 		maxs = cBBT[0].distance( cBBT[1] ) ;
 		maxt = cBBT[0].distance( cBBT[3] ) ;
 		psu = Configuration.getValue( this, CK_PSUNIT, DEFAULT_PSUNIT ) ;	// ps dots per app unit
@@ -303,10 +304,14 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 		// transformation matrix texture mapping to projection
 		tmM2P = bmP.multiply( new LUDecomposition( bmM ).getSolver().getInverse() ) ;
+
+		return initialized = true ;
 	}
 
 	@Override
 	public void headPS( ApplicationPostscriptStream ps ) {
+		if ( ! initialized )
+			return ;
 	}
 
 	@Override
@@ -314,6 +319,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		PostscriptEmitter psimage ;
 		Vector2D A, B, R ;
 		double r ;
+
+		if ( ! initialized )
+			return ;
 
 		try {
 			parallelTask() ;
@@ -327,6 +335,17 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		r = Math.atan2( R.getY(), R.getX() ) ;
 
 		ps.op( "gsave" ) ;
+
+		ps.array( true ) ;
+		for ( Coordinate xy : got.getCoordinates() ) {
+			ps.push( xy.x ) ;
+			ps.push( xy.y ) ;
+		}
+		ps.array( false ) ;
+
+		ps.op( "newpath" ) ;
+		ps.op( "gdraw" ) ;
+		ps.op( "clip" ) ;
 
 		ps.push( cBBT[0].x ) ;
 		ps.push( cBBT[0].y ) ;
@@ -355,7 +374,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 		if ( verbose ) {
 			linePS( ps, cOPT, 1, 0, 0 ) ; // outline projection of texture
-			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[0] }, 1, 0, 0  ) ; // P1, P(2+i), P(3+j)
+			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[0] }, 1, 0, 0  ) ; // P1, Pi, Pj
 			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.333 )] }, 0, 1, 0  ) ;
 			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.666 )] }, 0, 0, 1  ) ;
 			linePS( ps, cBBT, 0, 1, 0 ) ; // bounding box of outline
@@ -388,6 +407,8 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 	@Override
 	public void tailPS( ApplicationPostscriptStream ps ) {
+		if ( ! initialized )
+			return ;
 	}
 
 	public static boolean verbose() {
