@@ -69,9 +69,9 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export LD_LIBRARY_PATH=.:lib:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
 
   # Install CXXWRAP
-  wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz
-  tar -zxf cxxwrap-20061217.tar.gz
-  ( cd cxxwrap-20061217 ; ./configure ; make )
+  ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )
+  ( cd ~/lab ; tar -zxf cxxwrap-20061217.tar.gz )
+  ( cd ~/lab/cxxwrap-20061217 ; ./configure ; make )
   # Install JDK (if missing)
   sudo yum install java-1.7.0-openjdk-devel.x86_64
   # Install Ghostscript
