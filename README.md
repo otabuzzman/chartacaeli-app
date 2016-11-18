@@ -29,7 +29,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
   export PATH=/cygdrive/c/program\ files/java/jdk1.7.0_71/bin:$PATH
-  export PATH=.:lib:$PJ2_GENERAL_PATHLIB:$PATH
+  export PATH=.:caa:$PJ2_GENERAL_PATHLIB:$PATH
   ```
 - Clone Charta Caeli from GitHub to local computer.
 - Change directory (bash) to top-level directory of Charta Caeli.
@@ -37,8 +37,10 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 
   ```
   cd caa
+  make
   make all
   cd ..
+  make
   make all
   ```
 - Read and run the samples:
@@ -66,7 +68,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export JAVA_HOME=/usr/lib/jvm/java
   export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
-  export LD_LIBRARY_PATH=.:lib:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
+  export LD_LIBRARY_PATH=.:caa:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
 
   # Install CXXWRAP
   ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )
@@ -91,8 +93,10 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli.git ; cd chartacaeli
 
   cd caa
+  make
   make all
   cd ..
+  make
   make all
   ```
 

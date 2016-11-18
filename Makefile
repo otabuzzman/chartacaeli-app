@@ -15,11 +15,12 @@ JVMX_OPTS = \
 		-Xmx1536m
 
 topdir	= .
-srcdir	= $(subst .,/,$(PKG))
+pkgdir	= $(subst .,/,$(PKG))
+moddir	= $(pkgdir)/model
 libdir	= lib
 caadir	= caa
 
-JARDEPBLD = castor-codegen-1.3.3.jar \
+JARDEPMOD = castor-codegen-1.3.3.jar \
 			castor-xml-schema-1.3.3.jar
 JARDEPEXT = $(libdir)/castor-core-1.3.3.jar \
 			$(libdir)/castor-xml-1.3.3.jar \
@@ -29,80 +30,141 @@ JARDEPEXT = $(libdir)/castor-core-1.3.3.jar \
 			$(libdir)/commons-lang-2.6.jar \
 			$(libdir)/commons-math3-3.5.jar \
 			$(libdir)/commons-logging-1.2.jar
-JARDEPPKG = $(libdir)/caa.jar \
+JARDEPPKG = $(caadir)/caa.jar \
 			$(JARDEPEXT) \
 			$(PJ2_GENERAL_PATHJAR)
-JARDEPTMP = runcc-0.7.zip jts-1.14.zip
 
-UCBSRC = $(srcdir)/UnicodeBlock.java
+UCBSRC = $(pkgdir)/UnicodeBlock.java
 UCBCMD = prepUnicodeBlock.sh
 UCBDEF = Blocks-4.1.0.txt
 UCBURL = ftp://unicode.org/Public/4.1.0/ucd/Blocks.txt
 
-.PHONY: all clean tidy
+# hand-crafted Java classes
+PKGSRC = \
+$(pkgdir)/AnnotationCurved.java \
+$(pkgdir)/AnnotationStraight.java \
+$(pkgdir)/ApplicationPostscriptStream.java \
+$(pkgdir)/ApplicationResource.java \
+$(pkgdir)/Artwork.java \
+$(pkgdir)/ASCII85OutputStream.java \
+$(pkgdir)/ASCII85StringBuilder.java \
+$(pkgdir)/AuxiliaryEmitter.java \
+$(pkgdir)/Baseline.java \
+$(pkgdir)/BodyAreal.java \
+$(pkgdir)/BodyElliptical.java \
+$(pkgdir)/BodyMoon.java \
+$(pkgdir)/BodyOrbitalType.java \
+$(pkgdir)/BodyParabolical.java \
+$(pkgdir)/BodyPlanet.java \
+$(pkgdir)/BodyStellar.java \
+$(pkgdir)/BodySun.java \
+$(pkgdir)/CAADate.java \
+$(pkgdir)/CastorJREEvaluator.java \
+$(pkgdir)/CatalogADC1239H.java \
+$(pkgdir)/CatalogADC1239HRecord.java \
+$(pkgdir)/CatalogADC1239T.java \
+$(pkgdir)/CatalogADC1239TRecord.java \
+$(pkgdir)/CatalogADC5050.java \
+$(pkgdir)/CatalogADC5050Record.java \
+$(pkgdir)/CatalogADC5109.java \
+$(pkgdir)/CatalogADC5109Record.java \
+$(pkgdir)/CatalogADC6049.java \
+$(pkgdir)/CatalogADC6049Record.java \
+$(pkgdir)/CatalogADC7118.java \
+$(pkgdir)/CatalogADC7118Record.java \
+$(pkgdir)/CatalogADC7237.java \
+$(pkgdir)/CatalogADC7237Record.java \
+$(pkgdir)/CatalogDS9.java \
+$(pkgdir)/CatalogDS9Record.java \
+$(pkgdir)/CatalogRecord.java \
+$(pkgdir)/ChartaCaeli.java \
+$(pkgdir)/ChartAzimuthal.java \
+$(pkgdir)/ChartPage.java \
+$(pkgdir)/ChartPseudoCylindrical.java \
+$(pkgdir)/ChartType.java \
+$(pkgdir)/CircleMeridian.java \
+$(pkgdir)/CircleNorthernPolar.java \
+$(pkgdir)/CircleNorthernTropic.java \
+$(pkgdir)/CircleParallel.java \
+$(pkgdir)/CircleSouthernPolar.java \
+$(pkgdir)/CircleSouthernTropic.java \
+$(pkgdir)/Configuration.java \
+$(pkgdir)/Converter.java \
+$(pkgdir)/Coordinate.java \
+$(pkgdir)/DialDay.java \
+$(pkgdir)/DialDeg.java \
+$(pkgdir)/DMS.java \
+$(pkgdir)/Epoch.java \
+$(pkgdir)/FieldOfView.java \
+$(pkgdir)/HorizonEcliptical.java \
+$(pkgdir)/HorizonEquatorial.java \
+$(pkgdir)/HorizonGalactic.java \
+$(pkgdir)/HorizonLocal.java \
+$(pkgdir)/HorizonType.java \
+$(pkgdir)/ImageDiscrete.java \
+$(pkgdir)/ImageOperator.java \
+$(pkgdir)/LinearScale.java \
+$(pkgdir)/Math.java \
+$(pkgdir)/MessageCatalog.java \
+$(pkgdir)/P4Mollweide.java \
+$(pkgdir)/P4Orthographic.java \
+$(pkgdir)/P4Projector.java \
+$(pkgdir)/P4Stereographic.java \
+$(pkgdir)/ParameterNotValidError.java \
+$(pkgdir)/ParameterNotValidException.java \
+$(pkgdir)/ParserAttribute.java \
+$(pkgdir)/ParserSubstitute.java \
+$(pkgdir)/Peer.java \
+$(pkgdir)/PolygonPlane.java \
+$(pkgdir)/PolygonSphere.java \
+$(pkgdir)/PostscriptEmitter.java \
+$(pkgdir)/PostscriptStream.java \
+$(pkgdir)/Projector.java \
+$(pkgdir)/RandomDataset.java \
+$(pkgdir)/Rational.java \
+$(pkgdir)/Registry.java \
+$(pkgdir)/Scaleline.java \
+$(pkgdir)/ShapeElliptical.java \
+$(pkgdir)/Sign.java \
+$(pkgdir)/SubstituteCatalog.java \
+$(pkgdir)/TeeOutputStream.java \
+$(pkgdir)/UnicodePostscriptStream.java \
+$(pkgdir)/Vector.java \
+$(pkgdir)/Wheel360Scale.java \
+$(pkgdir)/WheelScale.java \
+
+.PHONY: all classes clean mclean lclean rclean tidy
 .SUFFIXES: .xml .ps .pdf .java .class .map
 .SECONDARY: $(APP).ps
 
 empty =
 space = $(empty) $(empty)
 
-vpath %.class $(srcdir)/model
 vpath %.xml lab
 
 ifdef winos
 sep := ;
-
-natlibcaa := caa.dll
-natlibaap := aaplus.dll
 else
 sep := :
-
-natlibcaa := libcaa.so
-natlibaap := libaaplus.so
 endif
 
-all: $(JARDEPBLD) $(JARDEPPKG) $(UCBSRC) $(srcdir)/model
-	make $(srcdir)/*.class $(srcdir)/model/*.class $(srcdir)/model/descriptors/*.class
-
-.xml.ps:
-	@time java $(JVMX_OPTS) \
-			-D$(PKG).app=$(APP) \
-			-Djava.library.path=$(libdir) \
-			-classpath "$(subst $(space),$(sep), \
-			$(srcdir) \
-			$(srcdir)/model \
-			$(srcdir)/model/descriptors \
-			$(JARDEPPKG))" \
-			$(PKG).ChartaCaeli $< >$@
-
-.ps.pdf:
-	@time $${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
-
-.java.class:
-	javac \
-			-classpath "$(subst $(space),$(sep), \
-			$(srcdir) \
-			$(srcdir)/model \
-			$(srcdir)/model/descriptors \
-			$(JARDEPPKG))" \
-			-d . $^
-
-.class.map:
-	java $(JVMX_OPTS) \
-		-classpath "$(subst $(space),$(sep), \
-		$(JARDEPEXT))" \
-		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
-
-$(srcdir)/model: $(MOD)
-	@echo -n "Building model... "
+# default goal
+$(moddir): $(MOD) $(JARDEPMOD) $(JARDEPEXT)
+	@echo -n "Remove model... "
+	@rm -rf $@
+	@echo "done!"
+	@echo -n "Generate new... "
 	@java $(JVMX_OPTS) \
 		-classpath "$(subst $(space),$(sep), \
-		$(JARDEPBLD) \
+		$(JARDEPMOD) \
 		$(JARDEPEXT))" \
 		org.exolab.castor.builder.SourceGeneratorMain -i $< \
-		-binding-file ./binding.xml \
-	@touch $@
+		-binding-file ./binding.xml
 	@echo "done!"
+	@echo MODSRC = \\ >Makefile.d
+	@find $@ -name '*.java' -print | sed -e 's,$$, \\,' >>Makefile.d
+
+-include Makefile.d
 
 $(UCBDEF):
 	wget -q -O $@ $(UCBURL)
@@ -110,26 +172,55 @@ $(UCBDEF):
 $(UCBSRC): $(UCBDEF) $(UCBCMD)
 	$${SHELL:-sh} $(UCBCMD) $(UCBDEF) >$@
 
-$(libdir)/caa.jar: $(caadir)/caa.jar $(caadir)/$(natlibcaa) $(caadir)/$(natlibaap)
-	install $^ $(libdir)
+classes: $(UCBSRC)
+	javac \
+			-classpath "$(subst $(space),$(sep), \
+			$(pkgdir) \
+			$(moddir) \
+			$(moddir)/descriptors \
+			$(JARDEPPKG))" \
+			-d . $(UCBSRC) $(MODSRC) $(PKGSRC)
+
+all: classes
+
+.xml.ps:
+	@time java $(JVMX_OPTS) \
+			-D$(PKG).app=$(APP) \
+			-Djava.library.path=$(caadir) \
+			-classpath "$(subst $(space),$(sep), \
+			$(pkgdir) \
+			$(moddir) \
+			$(moddir)/descriptors \
+			$(JARDEPPKG))" \
+			$(PKG).ChartaCaeli $< >$@
+
+.ps.pdf:
+	@time $${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
+
+.class.map:
+	java $(JVMX_OPTS) \
+		-classpath "$(subst $(space),$(sep), \
+		$(JARDEPEXT))" \
+		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
 
 # compiler objects
 clean:
-	rm -f $(srcdir)/*.class $(srcdir)/model/*.class $(srcdir)/model/descriptors/*.class
+	find $(pkgdir) -name '*.class' -exec rm -f {} \;
 
 # model clean
-mclean: clean
-	rm -rf $(srcdir)/model
+mclean:
+	rm -rf $(moddir)
+	rm -f Makefile.d
 
 # local clean
-lclean: mclean
+lclean: clean mclean
 	rm -f $(UCBSRC)
-	rm -f $(libdir)/caa.jar $(libdir)/$(natlibcaa) $(libdir)/$(natlibaap)
 
 # real clean
 rclean: lclean
 	rm -f $(UCBDEF)
-	rm -f $(JARDEPBLD) $(JARDEPEXT) $(JARDEPTMP)
+	rm -f $(JARDEPMOD) $(JARDEPEXT)
+	rm -f runcc-0.7.zip jts-1.14.zip
 
 tidy: rclean
 
@@ -144,14 +235,14 @@ $(libdir)/castor-core-1.3.3.jar:
 $(libdir)/castor-xml-1.3.3.jar:
 	wget -q -O $@ http://central.maven.org/maven2/org/codehaus/castor/castor-xml/1.3.3/castor-xml-1.3.3.jar
 jts-1.14.zip:
-	wget -q http://sourceforge.net/projects/jts-topo-suite/files/latest/jts-1.14.zip
+	wget -q https://sourceforge.net/projects/jts-topo-suite/files/jts/1.14/jts-1.14.zip
 $(libdir)/jts-1.14.jar $(libdir)/jtsio-1.14.jar: jts-1.14.zip
-	unzip -uo $^ $@
+	unzip -uo $< $@
 	touch $@
 runcc-0.7.zip:	
 	wget -q http://sourceforge.net/projects/runcc/files/latest/runcc-0.7.zip
 $(libdir)/runcc.jar: runcc-0.7.zip
-	unzip -juo $^ runcc-0.7/$(@F) -d $(libdir)
+	unzip -juo $< runcc-0.7/$(@F) -d $(libdir)
 	touch $@
 $(libdir)/commons-lang-2.6.jar:
 	wget -q -O $@ http://central.maven.org/maven2/commons-lang/commons-lang/2.6/commons-lang-2.6.jar
