@@ -83,8 +83,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	// mapping image of texture projection
 	private int[] mapping ;
 
-	// constant for cartesian origin
-	private Vector3D vO = new Vector3D( 0, 0, 0 ) ;
 	// spatial plane of texture in heaven's coordinate system
 	private Plane spT ;
 
@@ -108,31 +106,40 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperSeq extends Task {
 
+		private chartacaeli.Coordinate eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
+		private Coordinate uv = new Coordinate() ;
+
+		private double[] st = new double[] { 0, 0, 1 } ;
+		private double[] ca = new double[] { 0, 0, 0, 1 } ;
+
 		public PJ2TextureMapperSeq() {
 		}
 
 		public void main( String[] argv ) throws Exception {
-			chartacaeli.Coordinate eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
 			double s, t, t0[], op[] ;
-			Coordinate uv, ca ;
-			Vector3D V, X ;
+			Coordinate t1 ;
+			Vector3D vca, xca ;
 
 			for ( int y=0 ; dimt>y ; y++ ) {
-				t = y*ups ;
+				st[1] = y*ups ;
 
 				for ( int x=0 ; dims>x ; x++ ) {
-					s = x*ups ;
+					st[0] = x*ups ;
 
-					t0 = tmM2P.operate( new double[] { s, t, 1 } ) ;
-					uv = new Coordinate( t0[0], t0[1] ) ;
+					t0 = tmM2P.operate( st ) ;
+					uv.x = t0[0] ;
+					uv.y = t0[1] ;
 
 					eq.setCoordinate( projector.project( uv, true ) ) ;
-					ca = eq.cartesian() ;
+					t1 = eq.cartesian() ;
 
-					V = new Vector3D( ca.x, ca.y, ca.z ) ;
-					X = spT.intersection( new Line( vO, V, 1.0e-10 ) ) ;
+					vca = new Vector3D( t1.x, t1.y, t1.z ) ;
+					xca = spT.intersection( new Line( Vector3D.ZERO, vca, 1.0e-10 ) ) ;
+					ca[0] = xca.getX() ;
+					ca[1] = xca.getY() ;
+					ca[2] = xca.getZ() ;
 
-					op = tmH2T.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
+					op = tmH2T.operate( ca ) ;
 
 					if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
 						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
@@ -149,34 +156,52 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 		public void main( String[] argv ) throws Exception {
 			parallelFor( 0, dims*dimt-1 ).exec( new Loop() {
+
+				private chartacaeli.Coordinate eq ;
+				private Coordinate uv ;
+
+				private double[] st ;
+				private double[] ca ;
+
+				public void start() {
+					eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
+					uv = new Coordinate() ;
+
+					st = new double[] { 0, 0, 1 } ;
+					ca = new double[] { 0, 0, 0, 1 } ;
+				}
+
 				public void run ( int i ) {
-					chartacaeli.Coordinate eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
-					double s, t, t0[], op[] ;
-					Coordinate uv, ca ;
-					Vector3D V, X ;
+					double t0[], op[] ;
+					Coordinate t1 ;
+					Vector3D vca, xca ;
 					int x, y ;
 
 					x = i%dims ;
 					y = i%dimt ;
 
-					s = x*ups ;
-					t = y*ups ;
+					st[0] = x*ups ;
+					st[1] = y*ups ;
 
-					t0 = tmM2P.operate( new double[] { s, t, 1 } ) ;
-					uv = new Coordinate( t0[0], t0[1] ) ;
+					t0 = tmM2P.operate( st ) ;
+					uv.x = t0[0] ;
+					uv.y = t0[1] ;
 
 					eq.setCoordinate( projector.project( uv, true ) ) ;
-					ca = eq.cartesian() ;
+					t1 = eq.cartesian() ;
 
-					V = new Vector3D( ca.x, ca.y, ca.z ) ;
-					X = spT.intersection( new Line( vO, V, 1.0e-10 ) ) ;
+					vca = new Vector3D( t1.x, t1.y, t1.z ) ;
+					xca = spT.intersection( new Line( Vector3D.ZERO, vca, 1.0e-10 ) ) ;
+					ca[0] = xca.getX() ;
+					ca[1] = xca.getY() ;
+					ca[2] = xca.getZ() ;
 
-					op = tmH2T.operate( new double[] { X.getX(), X.getY(), X.getZ(), 1 } ) ;
+					op = tmH2T.operate( ca ) ;
 
 					if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
 						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
 				}
-			} );
+			} ) ;
 		}
 	}
 
