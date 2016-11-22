@@ -19,9 +19,9 @@ import org.exolab.castor.xml.ValidationException;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
-import caa.CAAPrecession;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAAPrecession;
 
 @SuppressWarnings("serial")
 public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements PostscriptEmitter {

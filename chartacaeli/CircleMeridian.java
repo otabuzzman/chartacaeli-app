@@ -7,8 +7,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;

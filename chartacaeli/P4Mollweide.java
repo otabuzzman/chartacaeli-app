@@ -18,7 +18,7 @@ public class P4Mollweide implements P4Projector {
 		init( 0, 0, 1, 1 ) ;
 	}
 
-	public void init(double lam0, double phi1, double R, double k0) {
+	public void init( double lam0, double phi1, double R, double k0 ) {
 		this.lam0 = lam0 ;
 		this.R = R ;
 	}

@@ -23,7 +23,7 @@ import org.exolab.castor.xml.ValidationException;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAACoordinateTransformation;
 
 @SuppressWarnings("serial")
 public class CatalogADC7237 extends chartacaeli.model.CatalogADC7237 implements PostscriptEmitter {

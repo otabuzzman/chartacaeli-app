@@ -1,7 +1,7 @@
 
 package chartacaeli;
 
-import caa.CAAEquationOfTime;
+import chartacaeli.caa.CAAEquationOfTime;
 
 @SuppressWarnings("serial")
 public class DialDay extends DialDeg {

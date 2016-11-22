@@ -3,9 +3,9 @@ package chartacaeli;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation ;
-import caa.CAASidereal;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation ;
+import chartacaeli.caa.CAASidereal;
 
 @SuppressWarnings("serial")
 public class HorizonLocal extends HorizonType {

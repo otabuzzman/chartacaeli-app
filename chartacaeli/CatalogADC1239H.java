@@ -21,9 +21,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.ValidationException;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
-import caa.CAAPrecession;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAAPrecession;
 
 @SuppressWarnings("serial")
 public class CatalogADC1239H extends chartacaeli.model.CatalogADC1239H implements PostscriptEmitter {

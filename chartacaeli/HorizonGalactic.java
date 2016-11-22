@@ -3,8 +3,8 @@ package chartacaeli;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
 
 @SuppressWarnings("serial")
 public class HorizonGalactic extends HorizonType {

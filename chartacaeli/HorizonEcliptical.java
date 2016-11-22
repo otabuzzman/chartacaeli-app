@@ -3,9 +3,9 @@ package chartacaeli;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
-import caa.CAANutation;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAANutation;
 
 @SuppressWarnings("serial")
 public class HorizonEcliptical extends HorizonType {

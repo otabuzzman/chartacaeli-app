@@ -5,133 +5,43 @@ else
 endif
 
 APP		= chartacaeli
+PKG		= chartacaeli
+
 MOD		= $(APP).xsd
 
-PKG		= $(APP)
+CLSEXC	= $(shell find $(pkgdir) -name '*Test.java' -print)
 
 # Java VM non-standard options
 JVMX_OPTS = \
 		-Xcheck:jni \
-		-Xmx1536m
+		-Xmx1536m \
 
-topdir	= .
 pkgdir	= $(subst .,/,$(PKG))
 moddir	= $(pkgdir)/model
 libdir	= lib
-caadir	= caa
 
-JARDEPMOD = castor-codegen-1.3.3.jar \
-			castor-xml-schema-1.3.3.jar
-JARDEPEXT = $(libdir)/castor-core-1.3.3.jar \
-			$(libdir)/castor-xml-1.3.3.jar \
-			$(libdir)/jts-1.14.jar \
-			$(libdir)/jtsio-1.14.jar \
-			$(libdir)/runcc.jar \
-			$(libdir)/commons-lang-2.6.jar \
-			$(libdir)/commons-math3-3.5.jar \
-			$(libdir)/commons-logging-1.2.jar
-JARDEPPKG = $(caadir)/caa.jar \
-			$(JARDEPEXT) \
-			$(PJ2_GENERAL_PATHJAR)
+jnilib	= \
+		$(pkgdir)/caa \
+		$(pkgdir)/gpu \
 
-UCBSRC = $(pkgdir)/UnicodeBlock.java
+JARMOD = \
+		castor-codegen-1.3.3.jar \
+		castor-xml-schema-1.3.3.jar \
+
+JAREXT = \
+		$(libdir)/castor-core-1.3.3.jar \
+		$(libdir)/castor-xml-1.3.3.jar \
+		$(libdir)/jts-1.14.jar \
+		$(libdir)/jtsio-1.14.jar \
+		$(libdir)/runcc.jar \
+		$(libdir)/commons-lang-2.6.jar \
+		$(libdir)/commons-math3-3.5.jar \
+		$(libdir)/commons-logging-1.2.jar \
+
+CLSUCB = $(pkgdir)/UnicodeBlock.java
 UCBCMD = prepUnicodeBlock.sh
 UCBDEF = Blocks-4.1.0.txt
 UCBURL = ftp://unicode.org/Public/4.1.0/ucd/Blocks.txt
-
-# hand-crafted Java classes
-PKGSRC = \
-$(pkgdir)/AnnotationCurved.java \
-$(pkgdir)/AnnotationStraight.java \
-$(pkgdir)/ApplicationPostscriptStream.java \
-$(pkgdir)/ApplicationResource.java \
-$(pkgdir)/Artwork.java \
-$(pkgdir)/ASCII85OutputStream.java \
-$(pkgdir)/ASCII85StringBuilder.java \
-$(pkgdir)/AuxiliaryEmitter.java \
-$(pkgdir)/Baseline.java \
-$(pkgdir)/BodyAreal.java \
-$(pkgdir)/BodyElliptical.java \
-$(pkgdir)/BodyMoon.java \
-$(pkgdir)/BodyOrbitalType.java \
-$(pkgdir)/BodyParabolical.java \
-$(pkgdir)/BodyPlanet.java \
-$(pkgdir)/BodyStellar.java \
-$(pkgdir)/BodySun.java \
-$(pkgdir)/CAADate.java \
-$(pkgdir)/CastorJREEvaluator.java \
-$(pkgdir)/CatalogADC1239H.java \
-$(pkgdir)/CatalogADC1239HRecord.java \
-$(pkgdir)/CatalogADC1239T.java \
-$(pkgdir)/CatalogADC1239TRecord.java \
-$(pkgdir)/CatalogADC5050.java \
-$(pkgdir)/CatalogADC5050Record.java \
-$(pkgdir)/CatalogADC5109.java \
-$(pkgdir)/CatalogADC5109Record.java \
-$(pkgdir)/CatalogADC6049.java \
-$(pkgdir)/CatalogADC6049Record.java \
-$(pkgdir)/CatalogADC7118.java \
-$(pkgdir)/CatalogADC7118Record.java \
-$(pkgdir)/CatalogADC7237.java \
-$(pkgdir)/CatalogADC7237Record.java \
-$(pkgdir)/CatalogDS9.java \
-$(pkgdir)/CatalogDS9Record.java \
-$(pkgdir)/CatalogRecord.java \
-$(pkgdir)/ChartaCaeli.java \
-$(pkgdir)/ChartAzimuthal.java \
-$(pkgdir)/ChartPage.java \
-$(pkgdir)/ChartPseudoCylindrical.java \
-$(pkgdir)/ChartType.java \
-$(pkgdir)/CircleMeridian.java \
-$(pkgdir)/CircleNorthernPolar.java \
-$(pkgdir)/CircleNorthernTropic.java \
-$(pkgdir)/CircleParallel.java \
-$(pkgdir)/CircleSouthernPolar.java \
-$(pkgdir)/CircleSouthernTropic.java \
-$(pkgdir)/Configuration.java \
-$(pkgdir)/Converter.java \
-$(pkgdir)/Coordinate.java \
-$(pkgdir)/DialDay.java \
-$(pkgdir)/DialDeg.java \
-$(pkgdir)/DMS.java \
-$(pkgdir)/Epoch.java \
-$(pkgdir)/FieldOfView.java \
-$(pkgdir)/HorizonEcliptical.java \
-$(pkgdir)/HorizonEquatorial.java \
-$(pkgdir)/HorizonGalactic.java \
-$(pkgdir)/HorizonLocal.java \
-$(pkgdir)/HorizonType.java \
-$(pkgdir)/ImageDiscrete.java \
-$(pkgdir)/ImageOperator.java \
-$(pkgdir)/LinearScale.java \
-$(pkgdir)/Math.java \
-$(pkgdir)/MessageCatalog.java \
-$(pkgdir)/P4Mollweide.java \
-$(pkgdir)/P4Orthographic.java \
-$(pkgdir)/P4Projector.java \
-$(pkgdir)/P4Stereographic.java \
-$(pkgdir)/ParameterNotValidError.java \
-$(pkgdir)/ParameterNotValidException.java \
-$(pkgdir)/ParserAttribute.java \
-$(pkgdir)/ParserSubstitute.java \
-$(pkgdir)/Peer.java \
-$(pkgdir)/PolygonPlane.java \
-$(pkgdir)/PolygonSphere.java \
-$(pkgdir)/PostscriptEmitter.java \
-$(pkgdir)/PostscriptStream.java \
-$(pkgdir)/Projector.java \
-$(pkgdir)/RandomDataset.java \
-$(pkgdir)/Rational.java \
-$(pkgdir)/Registry.java \
-$(pkgdir)/Scaleline.java \
-$(pkgdir)/ShapeElliptical.java \
-$(pkgdir)/Sign.java \
-$(pkgdir)/SubstituteCatalog.java \
-$(pkgdir)/TeeOutputStream.java \
-$(pkgdir)/UnicodePostscriptStream.java \
-$(pkgdir)/Vector.java \
-$(pkgdir)/Wheel360Scale.java \
-$(pkgdir)/WheelScale.java \
 
 .PHONY: all classes clean mclean lclean rclean tidy
 .SUFFIXES: .xml .ps .pdf .java .class .map
@@ -149,49 +59,43 @@ sep := :
 endif
 
 # default goal
-$(moddir): $(MOD) $(JARDEPMOD) $(JARDEPEXT)
-	@echo -n "Remove model... "
-	@rm -rf $@
-	@echo "done!"
-	@echo -n "Generate new... "
+$(moddir): $(MOD) | $(JARMOD) $(JAREXT)
+	@echo -n "Generate model classes... "
 	@java $(JVMX_OPTS) \
 		-classpath "$(subst $(space),$(sep), \
-		$(JARDEPMOD) \
-		$(JARDEPEXT))" \
+		$(JARMOD) \
+		$(JAREXT))" \
 		org.exolab.castor.builder.SourceGeneratorMain -i $< \
 		-binding-file ./binding.xml
 	@echo "done!"
-	@echo MODSRC = \\ >Makefile.d
-	@find $@ -name '*.java' -print | sed -e 's,$$, \\,' >>Makefile.d
 
--include Makefile.d
+CLSAPP = $(shell find $(pkgdir) -name '*.java' -print)
+CLSAPP := $(filter-out $(CLSEXC),$(CLSAPP))
 
 $(UCBDEF):
 	wget -q -O $@ $(UCBURL)
 
-$(UCBSRC): $(UCBDEF) $(UCBCMD)
+$(CLSUCB): $(UCBDEF) $(UCBCMD)
 	$${SHELL:-sh} $(UCBCMD) $(UCBDEF) >$@
 
-classes: $(UCBSRC)
+classes: $(CLSUCB)
 	javac \
 			-classpath "$(subst $(space),$(sep), \
 			$(pkgdir) \
-			$(moddir) \
-			$(moddir)/descriptors \
-			$(JARDEPPKG))" \
-			-d . $(UCBSRC) $(MODSRC) $(PKGSRC)
+			$(PJ2_GENERAL_PATHJAR) \
+			$(JAREXT))" \
+			-d . $^ $(CLSAPP)
 
 all: classes
 
 .xml.ps:
 	@time java $(JVMX_OPTS) \
 			-D$(PKG).app=$(APP) \
-			-Djava.library.path=$(caadir) \
+			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
 			-classpath "$(subst $(space),$(sep), \
 			$(pkgdir) \
-			$(moddir) \
-			$(moddir)/descriptors \
-			$(JARDEPPKG))" \
+			$(PJ2_GENERAL_PATHJAR) \
+			$(JAREXT))" \
 			$(PKG).ChartaCaeli $< >$@
 
 .ps.pdf:
@@ -200,26 +104,25 @@ all: classes
 .class.map:
 	java $(JVMX_OPTS) \
 		-classpath "$(subst $(space),$(sep), \
-		$(JARDEPEXT))" \
+		$(JAREXT))" \
 		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
 
 # compiler objects
 clean:
-	find $(pkgdir) -name '*.class' -exec rm -f {} \;
+	rm -f $(addsuffix *.class,$(basename $(CLSAPP)))
 
 # model clean
 mclean:
 	rm -rf $(moddir)
-	rm -f Makefile.d
 
 # local clean
 lclean: clean mclean
-	rm -f $(UCBSRC)
+	rm -f $(CLSUCB)
 
 # real clean
 rclean: lclean
 	rm -f $(UCBDEF)
-	rm -f $(JARDEPMOD) $(JARDEPEXT)
+	rm -f $(JARMOD) $(JAREXT)
 	rm -f runcc-0.7.zip jts-1.14.zip
 
 tidy: rclean

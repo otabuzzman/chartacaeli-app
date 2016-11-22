@@ -8,10 +8,9 @@
 *.gz
 Blocks-4.1.0.txt
 # artefacts
-Makefile.d
-caa/
-!caa/Makefile
-!caa/README.md
+chartacaeli/caa/
+!chartacaeli/caa/Makefile
+!chartacaeli/caa/README.md
 chartacaeli/UnicodeBlock.java
 chartacaeli/model/
 gpu/*.cxx

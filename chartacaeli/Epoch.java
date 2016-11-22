@@ -3,7 +3,7 @@ package chartacaeli;
 
 import java.util.Calendar;
 
-import caa.CAADate;
+import chartacaeli.caa.CAADate;
 
 @SuppressWarnings("serial")
 public class Epoch extends chartacaeli.model.Epoch {

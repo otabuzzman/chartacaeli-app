@@ -1,7 +1,7 @@
 
 package chartacaeli;
 
-public class CAADate extends caa.CAADate {
+public class CAADate extends chartacaeli.caa.CAADate {
 
 	// qualifier key (QK_)
 	private final static String QK_NUMBEROFYYYY			= "YYYY" ;

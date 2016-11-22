@@ -1,7 +1,7 @@
 
 package chartacaeli;
 
-import caa.CAANutation;
+import chartacaeli.caa.CAANutation;
 
 @SuppressWarnings("serial")
 public class CircleSouthernPolar extends CircleParallel {

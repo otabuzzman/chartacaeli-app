@@ -6,10 +6,10 @@ import java.lang.reflect.Method;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
-import caa.CAANutation;
-import caa.CAASun;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAANutation;
+import chartacaeli.caa.CAASun;
 
 @SuppressWarnings("serial")
 public class BodySun extends BodyOrbitalType {

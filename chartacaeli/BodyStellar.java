@@ -5,7 +5,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
-import caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAACoordinateTransformation;
 
 @SuppressWarnings("serial")
 public class BodyStellar extends chartacaeli.model.BodyStellar implements PostscriptEmitter {

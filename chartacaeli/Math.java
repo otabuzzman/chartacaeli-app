@@ -1,7 +1,7 @@
 
 package chartacaeli;
 
-import caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAACoordinateTransformation;
 
 public final class Math {
 

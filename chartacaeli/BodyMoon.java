@@ -3,10 +3,10 @@ package chartacaeli;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
-import caa.CAAMoon;
-import caa.CAANutation;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAAMoon;
+import chartacaeli.caa.CAANutation;
 
 @SuppressWarnings("serial")
 public class BodyMoon extends BodyOrbitalType {

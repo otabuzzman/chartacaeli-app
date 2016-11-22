@@ -12,8 +12,8 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
 
 @SuppressWarnings("serial")
 public class CircleParallel extends chartacaeli.model.CircleParallel implements PostscriptEmitter, Baseline, Converter {

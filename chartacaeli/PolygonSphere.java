@@ -3,7 +3,7 @@ package chartacaeli;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAACoordinateTransformation;
 
 public class PolygonSphere {
 

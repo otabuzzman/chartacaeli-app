@@ -6,9 +6,9 @@ import java.lang.reflect.Method;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAA2DCoordinate;
-import caa.CAACoordinateTransformation;
-import caa.CAANutation;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAANutation;
 
 @SuppressWarnings("serial")
 public class BodyPlanet extends BodyOrbitalType {
@@ -45,7 +45,7 @@ public class BodyPlanet extends BodyOrbitalType {
 			stretch = 0 ;
 
 		try {
-			c = Class.forName( "caa.CAA"+peer.getType().substring( 0, 1 ).toUpperCase()+peer.getType().substring( 1 ) ) ;
+			c = Class.forName( "chartacaeli.caa.CAA"+peer.getType().substring( 0, 1 ).toUpperCase()+peer.getType().substring( 1 ) ) ;
 
 			eclipticLongitude = c.getMethod( "EclipticLongitude", new Class[] { double.class } ) ;
 			eclipticLatitude = c.getMethod( "EclipticLatitude", new Class[] { double.class } ) ;

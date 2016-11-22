@@ -1,8 +1,8 @@
 
 package chartacaeli;
 
-import caa.CAA2DCoordinate;
-import caa.CAA3DCoordinate;
+import chartacaeli.caa.CAA2DCoordinate;
+import chartacaeli.caa.CAA3DCoordinate;
 
 @SuppressWarnings("serial")
 public class Coordinate extends com.vividsolutions.jts.geom.Coordinate {

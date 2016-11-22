@@ -19,8 +19,8 @@ import org.exolab.castor.xml.XMLFieldDescriptor;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-import caa.CAACoordinateTransformation;
-import caa.CAADate;
+import chartacaeli.caa.CAACoordinateTransformation;
+import chartacaeli.caa.CAADate;
 
 import chartacaeli.model.AngleType;
 import chartacaeli.model.CalendarType;
