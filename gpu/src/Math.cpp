@@ -10,5 +10,5 @@ double Math::cos( double a ) {
 }
 
 double Math::asin( double a ) {
-	return std::asin( CAACoordinateTransformation::DegreesToRadians( a ) ) ;
+	return CAACoordinateTransformation::RadiansToDegrees( std::asin( a ) ) ;
 }

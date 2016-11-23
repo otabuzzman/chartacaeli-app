@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "P4Mollweide.h"
+#include "Coordinate.h"
 #include "Math.h"
 using namespace std;
 
@@ -15,12 +16,12 @@ void P4Mollweide::init( double lam0, double phi1, double R, double k0 ) {
 	this->R = R ;
 }
 
-double *P4Mollweide::forward( double lamphi[3] ) {
-	double *xy = new double[3] ;
-	double tht2 = lamphi[1], dtht2 = 0, sintht2, costht2 ;
+Coordinate P4Mollweide::forward( Coordinate lamphi ) {
+	Coordinate xy ;
+	double tht2 = lamphi.y, dtht2 = 0, sintht2, costht2 ;
 	double sinphi, tht, sintht, costht ;
 
-	sinphi = Math::sin( lamphi[1] ) ;
+	sinphi = Math::sin( lamphi.y ) ;
 
 	do {
 		tht2 = tht2+dtht2 ;
@@ -35,27 +36,42 @@ double *P4Mollweide::forward( double lamphi[3] ) {
 	sintht = Math::sin( tht ) ;
 	costht = Math::cos( tht ) ;
 
-	xy[0] = ( std::pow( 8, .5 )/Math::PI )*R*( lamphi[0]-lam0 )*costht*radperdeg ;
-	xy[1] = std::pow( 2, .5 )*R*sintht ;
+	xy.x = ( std::pow( 8, .5 )/Math::PI )*R*( lamphi.x-lam0 )*costht*radperdeg ;
+	xy.y = std::pow( 2, .5 )*R*sintht ;
 
 	return xy ;
 }
 
-double *P4Mollweide::inverse( double xy[3] ) {
-	double *lamphi = new double[3] ;
+Coordinate P4Mollweide::inverse( Coordinate xy ) {
+	Coordinate lamphi ;
 	double tht, sin2tht, costht ;
 
-	tht = Math::asin( xy[1]/( std::pow( 2, .5 )*R ) ) ;
+	tht = Math::asin( xy.y/( std::pow( 2, .5 )*R ) ) ;
 
 	sin2tht = Math::sin( 2*tht ) ;
-	lamphi[1] = Math::asin( ( 2*tht*radperdeg+sin2tht )/Math::PI ) ;
+	lamphi.y = Math::asin( ( 2*tht*radperdeg+sin2tht )/Math::PI ) ;
 
-	if ( std::abs( lamphi[1] ) == 90 )
-		lamphi[0] = lam0 ;
+	if ( std::abs( lamphi.y ) == 90 )
+		lamphi.x = lam0 ;
 	else {
 		costht = Math::cos( tht ) ;
-		lamphi[0] = lam0+( Math::PI*xy[0]/( std::pow( 8, .5 )*R*costht ) )*degperrad ;
+		lamphi.x = lam0+( Math::PI*xy.x/( std::pow( 8, .5 )*R*costht ) )*degperrad ;
 	}
 
 	return lamphi ;
+}
+
+// CXXWRAP/ JUnit
+void P4Mollweide::forward( /* arg(s) */ double lamphi[3], /* return */ double xy[3] ) {
+	Coordinate t0( lamphi[0], lamphi[1], lamphi[2] ) ;
+	Coordinate t1 = forward( t0 ) ;
+	xy[0] = t1.x ;
+	xy[1] = t1.y ;
+}
+
+void P4Mollweide::inverse( /* arg(s) */ double xy[3], /* return */ double lamphi[3] ) {
+	Coordinate t0( xy[0], xy[1], xy[2] ) ;
+	Coordinate t1 = inverse( t0 ) ;
+	lamphi[0] = t1.x ;
+	lamphi[1] = t1.y ;
 }

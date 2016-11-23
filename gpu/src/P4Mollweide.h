@@ -1,14 +1,19 @@
 #ifndef __P4MOLLWEIDE_H__
 #define __P4MOLLWEIDE_H__
 
+#include "Coordinate.h"
+
 class P4Mollweide {
 
 public:
 	P4Mollweide() ;
 	
 	void init( double lam0, double phi1, double R, double k0 ) ;
-	double *forward( double lamphi[3] ) ;
-	double *inverse( double xy[3] ) ;
+	Coordinate forward( Coordinate lamphi ) ;
+	Coordinate inverse( Coordinate xy ) ;
+	// CXXWRAP/ JUnit
+	void forward( /* arg(s) */ double lamphi[3], /* return */ double xy[3] ) ;
+	void inverse( /* arg(s) */ double xy[3], /* return */ double lamphi[3] ) ;
 
 private:
 	double lam0 ;
