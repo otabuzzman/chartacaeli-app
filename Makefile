@@ -22,7 +22,7 @@ libdir	= lib
 
 jnilib	= \
 		$(pkgdir)/caa \
-		$(pkgdir)/gpu \
+#		$(pkgdir)/gpu \
 
 JARMOD = \
 		castor-codegen-1.3.3.jar \

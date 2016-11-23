@@ -1,5 +1,5 @@
 
-package gpu.tst;
+package chartacaeli.gpu.tst;
 
 import java.util.Locale;
 import java.util.Random;

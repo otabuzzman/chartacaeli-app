@@ -27,7 +27,7 @@
 	-129.32911838 66.23282586
 	```
 
-- Forward projection of *lamphi* dataset from above with 12 decimals using command `java -classpath "chartacaeli;lib/jts-1.14.jar;" chartacaeli.gpu.tst.P4MollweideTest 12 forward`:
+- Forward projection of *lamphi* dataset from above with 12 decimals using command `PATH=chartacaeli/gpu:$PATH java -classpath "chartacaeli;lib/jts-1.14.jar;" chartacaeli.gpu.tst.P4MollweideTest 12 forward`:
 	```
 	0.000000000000 0.000000000000
 	0.000035326531 1.414213562346

@@ -48,7 +48,7 @@ vpath %.cpp $(srcdir)
 ifdef winos
 .cpp.o:
 	$(CXX) -Wall -shared \
-	-I../chartacaeli/caa/src \
+	-I../caa/src \
 	-c $< -o $@
 
 .cxx.o:
@@ -65,7 +65,7 @@ $(GPUDLL): $(C3POBJ) $(TSTOBJ)
 else
 .cpp.o:
 	$(CXX) -Wall -shared -fPIC \
-	-I../chartacaeli/caa/src \
+	-I../caa/src \
 	-c $< -o $@
 
 .cxx.o:

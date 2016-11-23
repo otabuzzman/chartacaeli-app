@@ -1,5 +1,5 @@
 
-package gpu.tst;
+package chartacaeli.gpu.tst;
 
 import static org.junit.Assert.*;
 
@@ -53,44 +53,39 @@ public class P4MollweideTest {
 
 	@Test
 	public void testForward() {
-		P4Mollweide p4j = new P4Mollweide() ;
+		chartacaeli.P4Mollweide p4j = new chartacaeli.P4Mollweide() ;
 		Coordinate lamphi = new Coordinate(), xyC ;
-		gpu.P4Mollweide p4c = new gpu.P4Mollweide() ;
+		P4Mollweide p4c = new P4Mollweide() ;
 		double[] xyA = new double[3] ;
 
 		for ( int i=0 ; dataset_f.length>i ; i++ ) {
 			lamphi.x = dataset_f[i][0] ;
 			lamphi.y = dataset_f[i][1] ;
 
-			xyC = p4j.forward( lamphi ) ;
-			assertEquals( dataset_i[i][0], xyC.x, .000001 ) ;
-			assertEquals( dataset_i[i][1], xyC.y, .000001 ) ;
-
+			// check C3P classes
 			p4c.forward( new double[] { lamphi.x, lamphi.y, 0 }, xyA ) ;
 			assertEquals( dataset_i[i][0], xyA[0], .000001 ) ;
 			assertEquals( dataset_i[i][1], xyA[1], .000001 ) ;
+
+			// check Java classes
+			xyC = p4j.forward( lamphi ) ;
+			assertEquals( dataset_i[i][0], xyC.x, .000001 ) ;
+			assertEquals( dataset_i[i][1], xyC.y, .000001 ) ;
 		}
 	}
 
 	@Test
 	public void testInverse() {
-		P4Mollweide p4j = new P4Mollweide() ;
+		chartacaeli.P4Mollweide p4j = new chartacaeli.P4Mollweide() ;
 		Coordinate xy = new Coordinate(), lamphiC ;
-		gpu.P4Mollweide p4c = new gpu.P4Mollweide() ;
+		P4Mollweide p4c = new P4Mollweide() ;
 		double[] lamphiA = new double[3] ;
 
 		for ( int i=0 ; dataset_i.length>i ; i++ ) {
 			xy.x = dataset_i[i][0] ;
 			xy.y = dataset_i[i][1] ;
 
-			lamphiC = p4j.inverse( xy ) ;
-			assertEquals(
-					CAACoordinateTransformation.MapTo0To360Range( dataset_f[i][0] ),
-					CAACoordinateTransformation.MapTo0To360Range( lamphiC.x ), .000001 ) ;
-			assertEquals(
-					CAACoordinateTransformation.MapToMinus90To90Range( dataset_f[i][1] ),
-					CAACoordinateTransformation.MapToMinus90To90Range( lamphiC.y ), .000001 ) ;
-
+			// check C3P classes
 			p4c.inverse( new double[] { xy.x, xy.y, 0 }, lamphiA ) ;
 			assertEquals(
 					CAACoordinateTransformation.MapTo0To360Range( dataset_f[i][0] ),
@@ -98,12 +93,21 @@ public class P4MollweideTest {
 			assertEquals(
 					CAACoordinateTransformation.MapToMinus90To90Range( dataset_f[i][1] ),
 					CAACoordinateTransformation.MapToMinus90To90Range( lamphiA[1] ), .000001 ) ;
+
+			// check Java classes
+			lamphiC = p4j.inverse( xy ) ;
+			assertEquals(
+					CAACoordinateTransformation.MapTo0To360Range( dataset_f[i][0] ),
+					CAACoordinateTransformation.MapTo0To360Range( lamphiC.x ), .000001 ) ;
+			assertEquals(
+					CAACoordinateTransformation.MapToMinus90To90Range( dataset_f[i][1] ),
+					CAACoordinateTransformation.MapToMinus90To90Range( lamphiC.y ), .000001 ) ;
 		}
 	}
 
 	public static void main( String[] argv ) {
 		BufferedReader in = new BufferedReader( new InputStreamReader(System.in ) ) ;
-		P4Mollweide p4 = new P4Mollweide() ;
+		chartacaeli.P4Mollweide p4 = new chartacaeli.P4Mollweide() ;
 		String format, lr, lv[] ;
 		int prec ;
 		double a, b ;
