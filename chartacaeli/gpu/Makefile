@@ -12,6 +12,7 @@ PKG = chartacaeli.$(JNI)
 topdir = $(subst $(subst .,/,$(PKG)),,$(CURDIR))
 srcdir = src
 tstdir = tst
+pkgdir	= $(subst .,/,$(PKG))
 
 ifdef winos
 GPUDLL = $(JNI).dll
@@ -38,12 +39,34 @@ $(TSTSRC):
 # default goal
 cuda: $(C3POBJ)
 
-test: $(GPUDLL)
+JAREXT = \
+		junit4.jar \
+		hamcrest.jar \
+
+# to run test cases from command line...
+$(notdir $(basename $(wildcard $(tstdir)/*Test.java))):
+	@( cd $(topdir) ; PATH=$(pkgdir):$$PATH ; \
+		java -classpath "$(subst $(space),$(sep), \
+			chartacaeli \
+			lib/jts-1.14.jar \
+			$(addprefix $(pkgdir)/,$(JAREXT)))" \
+			org.junit.runner.JUnitCore $(PKG).tst.$@ )
+
+test: $(GPUDLL) | $(JAREXT) $(notdir $(basename $(wildcard $(tstdir)/*Test.java)))
 
 .PHONY: all cuda test clean tidy
 .SUFFIXES: .cxx .dll .so
 
+empty =
+space = $(empty) $(empty)
+
 vpath %.cpp $(srcdir)
+
+ifdef winos
+sep := ;
+else
+sep := :
+endif
 
 ifdef winos
 .cpp.o:
@@ -82,9 +105,24 @@ endif
 
 all: cuda
 
+# compiler objects
 clean:
 	rm -f $(C3POBJ) $(TSTOBJ)
 
-tidy: clean
+# local clean
+lclean: clean
 	rm -f $(TSTSRC) $(TSTCLS)
 	rm -f $(GPUDLL)
+
+# real clean
+rclean: lclean
+	rm -f $(JAREXT)
+
+tidy: rclean
+
+
+
+junit4.jar:
+	wget -q -O $@ http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar
+hamcrest.jar:
+	wget -q -O $@ http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
