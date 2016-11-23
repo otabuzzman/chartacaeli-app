@@ -22,7 +22,6 @@ libdir	= lib
 
 jnilib	= \
 		$(pkgdir)/caa \
-#		$(pkgdir)/gpu \
 
 JARMOD = \
 		castor-codegen-1.3.3.jar \
@@ -89,6 +88,7 @@ classes: $(CLSUCB)
 all: classes
 
 .xml.ps:
+	# note that caa loads aaplus thus needs PATH set as well as java.library.path
 	@time java $(JVMX_OPTS) \
 			-D$(PKG).app=$(APP) \
 			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \

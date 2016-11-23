@@ -29,6 +29,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
   export PATH=/cygdrive/c/program\ files/java/jdk1.7.0_71/bin:$PATH
+  # Makefile uses java.library.path but caa loads aaplus thus needs PATH set as well
   export PATH=.:chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$PATH
   ```
 - Clone Charta Caeli from GitHub to local computer.
