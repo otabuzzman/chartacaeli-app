@@ -9,7 +9,8 @@ PKG		= chartacaeli
 
 MOD		= $(APP).xsd
 
-CLSEXC	= $(shell find $(pkgdir) -name '*Test.java' -print)
+# JUnit test classes
+CLSTST	= $(shell find $(pkgdir) -name '*Test.java' -print)
 
 # Java VM non-standard options
 JVMX_OPTS = \
@@ -27,6 +28,10 @@ JARMOD = \
 		castor-codegen-1.3.3.jar \
 		castor-xml-schema-1.3.3.jar \
 
+JARTST = \
+		junit4.jar \
+		hamcrest.jar \
+
 JAREXT = \
 		$(libdir)/castor-core-1.3.3.jar \
 		$(libdir)/castor-xml-1.3.3.jar \
@@ -42,7 +47,10 @@ UCBCMD = prepUnicodeBlock.sh
 UCBDEF = Blocks-4.1.0.txt
 UCBURL = ftp://unicode.org/Public/4.1.0/ucd/Blocks.txt
 
-.PHONY: all classes clean mclean lclean rclean tidy
+# classes excluded from build
+CLSEXC	= $(CLSTST)
+
+.PHONY: all classes test clean mclean lclean rclean tidy
 .SUFFIXES: .xml .ps .pdf .java .class .map
 .SECONDARY: $(APP).ps
 
@@ -77,6 +85,15 @@ $(UCBDEF):
 $(CLSUCB): $(UCBDEF) $(UCBCMD)
 	$${SHELL:-sh} $(UCBCMD) $(UCBDEF) >$@
 
+test: | $(JARTST)
+	javac \
+			-classpath "$(subst $(space),$(sep), \
+			$| \
+			$(pkgdir) \
+			$(PJ2_GENERAL_PATHJAR) \
+			$(JAREXT))" \
+			-d . $^ $(CLSTST)
+	
 classes: $(CLSUCB)
 	javac \
 			-classpath "$(subst $(space),$(sep), \
@@ -124,6 +141,7 @@ rclean: lclean
 	rm -f $(UCBDEF)
 	rm -f $(JARMOD) $(JAREXT)
 	rm -f runcc-0.7.zip jts-1.14.zip
+	rm -f $(JARTST)
 
 tidy: rclean
 
@@ -153,3 +171,8 @@ $(libdir)/commons-math3-3.5.jar:
 	wget -q -O $@ http://central.maven.org/maven2/org/apache/commons/commons-math3/3.5/commons-math3-3.5.jar
 $(libdir)/commons-logging-1.2.jar:
 	wget -q -O $@ http://central.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar
+
+junit4.jar:
+	wget -q -O $@ http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar
+hamcrest.jar:
+	wget -q -O $@ http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
