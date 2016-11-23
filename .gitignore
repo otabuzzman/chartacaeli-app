@@ -13,8 +13,6 @@ chartacaeli/caa/
 !chartacaeli/caa/README.md
 chartacaeli/UnicodeBlock.java
 chartacaeli/model/
-gpu/*.cxx
-gpu/*.h
 *.class
 *.dll
 *.exe
