@@ -41,8 +41,6 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ( cd chartacaeli/gpu ; make ; make all )
   make
   make all
-  # build the JUnit tests
-  make test
   ```
 - Read and run the samples:
 
@@ -97,8 +95,6 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ( cd chartacaeli/gpu ; make ; make all )
   make
   make all
-  # build the JUnit tests
-  make test
   ```
 
 - Run samples as described in section on Windows above.
