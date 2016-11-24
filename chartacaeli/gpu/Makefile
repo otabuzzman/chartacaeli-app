@@ -6,7 +6,11 @@ endif
 
 JNI = gpu
 
+# this package
 PKG = chartacaeli.$(JNI)
+
+# sub-package with test classes
+TST = $(PKG).$(tstdir)
 
 # top-level diretory is current minus package (e.g. /foo/bar/hot minus bar.hot yields /foo)
 topdir = $(subst $(subst .,/,$(PKG)),,$(CURDIR))
@@ -24,37 +28,49 @@ endif
 C3PSRC = $(srcdir)/Math.cpp $(srcdir)/Coordinate.cpp $(srcdir)/P4Mollweide.cpp
 C3POBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(C3PSRC))
 
+# JNI stuff for Java testing
+JNICLS = $(patsubst $(srcdir)/%.cpp,$(tstdir)/%.java,$(C3PSRC))
+JNISRC = $(subst .java,_jni.cxx,$(JNICLS))
+JNIOBJ = $(subst .cxx,.o,$(JNISRC))
+
 # Java test classes
-TSTCLS = $(patsubst $(srcdir)/%.cpp,$(tstdir)/%.java,$(C3PSRC))
-TSTSRC = $(subst .java,_jni.cxx,$(TSTCLS))
-TSTOBJ = $(subst .cxx,.o,$(TSTSRC))
+TSTCLS = $(wildcard $(tstdir)/*Test.java)
 
 # default goal
 cuda: $(C3POBJ)
 
-$(TSTSRC):
+$(JNISRC):
 	( cd $(srcdir) ; for h in *.h ; do \
 		$(CXXWRAP) \
 			--jni --jni-attributes \
 			--classpath=$(topdir) \
-			--package-prefix=$(PKG).tst $$h ; done )
+			--package-prefix=$(TST) $$h ; done )
 
 JAREXT = \
 		junit4.jar \
 		hamcrest.jar \
 
-# to run test cases from command line...
-$(notdir $(basename $(wildcard $(tstdir)/*Test.java))):
-	@( cd $(topdir) ; PATH=$(pkgdir):$$PATH ; \
-		java -classpath "$(subst $(space),$(sep), \
-			chartacaeli \
-			lib/jts-1.14.jar \
-			$(addprefix $(pkgdir)/,$(JAREXT)))" \
-			org.junit.runner.JUnitCore $(PKG).tst.$@ )
+# pragma to build test classes from command line...
+testbuild: $(GPUDLL) | $(JAREXT)
+	( cd $(topdir) ; \
+		javac -classpath "$(subst $(space),$(sep), \
+			$| \
+			lib/jts-1.14.jar)" \
+			-d . $(addprefix $(pkgdir)/,$(JNICLS) $(TSTCLS)) )
 
-test: $(GPUDLL) | $(JAREXT) $(notdir $(basename $(wildcard $(tstdir)/*Test.java)))
+# pragma to run test classes from command line...
+testrun: $(TSTCLS)
+	@( cd $(topdir) ; \
+		PATH=$(pkgdir):$$PATH ; \
+		LD_LIBRARY_PATH=$(pkgdir):$$LD_LIBRARY_PATH ; \
+		for t in $(notdir $(basename $(TSTCLS))) ; do \
+			java -classpath "$(subst $(space),$(sep), \
+				chartacaeli \
+				lib/jts-1.14.jar \
+				$(addprefix $(pkgdir)/,$(JAREXT)))" \
+				org.junit.runner.JUnitCore $(TST).$$t ; done )
 
-.PHONY: all cuda test clean lclean rclean tidy
+.PHONY: all cuda testbuild testrun clean lclean rclean tidy
 .SUFFIXES: .cxx .dll .so
 
 empty =
@@ -81,7 +97,7 @@ ifdef winos
 	-I"$(JAVA_HOME)/include/win32" \
 	-c $< -o $@
 
-$(GPUDLL): $(C3POBJ) $(TSTOBJ)
+$(GPUDLL): $(C3POBJ) $(JNIOBJ)
 	$(CXX) -Wall -shared \
 	-static-libgcc -static-libstdc++ \
 	-o $@ $^
@@ -98,7 +114,7 @@ else
 	-I$(JAVA_HOME)/include/linux \
 	-c $< -o $@
 
-$(GPUDLL): $(C3POBJ) $(TSTOBJ)
+$(GPUDLL): $(C3POBJ) $(JNIOBJ)
 	$(CXX) -Wall -shared \
 	-o $@ $^
 endif
@@ -107,11 +123,12 @@ all: cuda
 
 # compiler objects
 clean:
-	rm -f $(C3POBJ) $(TSTOBJ)
+	rm -f $(C3POBJ) $(JNIOBJ)
+	rm -f $(addsuffix *.class,$(basename $(JNICLS)))
 
 # local clean
 lclean: clean
-	rm -f $(TSTSRC) $(TSTCLS)
+	rm -f $(JNISRC) $(JNICLS)
 	rm -f $(GPUDLL)
 
 # real clean
