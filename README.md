@@ -37,12 +37,12 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 - Run build commands:
 
   ```
-  cd chartacaeli/caa
+  ( cd chartacaeli/caa ; make ; make all )
+  ( cd chartacaeli/gpu ; make ; make all )
   make
   make all
-  cd ../..
-  make
-  make all
+  # build the JUnit tests
+  make test
   ```
 - Read and run the samples:
 
@@ -93,12 +93,12 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   # Clone Charta Caeli
   cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli.git ; cd chartacaeli
 
-  cd chartacaeli/caa
+  ( cd chartacaeli/caa ; make ; make all )
+  ( cd chartacaeli/gpu ; make ; make all )
   make
   make all
-  cd ../..
-  make
-  make all
+  # build the JUnit tests
+  make test
   ```
 
 - Run samples as described in section on Windows above.
