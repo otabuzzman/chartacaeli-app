@@ -29,15 +29,15 @@ TSTCLS = $(patsubst $(srcdir)/%.cpp,$(tstdir)/%.java,$(C3PSRC))
 TSTSRC = $(subst .java,_jni.cxx,$(TSTCLS))
 TSTOBJ = $(subst .cxx,.o,$(TSTSRC))
 
+# default goal
+cuda: $(C3POBJ)
+
 $(TSTSRC):
 	( cd $(srcdir) ; for h in *.h ; do \
 		$(CXXWRAP) \
 			--jni --jni-attributes \
 			--classpath=$(topdir) \
 			--package-prefix=$(PKG).tst $$h ; done )
-
-# default goal
-cuda: $(C3POBJ)
 
 JAREXT = \
 		junit4.jar \
@@ -54,7 +54,7 @@ $(notdir $(basename $(wildcard $(tstdir)/*Test.java))):
 
 test: $(GPUDLL) | $(JAREXT) $(notdir $(basename $(wildcard $(tstdir)/*Test.java)))
 
-.PHONY: all cuda test clean tidy
+.PHONY: all cuda test clean lclean rclean tidy
 .SUFFIXES: .cxx .dll .so
 
 empty =
