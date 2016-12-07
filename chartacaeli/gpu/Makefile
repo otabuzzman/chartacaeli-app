@@ -34,8 +34,6 @@ C3PSRC = \
 	$(srcdir)/P4Mollweide.cpp \
 	$(srcdir)/P4Orthographic.cpp \
 	$(srcdir)/P4Stereographic.cpp \
-	$(srcdir)/ChartAzimuthal.cpp \
-	$(srcdir)/ChartPseudoCylindrical.cpp \
 
 C3POBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(C3PSRC))
 
@@ -67,7 +65,8 @@ testbuild: $(GPUDLL) | $(JAREXT)
 		javac -classpath "$(subst $(space),$(sep), \
 			$| \
 			lib/jts-1.14.jar \
-			lib/commons-math3-3.5.jar)" \
+			lib/commons-math3-3.5.jar \
+			$(addprefix $(pkgdir)/,$(JAREXT)))" \
 			-d . $(addprefix $(pkgdir)/,$(JNICLS) $(TSTCLS)) )
 
 # pragma to run test classes from command line...
