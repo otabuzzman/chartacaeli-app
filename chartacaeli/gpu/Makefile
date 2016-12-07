@@ -25,7 +25,18 @@ GPUDLL = lib$(JNI).so
 endif
 
 # C++ peer classes
-C3PSRC = $(srcdir)/Math.cpp $(srcdir)/Coordinate.cpp $(srcdir)/P4Mollweide.cpp
+C3PSRC = \
+	$(srcdir)/Coordinate.cpp \
+	$(srcdir)/Vector3D.cpp \
+	$(srcdir)/Plane.cpp \
+	$(srcdir)/Math.cpp \
+	$(srcdir)/RealMatrix.cpp \
+	$(srcdir)/P4Mollweide.cpp \
+	$(srcdir)/P4Orthographic.cpp \
+	$(srcdir)/P4Stereographic.cpp \
+	$(srcdir)/ChartAzimuthal.cpp \
+	$(srcdir)/ChartPseudoCylindrical.cpp \
+
 C3POBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(C3PSRC))
 
 # JNI stuff for Java testing
@@ -40,7 +51,7 @@ TSTCLS = $(wildcard $(tstdir)/*Test.java)
 cuda: $(C3POBJ)
 
 $(JNISRC):
-	( cd $(srcdir) ; for h in *.h ; do \
+	( cd $(srcdir) ; for h in $(notdir $(C3PSRC:.cpp=.h)) ; do \
 		$(CXXWRAP) \
 			--jni --jni-attributes \
 			--classpath=$(topdir) \
@@ -55,7 +66,8 @@ testbuild: $(GPUDLL) | $(JAREXT)
 	( cd $(topdir) ; \
 		javac -classpath "$(subst $(space),$(sep), \
 			$| \
-			lib/jts-1.14.jar)" \
+			lib/jts-1.14.jar \
+			lib/commons-math3-3.5.jar)" \
 			-d . $(addprefix $(pkgdir)/,$(JNICLS) $(TSTCLS)) )
 
 # pragma to run test classes from command line...
@@ -64,9 +76,11 @@ testrun: $(TSTCLS)
 		PATH=$(pkgdir):$$PATH ; \
 		LD_LIBRARY_PATH=$(pkgdir):$$LD_LIBRARY_PATH ; \
 		for t in $(notdir $(basename $(TSTCLS))) ; do \
+			echo "*** $$t ***" ; \
 			java -classpath "$(subst $(space),$(sep), \
 				chartacaeli \
 				lib/jts-1.14.jar \
+				lib/commons-math3-3.5.jar \
 				$(addprefix $(pkgdir)/,$(JAREXT)))" \
 				org.junit.runner.JUnitCore $(TST).$$t ; done )
 
@@ -83,6 +97,15 @@ sep := ;
 else
 sep := :
 endif
+
+# see GNU make manual 4.14 "Generating Prerequisites Automatically"
+%.d: %.cpp
+	set -e; rm -f $@; \
+		$(CXX) -M -I../caa/src $< > $(@F).$$$$; \
+		sed 's,\($(*F)\)\.o[ :]*,\1.o $(@F) : ,g' < $(@F).$$$$ > $(@F); \
+		rm -f $(@F).$$$$
+
+include $(notdir $(C3PSRC:.cpp=.d))
 
 ifdef winos
 .cpp.o:
@@ -133,6 +156,7 @@ lclean: clean
 
 # real clean
 rclean: lclean
+	rm -f $(notdir $(C3PSRC:.cpp=.d))
 	rm -f $(JAREXT)
 
 tidy: rclean

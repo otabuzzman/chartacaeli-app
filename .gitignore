@@ -8,10 +8,12 @@
 *.gz
 Blocks-4.1.0.txt
 # artefacts
-chartacaeli/caa/
+chartacaeli/UnicodeBlock.java
+chartacaeli/caa/**
 !chartacaeli/caa/Makefile
 !chartacaeli/caa/README.md
-chartacaeli/UnicodeBlock.java
+chartacaeli/gpu/tst/**
+!chartacaeli/gpu/tst/*Test.java
 chartacaeli/model/
 *.class
 *.dll

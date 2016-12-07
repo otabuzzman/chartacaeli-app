@@ -13,45 +13,43 @@ import chartacaeli.caa.CAACoordinateTransformation;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-public class P4MollweideTest {
+public class P4OrthographicTest {
 
 	// dataset forward
 	static final double[][] ds_forward = {
 		{ 0, 0 },
-		{ 360, 90 },
+		//			{ 180, 90 },
 		//			{ -180, 90 },
-		{ 0, -90 },
-		{ 194.46483796, -45.03414077 },
-		{ -52.30259486, -87.15777906 },
-		{ 37.28801542, -44.20015022 },
-		{ -104.89724582, -62.15268687 },
-		{ 320.66126018, -87.04437573 },
-		{ 29.76859813, -25.41348531 },
-		{ -142.52404743, -17.41959066 },
-		{ 245.68921127, -60.84775510 },
+		{ 138.65453503, 9.95533043 },
+		{ -46.73806978, 1.44587627 },
+		{ -133.35373407, 59.61747595 },
+		{ 70.76351978, 88.44017684 },
+		{ -160.71417415, 66.95699627 },
+		{ 120.32587940, 36.75595763 },
+		{ 54.49598998, 5.80344346 },
+		{ -176.65442778, 64.14836147 },
 	} ;
 
 	// dataset inverse
 	static final double[][] ds_inverse = {
-		{ 0.000000000000, 0.000000000000 },
-		{ 0.000035326531, 1.414213562346 },
-		//			{ -0.000017663265, 1.414213562346 },
-		{ 0.000000000000, -1.414213562346 },
-		{ 2.461704979620, -0.837854112630 },
-		{ -0.116940157577, -1.399824385634 },
-		{ 0.476300796475, -0.823633664313 },
-		{ -1.021299625672, -1.110033030798 },
-		{ 0.735807947339, -1.399053183154 },
-		{ 0.439227206867, -0.486432642666 },
-		{ -2.175541122942, -0.335692810318 },
-		{ 2.457076813480, -1.090815387378 },
+		{ 0.000000000000, -1.000000000000 },
+		//			{ 0.000000000000, 0.000000000000 },
+		//			{ -0.000000000000, 0.000000000000 },
+		{ 0.650650871390, 0.739436158304 },
+		{ -0.727996421158, -0.685116432082 },
+		{ -0.367760643869, 0.347211854910 },
+		{ 0.025700868812, -0.008968341670 },
+		{ -0.129279180469, 0.369456363705 },
+		{ 0.691562607368, 0.404535698114 },
+		{ 0.809902442069, -0.577783325190 },
+		{ -0.025446591953, 0.435299205605 },
 	} ;
 
 	@Test
 	public void testForward() {
-		chartacaeli.P4Mollweide p4j = new chartacaeli.P4Mollweide() ;
+		chartacaeli.P4Orthographic p4j = new chartacaeli.P4Orthographic() ;
 		Coordinate lamphi = new Coordinate(), xyC ;
-		P4Mollweide p4c = new P4Mollweide() ;
+		P4Orthographic p4c = new P4Orthographic() ;
 		double[] xyA = new double[3] ;
 
 		for ( int i=0 ; ds_forward.length>i ; i++ ) {
@@ -72,9 +70,9 @@ public class P4MollweideTest {
 
 	@Test
 	public void testInverse() {
-		chartacaeli.P4Mollweide p4j = new chartacaeli.P4Mollweide() ;
+		chartacaeli.P4Orthographic p4j = new chartacaeli.P4Orthographic() ;
 		Coordinate xy = new Coordinate(), lamphiC ;
-		P4Mollweide p4c = new P4Mollweide() ;
+		P4Orthographic p4c = new P4Orthographic() ;
 		double[] lamphiA = new double[3] ;
 
 		for ( int i=0 ; ds_inverse.length>i ; i++ ) {
@@ -103,7 +101,7 @@ public class P4MollweideTest {
 
 	public static void main( String[] argv ) {
 		BufferedReader in = new BufferedReader( new InputStreamReader(System.in ) ) ;
-		chartacaeli.P4Mollweide p4 = new chartacaeli.P4Mollweide() ;
+		chartacaeli.P4Orthographic p4 = new chartacaeli.P4Orthographic() ;
 		String format, lt, lr, lv[] ;
 		int prec ;
 		double a, b ;
@@ -159,7 +157,7 @@ public class P4MollweideTest {
 	}
 
 	private static void usageAndExit() {
-		System.err.println( "Usage: java P4MollweideTest list | forward  <decimals> | inverse <decimals> " ) ;
+		System.err.println( "Usage: java P4OrthographicTest list | forward  <decimals> | inverse <decimals>" ) ;
 		System.exit( 1 ) ;
 	}
 

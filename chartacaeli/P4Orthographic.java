@@ -87,11 +87,11 @@ public class P4Orthographic implements P4Projector {
 
 		switch ( mode ) {
 		case M_NORTH:
-			lamphi.x = lam0+Math.atan2(xy.x, -xy.y ) ;
+			lamphi.x = lam0+Math.atan2( xy.x, -xy.y ) ;
 
 			break ;
 		case M_SOUTH:
-			lamphi.x = lam0+Math.atan2(xy.x, xy.y ) ;
+			lamphi.x = lam0+Math.atan2( xy.x, xy.y ) ;
 
 			break ;
 		case M_EQUATOR:

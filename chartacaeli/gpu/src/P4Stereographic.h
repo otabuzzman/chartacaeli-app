@@ -1,13 +1,13 @@
-#ifndef __P4MOLLWEIDE_H__
-#define __P4MOLLWEIDE_H__
+#ifndef __P4STEREOGRAPHIC_H__
+#define __P4STEREOGRAPHIC_H__
 
 #include "P4Projector.h"
 #include "Coordinate.h"
 
-class P4Mollweide : public P4Projector {
+class P4Stereographic : public P4Projector {
 
 public:
-	P4Mollweide() ;
+	P4Stereographic() ;
 	
 	void init( double lam0, double phi1, double R, double k0 ) ;
 	Coordinate forward( Coordinate lamphi ) ;
@@ -18,11 +18,18 @@ public:
 
 private:
 	double lam0 ;
+	double phi1 ;
+	double sinphi1 ;
+	double cosphi1 ;
 	double R ;
+	double k0 ;
+
+	int mode ;
 	
-	const double V_CON ;
-	const double radperdeg ;
-	const double degperrad ;
+	static const int M_NORTH = 0 ;
+	static const int M_SOUTH = 1 ;
+	static const int M_EQUATOR = 2 ;
+	static const int M_OBLIQUE = 3 ;
 } ;
 
-#endif // __P4MOLLWEIDE_H__
+#endif // __P4STEREOGRAPHIC_H__

@@ -85,6 +85,7 @@ public class P4Stereographic implements P4Projector {
 		Coordinate lamphi = new Coordinate() ;
 		double p, c, sinc, cosc ;
 
+		// check if p == 0
 		p = java.lang.Math.pow( xy.x*xy.x+xy.y*xy.y, .5 ) ;
 		c = 2*Math.atan2( p, 2*R*k0 ) ;
 
