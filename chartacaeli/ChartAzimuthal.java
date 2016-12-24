@@ -40,6 +40,8 @@ public class ChartAzimuthal extends ChartType {
 
 		projector = projection.get( peer.getProjection() ) ;
 		projector.init( lam0, phi1, R, 1 ) ;
+
+		Registry.register( P4Projector.class.getName(), projector ) ;
 	}
 
 	public Coordinate project( Coordinate coordinate, boolean inverse ) {

@@ -637,7 +637,22 @@
 					<entry key="imageop" value="false"/>
 					<!--percentage of minimum visible area of Artwork-->
 					<entry key="minvisible" value="25"/>
+					<!--chartacaeli.Artwork$PJ2TextureMapperSeq-->
+					<!--chartacaeli.Artwork$PJ2TextureMapperJni-->
+					<!--chartacaeli.Artwork$PJ2TextureMapperC3p-->
+					<!--chartacaeli.Artwork$PJ2TextureMapperSmp-->
+					<!--chartacaeli.Artwork$PJ2TextureMapperGpu-->
 					<entry key="pj2class" value="chartacaeli.Artwork$PJ2TextureMapperSeq"/>
+				</map>
+			</node>
+			<node name="Artwork$PJ2TextureMapperJni">
+				<map>
+					<entry key="libgpu" value="gpu"/>
+				</map>
+			</node>
+			<node name="Artwork$PJ2TextureMapperC3p">
+				<map>
+					<entry key="libgpu" value="gpu"/>
 				</map>
 			</node>
 			<node name="Sign">

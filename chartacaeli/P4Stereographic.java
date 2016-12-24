@@ -42,6 +42,22 @@ public class P4Stereographic implements P4Projector {
 			mode = M_OBLIQUE ;
 	}
 
+	public double lam0() {
+		return lam0 ;
+	}
+
+	public double phi1() {
+		return phi1 ;
+	}
+
+	public double R() {
+		return R ;
+	}
+
+	public double k0() {
+		return k0 ;
+	}
+
 	public Coordinate forward( Coordinate lamphi ) {
 		Coordinate xy = new Coordinate() ;
 		double sinlamdif, coslamdif, sinphi, cosphi, k, t ;

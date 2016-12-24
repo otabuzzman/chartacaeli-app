@@ -34,6 +34,7 @@ C3PSRC = \
 	$(srcdir)/P4Mollweide.cpp \
 	$(srcdir)/P4Orthographic.cpp \
 	$(srcdir)/P4Stereographic.cpp \
+	$(srcdir)/PJ2TextureMapperC3p.cpp \
 
 C3POBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(C3PSRC))
 
@@ -49,11 +50,16 @@ TSTCLS = $(wildcard $(tstdir)/*Test.java)
 cuda: $(C3POBJ)
 
 $(JNISRC):
-	( cd $(srcdir) ; for h in $(notdir $(C3PSRC:.cpp=.h)) ; do \
+	( cd $(srcdir) ; for c in $(notdir $(basename $(C3PSRC))) ; do \
 		$(CXXWRAP) \
 			--jni --jni-attributes \
 			--classpath=$(topdir) \
-			--package-prefix=$(TST) $$h ; done )
+			--package-prefix=$(TST) $$c.h ; \
+		if expr $$c : P4 ; then \
+			sed -e 's,public class.*,public class '$$c' extends Object implements P4Projector {,' \
+			<../$(tstdir)/$$c.java \
+			>../$(tstdir)/$$c.$$$$ ; \
+			mv ../$(tstdir)/$$c.$$$$ ../$(tstdir)/$$c.java ; fi ; done )
 
 JAREXT = \
 		junit4.jar \
@@ -100,7 +106,7 @@ endif
 # see GNU make manual 4.14 "Generating Prerequisites Automatically"
 %.d: %.cpp
 	set -e; rm -f $@; \
-		$(CXX) -M -I../caa/src $< > $(@F).$$$$; \
+		$(CXX) -MM -I../caa/src $< > $(@F).$$$$; \
 		sed 's,\($(*F)\)\.o[ :]*,\1.o $(@F) : ,g' < $(@F).$$$$ > $(@F); \
 		rm -f $(@F).$$$$
 

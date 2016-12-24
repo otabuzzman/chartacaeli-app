@@ -1,13 +1,7 @@
 #include <algorithm>
-#include <cmath>
 
 #include "RealMatrix.h"
 using namespace std;
-
-RealMatrix::RealMatrix( double matrix[], int dim ) {
-	int rows = sqrt( dim ), cols = rows ;
-	set( matrix, rows, cols ) ;
-}
 
 RealMatrix::RealMatrix( double matrix[], int rows, int cols ) {
 	set( matrix, rows, cols ) ;

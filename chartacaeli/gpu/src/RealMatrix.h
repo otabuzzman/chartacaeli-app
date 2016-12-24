@@ -4,7 +4,6 @@
 class RealMatrix {
 
 public:
-	RealMatrix( double matrix[], int dim ) ;
 	RealMatrix( double matrix[], int rows, int cols ) ;
 
 	double* operate( double vector[] ) ;

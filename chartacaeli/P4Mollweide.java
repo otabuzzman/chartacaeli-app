@@ -23,6 +23,22 @@ public class P4Mollweide implements P4Projector {
 		this.R = R ;
 	}
 
+	public double lam0() {
+		return lam0 ;
+	}
+
+	public double phi1() {
+		return 0 ;
+	}
+
+	public double R() {
+		return R ;
+	}
+
+	public double k0() {
+		return 1 ;
+	}
+
 	public Coordinate forward( Coordinate lamphi ) {
 		Coordinate xy = new Coordinate() ;
 		double tht2 = lamphi.y, dtht2 = 0, sintht2, costht2 ;

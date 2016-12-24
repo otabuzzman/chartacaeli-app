@@ -44,6 +44,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String CK_MINVISIBLE		= "minvisible" ;
 	private final static String CK_BACKGROUND		= "background" ;
 	private final static String CK_PJ2CLASS			= "pj2class" ;
+	private final static String CK_LIBGPU			= "libgpu" ;
 
 	private final static double DEFAULT_PSUNIT		= 2.834646 ;
 	private final static double DEFAULT_DPI			= 72 ;
@@ -52,6 +53,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static double DEFAULT_MINVISIBLE	= 25 ;
 	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
 	private final static String DEFAULT_PJ2CLASS	= "chartacaeli.Artwork$PJ2TextureMapperSeq" ;
+	private final static String DEFAULT_LIBGPU		= "gpu" ;
 
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
 	private static boolean verbose = false ;
@@ -106,17 +108,22 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperSeq extends Task {
 
-		private chartacaeli.Coordinate eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
-		private Coordinate uv = new Coordinate() ;
+		private double[] st ;
+		private Coordinate uv ;
 
-		private double[] st = new double[] { 0, 0, 1 } ;
-		private double[] ca = new double[] { 0, 0, 0, 1 } ;
+		private chartacaeli.Coordinate eq ;
+		private double[] ca ;
 
 		public PJ2TextureMapperSeq() {
+			st = new double[] { 0, 0, 1 } ;
+			uv = new Coordinate() ;
+
+			eq = new chartacaeli.Coordinate( 0, 0, 0 ) ;
+			ca = new double[] { 0, 0, 0, 1 } ;
 		}
 
 		public void main( String[] argv ) throws Exception {
-			double s, t, t0[], op[] ;
+			double t0[], op[] ;
 			Coordinate t1 ;
 			Vector3D vca, xca ;
 
@@ -145,6 +152,138 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
 				}
 			}
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private class PJ2TextureMapperJni extends Task {
+
+		private double[] st ;
+		private double[] uv ;
+
+		private double[] lamphi ;
+		chartacaeli.gpu.tst.Coordinate eq ;
+
+		private double[] l0 ;
+		private double[] l1 ;
+		private double[] ca ;
+
+		private double[] op ;
+
+		public PJ2TextureMapperJni() {
+			String libgpu = Configuration.getValue(
+					this, CK_LIBGPU, DEFAULT_LIBGPU ) ;
+			System.loadLibrary( libgpu ) ;
+
+			st = new double[] { 0, 0, 1 } ;
+			uv = new double[3] ;
+
+			lamphi = new double[3] ;
+			eq = new chartacaeli.gpu.tst.Coordinate() ;
+
+			l0 = new double[] { 0, 0, 0 } ;
+			l1 = new double[3] ;
+			ca = new double[] { 0, 0, 0, 1 } ;
+
+			op = new double[4] ;
+		}
+
+		public void main( String[] argv ) throws Exception {
+			chartacaeli.gpu.tst.RealMatrix tmM2Pc3p ;
+			double[] tmM2Pj[], tmM2Pc = new double[9] ;
+			chartacaeli.gpu.tst.RealMatrix tmH2Tc3p ;
+			double[] tmH2Tj[], tmH2Tc = new double[16] ;
+			chartacaeli.gpu.tst.Plane spTc3p ;
+			P4Projector projj ;
+			chartacaeli.gpu.tst.P4Projector projc ;
+			Class<?> projcls ;
+			Constructor<?> projctr ;
+
+
+			tmM2Pj = tmM2P.getData() ;
+			for ( int r=0 ; 3>r ; r++ )
+				for ( int c=0 ; 3>c ; c++ )
+					tmM2Pc[3*r+c] = tmM2Pj[r][c] ;
+			tmM2Pc3p = new chartacaeli.gpu.tst.RealMatrix( tmM2Pc, 3, 3 ) ;
+
+			projj = (P4Projector) Registry.retrieve( P4Projector.class.getName() ) ;
+			projcls = Class.forName( "chartacaeli.gpu.tst."+projj.getClass().getSimpleName() ) ;
+			projctr = projcls.getConstructor() ;
+			projc = (chartacaeli.gpu.tst.P4Projector) projctr.newInstance() ;
+			projc.init( projj.lam0(), projj.phi1(), projj.R(), projj.k0() ) ;
+
+			spTc3p = new chartacaeli.gpu.tst.Plane(
+					new double[] { popHP1.x, popHP1.y, popHP1.z },
+					new double[] { popHP2.x, popHP2.y, popHP2.z },
+					new double[] { popHP3.x, popHP3.y, popHP3.z } ) ;
+
+			tmH2Tj = tmH2T.getData() ;
+			for ( int r=0 ; 4>r ; r++ )
+				for ( int c=0 ; 4>c ; c++ )
+					tmH2Tc[4*r+c] = tmH2Tj[r][c] ;
+			tmH2Tc3p = new chartacaeli.gpu.tst.RealMatrix( tmH2Tc, 4, 4 ) ;
+
+			for ( int y=0 ; dimt>y ; y++ ) {
+				st[1] = y*ups ;
+
+				for ( int x=0 ; dims>x ; x++ ) {
+					st[0] = x*ups ;
+
+					tmM2Pc3p.operate( st,  uv ) ;
+
+					projc.inverse( uv, lamphi ) ;
+
+					eq.set( lamphi[0], lamphi[1], lamphi[2] ) ;
+					eq.cartesian( l1 ) ;
+
+					spTc3p.intersection( l0, l1, ca ) ;
+
+					tmH2Tc3p.operate( ca, op ) ;
+
+					if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
+						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private class PJ2TextureMapperC3p extends Task {
+
+		public PJ2TextureMapperC3p() {
+			String libgpu = Configuration.getValue(
+					this, CK_LIBGPU, DEFAULT_LIBGPU ) ;
+			System.loadLibrary( libgpu ) ;
+		}
+
+		public void main( String[] argv ) throws Exception {
+			double[] tmM2Pj[], tmM2Pc = new double[9] ;
+			double[] tmH2Tj[], tmH2Tc = new double[16] ;
+			double[] spTc ;
+			P4Projector proj ;
+			chartacaeli.gpu.tst.PJ2TextureMapperC3p texMapC3p ;
+
+			tmM2Pj = tmM2P.getData() ;
+			for ( int r=0 ; 3>r ; r++ )
+				for ( int c=0 ; 3>c ; c++ )
+					tmM2Pc[3*r+c] = tmM2Pj[r][c] ;
+
+			tmH2Tj = tmH2T.getData() ;
+			for ( int r=0 ; 4>r ; r++ )
+				for ( int c=0 ; 4>c ; c++ )
+					tmH2Tc[4*r+c] = tmH2Tj[r][c] ;
+
+			spTc = new double[] {
+					popHP1.x, popHP1.y, popHP1.z,
+					popHP2.x, popHP2.y, popHP2.z,
+					popHP3.x, popHP3.y, popHP3.z
+			} ;
+
+			proj = (P4Projector) Registry.retrieve( P4Projector.class.getName() ) ;
+			texMapC3p = new chartacaeli.gpu.tst.PJ2TextureMapperC3p( proj.getClass().getSimpleName(),
+					new double[] { proj.lam0(), proj.phi1(), proj.R(), proj.k0() },
+					tmM2Pc, tmH2Tc, spTc, ups, dimo, dimp, dims, dimt ) ;
+			texMapC3p.c3pFor( texture, mapping ) ;
 		}
 	}
 

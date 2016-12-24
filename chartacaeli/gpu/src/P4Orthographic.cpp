@@ -26,8 +26,8 @@ void P4Orthographic::init( double lam0, double phi1, double R, double k0 ) {
 		mode = M_OBLIQUE ;
 }
 
-Coordinate P4Orthographic::forward( Coordinate lamphi ) {
-	Coordinate xy ;
+Coordinate* P4Orthographic::forward( Coordinate& lamphi ) {
+	Coordinate* xy = new Coordinate() ;
 	double sinlamdif, coslamdif ;
 	double sinphi, cosphi ;
 
@@ -36,23 +36,23 @@ Coordinate P4Orthographic::forward( Coordinate lamphi ) {
 	sinphi = Math::sin( lamphi.y ) ;
 	cosphi = Math::cos( lamphi.y ) ;
 
-	xy.x = R*cosphi*sinlamdif ;
+	xy->x = R*cosphi*sinlamdif ;
 
 	switch ( mode ) {
 	case M_NORTH:
-		xy.y = -R*cosphi*coslamdif ;
+		xy->y = -R*cosphi*coslamdif ;
 
 		break ;
 	case M_SOUTH:
-		xy.y = R*cosphi*coslamdif ;
+		xy->y = R*cosphi*coslamdif ;
 
 		break ;
 	case M_EQUATOR:
-		xy.y = R*sinphi ;
+		xy->y = R*sinphi ;
 
 		break ;
 	case M_OBLIQUE:
-		xy.y = R*( cosphi1*sinphi-sinphi1*cosphi*coslamdif ) ;
+		xy->y = R*( cosphi1*sinphi-sinphi1*cosphi*coslamdif ) ;
 
 		break ;
 	}
@@ -60,8 +60,8 @@ Coordinate P4Orthographic::forward( Coordinate lamphi ) {
 	return xy ;
 }
 
-Coordinate P4Orthographic::inverse( Coordinate xy ) {
-	Coordinate lamphi ;
+Coordinate* P4Orthographic::inverse( Coordinate& xy ) {
+	Coordinate* lamphi = new Coordinate() ;
 	double p, c, sinc, cosc ;
 
 	p = std::pow( xy.x*xy.x+xy.y*xy.y, .5 ) ;
@@ -70,20 +70,20 @@ Coordinate P4Orthographic::inverse( Coordinate xy ) {
 	sinc = Math::sin( c ) ;
 	cosc = Math::cos( c ) ;
 
-	lamphi.y = Math::asin( cosc*sinphi1+( xy.y*sinc*cosphi1/p ) ) ;
+	lamphi->y = Math::asin( cosc*sinphi1+( xy.y*sinc*cosphi1/p ) ) ;
 
 	switch ( mode ) {
 	case M_NORTH:
-		lamphi.x = lam0+Math::atan2(xy.x, -xy.y ) ;
+		lamphi->x = lam0+Math::atan2(xy.x, -xy.y ) ;
 
 		break ;
 	case M_SOUTH:
-		lamphi.x = lam0+Math::atan2(xy.x, xy.y ) ;
+		lamphi->x = lam0+Math::atan2(xy.x, xy.y ) ;
 
 		break ;
 	case M_EQUATOR:
 	case M_OBLIQUE:
-		lamphi.x = lam0+Math::atan2( xy.x*sinc, p*cosphi1*cosc-xy.y*sinphi1*sinc ) ;
+		lamphi->x = lam0+Math::atan2( xy.x*sinc, p*cosphi1*cosc-xy.y*sinphi1*sinc ) ;
 
 		break ;
 	}
@@ -94,14 +94,14 @@ Coordinate P4Orthographic::inverse( Coordinate xy ) {
 // CXXWRAP/ JUnit
 void P4Orthographic::forward( /* arg(s) */ double lamphi[3], /* return */ double xy[3] ) {
 	Coordinate t0( lamphi[0], lamphi[1], lamphi[2] ) ;
-	Coordinate t1 = forward( t0 ) ;
-	xy[0] = t1.x ;
-	xy[1] = t1.y ;
+	Coordinate* t1 = forward( t0 ) ;
+	xy[0] = t1->x ;
+	xy[1] = t1->y ;
 }
 
 void P4Orthographic::inverse( /* arg(s) */ double xy[3], /* return */ double lamphi[3] ) {
 	Coordinate t0( xy[0], xy[1], xy[2] ) ;
-	Coordinate t1 = inverse( t0 ) ;
-	lamphi[0] = t1.x ;
-	lamphi[1] = t1.y ;
+	Coordinate* t1 = inverse( t0 ) ;
+	lamphi[0] = t1->x ;
+	lamphi[1] = t1->y ;
 }

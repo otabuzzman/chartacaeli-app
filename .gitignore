@@ -16,6 +16,7 @@ chartacaeli/gpu/tst/**
 !chartacaeli/gpu/tst/*Test.java
 chartacaeli/model/
 *.class
+*.d
 *.dll
 *.exe
 *.jar
