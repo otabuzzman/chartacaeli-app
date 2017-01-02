@@ -48,3 +48,5 @@ PATH=chartacaeli/gpu:$PATH java -classpath "chartacaeli;lib/jts-1.14.jar;" chart
 - Notes on [Argument conversion](http://cxxwrap.sourceforge.net/doc/design.html). CXXWRAP will not generate any code in case of arguments of unsupported types (`size_t` for instance).
 - A really nice [Introduction to Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp/)
 - Online book about [Programming on Parallel Machines](http://heather.cs.ucdavis.edu/~matloff/158/PLN/ParProcBook.pdf)
+- C++ [programming guide](http://www.lmpt.univ-tours.fr/~volkov/C++.pdf) and [online reference](http://www.cplusplus.com/reference/)
+- Answer on Stackoverflow on how to instantiate [C++ objects from class names](http://stackoverflow.com/questions/582331/is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name)

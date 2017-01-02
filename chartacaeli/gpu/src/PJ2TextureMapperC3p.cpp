@@ -1,8 +1,5 @@
 #include "PJ2TextureMapperC3p.h"
-#include "P4Projector.h"
-#include "P4Mollweide.h"
-#include "P4Orthographic.h"
-#include "P4Stereographic.h"
+#include "P4ProjectorFactory.h"
 #include "Vector3D.h"
 #include "RealMatrix.h"
 #include "Plane.h"
@@ -13,11 +10,7 @@ PJ2TextureMapperC3p::PJ2TextureMapperC3p( char* projtype, double projparm[4], do
 	Vector3D p1( spT[3], spT[4], spT[5] ) ;
 	Vector3D p2( spT[6], spT[7], spT[8] ) ;
 
-	pmap["P4Mollweide"] = &createInstance<P4Mollweide> ;
-	pmap["P4Orthographic"] = &createInstance<P4Orthographic> ;
-	pmap["P4Stereographic"] = &createInstance<P4Stereographic> ;
-
-	proj = pmap[projtype]() ;
+	proj = P4ProjectorFactory::createInstance( projtype ) ;
 	proj->init( projparm[0], projparm[1], projparm[2], projparm[3] ) ;
 
 	this->tmM2P = new RealMatrix( tmM2P, 3, 3 ) ;

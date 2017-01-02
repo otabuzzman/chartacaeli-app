@@ -34,23 +34,32 @@ C3PSRC = \
 	$(srcdir)/P4Mollweide.cpp \
 	$(srcdir)/P4Orthographic.cpp \
 	$(srcdir)/P4Stereographic.cpp \
+
+# C++ auxiliary classes
+AUXSRC = \
+	$(srcdir)/P4ProjectorFactory.cpp \
+
+# C++ experimental classes
+EXPSRC = \
 	$(srcdir)/PJ2TextureMapperC3p.cpp \
 
 C3POBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(C3PSRC))
+AUXOBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(AUXSRC))
+EXPOBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(EXPSRC))
 
-# JNI stuff for Java testing
-JNICLS = $(patsubst $(srcdir)/%.cpp,$(tstdir)/%.java,$(C3PSRC))
+# JNI stuff for JUnit testing
+JNICLS = $(patsubst $(srcdir)/%.cpp,$(tstdir)/%.java,$(C3PSRC) $(EXPSRC))
 JNISRC = $(subst .java,_jni.cxx,$(JNICLS))
 JNIOBJ = $(subst .cxx,.o,$(JNISRC))
 
-# Java test classes
+# JUnit test classes
 TSTCLS = $(wildcard $(tstdir)/*Test.java)
 
 # default goal
-cuda: $(C3POBJ)
+cuda:
 
 $(JNISRC):
-	( cd $(srcdir) ; for c in $(notdir $(basename $(C3PSRC))) ; do \
+	( cd $(srcdir) ; for c in $(notdir $(basename $(C3PSRC) $(EXPSRC))) ; do \
 		$(CXXWRAP) \
 			--jni --jni-attributes \
 			--classpath=$(topdir) \
@@ -110,7 +119,7 @@ endif
 		sed 's,\($(*F)\)\.o[ :]*,\1.o $(@F) : ,g' < $(@F).$$$$ > $(@F); \
 		rm -f $(@F).$$$$
 
-include $(notdir $(C3PSRC:.cpp=.d))
+include $(notdir $(C3PSRC:.cpp=.d) $(AUXSRC:.cpp=.d) $(EXPSRC:.cpp=.d))
 
 ifdef winos
 .cpp.o:
@@ -125,7 +134,7 @@ ifdef winos
 	-I"$(JAVA_HOME)/include/win32" \
 	-c $< -o $@
 
-$(GPUDLL): $(C3POBJ) $(JNIOBJ)
+$(GPUDLL): $(C3POBJ) $(AUXOBJ) $(EXPOBJ) $(JNIOBJ)
 	$(CXX) -Wall -shared \
 	-static-libgcc -static-libstdc++ \
 	-o $@ $^
@@ -142,7 +151,7 @@ else
 	-I$(JAVA_HOME)/include/linux \
 	-c $< -o $@
 
-$(GPUDLL): $(C3POBJ) $(JNIOBJ)
+$(GPUDLL): $(C3POBJ) $(AUXOBJ) $(EXPOBJ) $(JNIOBJ)
 	$(CXX) -Wall -shared \
 	-o $@ $^
 endif
@@ -151,7 +160,7 @@ all: cuda
 
 # compiler objects
 clean:
-	rm -f $(C3POBJ) $(JNIOBJ)
+	rm -f $(C3POBJ) $(AUXOBJ) $(EXPOBJ) $(JNIOBJ)
 	rm -f $(addsuffix *.class,$(basename $(JNICLS)))
 
 # local clean
@@ -161,7 +170,7 @@ lclean: clean
 
 # real clean
 rclean: lclean
-	rm -f $(notdir $(C3PSRC:.cpp=.d))
+	rm -f $(notdir $(C3PSRC:.cpp=.d) $(AUXSRC:.cpp=.d) $(EXPSRC:.cpp=.d))
 	rm -f $(JAREXT)
 
 tidy: rclean

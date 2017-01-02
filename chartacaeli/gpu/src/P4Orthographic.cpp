@@ -5,6 +5,8 @@
 #include "Math.h"
 using namespace std;
 
+P4PROJECTOR_CDEF(P4Orthographic) ;
+
 P4Orthographic::P4Orthographic() {
 	init( 0, 90, 1, 1 ) ;
 }

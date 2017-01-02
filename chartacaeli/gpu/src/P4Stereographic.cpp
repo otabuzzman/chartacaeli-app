@@ -5,6 +5,8 @@
 #include "Math.h"
 using namespace std;
 
+P4PROJECTOR_CDEF(P4Stereographic) ;
+
 P4Stereographic::P4Stereographic() {
 	init( 0, 90, 1, 1 ) ;
 }

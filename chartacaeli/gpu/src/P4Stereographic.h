@@ -2,6 +2,7 @@
 #define __P4STEREOGRAPHIC_H__
 
 #include "P4Projector.h"
+#include "P4ProjectorFactory.h"
 #include "Coordinate.h"
 
 class P4Stereographic : public P4Projector {
@@ -30,6 +31,8 @@ private:
 	static const int M_SOUTH = 1 ;
 	static const int M_EQUATOR = 2 ;
 	static const int M_OBLIQUE = 3 ;
+
+	P4PROJECTOR_CDEC(P4Stereographic) ;
 } ;
 
 #endif // __P4STEREOGRAPHIC_H__

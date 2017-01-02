@@ -2,6 +2,7 @@
 #define __P4MOLLWEIDE_H__
 
 #include "P4Projector.h"
+#include "P4ProjectorFactory.h"
 #include "Coordinate.h"
 
 class P4Mollweide : public P4Projector {
@@ -23,6 +24,8 @@ private:
 	const double V_CON ;
 	const double radperdeg ;
 	const double degperrad ;
+
+	P4PROJECTOR_CDEC(P4Mollweide) ;
 } ;
 
 #endif // __P4MOLLWEIDE_H__

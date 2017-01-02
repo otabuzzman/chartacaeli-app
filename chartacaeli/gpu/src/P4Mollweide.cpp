@@ -5,6 +5,8 @@
 #include "Math.h"
 using namespace std;
 
+P4PROJECTOR_CDEF(P4Mollweide) ;
+
 P4Mollweide::P4Mollweide() : V_CON( 1e-7 ),
 								radperdeg( 3.141592653589793/180. ) ,
 								degperrad( 180./3.141592653589793 ) {
