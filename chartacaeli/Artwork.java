@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
@@ -44,7 +45,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String CK_MINVISIBLE		= "minvisible" ;
 	private final static String CK_BACKGROUND		= "background" ;
 	private final static String CK_PJ2CLASS			= "pj2class" ;
-	private final static String CK_LIBGPU			= "libgpu" ;
 
 	private final static double DEFAULT_PSUNIT		= 2.834646 ;
 	private final static double DEFAULT_DPI			= 72 ;
@@ -53,7 +53,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static double DEFAULT_MINVISIBLE	= 25 ;
 	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
 	private final static String DEFAULT_PJ2CLASS	= "chartacaeli.Artwork$PJ2TextureMapperSeq" ;
-	private final static String DEFAULT_LIBGPU		= "gpu" ;
+
+	// message key (MK_)
+	private final static String MK_RUNTIME			= "runtime" ;
 
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
 	private static boolean verbose = false ;
@@ -155,8 +157,14 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		}
 	}
 
+	/*** experimental
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperJni extends Task {
+
+		// configuration key (CK_)
+		private final static String CK_LIBGPU		= "libgpu" ;
+
+		private final static String DEFAULT_LIBGPU	= "gpu" ;
 
 		private double[] st ;
 		private double[] uv ;
@@ -250,9 +258,16 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			spTc3p.delete() ;
 		}
 	}
+	 ***/
 
+	/*** experimental
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperC3p extends Task {
+
+		// configuration key (CK_)
+		private final static String CK_LIBGPU		= "libgpu" ;
+
+		private final static String DEFAULT_LIBGPU	= "gpu" ;
 
 		public PJ2TextureMapperC3p() {
 			String libgpu = Configuration.getValue(
@@ -292,6 +307,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			texMapC3p.delete() ;
 		}
 	}
+	 ***/
 
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperSmp extends Task {
@@ -559,6 +575,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		Class<?> classtask ;
 		Constructor<?> thisctor ;
 		Task taskinst ;
+		long t0, t1 ;
+		StringBuffer msg ;
+		String fmt ;
 
 		classconf = Configuration.getValue( this, CK_PJ2CLASS, DEFAULT_PJ2CLASS ) ;
 		classtask = Class.forName( classconf ) ;
@@ -569,10 +588,16 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		} else
 			throw new ParameterNotValidException() ;
 
-		long t0 = System.currentTimeMillis() ;
+		t0 = System.currentTimeMillis() ;
 		taskinst.main( null ) ;
-		long t1 = System.currentTimeMillis() ;
-		log.info( classconf+" took "+( t1-t0 )+" msec" ) ;
+		t1 = System.currentTimeMillis() ;
+
+		fmt = MessageCatalog.message( this, MK_RUNTIME, "" ) ;
+		msg = new StringBuffer() ;
+		// String.valueOf returns number without grouping separator
+		msg.append( MessageFormat.format( fmt, new Object[] { classconf+".main", String.valueOf( t1-t0 ) } ) ) ;
+
+		log.info( msg ) ;
 	}
 
 	@Override

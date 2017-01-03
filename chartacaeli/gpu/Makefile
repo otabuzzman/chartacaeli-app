@@ -47,7 +47,7 @@ C3POBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(C3PSRC))
 AUXOBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(AUXSRC))
 EXPOBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(EXPSRC))
 
-# JNI stuff for JUnit testing
+# JNI wrapper for JUnit testing
 JNICLS = $(patsubst $(srcdir)/%.cpp,$(tstdir)/%.java,$(C3PSRC) $(EXPSRC))
 JNISRC = $(subst .java,_jni.cxx,$(JNICLS))
 JNIOBJ = $(subst .cxx,.o,$(JNISRC))
