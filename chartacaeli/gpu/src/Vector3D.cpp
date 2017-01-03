@@ -25,21 +25,27 @@ void Vector3D::set( double x, double y, double z ) {
 }
 
 Vector3D* Vector3D::add( Vector3D& v ) {
-	Vector3D *r = new Vector3D( x+v.x, y+v.y, z+v.z ) ;
+	x += v.x ;
+	y += v.y ;
+	z += v.z ;
 
-	return r ;
+	return this ;
 }
 
 Vector3D* Vector3D::sub( Vector3D& v ) {
-	Vector3D *r = new Vector3D( x-v.x, y-v.y, z-v.z ) ;
+	x -= v.x ;
+	y -= v.y ;
+	z -= v.z ;
 
-	return r ;
+	return this ;
 }
 
 Vector3D* Vector3D::mul( double a ) {
-	Vector3D *r = new Vector3D( x*a, y*a, z*a ) ;
+	x *= a ;
+	y *= a ;
+	z *= a ;
 
-	return r ;
+	return this ;
 }
 
 double Vector3D::dot( Vector3D& v ) {
@@ -47,13 +53,17 @@ double Vector3D::dot( Vector3D& v ) {
 }
 
 Vector3D* Vector3D::cross( Vector3D& v ) {
-	Vector3D *r ;
 	double x, y, z ;
 
-	x = this->x ; y = this->y ; z = this->z ;
-	r = new Vector3D( y*v.z-z*v.y, z*v.x-x*v.z, x*v.y-y*v.x ) ;
+	x = this->x ;
+	y = this->y ;
+	z = this->z ;
 
-	return r ;
+	this->x = y*v.z-z*v.y ;
+	this->y = z*v.x-x*v.z ;
+	this->z = x*v.y-y*v.x ;
+
+	return this ;
 }
 
 double* Vector3D::toArray() {

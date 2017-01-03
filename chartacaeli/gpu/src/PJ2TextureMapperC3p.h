@@ -12,6 +12,7 @@ class PJ2TextureMapperC3p {
 
 public:
 	PJ2TextureMapperC3p( char* projtype, double projparm[4], double tmM2P[9], double tmH2T[16], double spT[9], double ups, int dimo, int dimp, int dims, int dimt ) ;
+	~PJ2TextureMapperC3p() ;
 
 	void c3pFor( /* arg(s) */ int texture[], /* return */ int mapping[] ) ;
 

@@ -244,6 +244,10 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
 				}
 			}
+
+			tmM2Pc3p.delete() ;
+			tmH2Tc3p.delete() ;
+			spTc3p.delete() ;
 		}
 	}
 
@@ -284,6 +288,8 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					new double[] { proj.lam0(), proj.phi1(), proj.R(), proj.k0() },
 					tmM2Pc, tmH2Tc, spTc, ups, dimo, dimp, dims, dimt ) ;
 			texMapC3p.c3pFor( texture, mapping ) ;
+
+			texMapC3p.delete() ;
 		}
 	}
 

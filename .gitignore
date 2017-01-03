@@ -14,6 +14,8 @@ chartacaeli/caa/**
 !chartacaeli/caa/README.md
 chartacaeli/gpu/tst/**
 !chartacaeli/gpu/tst/*Test.java
+!chartacaeli/gpu/tst/P4Projector.java
+!chartacaeli/gpu/tst/RandomDataset.java
 chartacaeli/model/
 *.class
 *.d

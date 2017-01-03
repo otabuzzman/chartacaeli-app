@@ -8,7 +8,7 @@ RealMatrix::RealMatrix( double matrix[], int rows, int cols ) {
 }
 
 double* RealMatrix::operate( double vector[] ) {
-	double sum, *retval = new double[rows*cols] ;
+	double sum, *retval = new double[rows] ;
 
 	for ( int r=0 ; rows>r ; r++ ) {
 		sum = 0 ;
@@ -18,6 +18,10 @@ double* RealMatrix::operate( double vector[] ) {
 	}
 
 	return retval ;
+}
+
+RealMatrix::~RealMatrix() {
+	delete matrix ;
 }
 
 // CXXWRAP/ JUnit
@@ -36,4 +40,6 @@ void RealMatrix::operate( /* arg(s) */ double vector[], /* return */ double retv
 	
 	for ( int r=0 ; rows>r ; r++ )
 		retval[r] = t0[r] ;
+
+	delete t0 ;
 }

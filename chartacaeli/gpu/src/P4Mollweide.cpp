@@ -69,6 +69,7 @@ void P4Mollweide::forward( /* arg(s) */ double lamphi[3], /* return */ double xy
 	Coordinate* t1 = forward( t0 ) ;
 	xy[0] = t1->x ;
 	xy[1] = t1->y ;
+	delete t1 ;
 }
 
 void P4Mollweide::inverse( /* arg(s) */ double xy[3], /* return */ double lamphi[3] ) {
@@ -76,4 +77,5 @@ void P4Mollweide::inverse( /* arg(s) */ double xy[3], /* return */ double lamphi
 	Coordinate* t1 = inverse( t0 ) ;
 	lamphi[0] = t1->x ;
 	lamphi[1] = t1->y ;
+	delete t1 ;
 }

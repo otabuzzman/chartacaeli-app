@@ -6,28 +6,49 @@ Plane::Plane( Vector3D& p1, Vector3D& p2, Vector3D& p3 ) {
 	set( p1, p2, p3 ) ;
 }
 
-Vector3D* Plane::intersection( Vector3D& p1, Vector3D& p2 ) {
-	Vector3D *u, *x ;
+Plane::~Plane() {
+	delete p1 ;
+	delete p2 ;
+	delete p3 ;
+	delete normal ;
+}
+
+// https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#Algebraic_form
+Vector3D* Plane::intersection( Vector3D& l1, Vector3D& l2 ) {
+	Vector3D *d00, *l, *x ;
 	double d ;
 
-	// https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#Algebraic_form
-	u = p2.sub( p1 ) ;
-	d = normal.dot( *( this->p1.sub( p1 ) ) )/normal.dot( *u ) ;
-	x = p1.add( *( u->mul( d ) ) ) ;
+	d00 = new Vector3D( *p1) ;
+	d00->sub( l1 ) ;
+
+	l = new Vector3D( l2 ) ;
+	l->sub( l1 ) ;
+
+	d = normal->dot( *d00 )/normal->dot( *l ) ;
+	l->mul( d ) ;
+
+	x = new Vector3D( l1) ;
+	x->add( *l ) ;
+
+	delete d00 ;
+	delete l ;
 
 	return x ;
 }
 
 // CXXWRAP/ JUnit
 void Plane::set( Vector3D& p1, Vector3D& p2, Vector3D& p3 ) {
-	Vector3D *n ;
+	Vector3D* d21 = ( new Vector3D( p2 ) )->sub( p1 ) ;
+	Vector3D* d31 = ( new Vector3D( p3 ) )->sub( p1 ) ;
 
-	this->p1.set( p1.x, p1.y, p1.z ) ;
-	this->p2.set( p2.x, p2.y, p2.z ) ;
-	this->p3.set( p3.x, p3.y, p3.z ) ;
+	this->p1 = new Vector3D( p1.x, p1.y, p1.z ) ;
+	this->p2 = new Vector3D( p2.x, p2.y, p2.z ) ;
+	this->p3 = new Vector3D( p3.x, p3.y, p3.z ) ;
 
-	n = p2.sub( p1 )->cross( *( p3.sub( p1 ) ) ) ;
-	normal.set( n->x, n->y, n->z ) ;
+	normal = new Vector3D( *( d21->cross( *d31 ) ) ) ;
+
+	delete d21 ;
+	delete d31 ;
 }
 
 Plane::Plane( double p1[], double p2[], double p3[] ) {
@@ -41,4 +62,5 @@ void Plane::intersection( /* arg(s) */ double p1[3], double p2[3], /* return */ 
 	x[0] = t2->x ;
 	x[1] = t2->y ;
 	x[2] = t2->z ;
+	delete t2 ;
 }

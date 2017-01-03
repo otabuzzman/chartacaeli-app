@@ -27,6 +27,13 @@ PJ2TextureMapperC3p::PJ2TextureMapperC3p( char* projtype, double projparm[4], do
 	this->dimt = dimt ;
 }
 
+PJ2TextureMapperC3p::~PJ2TextureMapperC3p() {
+	delete proj ;
+	delete tmM2P ;
+	delete tmH2T ;
+	delete spT ;
+}
+
 void PJ2TextureMapperC3p::c3pFor( /* arg(s) */ int texture[], /* return */ int mapping[] ) {
 	double st[] = { 0, 0, 1 }, uv[3] ;
 	double lamphi[3] ;

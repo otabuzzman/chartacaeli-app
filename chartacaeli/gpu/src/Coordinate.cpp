@@ -66,6 +66,7 @@ void Coordinate::spercical( /* return */ double retval[] ) {
 	retval[0] = c->x ;
 	retval[1] = c->y ;
 	retval[2] = c->z ;
+	delete c ;
 }
 
 void Coordinate::cartesian( /* return */ double retval[] ) {
@@ -73,5 +74,6 @@ void Coordinate::cartesian( /* return */ double retval[] ) {
 	retval[0] = c->x ;
 	retval[1] = c->y ;
 	retval[2] = c->z ;
+	delete c ;
 }
 

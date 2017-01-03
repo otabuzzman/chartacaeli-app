@@ -5,6 +5,7 @@ class RealMatrix {
 
 public:
 	RealMatrix( double matrix[], int rows, int cols ) ;
+	~RealMatrix() ;
 
 	double* operate( double vector[] ) ;
 	// CXXWRAP/ JUnit
