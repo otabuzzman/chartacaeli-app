@@ -34,7 +34,7 @@ PJ2TextureMapperC3p::~PJ2TextureMapperC3p() {
 	delete spT ;
 }
 
-void PJ2TextureMapperC3p::c3pFor( /* arg(s) */ int texture[], /* return */ int mapping[] ) {
+void PJ2TextureMapperC3p::run( /* arg(s) */ int texture[], /* return */ int mapping[] ) {
 	double st[] = { 0, 0, 1 }, uv[3] ;
 	double lamphi[3] ;
 	Coordinate eq ;

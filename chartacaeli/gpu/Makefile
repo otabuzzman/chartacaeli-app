@@ -172,7 +172,6 @@ clean:
 lclean: clean
 	rm -f $(JNISRC) $(JNICLS)
 	rm -f $(GPUDLL)
-	rm -f Math
 
 # real clean
 rclean: lclean

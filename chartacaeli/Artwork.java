@@ -307,7 +307,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			texMapC3p = new chartacaeli.gpu.tst.PJ2TextureMapperC3p( proj.getClass().getSimpleName(),
 					new double[] { proj.lam0(), proj.phi1(), proj.R(), proj.k0() },
 					tmM2Pc, tmH2Tc, spTc, ups, dimo, dimp, dims, dimt ) ;
-			texMapC3p.c3pFor( texture, mapping ) ;
+			texMapC3p.run( texture, mapping ) ;
 
 			texMapC3p.delete() ;
 		}
