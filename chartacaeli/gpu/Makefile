@@ -56,7 +56,7 @@ JNIOBJ = $(subst .cxx,.o,$(JNISRC))
 TSTCLS = $(wildcard $(tstdir)/*Test.java)
 
 # default goal
-cuda:
+cuda: PJ2TextureMapperGpu.ptx
 
 $(JNISRC):
 	( cd $(srcdir) ; for c in $(notdir $(basename $(C3PSRC) $(EXPSRC))) ; do \
@@ -71,8 +71,8 @@ $(JNISRC):
 			mv ../$(tstdir)/$$c.$$$$ ../$(tstdir)/$$c.java ; fi ; done )
 
 JAREXT = \
-		junit4.jar \
-		hamcrest.jar \
+	junit4.jar \
+	hamcrest.jar \
 
 # pragma to build test classes from command line...
 testbuild: $(GPUDLL) | $(JAREXT)
@@ -99,12 +99,13 @@ testrun: $(TSTCLS)
 				org.junit.runner.JUnitCore $(TST).$$t ; done )
 
 .PHONY: all cuda testbuild testrun clean lclean rclean tidy
-.SUFFIXES: .cxx .dll .so
+.SUFFIXES: .cxx .cu .ptx .dll .so
 
 empty =
 space = $(empty) $(empty)
 
 vpath %.cpp $(srcdir)
+vpath %.cu $(srcdir)
 
 ifdef winos
 sep := ;
@@ -121,10 +122,13 @@ endif
 
 include $(notdir $(C3PSRC:.cpp=.d) $(AUXSRC:.cpp=.d) $(EXPSRC:.cpp=.d))
 
+.cu.ptx:
+
 ifdef winos
 .cpp.o:
 	$(CXX) -Wall -shared \
 	-I../caa/src \
+	-I$(CUDA_HOME)/include \
 	-c $< -o $@
 
 .cxx.o:
@@ -142,6 +146,7 @@ else
 .cpp.o:
 	$(CXX) -Wall -shared -fPIC \
 	-I../caa/src \
+	-I$(CUDA_HOME)/include \
 	-c $< -o $@
 
 .cxx.o:
@@ -167,6 +172,7 @@ clean:
 lclean: clean
 	rm -f $(JNISRC) $(JNICLS)
 	rm -f $(GPUDLL)
+	rm -f Math
 
 # real clean
 rclean: lclean

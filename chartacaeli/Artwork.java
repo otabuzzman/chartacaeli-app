@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.MessageFormat;
+import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
@@ -31,6 +31,12 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
+import edu.rit.gpu.Gpu;
+import edu.rit.gpu.GpuByteArray;
+import edu.rit.gpu.GpuDoubleMatrix;
+import edu.rit.gpu.GpuDoubleVbl;
+import edu.rit.gpu.GpuIntMatrix;
+import edu.rit.gpu.Module;
 import edu.rit.pj2.Loop;
 import edu.rit.pj2.Task;
 
@@ -44,7 +50,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String CK_IMAGEOP			= "imageop" ;
 	private final static String CK_MINVISIBLE		= "minvisible" ;
 	private final static String CK_BACKGROUND		= "background" ;
-	private final static String CK_PJ2CLASS			= "pj2class" ;
+	private final static String CK_PJ2WORKER		= "pj2worker" ;
 
 	private final static double DEFAULT_PSUNIT		= 2.834646 ;
 	private final static double DEFAULT_DPI			= 72 ;
@@ -52,7 +58,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static boolean DEFAULT_IMAGEOP	= false ;
 	private final static double DEFAULT_MINVISIBLE	= 25 ;
 	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
-	private final static String DEFAULT_PJ2CLASS	= "chartacaeli.Artwork$PJ2TextureMapperSeq" ;
+	private final static String DEFAULT_PJ2WORKER	= "chartacaeli.Artwork$PJ2TextureMapperSeq" ;
 
 	// message key (MK_)
 	private final static String MK_RUNTIME			= "runtime" ;
@@ -86,16 +92,15 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 	// mapping image of texture projection
 	private int[] mapping ;
+	// names of mapping coordinates are s, t
+	private int dims, dimt ;
+	private double maxs, maxt ;
 
 	// spatial plane of texture in heaven's coordinate system
 	private Plane spT ;
 
 	// units per dot
 	private double ups ;
-
-	// names of mapping coordinates are s, t
-	private int dims, dimt ;
-	private double maxs, maxt ;
 
 	// outline of texture projection
 	private Coordinate[] cOPT ;
@@ -312,9 +317,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperSmp extends Task {
 
-		public PJ2TextureMapperSmp() {
-		}
-
 		public void main( String[] argv ) throws Exception {
 			parallelFor( 0, dims*dimt-1 ).exec( new Loop() {
 
@@ -363,6 +365,123 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
 				}
 			} ) ;
+		}
+	}
+
+	public class PJ2TextureMapperGpu extends Task {
+
+		// configuration key (CK_)
+		private final static String CK_PJ2MODULE		= "pj2module" ;
+
+		private final static String DEFAULT_PJ2MODULE	= "chartacaeli/gpu/PJ2TextureMapperGpu.ptx" ;
+
+		public void main( String[] argv ) throws Exception {
+			Gpu gpu ;
+			String modnam ;
+			Module module ;
+
+			P4Projector t0 ; byte[] t1 ;
+			GpuByteArray pnam ;
+			GpuDoubleVbl lam0, phi1, R, k0 ;
+
+			GpuDoubleMatrix tmH2Tj, tmM2Pj ;
+			double[][] t2, t3 ;
+
+			GpuDoubleMatrix spTj ;
+			GpuIntMatrix texturej, mappingj ;
+			GpuDoubleVbl upsj, dimoj, dimpj, dimsj, dimtj ;
+			PJ2TextureMapperKernel kernel ;
+
+			// setup GPU
+			gpu = Gpu.gpu() ;
+			gpu.ensureComputeCapability (2, 0);
+
+			// load kernel module
+			modnam = Configuration.getValue( this, CK_PJ2MODULE, DEFAULT_PJ2MODULE ) ;
+			module = gpu.getModule( modnam ) ;
+
+			// setup projector name
+			t0 = (P4Projector) Registry.retrieve( P4Projector.class.getName() ) ;
+			t1 = t0.getClass().getSimpleName().getBytes( StandardCharsets.US_ASCII ) ;
+			pnam = gpu.getByteArray( t1.length ) ;
+			for ( int i=0 ; t1.length>i ; i++ )
+				pnam.item[i] = t1[i] ;
+			pnam.hostToDev() ;
+			// setup projector params
+			lam0 = module.getDoubleVbl( "lim0" ) ;
+			lam0.item = t0.lam0() ;
+			lam0.hostToDev() ;
+			phi1 = module.getDoubleVbl( "phi1" ) ;
+			phi1.item = t0.phi1() ;
+			phi1.hostToDev() ;
+			R = module.getDoubleVbl( "R" ) ;
+			R.item = t0.R() ;
+			R.hostToDev() ;
+			k0 = module.getDoubleVbl( "k0" ) ;
+			k0.item = t0.k0() ;
+			k0.hostToDev() ;
+
+			// setup M2P matrix
+			tmM2Pj = gpu.getDoubleMatrix( 3, 3 ) ;
+			t2 = tmH2T.getData() ;
+			for ( int r=0 ; 3>r ; r++ )
+				for ( int c=0 ; 3>c ; c++ )
+					tmM2Pj.item[r][c] = t2[r][c] ;
+			tmM2Pj.hostToDev() ;
+
+			// setup T2H matrix
+			tmH2Tj = gpu.getDoubleMatrix( 4, 4 ) ;
+			t3 = tmH2T.getData() ;
+			for ( int r=0 ; 4>r ; r++ )
+				for ( int c=0 ; 4>c ; c++ )
+					tmH2Tj.item[r][c] = t3[r][c] ;
+			tmH2Tj.hostToDev() ;
+
+			// setup texture spatial plane
+			spTj = gpu.getDoubleMatrix( 3, 3 ) ;
+			spTj.item[0][0] = popHP1.x ; spTj.item[0][1] = popHP1.y ; spTj.item[0][2] = popHP1.z ;
+			spTj.item[1][0] = popHP2.x ; spTj.item[1][1] = popHP2.y ; spTj.item[1][2] = popHP2.z ;
+			spTj.item[2][0] = popHP3.x ; spTj.item[2][1] = popHP3.y ; spTj.item[2][2] = popHP3.z ;
+			spTj.hostToDev() ;
+
+			// setup texture bitmap
+			texturej = gpu.getIntMatrix( dimp, dimo ) ;
+			for ( int p=0 ; dimp>p ; p++ )
+				for ( int o=0 ; dimo>o ; o++ )
+					texturej.item[p][o] = texture[dimp*p+o] ;
+			texturej.hostToDev() ;
+			// setup texture params (dimo, dimp)
+			dimoj = module.getDoubleVbl( "dimo" ) ;
+			dimoj.item = dimo ;
+			dimoj.hostToDev() ;
+			dimpj = module.getDoubleVbl( "dimp" ) ;
+			dimpj.item = dimp ;
+			dimpj.hostToDev() ;
+
+			// setup mapping bitmap
+			mappingj = gpu.getIntMatrix( dimt, dims ) ;
+			// setup mapping params (dims, dimt)
+			dimsj = module.getDoubleVbl( "dims" ) ;
+			dimsj.item = dims ;
+			dimsj.hostToDev() ;
+			dimtj = module.getDoubleVbl( "dimt" ) ;
+			dimtj.item = dimt ;
+			dimtj.hostToDev() ;
+
+			// setup general params
+			upsj = module.getDoubleVbl( "ups" ) ;
+			upsj.item = ups ;
+			upsj.hostToDev() ;
+
+			// run kernel
+			kernel = module.getKernel( PJ2TextureMapperKernel.class ) ;
+			kernel.run( pnam, tmM2Pj, tmH2Tj, spTj, texturej, mappingj ) ;
+
+			// retrieve mapping result
+			mappingj.devToHost() ;
+			for ( int t=0 ; dimt>t ; t++ )
+				for ( int s=0 ; dims>s ; s++ )
+					mapping[dimt*s+s] = mappingj.item[t][s] ;
 		}
 	}
 
@@ -576,10 +695,8 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		Constructor<?> thisctor ;
 		Task taskinst ;
 		long t0, t1 ;
-		StringBuffer msg ;
-		String fmt ;
 
-		classconf = Configuration.getValue( this, CK_PJ2CLASS, DEFAULT_PJ2CLASS ) ;
+		classconf = Configuration.getValue( this, CK_PJ2WORKER, DEFAULT_PJ2WORKER ) ;
 		classtask = Class.forName( classconf ) ;
 
 		if ( Task.class.isAssignableFrom( classtask ) ) {
@@ -592,12 +709,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		taskinst.main( null ) ;
 		t1 = System.currentTimeMillis() ;
 
-		fmt = MessageCatalog.message( this, MK_RUNTIME, "" ) ;
-		msg = new StringBuffer() ;
-		// String.valueOf returns number without grouping separator
-		msg.append( MessageFormat.format( fmt, new Object[] { classconf+".main", String.valueOf( t1-t0 ) } ) ) ;
-
-		log.info( msg ) ;
+		log.info( MessageCatalog.compose( this, MK_RUNTIME, new Object[] { classconf, String.valueOf( t1-t0 ) } ) ) ;
 	}
 
 	@Override

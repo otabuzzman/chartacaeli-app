@@ -4,6 +4,12 @@ The class *Artwork* draws artistic images of star signs on the star chart. A *fo
 ### Approach
 Find the code suitable to parallization (the *for-loop* mentioned above). Get familiar with PJ2 by enabling the *for-loop* to make use of multiple cores. That is turning a sequentional Java application into one that makes use of Symmetric Multiprocessing. Find the Java objects used or referenced by the *for-loop* and implement them as C/C++ peer objects (C3P) to get used by the CUDA kernel. Note that there is no way to run STDL on a CUDA capable device (search Google for "[*STDL functions on CUDA device*](https://www.google.de/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=STDL+functions+on+CUDA+device)"). Assure C3Ps and corresponding Java objects work identically. Use JNI for instance to make C3Ps available inside Java and define [JUnit](http://junit.org/junit4/) test cases that compares results of a given C3P with it's corresponding Java object. Another approach could be to use JUnit on the Java side, implement a different unit test subsystem for the C3Ps ([googletest](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md) for instance) and finally compare the results by using some shell tools. Write and implement the CUDA kernel. Consider a pseudo-kernel before the real one to make sure the C3Ps work as expected when tied together in a single program (see section on experimental classes below).
 
+### Build on Windows
+
+### Build on Linux
+
+### Build without CUDA capable device
+
 ### Notes on test data
 Datasets should contain random values and limits. Latter depend on the test case. Limits for latitude are 90 and -90 degrees for instance. Random values depend on the test case as well. The utility class *RandomDataset* generates pseudo-random values.
 ```
@@ -55,3 +61,5 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 - Stackoverflow answer on how to instantiate [C++ objects from class names](http://stackoverflow.com/questions/582331/is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name)
 - [Sample implementation](https://github.com/egaburov/vanaheimr) of `std::map` with [usage example](https://devtalk.nvidia.com/default/topic/523766/std-map-in-device-code/) from [CUDA ZONE](https://developer.nvidia.com/cuda-zone)
 - [CUDA Toolkit Documentation](http://docs.nvidia.com/cuda/index.html#) containing [programming guides](http://docs.nvidia.com/cuda/index.html#programming-guides), [API references](http://docs.nvidia.com/cuda/index.html#cuda-api-references) and [NVCC documentation](http://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#abstract) (among others)
+- [Separate Compilation and Linking of CUDA C++ Device Code](https://devblogs.nvidia.com/parallelforall/separate-compilation-linking-cuda-device-code/)
+- [CUDAcons repository](https://github.com/otabuzzman/cudacons) with information about setting up CUDA without capable device
