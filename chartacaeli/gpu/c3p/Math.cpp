@@ -1,3 +1,6 @@
+#include <cstdio>
+#include <cstdlib>
+
 #include "Math.h"
 #include "AACoordinateTransformation.h"
 
@@ -23,4 +26,23 @@ double Math::atan( double a ) {
 
 double Math::atan2( double y, double x ) {
 	return CAACoordinateTransformation::RadiansToDegrees( std::atan2( y, x ) ) ;
+}
+
+// pseudo-kernel (ridicoulos)
+#define NUM_THREADS 360
+
+int main( int argc, char** argv ) {
+	double* buf ;
+
+	buf = new double[NUM_THREADS] ;
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ )
+		buf[i] = Math::asin( Math::sin( i ) ) ;
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ )
+		printf( "%.8f\n", buf[i] ) ;
+
+	delete buf ;
+
+	return EXIT_SUCCESS ;
 }

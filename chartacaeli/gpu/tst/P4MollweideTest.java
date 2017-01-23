@@ -165,6 +165,6 @@ public class P4MollweideTest {
 
 	static {
 		System.loadLibrary( "caa" ) ;
-		System.loadLibrary( "gpu" ) ;
+		System.loadLibrary( "c3p" ) ;
 	}
 }

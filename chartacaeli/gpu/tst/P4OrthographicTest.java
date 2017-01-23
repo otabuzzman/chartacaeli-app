@@ -163,6 +163,6 @@ public class P4OrthographicTest {
 
 	static {
 		System.loadLibrary( "caa" ) ;
-		System.loadLibrary( "gpu" ) ;
+		System.loadLibrary( "c3p" ) ;
 	}
 }

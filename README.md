@@ -38,7 +38,6 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 
   ```
   ( cd chartacaeli/caa ; make ; make all )
-  ( cd chartacaeli/gpu ; make ; make all )
   make
   make all
   ```
@@ -61,13 +60,16 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 - Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7).
 - Download and install [Ghostscript](http://ghostscript.com/download/).
 - Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub.
+- Download and install [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) and samples as described in PJ2AWS repository.
 - Set up the environment:
   ```
   export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
   export JAVA_HOME=/usr/lib/jvm/java
   export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
-  export LD_LIBRARY_PATH=.:chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
+  export CUDA_HOME=/usr/local/cuda
+  export LD_LIBRARY_PATH=.:chartacaeli/caa:$CUDA_HOME/lib64:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
+  export PATH=CUDA_HOME/bin:$PATH
 
   # Install CXXWRAP
   ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )

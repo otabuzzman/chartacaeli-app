@@ -181,6 +181,6 @@ public class PlaneTest {
 	}
 
 	static {
-		System.loadLibrary( "gpu" ) ;
+		System.loadLibrary( "c3p" ) ;
 	}
 }

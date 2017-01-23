@@ -271,6 +271,6 @@ public class RealMatrixTest {
 	}
 
 	static {
-		System.loadLibrary( "gpu" ) ;
+		System.loadLibrary( "c3p" ) ;
 	}
 }

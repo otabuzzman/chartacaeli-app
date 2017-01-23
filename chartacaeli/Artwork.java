@@ -317,6 +317,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperSmp extends Task {
 
+		public PJ2TextureMapperSmp() {
+		}
+
 		public void main( String[] argv ) throws Exception {
 			parallelFor( 0, dims*dimt-1 ).exec( new Loop() {
 
@@ -368,12 +371,15 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		}
 	}
 
-	public class PJ2TextureMapperGpu extends Task {
+	private class PJ2TextureMapperGpu extends Task {
 
 		// configuration key (CK_)
 		private final static String CK_PJ2MODULE		= "pj2module" ;
 
 		private final static String DEFAULT_PJ2MODULE	= "chartacaeli/gpu/PJ2TextureMapperGpu.ptx" ;
+
+		public PJ2TextureMapperGpu() {
+		}
 
 		public void main( String[] argv ) throws Exception {
 			Gpu gpu ;

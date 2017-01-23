@@ -4,92 +4,95 @@ else
 	linos := 1
 endif
 
-JNI = gpu
+JNI = c3p
 
 # this package
-PKG = chartacaeli.$(JNI)
+PKG = chartacaeli.gpu
 
-# sub-package with test classes
-TST = $(PKG).$(tstdir)
+# C3P test package
+TST = $(PKG).$(c3ptst)
 
 # top-level diretory is current minus package (e.g. /foo/bar/hot minus bar.hot yields /foo)
 topdir = $(subst $(subst .,/,$(PKG)),,$(CURDIR))
-srcdir = src
-tstdir = tst
-pkgdir	= $(subst .,/,$(PKG))
+
+c3psrc = c3p
+c3ptst = tst
+
+dcpsrc = dcp
 
 ifdef winos
-GPUDLL = $(JNI).dll
+C3PDLL = $(JNI).dll
 else
-GPUDLL = lib$(JNI).so
+C3PDLL = lib$(JNI).so
 endif
 
 # C++ peer classes
-C3PSRC = \
-	$(srcdir)/Coordinate.cpp \
-	$(srcdir)/Vector3D.cpp \
-	$(srcdir)/Plane.cpp \
-	$(srcdir)/Math.cpp \
-	$(srcdir)/RealMatrix.cpp \
-	$(srcdir)/P4Mollweide.cpp \
-	$(srcdir)/P4Orthographic.cpp \
-	$(srcdir)/P4Stereographic.cpp \
+C3PIMP = \
+	$(c3psrc)/Coordinate.cpp \
+	$(c3psrc)/Vector3D.cpp \
+	$(c3psrc)/Plane.cpp \
+	$(c3psrc)/Math.cpp \
+	$(c3psrc)/RealMatrix.cpp \
+	$(c3psrc)/P4Mollweide.cpp \
+	$(c3psrc)/P4Orthographic.cpp \
+	$(c3psrc)/P4Stereographic.cpp \
 
-# C++ auxiliary classes
-AUXSRC = \
-	$(srcdir)/P4ProjectorFactory.cpp \
-
-# C++ experimental classes
-EXPSRC = \
-	$(srcdir)/PJ2TextureMapperC3p.cpp \
-
-C3POBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(C3PSRC))
-AUXOBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(AUXSRC))
-EXPOBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(EXPSRC))
+C3POBJ = \
+	$(subst .cpp,.o,$(C3PIMP)) \
+	$(subst .cxx,.o,$(C3PJXX)) \
 
 # JNI wrapper for JUnit testing
-JNICLS = $(patsubst $(srcdir)/%.cpp,$(tstdir)/%.java,$(C3PSRC) $(EXPSRC))
-JNISRC = $(subst .java,_jni.cxx,$(JNICLS))
-JNIOBJ = $(subst .cxx,.o,$(JNISRC))
+C3PJNI = $(patsubst $(c3psrc)/%.cpp,$(c3ptst)/%.java,$(C3PIMP) $(c3psrc)/PJ2TextureMapperC3p.cpp)
+C3PJXX = $(subst .java,_jni.cxx,$(C3PJNI))
 
 # JUnit test classes
-TSTCLS = $(wildcard $(tstdir)/*Test.java)
+C3PTST = $(wildcard $(c3ptst)/*Test.java)
+
+# derived CUDA peer implementations
+DCPIMP = \
+	$(dcpsrc)/Math.cu \
+
+DCPOBJ = $(subst .cu,.o,$(DCPIMP))
 
 # default goal
-cuda: PJ2TextureMapperGpu.ptx
+cuda: PJ2TextureMapperGpu.cubin
 
-$(JNISRC):
-	( cd $(srcdir) ; for c in $(notdir $(basename $(C3PSRC) $(EXPSRC))) ; do \
+PJ2TextureMapperGpu.cubin: $(dcpsrc)/Math.o
+
+$(C3PJXX):
+	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
 		$(CXXWRAP) \
 			--jni --jni-attributes \
 			--classpath=$(topdir) \
 			--package-prefix=$(TST) $$c.h ; \
 		if expr $$c : P4 ; then \
 			sed -e 's,public class.*,public class '$$c' extends Object implements P4Projector {,' \
-			<../$(tstdir)/$$c.java \
-			>../$(tstdir)/$$c.$$$$ ; \
-			mv ../$(tstdir)/$$c.$$$$ ../$(tstdir)/$$c.java ; fi ; done )
+			<../$(c3ptst)/$$c.java \
+			>../$(c3ptst)/$$c.$$$$ ; \
+			mv ../$(c3ptst)/$$c.$$$$ ../$(c3ptst)/$$c.java ; fi ; done )
 
 JAREXT = \
 	junit4.jar \
 	hamcrest.jar \
 
+pkgdir = $(subst .,/,$(PKG))
+
 # pragma to build test classes from command line...
-testbuild: $(GPUDLL) | $(JAREXT)
+testbuild: $(C3PDLL) | $(JAREXT)
 	( cd $(topdir) ; \
 		javac -classpath "$(subst $(space),$(sep), \
 			$| \
 			lib/jts-1.14.jar \
 			lib/commons-math3-3.5.jar \
 			$(addprefix $(pkgdir)/,$(JAREXT)))" \
-			-d . $(addprefix $(pkgdir)/,$(JNICLS) $(TSTCLS)) )
+			-d . $(addprefix $(pkgdir)/,$(C3PJNI) $(C3PTST) $(c3ptst)/P4Projector.java $(c3ptst)/RandomDataset.java) )
 
 # pragma to run test classes from command line...
-testrun: $(TSTCLS)
+testrun: $(C3PTST)
 	@( cd $(topdir) ; \
 		PATH=$(pkgdir):$$PATH ; \
 		LD_LIBRARY_PATH=$(pkgdir):$$LD_LIBRARY_PATH ; \
-		for t in $(notdir $(basename $(TSTCLS))) ; do \
+		for t in $(notdir $(basename $(C3PTST))) ; do \
 			echo "*** $$t ***" ; \
 			java -classpath "$(subst $(space),$(sep), \
 				chartacaeli \
@@ -99,18 +102,20 @@ testrun: $(TSTCLS)
 				org.junit.runner.JUnitCore $(TST).$$t ; done )
 
 .PHONY: all cuda testbuild testrun clean lclean rclean tidy
-.SUFFIXES: .cxx .cu .ptx .dll .so
+.SUFFIXES: .cxx .cu .cubin .dll .so
 
 empty =
 space = $(empty) $(empty)
 
-vpath %.cpp $(srcdir)
-vpath %.cu $(srcdir)
+vpath %.cpp $(c3psrc)
+vpath %.cu $(c3psrc)
 
 ifdef winos
 sep := ;
+exe := .exe
 else
 sep := :
+exe :=
 endif
 
 # see GNU make manual 4.14 "Generating Prerequisites Automatically"
@@ -120,9 +125,7 @@ endif
 		sed 's,\($(*F)\)\.o[ :]*,\1.o $(@F) : ,g' < $(@F).$$$$ > $(@F); \
 		rm -f $(@F).$$$$
 
-include $(notdir $(C3PSRC:.cpp=.d) $(AUXSRC:.cpp=.d) $(EXPSRC:.cpp=.d))
-
-.cu.ptx:
+include $(notdir $(C3PIMP:.cpp=.d)) P4ProjectorFactory.d PJ2TextureMapperC3p.d
 
 ifdef winos
 .cpp.o:
@@ -133,15 +136,18 @@ ifdef winos
 
 .cxx.o:
 	$(CXX) -Wall -shared \
-	-Isrc \
+	-I$(c3psrc) \
 	-I"$(JAVA_HOME)/include" \
 	-I"$(JAVA_HOME)/include/win32" \
 	-c $< -o $@
 
-$(GPUDLL): $(C3POBJ) $(AUXOBJ) $(EXPOBJ) $(JNIOBJ)
+$(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
 	$(CXX) -Wall -shared \
 	-static-libgcc -static-libstdc++ \
 	-o $@ $^
+
+$(c3psrc)/Math: $(c3psrc)/Math.o
+	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 else
 .cpp.o:
 	$(CXX) -Wall -shared -fPIC \
@@ -151,32 +157,45 @@ else
 
 .cxx.o:
 	$(CXX) -Wall -shared -fPIC \
-	-Isrc \
+	-I$(c3psrc) \
 	-I$(JAVA_HOME)/include \
 	-I$(JAVA_HOME)/include/linux \
 	-c $< -o $@
 
-$(GPUDLL): $(C3POBJ) $(AUXOBJ) $(EXPOBJ) $(JNIOBJ)
+$(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
 	$(CXX) -Wall -shared \
 	-o $@ $^
+
+.cu.cubin:
+
+.cu.o:
+	nvcc -Wno-deprecated-gpu-targets -I$$CUDA_HOME/include -I~/cuda-samples-linux-7.5.18/common/inc -o $@ -dc $<
+
+$(dcpsrc)/Math: $(dcpsrc)/Math.o
+	nvcc -Wno-deprecated-gpu-targets -I$$CUDA_HOME/include -I~/cuda-samples-linux-7.5.18/common/inc -o $@ $^
 endif
 
 all: cuda
 
 # compiler objects
 clean:
-	rm -f $(C3POBJ) $(AUXOBJ) $(EXPOBJ) $(JNIOBJ)
-	rm -f $(addsuffix *.class,$(basename $(JNICLS)))
+	rm -f $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
+	rm -f $(subst .java,.class,$(C3PJNI)) $(c3ptst)/P4Projector.class $(c3ptst)/RandomDataset.class
+	rm -f $(subst .java,.class,$(C3PTST))
+	rm -f $(DCPOBJ)
+	rm -f PJ2TextureMapperGpu.o
 
 # local clean
 lclean: clean
-	rm -f $(JNISRC) $(JNICLS)
-	rm -f $(GPUDLL)
+	rm -f $(C3PJXX) $(C3PJNI)
+	rm -f $(C3PDLL)
+	rm -f $(c3psrc)/Math$(exe) $(dcpsrc)/Math$(exe) $(dcpsrc)/Math.exp $(dcpsrc)/Math.lib
 
 # real clean
 rclean: lclean
-	rm -f $(notdir $(C3PSRC:.cpp=.d) $(AUXSRC:.cpp=.d) $(EXPSRC:.cpp=.d))
+	rm -f $(notdir $(C3PIMP:.cpp=.d)) P4ProjectorFactory.d PJ2TextureMapperC3p.d
 	rm -f $(JAREXT)
+	rm -f PJ2TextureMapperGpu.cubin
 
 tidy: rclean
 
