@@ -56,20 +56,22 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   Registry errors might occur during the first run without administrator privileges. In that case run the tool once in a bash with admin rights. Further executions can be done with user rights.
 
 ### Build on Linux
-- Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/).
-- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7).
+- Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/). Set shell variable `CXX` to point at C++ compiler.
+- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7). Set `JAVA_HOME` as descibed in Windows section.
 - Download and install [Ghostscript](http://ghostscript.com/download/).
-- Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub.
-- Download and install [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) and samples as described in PJ2AWS repository.
+- Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub. Set shell variables according to sction on Windows.
+- Download and install [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) and samples as described in PJ2AWS repository. Set `CUDA_HOME` to point at installation directory. Set `CUDA_CINC` to properly resolve `$CUDA_CINC/common/inc` directory in CUDA Samples.
 - Set up the environment:
   ```
+  export CXX=g++
   export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
   export JAVA_HOME=/usr/lib/jvm/java
   export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
   export CUDA_HOME=/usr/local/cuda
+  export CUDA_CINC=~/lab/cudacons/cuda-samples-linux-7.5.18
   export LD_LIBRARY_PATH=.:chartacaeli/caa:$CUDA_HOME/lib64:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
-  export PATH=CUDA_HOME/bin:$PATH
+  export PATH=$CUDA_HOME/bin:$PATH
 
   # Install CXXWRAP
   ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )

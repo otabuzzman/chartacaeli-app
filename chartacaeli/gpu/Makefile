@@ -169,10 +169,10 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 .cu.cubin:
 
 .cu.o:
-	nvcc -Wno-deprecated-gpu-targets -I$$CUDA_HOME/include -I~/cuda-samples-linux-7.5.18/common/inc -o $@ -dc $<
+	nvcc -Wno-deprecated-gpu-targets -I$$CUDA_HOME/include -I$$CUDA_CINC/common/inc -o $@ -dc $<
 
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
-	nvcc -Wno-deprecated-gpu-targets -I$$CUDA_HOME/include -I~/cuda-samples-linux-7.5.18/common/inc -o $@ $^
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 endif
 
 all: cuda
