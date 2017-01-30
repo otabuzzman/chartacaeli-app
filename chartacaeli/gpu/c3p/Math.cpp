@@ -28,7 +28,8 @@ double Math::atan2( double y, double x ) {
 	return CAACoordinateTransformation::RadiansToDegrees( std::atan2( y, x ) ) ;
 }
 
-// pseudo-kernel (ridicoulos)
+#ifdef MATH_MAIN
+// pseudo-kernel (ridiculous)
 #define NUM_THREADS 360
 
 int main( int argc, char** argv ) {
@@ -46,3 +47,4 @@ int main( int argc, char** argv ) {
 
 	return EXIT_SUCCESS ;
 }
+#endif // MATH_MAIN

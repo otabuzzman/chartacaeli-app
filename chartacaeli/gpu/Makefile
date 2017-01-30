@@ -51,13 +51,14 @@ C3PTST = $(wildcard $(c3ptst)/*Test.java)
 # derived CUDA peer implementations
 DCPIMP = \
 	$(dcpsrc)/Math.cu \
+	$(dcpsrc)/Coordinate.cu \
 
 DCPOBJ = $(subst .cu,.o,$(DCPIMP))
 
 # default goal
 cuda: PJ2TextureMapperGpu.cubin
 
-PJ2TextureMapperGpu.cubin: $(dcpsrc)/Math.o
+PJ2TextureMapperGpu.cubin: $(dcpsrc)/Math.o $(dcpsrc)/Coordinate.o
 
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
@@ -77,7 +78,7 @@ JAREXT = \
 
 pkgdir = $(subst .,/,$(PKG))
 
-# pragma to build test classes from command line...
+# pragma to build C3P test classes from command line...
 testbuild: $(C3PDLL) | $(JAREXT)
 	( cd $(topdir) ; \
 		javac -classpath "$(subst $(space),$(sep), \
@@ -87,7 +88,7 @@ testbuild: $(C3PDLL) | $(JAREXT)
 			$(addprefix $(pkgdir)/,$(JAREXT)))" \
 			-d . $(addprefix $(pkgdir)/,$(C3PJNI) $(C3PTST) $(c3ptst)/P4Projector.java $(c3ptst)/RandomDataset.java) )
 
-# pragma to run test classes from command line...
+# pragma to run C3P test classes from command line...
 testrun: $(C3PTST)
 	@( cd $(topdir) ; \
 		PATH=$(pkgdir):$$PATH ; \
@@ -129,9 +130,8 @@ include $(notdir $(C3PIMP:.cpp=.d)) P4ProjectorFactory.d PJ2TextureMapperC3p.d
 
 ifdef winos
 .cpp.o:
-	$(CXX) -Wall -shared \
+	$(CXX) $(CXXFLAGS) -Wall -shared \
 	-I../caa/src \
-	-I$(CUDA_HOME)/include \
 	-c $< -o $@
 
 .cxx.o:
@@ -146,13 +146,37 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 	-static-libgcc -static-libstdc++ \
 	-o $@ $^
 
+# C3P test programs (c3p/%.exe)
 $(c3psrc)/Math: $(c3psrc)/Math.o
 	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
+$(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
+	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
+
+.cu.cubin:
+	@echo "*** compiling $@ from $< not supported on Windows"
+
+.cu.o:
+	@echo "*** compiling $@ from $< not supported on Windows"
+
+# DCP test programs (dcp/%.exe)
+$(dcpsrc)/Math: $(dcpsrc)/Math.o
+	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(subst /,\\,$@).cmd
+$(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(subst /,\\,$@).cmd
 else
 .cpp.o:
-	$(CXX) -Wall -shared -fPIC \
+	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \
 	-I../caa/src \
 	-I$(CUDA_HOME)/include \
+	-I$(CUDA_CINC)/common/inc \
 	-c $< -o $@
 
 .cxx.o:
@@ -166,30 +190,45 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 	$(CXX) -Wall -shared \
 	-o $@ $^
 
+# C3P test programs (c3p/%.exe)
+$(c3psrc)/Math: $(c3psrc)/Math.o
+	$(CXX) -o $@ $^
+$(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
+	$(CXX) -o $@ $^
+
 .cu.cubin:
 
 .cu.o:
-	nvcc -Wno-deprecated-gpu-targets -I$$CUDA_HOME/include -I$$CUDA_CINC/common/inc -o $@ -dc $<
+	nvcc $(CXXFLAGS) -Wno-deprecated-gpu-targets \
+	-I$(CUDA_HOME)/include \
+	-I$(CUDA_CINC)/common/inc \
+	-o $@ -dc $<
 
+# DCP test programs (dcp/%.exe)
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
+$(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 endif
 
 all: cuda
 
 # compiler objects
-clean:
-	rm -f $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
+clean: c3pclean dcpclean
 	rm -f $(subst .java,.class,$(C3PJNI)) $(c3ptst)/P4Projector.class $(c3ptst)/RandomDataset.class
 	rm -f $(subst .java,.class,$(C3PTST))
-	rm -f $(DCPOBJ)
 	rm -f PJ2TextureMapperGpu.o
+c3pclean:
+	rm -f $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
+dcpclean:
+	rm -f $(DCPOBJ)
 
 # local clean
 lclean: clean
 	rm -f $(C3PJXX) $(C3PJNI)
 	rm -f $(C3PDLL)
 	rm -f $(c3psrc)/Math$(exe) $(dcpsrc)/Math$(exe) $(dcpsrc)/Math.exp $(dcpsrc)/Math.lib
+	rm -f $(c3psrc)/Coordinate$(exe) $(dcpsrc)/Coordinate$(exe) $(dcpsrc)/Coordinate.exp $(dcpsrc)/Coordinate.lib
 
 # real clean
 rclean: lclean

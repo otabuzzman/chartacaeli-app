@@ -1,4 +1,6 @@
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
 
 #include "Coordinate.h"
 #include "Math.h"
@@ -32,7 +34,7 @@ Coordinate* Coordinate::spherical() {
 	x = Math::atan2( this->y, this->x ) ;
 	y = Math::asin( z/sqrt( this->x*this->x+this->y*this->y+z*z ) ) ;
 
-	c = new Coordinate( x, y, z ) ;
+	c = new Coordinate( x, y, 0 ) ;
 
 	return c ;
 }
@@ -77,3 +79,34 @@ void Coordinate::cartesian( /* return */ double retval[] ) {
 	delete c ;
 }
 
+#ifdef COORDINATE_MAIN
+// pseudo-kernel (ridiculous)
+#define NUM_THREADS 360
+
+int main( int argc, char** argv ) {
+	Coordinate *ca, *t0, *co ;
+	double* buf ;
+
+	ca = new Coordinate() ;
+	buf = new double[3*NUM_THREADS] ;
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ ) {
+		ca->set( i, i+1, i+2 ) ;
+		t0 = ca->spherical() ;
+		co = t0->cartesian() ;
+		buf[3*i] = co->x ;
+		buf[3*i+1] = co->y ;
+		buf[3*i+2] = co->z ;
+		delete co ;
+		delete t0 ;
+	}
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ )
+		printf( "%.8f %.8f %.8f\n", buf[3*i], buf[3*i+1], buf[3*i+2] ) ;
+
+	delete buf ;
+	delete ca ;
+
+	return EXIT_SUCCESS ;
+}
+#endif // COORDINATE_MAIN

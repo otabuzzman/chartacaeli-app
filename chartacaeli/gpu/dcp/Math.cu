@@ -15,13 +15,13 @@ __device__ double radians( double a ) {
 }
 
 // kernel
-__global__ void kernel( double* buf ) {
+__global__ void math( double* buf ) {
 	buf[threadIdx.x] = degrees( asin ( sin( radians( (double) threadIdx.x ) ) ) ) ;
 }
 
+#ifdef MATH_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
-
 
 int main( int argc, char** argv ) {
 	// host buffer
@@ -41,7 +41,7 @@ int main( int argc, char** argv ) {
 	checkCudaErrors( cudaMalloc( (void**) &dbuf, sizeof( double )*NUM_THREADS ) ) ;
 
 	// run kernel
-	kernel<<<NUM_BLOCKS, NUM_THREADS>>>( dbuf ) ;
+	math<<<NUM_BLOCKS, NUM_THREADS>>>( dbuf ) ;
 
 	// copy kernel results from device buffer to host
 	checkCudaErrors( cudaMemcpy( buf, dbuf, sizeof( double )*NUM_THREADS, cudaMemcpyDeviceToHost ) ) ;
@@ -53,3 +53,4 @@ int main( int argc, char** argv ) {
 
 	return EXIT_SUCCESS ;
 }
+#endif // MATH_MAIN
