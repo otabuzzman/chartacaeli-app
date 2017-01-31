@@ -46,9 +46,9 @@ __device__ Coordinate* Coordinate::cartesian() {
 	double x, y, z ;
 	Coordinate *c ;
 
-	x = radians( cos( this->y ) )*radians( cos( this->x ) ) ;
-	y = radians( cos( this->y ) )*radians( sin( this->x ) ) ;
-	z = radians( sin( this->y ) ) ;
+	x = cos( radians( this->y ) )*cos( radians( this->x ) ) ;
+	y = cos( radians( this->y ) )*sin( radians( this->x ) ) ;
+	z = sin( radians( this->y ) ) ;
 
 	c = new Coordinate( x, y, z ) ;
 

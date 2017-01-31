@@ -2,13 +2,31 @@
 The class *Artwork* draws artistic images of star signs on the star chart. A *for-loop* handles the images sequentially pixel by pixel. It is substituted and thus parallelized by a CUDA kernel. To this end [Parallel Java 2 Library](https://www.cs.rit.edu/~ark/pj2.shtml) (PJ2) acts as a bridge from Java to CUDA and vice versa. PJ2 allows to run a CUDA kernel from a Java application. With PJ2 the parallelization of Java classes is essentially reduced to kernel development. At least in terms of coding. Note however that PJ2 does not change the basic procedure for the [parallelization of existing sequential software](http://alecu.ase.ro/conferences/conf_2003_cluj.pdf).
 
 ### Approach
-Find the code suitable to parallization (the *for-loop* mentioned above). Get familiar with PJ2 by enabling the *for-loop* to make use of multiple cores. That is turning a sequentional Java application into one that makes use of Symmetric Multiprocessing. Find the Java objects used or referenced by the *for-loop* and implement them as C/C++ peer objects (C3P) to get used by the CUDA kernel. Note that there is no way to run STDL on a CUDA capable device (search Google for "[*STDL functions on CUDA device*](https://www.google.de/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=STDL+functions+on+CUDA+device)"). Assure C3Ps and corresponding Java objects work identically. Use JNI for instance to make C3Ps available inside Java and define [JUnit](http://junit.org/junit4/) test cases that compares results of a given C3P with it's corresponding Java object. Another approach could be to use JUnit on the Java side, implement a different unit test subsystem for the C3Ps ([googletest](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md) for instance) and finally compare the results by using some shell tools. Write and implement the CUDA kernel. Consider a pseudo-kernel before the real one to make sure the C3Ps work as expected when tied together in a single program (see section on experimental classes below).
+Find the code suitable to parallization (the *for-loop* mentioned above). Get familiar with PJ2 by enabling the *for-loop* to make use of multiple cores. That is turning a sequentional Java application into one that makes use of Symmetric Multiprocessing. Find the Java objects used or referenced by the *for-loop* and implement them as C/C++ peer objects (C3P) to get used by the CUDA kernel. Note that there is no way to run STDL on a CUDA capable device (search Google for "[*STDL functions on CUDA device*](https://www.google.de/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=STDL+functions+on+CUDA+device)"). Assure C3Ps and corresponding Java objects work identically. Use JNI for instance to make C3Ps available inside Java and define [JUnit](http://junit.org/junit4/) test cases that compares results of a given C3P with it's corresponding Java object. Another approach could be to use JUnit on the Java side, implement a different unit test subsystem for the C3Ps ([googletest](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md) for instance) and finally compare the results by using some shell tools. Prepare writing the CUDA kernel. Consider a pseudo-kernel before the real one to make sure the C3Ps work as expected when tied together in a single program (see section on experimental classes below). There is no CUDA code contained in the pseudo-kernel. It is a regular C/C++ program mimicking the actual CUDA kernel. Derive CUDA code from C3P modules so that there is a derived CUDA peer (DCP) for each C3P. Implement a `main` function in each C3P performing an arbitrary test for some functions (or even all) of the C3P in question. Implement a real kernel in each DCP perfoming the same test as the corresponding C3P does. Assure equal results. Write the kernel.
 
-### Build on Windows
+### Notes on C3P and DCP test programs
+Each C3P object has a `main` function that uses some arbitrary chosen of the object's methods. Each DCP object does exactly the same calculations as it's corresponding C3P object but inside a CUDA kernel. Testing means to compare stdout of a C3P program with that of it's DCP pendant and check to see if they equal. Some C3P objects (DCP pendants as well) depend on others (e.g. `Coordinate.o` depends on `Math.o`). There is a preprocessor constant for each module to control compilation of `main`. The constant's value for `Math` (both C3P and DCP) ist `MATH_MAIN` for `Coordinate` it's `COORDINATE_MAIN`.
+```
+# build C3P test program
+make CXXFLAGS=-DMATH_MAIN c3p/Math
+# build DCP pendant
+make CXXFLAGS=-DMATH_MAIN dcp/Math
+# capture stdout
+c3p/Math >Math.3
+dcp/Math >Math.C
+# compare results
+cmp Math.3 Math.C
 
-### Build on Linux
-
-### Build without CUDA capable device
+# build C3P test program with multiple objects
+make CXXFLAGS=-DCOORDINATE_MAIN c3pclean c3p/Coordinate
+# build DCP pendant
+make CXXFLAGS=-DCOORDINATE_MAIN dcpclean dcp/Coordinate
+# capture stdout
+c3p/Math >Coordinate.3
+dcp/Math >Coordinate.C
+# compare results
+cmp Coordinate.3 Coordinate.C
+```
 
 ### Notes on test data
 Datasets should contain random values and limits. Latter depend on the test case. Limits for latitude are 90 and -90 degrees for instance. Random values depend on the test case as well. The utility class *RandomDataset* generates pseudo-random values.
@@ -48,7 +66,7 @@ PATH=chartacaeli/gpu:$PATH java -classpath "chartacaeli;lib/jts-1.14.jar;" chart
 PATH=chartacaeli/gpu:$PATH java -classpath "chartacaeli;lib/jts-1.14.jar;" chartacaeli.gpu.tst.P4MollweideTest
 ```
 
-### Notes on experimental classes
+### Notes on experimental inner classes of Artwork
 These are for testing the C3P classes from inside the application (JUnit not involved). `Artwork$PJ2TextureMapperJni` is a C3P version of `Artwork$PJ2TextureMapperSeq`. It uses C3P objects (e.g. `RealMatrix`, `Plane`, `P4Projector`) instead of corresponding objects in `chartacaeli`. `Artwork$PJ2TextureMapperC3p` is a pure C++ implementation of `Artwork$PJ2TextureMapperSeq`. Both are marked as comments in `Artwork`. To use them run `make testbuild` in `gpu` folder. Then remove comments and compile `Artwork`.
 
 ### Cues and findings
@@ -63,3 +81,4 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 - [CUDA Toolkit Documentation](http://docs.nvidia.com/cuda/index.html#) containing [programming guides](http://docs.nvidia.com/cuda/index.html#programming-guides), [API references](http://docs.nvidia.com/cuda/index.html#cuda-api-references) and [NVCC documentation](http://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#abstract) (among others)
 - [Separate Compilation and Linking of CUDA C++ Device Code](https://devblogs.nvidia.com/parallelforall/separate-compilation-linking-cuda-device-code/)
 - [CUDAcons repository](https://github.com/otabuzzman/cudacons) with information about setting up CUDA without capable device
+- An Idiot's Guide to C++ Templates [Part 1](https://www.codeproject.com/Articles/257589/An-Idiots-Guide-to-Cplusplus-Templates-Part) and [Part 2](https://www.codeproject.com/Articles/268849/An-Idiots-Guide-to-Cplusplus-Templates-Part) on [Codeproject](https://www.codeproject.com/)

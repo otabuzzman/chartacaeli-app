@@ -102,7 +102,7 @@ testrun: $(C3PTST)
 				$(addprefix $(pkgdir)/,$(JAREXT)))" \
 				org.junit.runner.JUnitCore $(TST).$$t ; done )
 
-.PHONY: all cuda testbuild testrun clean lclean rclean tidy
+.PHONY: all cuda testbuild testrun clean c3pclean dcpclean lclean rclean tidy
 .SUFFIXES: .cxx .cu .cubin .dll .so
 
 empty =
@@ -176,7 +176,7 @@ else
 	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \
 	-I../caa/src \
 	-I$(CUDA_HOME)/include \
-	-I$(CUDA_CINC)/common/inc \
+	-I$(CUDA_SAMP)/common/inc \
 	-c $< -o $@
 
 .cxx.o:
@@ -201,7 +201,7 @@ $(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
 .cu.o:
 	nvcc $(CXXFLAGS) -Wno-deprecated-gpu-targets \
 	-I$(CUDA_HOME)/include \
-	-I$(CUDA_CINC)/common/inc \
+	-I$(CUDA_SAMP)/common/inc \
 	-o $@ -dc $<
 
 # DCP test programs (dcp/%.exe)
