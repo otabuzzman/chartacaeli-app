@@ -98,7 +98,7 @@ int main( int argc, char** argv ) {
 
 	// output result on stdout
 	for ( int i=0 ; NUM_THREADS>i ; i++ )
-		printf( "%.8f %.8f %.8f %.8f\n", buf[4*i], buf[4*i+1], buf[4*i+2], buf[4*i+3] ) ;
+		printf( "%.4f %.4f %.4f %.4f\n", buf[4*i], buf[4*i+1], buf[4*i+2], buf[4*i+3] ) ;
 
 	return EXIT_SUCCESS ;
 }

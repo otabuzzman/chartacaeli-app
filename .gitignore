@@ -17,8 +17,6 @@ chartacaeli/gpu/tst/**
 !chartacaeli/gpu/tst/P4Projector.java
 !chartacaeli/gpu/tst/RandomDataset.java
 chartacaeli/model/
-*.3
-*.C
 *.class
 *.cubin
 *.d
@@ -28,4 +26,5 @@ chartacaeli/model/
 *.jar
 *.lib
 *.o
+*.out
 *.so

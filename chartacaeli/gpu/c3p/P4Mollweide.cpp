@@ -5,6 +5,7 @@
 #include "P4Mollweide.h"
 #include "Coordinate.h"
 #include "Math.h"
+using namespace std;
 
 P4PROJECTOR_CDEF(P4Mollweide) ;
 

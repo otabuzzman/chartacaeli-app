@@ -97,7 +97,7 @@ int main( int argc, char** argv ) {
 	}
 
 	for ( int i=0 ; NUM_THREADS>i ; i++ )
-		printf( "%.8f\n", buf[i] ) ;
+		printf( "%.6f\n", buf[i] ) ;
 
 	delete buf ;
 	delete b ;

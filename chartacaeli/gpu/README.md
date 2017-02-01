@@ -5,12 +5,12 @@ The class *Artwork* draws artistic images of star signs on the star chart. A *fo
 Find the code suitable to parallization (the *for-loop* mentioned above). Get familiar with PJ2 by using it to enable the *for-loop* to make use of multiple cores. That is turning a sequentional Java application into one that makes use of Symmetric Multiprocessing. Find the Java objects used or referenced by the *for-loop* and implement them as C/C++ peer objects (C3P) to get used by the CUDA kernel later. Note that there is no way to run STDL on a CUDA capable device (search Google for "[*STDL functions on CUDA device*](https://www.google.de/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=STDL+functions+on+CUDA+device)"). Assure C3Ps and corresponding Java objects work identically. Use JNI for instance to make C3Ps available inside Java and define [JUnit](http://junit.org/junit4/) test cases that compares results of a given C3P with it's corresponding Java object. Another approach could be to use JUnit on the Java side, implement a different unit test subsystem for the C3Ps ([googletest](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md) for instance) and finally compare the results by using some shell tools. Prepare writing the CUDA kernel. Consider a pseudo-kernel before the real one to make sure the C3Ps work as expected when tied together to a single program (see section on experimental classes below). The pseudo-kernel is a regular C/C++ program mimicking the actual CUDA kernel. There is no CUDA code in it. Derive CUDA code from C3P modules so that there is a derived CUDA peer (DCP) for each C3P. Implement a `main` function in each C3P performing an arbitrary test for some functions (or even all) of the C3P in question. Implement a real kernel in each DCP perfoming the same test as the corresponding C3P does. Assure equal results. Write the kernel.
 
 ### Notes on C3P and DCP test programs
-Each C3P object has a `main` function that uses some arbitrary chosen of the object's methods. Each DCP object does exactly the same calculations as it's corresponding C3P object but inside a CUDA kernel. Testing means to compare stdout of a C3P program with that of it's DCP pendant and check to see if they equal. Some C3P objects (DCP pendants as well) depend on others (e.g. `Coordinate.o` depends on `Math.o`). There is a preprocessor constant for each module to control compilation of `main`. The constant's value for `Math` (both C3P and DCP) ist `MATH_MAIN` for `Coordinate` it's `COORDINATE_MAIN`.
+Each C3P object has a `main` function that uses some arbitrary chosen methods of the object. Each DCP object does exactly the same calculations as it's corresponding C3P object but inside a CUDA kernel. Testing means to compare stdout of a C3P program with that of it's DCP pendant and check to see if they equal. Some C3P objects (DCP pendants as well) depend on others (e.g. `Coordinate.o` depends on `Math.o`). There is a preprocessor constant for each module to control compilation of `main`. The constant's value for `Math` (both C3P and DCP) ist `MATH_MAIN` for `Coordinate` it's `COORDINATE_MAIN`.
 ```
 # build C3P test program
-make CXXFLAGS=-DMATH_MAIN c3p/Coordinate
+make CXXFLAGS=-DCOORDINATE_MAIN c3p/Coordinate
 # build DCP pendant
-make CXXFLAGS=-DMATH_MAIN dcp/Coordinate
+make CXXFLAGS=-DCOORDINATE_MAIN dcp/Coordinate
 # capture stdout
 c3p/Coordinate >c3p/Coordinate.3
 dcp/Coordinate >dcp/Coordinate.C
@@ -20,14 +20,14 @@ cmp c3p/Coordinate.3 dcp/Coordinate.C
 
 ```
 # build and run DCP test programs automatically
-for p in Coordinate Vector3D Plane Math RealMatrix P4Mollweide P4Orthographic P4Stereographic ; do
+( set -e ; for p in Coordinate Vector3D Plane Math RealMatrix P4Mollweide P4Orthographic P4Stereographic ; do
 	cxxflags=CXXFLAGS=-D`echo $p | tr [[a-z]] [[A-Z]]`_MAIN
 	make $cxxflags c3pclean c3p/$p
 	make $cxxflags dcpclean dcp/$p
-	c3p/$p >c3p/$p.3
-	dcp/$p >dcp/$p.C
-	cmp c3p/$p.3 dcp/$p.C && echo $p : OK
-done
+	c3p/$p >c3p/$p.out
+	dcp/$p >dcp/$p.out
+	cmp c3p/$p.out dcp/$p.out && ( echo $p : OK ; rm -f c3p/$p.out dcp/$p.out )
+done )
 ```
 
 ### Notes on C3P test classes

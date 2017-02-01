@@ -154,7 +154,7 @@ int main( int argc, char** argv ) {
 
 	// output result on stdout
 	for ( int i=0 ; NUM_THREADS>i ; i++ )
-		printf( "%.8f %.8f\n", buf[2*i], buf[2*i+1] ) ;
+		printf( "%.4f %.4f\n", buf[2*i], buf[2*i+1] ) ;
 
 	return EXIT_SUCCESS ;
 }

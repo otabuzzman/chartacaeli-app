@@ -64,7 +64,7 @@ DCPOBJ = $(subst .cu,.o,$(DCPIMP))
 # default goal
 cuda: PJ2TextureMapperGpu.cubin
 
-PJ2TextureMapperGpu.cubin: $(dcpsrc)/Coordinate.o $(dcpsrc)/Vector3D.o $(dcpsrc)/Plane.o $(dcpsrc)/Math.o $(dcpsrc)/RealMatrix.o $(dcpsrc)/P4Mollweide.o $(dcpsrc)/P4Orthographic.o $(dcpsrc)/P4Stereographic.o
+PJ2TextureMapperGpu.cubin: PJ2TextureMapperGpu.o $(DCPOBJ)
 
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
@@ -306,21 +306,13 @@ lclean: clean
 	rm -f $(C3PJXX) $(C3PJNI)
 	rm -f $(C3PDLL)
 	rm -f $(c3psrc)/Coordinate$(exe) $(dcpsrc)/Coordinate$(exe) $(dcpsrc)/Coordinate.exp $(dcpsrc)/Coordinate.lib
-	rm -f $(c3psrc)/Coordinate.3 $(dcpsrc)/Coordinate.C
 	rm -f $(c3psrc)/Vector3D$(exe) $(dcpsrc)/Vector3D$(exe) $(dcpsrc)/Vector3D.exp $(dcpsrc)/Vector3D.lib
-	rm -f $(c3psrc)/Vector3D.3 $(dcpsrc)/Vector3D.C
 	rm -f $(c3psrc)/Plane$(exe) $(dcpsrc)/Plane$(exe) $(dcpsrc)/Plane.exp $(dcpsrc)/Plane.lib
-	rm -f $(c3psrc)/Plane.3 $(dcpsrc)/Plane.C
 	rm -f $(c3psrc)/Math$(exe) $(dcpsrc)/Math$(exe) $(dcpsrc)/Math.exp $(dcpsrc)/Math.lib
-	rm -f $(c3psrc)/Math.3 $(dcpsrc)/Math.C
 	rm -f $(c3psrc)/RealMatrix$(exe) $(dcpsrc)/RealMatrix$(exe) $(dcpsrc)/RealMatrix.exp $(dcpsrc)/RealMatrix.lib
-	rm -f $(c3psrc)/RealMatrix.3 $(dcpsrc)/RealMatrix.C
 	rm -f $(c3psrc)/P4Mollweide$(exe) $(dcpsrc)/P4Mollweide$(exe) $(dcpsrc)/P4Mollweide.exp $(dcpsrc)/P4Mollweide.lib
-	rm -f $(c3psrc)/P4Mollweide.3 $(dcpsrc)/P4Mollweide.C
 	rm -f $(c3psrc)/P4Orthographic$(exe) $(dcpsrc)/P4Orthographic$(exe) $(dcpsrc)/P4Orthographic.exp $(dcpsrc)/P4Orthographic.lib
-	rm -f $(c3psrc)/P4Orthographic.3 $(dcpsrc)/P4Orthographic.C
 	rm -f $(c3psrc)/P4Stereographic$(exe) $(dcpsrc)/P4Stereographic$(exe) $(dcpsrc)/P4Stereographic.exp $(dcpsrc)/P4Stereographic.lib
-	rm -f $(c3psrc)/P4Stereographic.3 $(dcpsrc)/P4Stereographic.C
 
 # real clean
 rclean: lclean
