@@ -1,5 +1,7 @@
+#include <cstdio>
+#include <cstdlib>
+
 #include "Vector3D.h"
-using namespace std;
 
 Vector3D Vector3D::ZERO ;
 
@@ -75,3 +77,32 @@ double* Vector3D::toArray() {
 
 	return r ;
 }
+
+#ifdef VECTOR3D_MAIN
+// pseudo-kernel (ridiculous)
+#define NUM_THREADS 360
+
+int main( int argc, char** argv ) {
+	Vector3D *a, *b ;
+	double* buf ;
+
+	a = new Vector3D() ;
+	b = new Vector3D() ;
+	buf = new double[NUM_THREADS] ;
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ ) {
+		a->set( i, i+.123, i+.234 ) ;
+		b->set( i+.234, i+.123, i ) ;
+		buf[i] = a->cross( *b )->dot( *a ) ;
+	}
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ )
+		printf( "%.8f\n", buf[i] ) ;
+
+	delete buf ;
+	delete b ;
+	delete a ;
+
+	return EXIT_SUCCESS ;
+}
+#endif // VECTOR3D_MAIN

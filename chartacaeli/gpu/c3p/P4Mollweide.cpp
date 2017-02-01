@@ -1,9 +1,10 @@
+#include <cstdio>
+#include <cstdlib>
 #include <cmath>
 
 #include "P4Mollweide.h"
 #include "Coordinate.h"
 #include "Math.h"
-using namespace std;
 
 P4PROJECTOR_CDEF(P4Mollweide) ;
 
@@ -32,14 +33,14 @@ Coordinate* P4Mollweide::forward( Coordinate& lamphi ) {
 		costht2 = Math::cos( tht2 ) ;
 
 		dtht2 = -( tht2*radperdeg+sintht2-Math::PI*sinphi )/( 1+costht2 )*degperrad ;
-	} while ( std::abs( dtht2 )>V_CON ) ;
+	} while ( abs( dtht2 )>V_CON ) ;
 
 	tht = tht2*.5 ;
 	sintht = Math::sin( tht ) ;
 	costht = Math::cos( tht ) ;
 
-	xy->x = ( std::pow( 8, .5 )/Math::PI )*R*( lamphi.x-lam0 )*costht*radperdeg ;
-	xy->y = std::pow( 2, .5 )*R*sintht ;
+	xy->x = ( pow( 8, .5 )/Math::PI )*R*( lamphi.x-lam0 )*costht*radperdeg ;
+	xy->y = pow( 2, .5 )*R*sintht ;
 
 	return xy ;
 }
@@ -48,16 +49,16 @@ Coordinate* P4Mollweide::inverse( Coordinate& xy ) {
 	Coordinate* lamphi = new Coordinate() ;
 	double tht, sin2tht, costht ;
 
-	tht = Math::asin( xy.y/( std::pow( 2, .5 )*R ) ) ;
+	tht = Math::asin( xy.y/( pow( 2, .5 )*R ) ) ;
 
 	sin2tht = Math::sin( 2*tht ) ;
 	lamphi->y = Math::asin( ( 2*tht*radperdeg+sin2tht )/Math::PI ) ;
 
-	if ( std::abs( lamphi->y ) == 90 )
+	if ( abs( lamphi->y ) == 90 )
 		lamphi->x = lam0 ;
 	else {
 		costht = Math::cos( tht ) ;
-		lamphi->x = lam0+( Math::PI*xy.x/( std::pow( 8, .5 )*R*costht ) )*degperrad ;
+		lamphi->x = lam0+( Math::PI*xy.x/( pow( 8, .5 )*R*costht ) )*degperrad ;
 	}
 
 	return lamphi ;
@@ -79,3 +80,37 @@ void P4Mollweide::inverse( /* arg(s) */ double xy[3], /* return */ double lamphi
 	lamphi[1] = t1->y ;
 	delete t1 ;
 }
+
+#ifdef P4MOLLWEIDE_MAIN
+// pseudo-kernel (ridiculous)
+#define NUM_THREADS 360
+
+int main( int argc, char** argv ) {
+	P4Projector* proj ;
+	Coordinate *lamphi, *xy, *res ;
+	double* buf ;
+
+	proj = new P4Mollweide() ;
+	lamphi = new Coordinate() ;
+	buf = new double[2*NUM_THREADS] ;
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ ) {
+		lamphi->set( (double) i, (double) ( i%90 ), 0 ) ;
+		xy = proj->forward( *lamphi ) ;
+		res = proj->inverse( *xy ) ;
+		buf[2*i] = res->x ;
+		buf[2*i+1] = res->y ;
+		delete xy ;
+		delete res ;
+	}
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ )
+		printf( "%.4f %.4f\n", buf[2*i], buf[2*i+1] ) ;
+
+	delete buf ;
+	delete lamphi ;
+	delete proj ;
+
+	return EXIT_SUCCESS ;
+}
+#endif // P4MOLLWEIDE_MAIN

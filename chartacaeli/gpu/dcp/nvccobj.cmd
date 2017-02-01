@@ -10,5 +10,5 @@ for %%x in ( %* ) do (
 )
 for %%x in ( %fil% ) do (
 	set src=%%x
-	echo %CUDA_HOME%\bin\nvcc %opt% -Wno-deprecated-gpu-targets -o !src:.cu=.o! -dc !src!
+	%CUDA_HOME%\bin\nvcc %opt% -Wno-deprecated-gpu-targets -o !src:.cu=.o! -dc !src!
 )

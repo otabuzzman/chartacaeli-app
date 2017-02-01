@@ -1,9 +1,10 @@
+#include <cstdio>
+#include <cstdlib>
 #include <cmath>
 
 #include "P4Orthographic.h"
 #include "Coordinate.h"
 #include "Math.h"
-using namespace std;
 
 P4PROJECTOR_CDEF(P4Orthographic) ;
 
@@ -66,7 +67,7 @@ Coordinate* P4Orthographic::inverse( Coordinate& xy ) {
 	Coordinate* lamphi = new Coordinate() ;
 	double p, c, sinc, cosc ;
 
-	p = std::pow( xy.x*xy.x+xy.y*xy.y, .5 ) ;
+	p = pow( xy.x*xy.x+xy.y*xy.y, .5 ) ;
 	c = Math::asin( p/R ) ;
 
 	sinc = Math::sin( c ) ;
@@ -109,3 +110,37 @@ void P4Orthographic::inverse( /* arg(s) */ double xy[3], /* return */ double lam
 	lamphi[1] = t1->y ;
 	delete t1 ;
 }
+
+#ifdef P4ORTHOGRAPHIC_MAIN
+// pseudo-kernel (ridiculous)
+#define NUM_THREADS 360
+
+int main( int argc, char** argv ) {
+	P4Projector* proj ;
+	Coordinate *lamphi, *xy, *res ;
+	double* buf ;
+
+	proj = new P4Orthographic() ;
+	lamphi = new Coordinate() ;
+	buf = new double[2*NUM_THREADS] ;
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ ) {
+		lamphi->set( (double) i, (double) ( i%90 ), 0 ) ;
+		xy = proj->forward( *lamphi ) ;
+		res = proj->inverse( *xy ) ;
+		buf[2*i] = res->x ;
+		buf[2*i+1] = res->y ;
+		delete xy ;
+		delete res ;
+	}
+
+	for ( int i=0 ; NUM_THREADS>i ; i++ )
+		printf( "%.4f %.4f\n", buf[2*i], buf[2*i+1] ) ;
+
+	delete buf ;
+	delete lamphi ;
+	delete proj ;
+
+	return EXIT_SUCCESS ;
+}
+#endif // P4ORTHOGRAPHIC_MAIN

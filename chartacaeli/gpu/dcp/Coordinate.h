@@ -18,9 +18,6 @@ public:
 	__device__ Coordinate* cartesian() ;
 
 	__device__ double* toArray() ;
-	// CXXWRAP/ JUnit
-	void spercical( /* return */ double retval[] ) ;
-	void cartesian( /* return */ double retval[] ) ;
 } ;
 
 #endif // __COORDINATE_H__

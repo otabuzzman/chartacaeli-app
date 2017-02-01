@@ -1,31 +1,42 @@
 # CUDA implementation of *Artwork*
-The class *Artwork* draws artistic images of star signs on the star chart. A *for-loop* handles the images sequentially pixel by pixel. It is substituted and thus parallelized by a CUDA kernel. To this end [Parallel Java 2 Library](https://www.cs.rit.edu/~ark/pj2.shtml) (PJ2) acts as a bridge from Java to CUDA and vice versa. PJ2 allows to run a CUDA kernel from a Java application. With PJ2 the parallelization of Java classes is essentially reduced to kernel development. At least in terms of coding. Note however that PJ2 does not change the basic procedure for the [parallelization of existing sequential software](http://alecu.ase.ro/conferences/conf_2003_cluj.pdf).
+The class *Artwork* draws artistic images of star signs on the star chart. A *for-loop* handles the images sequentially pixel by pixel. The aim is to substitute the loop by a CUDA kernel and thus parallelize it. Tool of choice is [Parallel Java 2 Library](https://www.cs.rit.edu/~ark/pj2.shtml) (PJ2) which acts as a bridge from Java to CUDA and vice versa. PJ2 allows to run a CUDA kernel from a Java application. With PJ2 the parallelization of Java classes is essentially reduced to kernel development. At least in terms of coding. Note however that PJ2 does not change the basic procedure for the [parallelization of existing sequential software](http://alecu.ase.ro/conferences/conf_2003_cluj.pdf).
 
 ### Approach
-Find the code suitable to parallization (the *for-loop* mentioned above). Get familiar with PJ2 by enabling the *for-loop* to make use of multiple cores. That is turning a sequentional Java application into one that makes use of Symmetric Multiprocessing. Find the Java objects used or referenced by the *for-loop* and implement them as C/C++ peer objects (C3P) to get used by the CUDA kernel. Note that there is no way to run STDL on a CUDA capable device (search Google for "[*STDL functions on CUDA device*](https://www.google.de/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=STDL+functions+on+CUDA+device)"). Assure C3Ps and corresponding Java objects work identically. Use JNI for instance to make C3Ps available inside Java and define [JUnit](http://junit.org/junit4/) test cases that compares results of a given C3P with it's corresponding Java object. Another approach could be to use JUnit on the Java side, implement a different unit test subsystem for the C3Ps ([googletest](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md) for instance) and finally compare the results by using some shell tools. Prepare writing the CUDA kernel. Consider a pseudo-kernel before the real one to make sure the C3Ps work as expected when tied together in a single program (see section on experimental classes below). There is no CUDA code contained in the pseudo-kernel. It is a regular C/C++ program mimicking the actual CUDA kernel. Derive CUDA code from C3P modules so that there is a derived CUDA peer (DCP) for each C3P. Implement a `main` function in each C3P performing an arbitrary test for some functions (or even all) of the C3P in question. Implement a real kernel in each DCP perfoming the same test as the corresponding C3P does. Assure equal results. Write the kernel.
+Find the code suitable to parallization (the *for-loop* mentioned above). Get familiar with PJ2 by using it to enable the *for-loop* to make use of multiple cores. That is turning a sequentional Java application into one that makes use of Symmetric Multiprocessing. Find the Java objects used or referenced by the *for-loop* and implement them as C/C++ peer objects (C3P) to get used by the CUDA kernel later. Note that there is no way to run STDL on a CUDA capable device (search Google for "[*STDL functions on CUDA device*](https://www.google.de/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=STDL+functions+on+CUDA+device)"). Assure C3Ps and corresponding Java objects work identically. Use JNI for instance to make C3Ps available inside Java and define [JUnit](http://junit.org/junit4/) test cases that compares results of a given C3P with it's corresponding Java object. Another approach could be to use JUnit on the Java side, implement a different unit test subsystem for the C3Ps ([googletest](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md) for instance) and finally compare the results by using some shell tools. Prepare writing the CUDA kernel. Consider a pseudo-kernel before the real one to make sure the C3Ps work as expected when tied together to a single program (see section on experimental classes below). The pseudo-kernel is a regular C/C++ program mimicking the actual CUDA kernel. There is no CUDA code in it. Derive CUDA code from C3P modules so that there is a derived CUDA peer (DCP) for each C3P. Implement a `main` function in each C3P performing an arbitrary test for some functions (or even all) of the C3P in question. Implement a real kernel in each DCP perfoming the same test as the corresponding C3P does. Assure equal results. Write the kernel.
 
 ### Notes on C3P and DCP test programs
 Each C3P object has a `main` function that uses some arbitrary chosen of the object's methods. Each DCP object does exactly the same calculations as it's corresponding C3P object but inside a CUDA kernel. Testing means to compare stdout of a C3P program with that of it's DCP pendant and check to see if they equal. Some C3P objects (DCP pendants as well) depend on others (e.g. `Coordinate.o` depends on `Math.o`). There is a preprocessor constant for each module to control compilation of `main`. The constant's value for `Math` (both C3P and DCP) ist `MATH_MAIN` for `Coordinate` it's `COORDINATE_MAIN`.
 ```
 # build C3P test program
-make CXXFLAGS=-DMATH_MAIN c3p/Math
+make CXXFLAGS=-DMATH_MAIN c3p/Coordinate
 # build DCP pendant
-make CXXFLAGS=-DMATH_MAIN dcp/Math
+make CXXFLAGS=-DMATH_MAIN dcp/Coordinate
 # capture stdout
-c3p/Math >Math.3
-dcp/Math >Math.C
+c3p/Coordinate >c3p/Coordinate.3
+dcp/Coordinate >dcp/Coordinate.C
 # compare results
-cmp Math.3 Math.C
+cmp c3p/Coordinate.3 dcp/Coordinate.C
+```
 
-# build C3P test program with multiple objects
-make CXXFLAGS=-DCOORDINATE_MAIN c3pclean c3p/Coordinate
-# build DCP pendant
-make CXXFLAGS=-DCOORDINATE_MAIN dcpclean dcp/Coordinate
-# capture stdout
-c3p/Math >Coordinate.3
-dcp/Math >Coordinate.C
-# compare results
-cmp Coordinate.3 Coordinate.C
+```
+# build and run DCP test programs automatically
+for p in Coordinate Vector3D Plane Math RealMatrix P4Mollweide P4Orthographic P4Stereographic ; do
+	cxxflags=CXXFLAGS=-D`echo $p | tr [[a-z]] [[A-Z]]`_MAIN
+	make $cxxflags c3pclean c3p/$p
+	make $cxxflags dcpclean dcp/$p
+	c3p/$p >c3p/$p.3
+	dcp/$p >dcp/$p.C
+	cmp c3p/$p.3 dcp/$p.C && echo $p : OK
+done
+```
+
+### Notes on C3P test classes
+There are JUnit test classes for some of the C3P objects. Those without are utilized by the others and thus implicitly tested.
+```
+# build all C3P test classes
+make testbuild
+# run 'em all
+make testrun
 ```
 
 ### Notes on test data

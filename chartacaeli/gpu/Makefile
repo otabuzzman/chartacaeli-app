@@ -50,15 +50,21 @@ C3PTST = $(wildcard $(c3ptst)/*Test.java)
 
 # derived CUDA peer implementations
 DCPIMP = \
-	$(dcpsrc)/Math.cu \
 	$(dcpsrc)/Coordinate.cu \
+	$(dcpsrc)/Vector3D.cu \
+	$(dcpsrc)/Plane.cu \
+	$(dcpsrc)/Math.cu \
+	$(dcpsrc)/RealMatrix.cu \
+	$(dcpsrc)/P4Mollweide.cu \
+	$(dcpsrc)/P4Orthographic.cu \
+	$(dcpsrc)/P4Stereographic.cu \
 
 DCPOBJ = $(subst .cu,.o,$(DCPIMP))
 
 # default goal
 cuda: PJ2TextureMapperGpu.cubin
 
-PJ2TextureMapperGpu.cubin: $(dcpsrc)/Math.o $(dcpsrc)/Coordinate.o
+PJ2TextureMapperGpu.cubin: $(dcpsrc)/Coordinate.o $(dcpsrc)/Vector3D.o $(dcpsrc)/Plane.o $(dcpsrc)/Math.o $(dcpsrc)/RealMatrix.o $(dcpsrc)/P4Mollweide.o $(dcpsrc)/P4Orthographic.o $(dcpsrc)/P4Stereographic.o
 
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
@@ -147,9 +153,21 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 	-o $@ $^
 
 # C3P test programs (c3p/%.exe)
+$(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
+	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
+$(c3psrc)/Vector3D: $(c3psrc)/Vector3D.o
+	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
+$(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o
+	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 $(c3psrc)/Math: $(c3psrc)/Math.o
 	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
-$(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
+$(c3psrc)/RealMatrix: $(c3psrc)/RealMatrix.o
+	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
+$(c3psrc)/P4Mollweide: $(c3psrc)/P4Mollweide.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
+$(c3psrc)/P4Orthographic: $(c3psrc)/P4Orthographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
+$(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
 	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 
 .cu.cubin:
@@ -159,13 +177,49 @@ $(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
 	@echo "*** compiling $@ from $< not supported on Windows"
 
 # DCP test programs (dcp/%.exe)
+$(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(subst /,\\,$@).cmd
+$(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o
+	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(subst /,\\,$@).cmd
+$(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o
+	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
 	@echo "*** linking $@ from $^ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
-$(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+$(dcpsrc)/RealMatrix: $(dcpsrc)/RealMatrix.o
+	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(subst /,\\,$@).cmd
+$(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(subst /,\\,$@).cmd
+$(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(subst /,\\,$@).cmd
+$(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	@echo "*** linking $@ from $^ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
@@ -191,9 +245,21 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 	-o $@ $^
 
 # C3P test programs (c3p/%.exe)
+$(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
+	$(CXX) -o $@ $^
+$(c3psrc)/Vector3D: $(c3psrc)/Vector3D.o
+	$(CXX) -o $@ $^
+$(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o
+	$(CXX) -o $@ $^
 $(c3psrc)/Math: $(c3psrc)/Math.o
 	$(CXX) -o $@ $^
-$(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
+$(c3psrc)/RealMatrix: $(c3psrc)/RealMatrix.o
+	$(CXX) -o $@ $^
+$(c3psrc)/P4Mollweide: $(c3psrc)/P4Mollweide.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+	$(CXX) -o $@ $^
+$(c3psrc)/P4Orthographic: $(c3psrc)/P4Orthographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+	$(CXX) -o $@ $^
+$(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
 	$(CXX) -o $@ $^
 
 .cu.cubin:
@@ -205,9 +271,21 @@ $(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
 	-o $@ -dc $<
 
 # DCP test programs (dcp/%.exe)
+$(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
+$(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
+$(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
-$(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+$(dcpsrc)/RealMatrix: $(dcpsrc)/RealMatrix.o
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
+$(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
+$(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
+$(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 endif
 
@@ -227,8 +305,22 @@ dcpclean:
 lclean: clean
 	rm -f $(C3PJXX) $(C3PJNI)
 	rm -f $(C3PDLL)
-	rm -f $(c3psrc)/Math$(exe) $(dcpsrc)/Math$(exe) $(dcpsrc)/Math.exp $(dcpsrc)/Math.lib
 	rm -f $(c3psrc)/Coordinate$(exe) $(dcpsrc)/Coordinate$(exe) $(dcpsrc)/Coordinate.exp $(dcpsrc)/Coordinate.lib
+	rm -f $(c3psrc)/Coordinate.3 $(dcpsrc)/Coordinate.C
+	rm -f $(c3psrc)/Vector3D$(exe) $(dcpsrc)/Vector3D$(exe) $(dcpsrc)/Vector3D.exp $(dcpsrc)/Vector3D.lib
+	rm -f $(c3psrc)/Vector3D.3 $(dcpsrc)/Vector3D.C
+	rm -f $(c3psrc)/Plane$(exe) $(dcpsrc)/Plane$(exe) $(dcpsrc)/Plane.exp $(dcpsrc)/Plane.lib
+	rm -f $(c3psrc)/Plane.3 $(dcpsrc)/Plane.C
+	rm -f $(c3psrc)/Math$(exe) $(dcpsrc)/Math$(exe) $(dcpsrc)/Math.exp $(dcpsrc)/Math.lib
+	rm -f $(c3psrc)/Math.3 $(dcpsrc)/Math.C
+	rm -f $(c3psrc)/RealMatrix$(exe) $(dcpsrc)/RealMatrix$(exe) $(dcpsrc)/RealMatrix.exp $(dcpsrc)/RealMatrix.lib
+	rm -f $(c3psrc)/RealMatrix.3 $(dcpsrc)/RealMatrix.C
+	rm -f $(c3psrc)/P4Mollweide$(exe) $(dcpsrc)/P4Mollweide$(exe) $(dcpsrc)/P4Mollweide.exp $(dcpsrc)/P4Mollweide.lib
+	rm -f $(c3psrc)/P4Mollweide.3 $(dcpsrc)/P4Mollweide.C
+	rm -f $(c3psrc)/P4Orthographic$(exe) $(dcpsrc)/P4Orthographic$(exe) $(dcpsrc)/P4Orthographic.exp $(dcpsrc)/P4Orthographic.lib
+	rm -f $(c3psrc)/P4Orthographic.3 $(dcpsrc)/P4Orthographic.C
+	rm -f $(c3psrc)/P4Stereographic$(exe) $(dcpsrc)/P4Stereographic$(exe) $(dcpsrc)/P4Stereographic.exp $(dcpsrc)/P4Stereographic.lib
+	rm -f $(c3psrc)/P4Stereographic.3 $(dcpsrc)/P4Stereographic.C
 
 # real clean
 rclean: lclean

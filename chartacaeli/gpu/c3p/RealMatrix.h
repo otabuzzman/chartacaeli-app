@@ -5,13 +5,14 @@ class RealMatrix {
 
 public:
 	RealMatrix( double matrix[], int rows, int cols ) ;
+	RealMatrix() ;
+
 	~RealMatrix() ;
 
 	double* operate( double vector[] ) ;
-	// CXXWRAP/ JUnit
-	RealMatrix() ;
-
 	void set( double matrix[], int rows, int cols ) ;
+
+	// CXXWRAP/ JUnit
 	void operate( /* arg(s) */ double vector[], /* return */ double retval[] ) ;
 
 private:
