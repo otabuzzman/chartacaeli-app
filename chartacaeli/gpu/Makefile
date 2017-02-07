@@ -64,8 +64,6 @@ DCPOBJ = $(subst .cu,.o,$(DCPIMP))
 # default goal
 cuda: PJ2TextureMapperGpu.cubin
 
-PJ2TextureMapperGpu.cubin: PJ2TextureMapperGpu.o $(DCPOBJ)
-
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
 		$(CXXWRAP) \
@@ -170,9 +168,6 @@ $(c3psrc)/P4Orthographic: $(c3psrc)/P4Orthographic.o $(c3psrc)/Coordinate.o $(c3
 $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
 	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 
-.cu.cubin:
-	@echo "*** compiling $@ from $< not supported on Windows"
-
 .cu.o:
 	@echo "*** compiling $@ from $< not supported on Windows"
 
@@ -225,6 +220,9 @@ $(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
+
+PJ2TextureMapperGpu.cubin: PJ2TextureMapperGpu.o $(DCPOBJ)
+	@echo "*** compiling $@ from $^ not supported on Windows"
 else
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \
@@ -262,8 +260,6 @@ $(c3psrc)/P4Orthographic: $(c3psrc)/P4Orthographic.o $(c3psrc)/Coordinate.o $(c3
 $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
 	$(CXX) -o $@ $^
 
-.cu.cubin:
-
 .cu.o:
 	nvcc $(CXXFLAGS) -Wno-deprecated-gpu-targets \
 	-I$(CUDA_HOME)/include \
@@ -287,6 +283,9 @@ $(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dc
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
+
+PJ2TextureMapperGpu.cubin: PJ2TextureMapperGpu.o $(DCPOBJ)
+	nvcc -Wno-deprecated-gpu-targets --resource-usage -cubin -dlink -arch=sm_30 -o $@ $^
 endif
 
 all: cuda
@@ -313,12 +312,12 @@ lclean: clean
 	rm -f $(c3psrc)/P4Mollweide$(exe) $(dcpsrc)/P4Mollweide$(exe) $(dcpsrc)/P4Mollweide.exp $(dcpsrc)/P4Mollweide.lib
 	rm -f $(c3psrc)/P4Orthographic$(exe) $(dcpsrc)/P4Orthographic$(exe) $(dcpsrc)/P4Orthographic.exp $(dcpsrc)/P4Orthographic.lib
 	rm -f $(c3psrc)/P4Stereographic$(exe) $(dcpsrc)/P4Stereographic$(exe) $(dcpsrc)/P4Stereographic.exp $(dcpsrc)/P4Stereographic.lib
+	rm -f PJ2TextureMapperGpu.cubin
 
 # real clean
 rclean: lclean
 	rm -f $(notdir $(C3PIMP:.cpp=.d)) P4ProjectorFactory.d PJ2TextureMapperC3p.d
 	rm -f $(JAREXT)
-	rm -f PJ2TextureMapperGpu.cubin
 
 tidy: rclean
 

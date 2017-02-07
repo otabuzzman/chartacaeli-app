@@ -96,7 +96,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli.git ; cd chartacaeli
 
   ( cd chartacaeli/caa ; make ; make all )
-  ( cd chartacaeli/gpu ; make ; make all )
+  ( cd chartacaeli/gpu ; make )
   make
   make all
   ```

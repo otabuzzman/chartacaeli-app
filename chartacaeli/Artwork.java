@@ -33,9 +33,11 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 import edu.rit.gpu.Gpu;
 import edu.rit.gpu.GpuByteArray;
+import edu.rit.gpu.GpuDoubleArray;
 import edu.rit.gpu.GpuDoubleMatrix;
 import edu.rit.gpu.GpuDoubleVbl;
 import edu.rit.gpu.GpuIntMatrix;
+import edu.rit.gpu.GpuIntVbl;
 import edu.rit.gpu.Module;
 import edu.rit.pj2.Loop;
 import edu.rit.pj2.Task;
@@ -371,12 +373,16 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private class PJ2TextureMapperGpu extends Task {
 
 		// configuration key (CK_)
 		private final static String CK_PJ2MODULE		= "pj2module" ;
 
-		private final static String DEFAULT_PJ2MODULE	= "chartacaeli/gpu/PJ2TextureMapperGpu.ptx" ;
+		private final static String DEFAULT_PJ2MODULE	= "chartacaeli/gpu/PJ2TextureMapperGpu.cubin" ;
+
+		// number of threads per GPU kernel block = NT * NT
+		private final static int NT = 32 ;
 
 		public PJ2TextureMapperGpu() {
 		}
@@ -390,17 +396,21 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			GpuByteArray pnam ;
 			GpuDoubleVbl lam0, phi1, R, k0 ;
 
-			GpuDoubleMatrix tmH2Tj, tmM2Pj ;
+			GpuDoubleArray tmH2Tj, tmM2Pj ;
 			double[][] t2, t3 ;
 
 			GpuDoubleMatrix spTj ;
 			GpuIntMatrix texturej, mappingj ;
-			GpuDoubleVbl upsj, dimoj, dimpj, dimsj, dimtj ;
+			GpuDoubleVbl upsj ;
+			GpuIntVbl dimoj, dimpj, dimsj, dimtj ;
 			PJ2TextureMapperKernel kernel ;
+
+			// GPU grid dimension
+			int N ;
 
 			// setup GPU
 			gpu = Gpu.gpu() ;
-			gpu.ensureComputeCapability (2, 0);
+			gpu.ensureComputeCapability (3, 0);
 
 			// load kernel module
 			modnam = Configuration.getValue( this, CK_PJ2MODULE, DEFAULT_PJ2MODULE ) ;
@@ -428,19 +438,19 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			k0.hostToDev() ;
 
 			// setup M2P matrix
-			tmM2Pj = gpu.getDoubleMatrix( 3, 3 ) ;
+			tmM2Pj = gpu.getDoubleArray( 3*3 ) ;
 			t2 = tmH2T.getData() ;
 			for ( int r=0 ; 3>r ; r++ )
 				for ( int c=0 ; 3>c ; c++ )
-					tmM2Pj.item[r][c] = t2[r][c] ;
+					tmM2Pj.item[3*r+c] = t2[r][c] ;
 			tmM2Pj.hostToDev() ;
 
 			// setup T2H matrix
-			tmH2Tj = gpu.getDoubleMatrix( 4, 4 ) ;
+			tmH2Tj = gpu.getDoubleArray( 4*4 ) ;
 			t3 = tmH2T.getData() ;
 			for ( int r=0 ; 4>r ; r++ )
 				for ( int c=0 ; 4>c ; c++ )
-					tmH2Tj.item[r][c] = t3[r][c] ;
+					tmH2Tj.item[4*r+c] = t3[r][c] ;
 			tmH2Tj.hostToDev() ;
 
 			// setup texture spatial plane
@@ -457,20 +467,20 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					texturej.item[p][o] = texture[dimp*p+o] ;
 			texturej.hostToDev() ;
 			// setup texture params (dimo, dimp)
-			dimoj = module.getDoubleVbl( "dimo" ) ;
+			dimoj = module.getIntVbl( "dimo" ) ;
 			dimoj.item = dimo ;
 			dimoj.hostToDev() ;
-			dimpj = module.getDoubleVbl( "dimp" ) ;
+			dimpj = module.getIntVbl( "dimp" ) ;
 			dimpj.item = dimp ;
 			dimpj.hostToDev() ;
 
 			// setup mapping bitmap
 			mappingj = gpu.getIntMatrix( dimt, dims ) ;
 			// setup mapping params (dims, dimt)
-			dimsj = module.getDoubleVbl( "dims" ) ;
+			dimsj = module.getIntVbl( "dims" ) ;
 			dimsj.item = dims ;
 			dimsj.hostToDev() ;
-			dimtj = module.getDoubleVbl( "dimt" ) ;
+			dimtj = module.getIntVbl( "dimt" ) ;
 			dimtj.item = dimt ;
 			dimtj.hostToDev() ;
 
@@ -480,14 +490,17 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			upsj.hostToDev() ;
 
 			// run kernel
+			N = dimt*dims ;
 			kernel = module.getKernel( PJ2TextureMapperKernel.class ) ;
+			kernel.setBlockDim( NT, NT ) ;
+			kernel.setGridDim( ( N+NT-1 )/NT, ( N+NT-1 )/NT ) ; 
 			kernel.run( pnam, tmM2Pj, tmH2Tj, spTj, texturej, mappingj ) ;
 
 			// retrieve mapping result
 			mappingj.devToHost() ;
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					mapping[dimt*s+s] = mappingj.item[t][s] ;
+					mapping[dimt*t+s] = mappingj.item[t][s] ;
 		}
 	}
 
