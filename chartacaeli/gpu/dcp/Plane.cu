@@ -57,6 +57,7 @@ __device__ void Plane::set( Vector3D& p1, Vector3D& p2, Vector3D& p3 ) {
 	delete d31 ;
 }
 
+#ifdef PLANE_MAIN
 // kernel
 __global__ void plane( double* buf ) {
 	Vector3D *p1, *p2, *p3 ;
@@ -90,7 +91,6 @@ __global__ void plane( double* buf ) {
 	delete p1 ;
 }
 
-#ifdef PLANE_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
 

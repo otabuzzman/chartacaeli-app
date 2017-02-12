@@ -53,7 +53,7 @@ extern "C" __global__ void run( const char* pnam, double* tmM2Pj, double* tmH2Tj
 	t = blockIdx.y*blockDim.y+threadIdx.y ;
 	s = blockIdx.x*blockDim.x+threadIdx.x ;
 
-	if ( dimt>t || dims>s )
+	if ( t>=dimt || s>=dims )
 		return ;
 
 	proj = createP4Projector( pnam ) ;

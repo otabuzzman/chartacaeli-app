@@ -641,7 +641,7 @@
 					<!--chartacaeli.Artwork$PJ2TextureMapperJni (notes on experimental classes in README.md in gpu package)-->
 					<!--chartacaeli.Artwork$PJ2TextureMapperC3p (notes on experimental classes in README.md in gpu package)-->
 					<!--chartacaeli.Artwork$PJ2TextureMapperSmp-->
-					<!--chartacaeli.PJ2TextureMapperGpu-->
+					<!--chartacaeli.Artwork$PJ2TextureMapperGpu-->
 					<entry key="pj2worker" value="chartacaeli.Artwork$PJ2TextureMapperSeq"/>
 				</map>
 			</node>
@@ -655,9 +655,9 @@
 					<entry key="libgpu" value="gpu"/>
 				</map>
 			</node>
-			<node name="PJ2TextureMapperGpu">
+			<node name="Artwork$PJ2TextureMapperGpu">
 				<map>
-					<entry key="pj2module" value="PJ2TextureMapperGpu.cubin"/>
+					<entry key="pj2module" value="chartacaeli/gpu/PJ2TextureMapperGpu.cubin"/>
 				</map>
 			</node>
 			<node name="Sign">

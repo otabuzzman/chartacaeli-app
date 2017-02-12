@@ -103,6 +103,7 @@ __device__ Coordinate* P4Stereographic::inverse( Coordinate& xy ) {
 	return lamphi ;
 }
 
+#ifdef P4STEREOGRAPHIC_MAIN
 // kernel
 __global__ void p4stereographic( double* buf ) {
 	P4Projector* proj ;
@@ -124,7 +125,6 @@ __global__ void p4stereographic( double* buf ) {
 	delete res ;
 }
 
-#ifdef P4STEREOGRAPHIC_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
 

@@ -405,9 +405,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			GpuIntVbl dimoj, dimpj, dimsj, dimtj ;
 			PJ2TextureMapperKernel kernel ;
 
-			// GPU grid dimension
-			int N ;
-
 			// setup GPU
 			gpu = Gpu.gpu() ;
 			gpu.ensureComputeCapability (3, 0);
@@ -464,7 +461,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			texturej = gpu.getIntMatrix( dimp, dimo ) ;
 			for ( int p=0 ; dimp>p ; p++ )
 				for ( int o=0 ; dimo>o ; o++ )
-					texturej.item[p][o] = texture[dimp*p+o] ;
+					texturej.item[p][o] = texture[dimo*p+o] ;
 			texturej.hostToDev() ;
 			// setup texture params (dimo, dimp)
 			dimoj = module.getIntVbl( "dimo" ) ;
@@ -490,17 +487,16 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			upsj.hostToDev() ;
 
 			// run kernel
-			N = dimt*dims ;
 			kernel = module.getKernel( PJ2TextureMapperKernel.class ) ;
 			kernel.setBlockDim( NT, NT ) ;
-			kernel.setGridDim( ( N+NT-1 )/NT, ( N+NT-1 )/NT ) ; 
+			kernel.setGridDim( ( dims+NT-1 )/NT, ( dimt+NT-1 )/NT ) ; 
 			kernel.run( pnam, tmM2Pj, tmH2Tj, spTj, texturej, mappingj ) ;
 
 			// retrieve mapping result
 			mappingj.devToHost() ;
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					mapping[dimt*t+s] = mappingj.item[t][s] ;
+					mapping[dims*t+s] = mappingj.item[t][s] ;
 		}
 	}
 

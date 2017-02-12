@@ -21,6 +21,7 @@ libdir	= lib
 jnilib	= \
 		$(pkgdir)/caa \
 		$(pkgdir)/gpu \
+		$$PJ2_GENERAL_PATHLIB \
 
 JARMOD = \
 		castor-codegen-1.3.3.jar \
@@ -86,7 +87,7 @@ classes: $(CLSUCB)
 	javac \
 			-classpath "$(subst $(space),$(sep), \
 			$(pkgdir) \
-			$(PJ2_GENERAL_PATHJAR) \
+			$$PJ2_GENERAL_PATHJAR \
 			$(JAREXT))" \
 			-d . $^ $(CLSAPP)
 
@@ -99,7 +100,7 @@ all: classes
 			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
 			-classpath "$(subst $(space),$(sep), \
 			$(pkgdir) \
-			$(PJ2_GENERAL_PATHJAR) \
+			$$PJ2_GENERAL_PATHJAR \
 			$(JAREXT))" \
 			$(PKG).ChartaCaeli $< >$@
 

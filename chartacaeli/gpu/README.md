@@ -87,8 +87,9 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 - A really nice [Introduction to Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp/)
 - Online book about [Programming on Parallel Machines](http://heather.cs.ucdavis.edu/~matloff/158/PLN/ParProcBook.pdf)
 - C++ [programming guide](http://www.lmpt.univ-tours.fr/~volkov/C++.pdf) and [online reference](http://www.cplusplus.com/reference/)
-- Stackoverflow answer on how to instantiate [C++ objects from class names](http://stackoverflow.com/questions/582331/is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name)
+- Stackoverflow answer on [how to instantiate C++ objects from class names](http://stackoverflow.com/questions/582331/is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name)
 - [Sample implementation](https://github.com/egaburov/vanaheimr) of `std::map` with [usage example](https://devtalk.nvidia.com/default/topic/523766/std-map-in-device-code/) from [CUDA ZONE](https://developer.nvidia.com/cuda-zone)
+- Stackoverflow answer on [how to access class members from within CUDA kernel](http://stackoverflow.com/questions/39006348/accessing-class-data-members-from-within-cuda-kernel-how-to-design-proper-host)
 - [CUDA Toolkit Documentation](http://docs.nvidia.com/cuda/index.html#) containing [programming guides](http://docs.nvidia.com/cuda/index.html#programming-guides), [API references](http://docs.nvidia.com/cuda/index.html#cuda-api-references) and [NVCC documentation](http://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#abstract) (among others)
 - [Separate Compilation and Linking of CUDA C++ Device Code](https://devblogs.nvidia.com/parallelforall/separate-compilation-linking-cuda-device-code/)
 - [CUDAcons repository](https://github.com/otabuzzman/cudacons) with information about setting up CUDA without capable device

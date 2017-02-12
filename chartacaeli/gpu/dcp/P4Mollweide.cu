@@ -66,6 +66,7 @@ __device__ Coordinate* P4Mollweide::inverse( Coordinate& xy ) {
 	return lamphi ;
 }
 
+#ifdef P4MOLLWEIDE_MAIN
 // kernel
 __global__ void p4mollweide( double* buf ) {
 	P4Projector* proj ;
@@ -87,7 +88,6 @@ __global__ void p4mollweide( double* buf ) {
 	delete res ;
 }
 
-#ifdef P4MOLLWEIDE_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
 

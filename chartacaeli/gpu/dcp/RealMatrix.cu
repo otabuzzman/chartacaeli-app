@@ -41,6 +41,7 @@ __device__ void RealMatrix::set( double matrix[], int rows, int cols ) {
 		this->matrix[i] = matrix[i] ;
 }
 
+#ifdef REALMATRIX_MAIN
 // kernel
 __global__ void realmatrix( double* buf ) {
 	RealMatrix* mat ;
@@ -68,7 +69,6 @@ __global__ void realmatrix( double* buf ) {
 	delete res ;
 }
 
-#ifdef REALMATRIX_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
 

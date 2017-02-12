@@ -14,12 +14,12 @@ __device__ double radians( double a ) {
 	return a*0.017453292519943295769236907685 ;
 }
 
+#ifdef MATH_MAIN
 // kernel
 __global__ void math( double* buf ) {
 	buf[threadIdx.x] = degrees( asin ( sin( radians( (double) threadIdx.x ) ) ) ) ;
 }
 
-#ifdef MATH_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
 

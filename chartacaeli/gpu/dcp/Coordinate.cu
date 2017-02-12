@@ -65,6 +65,7 @@ __device__ double* Coordinate::toArray() {
 	return r ;
 }
 
+#ifdef COORDINATE_MAIN
 // kernel
 __global__ void coordinate( double* buf ) {
 	Coordinate c( threadIdx.x, threadIdx.x+1, threadIdx.x+2 ), *t0, *t1 ;
@@ -78,7 +79,6 @@ __global__ void coordinate( double* buf ) {
 	delete t0 ;
 }
 
-#ifdef COORDINATE_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
 

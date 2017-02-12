@@ -94,6 +94,7 @@ __device__ Coordinate* P4Orthographic::inverse( Coordinate& xy ) {
 	return lamphi ;
 }
 
+#ifdef P4ORTHOGRAPHIC_MAIN
 // kernel
 __global__ void p4orthographic( double* buf ) {
 	P4Projector* proj ;
@@ -115,7 +116,6 @@ __global__ void p4orthographic( double* buf ) {
 	delete res ;
 }
 
-#ifdef P4ORTHOGRAPHIC_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
 

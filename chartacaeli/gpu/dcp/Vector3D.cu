@@ -81,6 +81,7 @@ __device__ double* Vector3D::toArray() {
 	return r ;
 }
 
+#ifdef VECTOR3D_MAIN
 // kernel
 __global__ void vector3d( double* buf ) {
 	Vector3D *a, *b ;
@@ -94,7 +95,6 @@ __global__ void vector3d( double* buf ) {
 	delete a ;
 }
 
-#ifdef VECTOR3D_MAIN
 #define NUM_BLOCKS 1
 #define NUM_THREADS 360
 
