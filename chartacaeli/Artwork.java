@@ -382,7 +382,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		private final static String DEFAULT_PJ2MODULE	= "chartacaeli/gpu/PJ2TextureMapperGpu.cubin" ;
 
 		// number of threads per GPU kernel block = NT * NT
-		private final static int NT = 32 ;
+		private final static int NT = 6 ;
 
 		public PJ2TextureMapperGpu() {
 		}
@@ -436,7 +436,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 			// setup M2P matrix
 			tmM2Pj = gpu.getDoubleArray( 3*3 ) ;
-			t2 = tmH2T.getData() ;
+			t2 = tmM2P.getData() ;
 			for ( int r=0 ; 3>r ; r++ )
 				for ( int c=0 ; 3>c ; c++ )
 					tmM2Pj.item[3*r+c] = t2[r][c] ;
@@ -473,6 +473,11 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 			// setup mapping bitmap
 			mappingj = gpu.getIntMatrix( dimt, dims ) ;
+			// copy to device to preserve background color
+			for ( int t=0 ; dimt>t ; t++ )
+				for ( int s=0 ; dims>s ; s++ )
+					mappingj.item[t][s] = mapping[dims*t+s] ;
+			mappingj.hostToDev() ;
 			// setup mapping params (dims, dimt)
 			dimsj = module.getIntVbl( "dims" ) ;
 			dimsj.item = dims ;

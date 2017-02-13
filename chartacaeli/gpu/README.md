@@ -81,16 +81,27 @@ PATH=chartacaeli/gpu:$PATH java -classpath "chartacaeli;lib/jts-1.14.jar;" chart
 These are for testing the C3P classes from inside the application (JUnit not involved). `Artwork$PJ2TextureMapperJni` is a C3P version of `Artwork$PJ2TextureMapperSeq`. It uses C3P objects (e.g. `RealMatrix`, `Plane`, `P4Projector`) instead of corresponding objects in `chartacaeli`. `Artwork$PJ2TextureMapperC3p` is a pure C++ implementation of `Artwork$PJ2TextureMapperSeq`. Both are marked as comments in `Artwork`. To use them run `make testbuild` in `gpu` folder. Then remove comments and compile `Artwork`.
 
 ### Cues and findings
+- A really nice [Introduction to Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp/)
+- Online book about [Programming on Parallel Machines](http://heather.cs.ucdavis.edu/~matloff/158/PLN/ParProcBook.pdf)
+
+**CXXWRAP**
 - [CXXWRAP](http://sourceforge.net/projects/cxxwrap/) does not support Java objects as return types as stated in [changelog](http://cxxwrap.sourceforge.net/CHANGELOG.txt) entry *20010424*. See [screenshot](screenshot-return-type-object-unsupported.png) of CXXWRAP output for using a Java object as return type.
 - Restriction on Java object return types applies to arrays of primitive types as well. See [screenshot](screenshot-return-type-primitive-array-unsupported.png) with CXXWRAP output for replacing Java object by array of primitive type and [generated code](screenshot-return-type-primitive-array-unsupported-code.png).
 - Notes on [Argument conversion](http://cxxwrap.sourceforge.net/doc/design.html). CXXWRAP will not generate any code in case of arguments of unsupported types (`size_t` for instance).
-- A really nice [Introduction to Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp/)
-- Online book about [Programming on Parallel Machines](http://heather.cs.ucdavis.edu/~matloff/158/PLN/ParProcBook.pdf)
+
+**C++**
 - C++ [programming guide](http://www.lmpt.univ-tours.fr/~volkov/C++.pdf) and [online reference](http://www.cplusplus.com/reference/)
+- An Idiot's Guide to C++ Templates [Part 1](https://www.codeproject.com/Articles/257589/An-Idiots-Guide-to-Cplusplus-Templates-Part) and [Part 2](https://www.codeproject.com/Articles/268849/An-Idiots-Guide-to-Cplusplus-Templates-Part) on [Codeproject](https://www.codeproject.com/)
 - Stackoverflow answer on [how to instantiate C++ objects from class names](http://stackoverflow.com/questions/582331/is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name)
-- [Sample implementation](https://github.com/egaburov/vanaheimr) of `std::map` with [usage example](https://devtalk.nvidia.com/default/topic/523766/std-map-in-device-code/) from [CUDA ZONE](https://developer.nvidia.com/cuda-zone)
-- Stackoverflow answer on [how to access class members from within CUDA kernel](http://stackoverflow.com/questions/39006348/accessing-class-data-members-from-within-cuda-kernel-how-to-design-proper-host)
+
+**CUDA**
 - [CUDA Toolkit Documentation](http://docs.nvidia.com/cuda/index.html#) containing [programming guides](http://docs.nvidia.com/cuda/index.html#programming-guides), [API references](http://docs.nvidia.com/cuda/index.html#cuda-api-references) and [NVCC documentation](http://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#abstract) (among others)
 - [Separate Compilation and Linking of CUDA C++ Device Code](https://devblogs.nvidia.com/parallelforall/separate-compilation-linking-cuda-device-code/)
 - [CUDAcons repository](https://github.com/otabuzzman/cudacons) with information about setting up CUDA without capable device
-- An Idiot's Guide to C++ Templates [Part 1](https://www.codeproject.com/Articles/257589/An-Idiots-Guide-to-Cplusplus-Templates-Part) and [Part 2](https://www.codeproject.com/Articles/268849/An-Idiots-Guide-to-Cplusplus-Templates-Part) on [Codeproject](https://www.codeproject.com/)
+
+**C++ and CUDA**
+- [Sample implementation](https://github.com/egaburov/vanaheimr) of `std::map` with [usage example](https://devtalk.nvidia.com/default/topic/523766/std-map-in-device-code/) from [CUDA ZONE](https://developer.nvidia.com/cuda-zone)
+- Stackoverflow answer on [how to access class members from within CUDA kernel](http://stackoverflow.com/questions/39006348/accessing-class-data-members-from-within-cuda-kernel-how-to-design-proper-host)
+
+**Java**
+- If on Linux and not as root and if JVM runs longer (than expected) there will most likely be Backing Store warnings. They tell system preferences could not be flushed. [This article](http://www.allaboutbalance.com/articles/disableprefs/) depicts why and how to fix.
