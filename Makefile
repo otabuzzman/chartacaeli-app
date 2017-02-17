@@ -95,7 +95,7 @@ all: classes
 
 .xml.ps:
 	# note that caa loads aaplus thus needs PATH set as well as java.library.path
-	@time java $(JVMX_OPTS) \
+	@time java $(JFRX_OPTS) $(JVMX_OPTS) \
 			-D$(PKG).app=$(APP) \
 			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
 			-classpath "$(subst $(space),$(sep), \

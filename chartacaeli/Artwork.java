@@ -63,7 +63,8 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String DEFAULT_PJ2WORKER	= "chartacaeli.Artwork$PJ2TextureMapperSeq" ;
 
 	// message key (MK_)
-	private final static String MK_RUNTIME			= "runtime" ;
+	private final static String MK_TASKTIME			= "tasktime" ;
+	private final static String MK_CUDASTAT			= "cudastat" ;
 
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
 	private static boolean verbose = false ;
@@ -396,14 +397,16 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			GpuByteArray pnam ;
 			GpuDoubleVbl lam0, phi1, R, k0 ;
 
-			GpuDoubleArray tmH2Tj, tmM2Pj ;
+			GpuDoubleArray tmH2Td, tmM2Pd ;
 			double[][] t2, t3 ;
 
-			GpuDoubleMatrix spTj ;
-			GpuIntMatrix texturej, mappingj ;
+			GpuDoubleMatrix spTd ;
+			GpuIntMatrix textured, mappingd ;
 			GpuDoubleVbl upsj ;
 			GpuIntVbl dimoj, dimpj, dimsj, dimtj ;
 			PJ2TextureMapperKernel kernel ;
+
+			long t4, t5, tk, tm ;
 
 			// setup GPU
 			gpu = Gpu.gpu() ;
@@ -435,34 +438,37 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			k0.hostToDev() ;
 
 			// setup M2P matrix
-			tmM2Pj = gpu.getDoubleArray( 3*3 ) ;
+			tmM2Pd = gpu.getDoubleArray( 3*3 ) ;
 			t2 = tmM2P.getData() ;
 			for ( int r=0 ; 3>r ; r++ )
 				for ( int c=0 ; 3>c ; c++ )
-					tmM2Pj.item[3*r+c] = t2[r][c] ;
-			tmM2Pj.hostToDev() ;
+					tmM2Pd.item[3*r+c] = t2[r][c] ;
+			tmM2Pd.hostToDev() ;
 
 			// setup T2H matrix
-			tmH2Tj = gpu.getDoubleArray( 4*4 ) ;
+			tmH2Td = gpu.getDoubleArray( 4*4 ) ;
 			t3 = tmH2T.getData() ;
 			for ( int r=0 ; 4>r ; r++ )
 				for ( int c=0 ; 4>c ; c++ )
-					tmH2Tj.item[4*r+c] = t3[r][c] ;
-			tmH2Tj.hostToDev() ;
+					tmH2Td.item[4*r+c] = t3[r][c] ;
+			tmH2Td.hostToDev() ;
 
 			// setup texture spatial plane
-			spTj = gpu.getDoubleMatrix( 3, 3 ) ;
-			spTj.item[0][0] = popHP1.x ; spTj.item[0][1] = popHP1.y ; spTj.item[0][2] = popHP1.z ;
-			spTj.item[1][0] = popHP2.x ; spTj.item[1][1] = popHP2.y ; spTj.item[1][2] = popHP2.z ;
-			spTj.item[2][0] = popHP3.x ; spTj.item[2][1] = popHP3.y ; spTj.item[2][2] = popHP3.z ;
-			spTj.hostToDev() ;
+			spTd = gpu.getDoubleMatrix( 3, 3 ) ;
+			spTd.item[0][0] = popHP1.x ; spTd.item[0][1] = popHP1.y ; spTd.item[0][2] = popHP1.z ;
+			spTd.item[1][0] = popHP2.x ; spTd.item[1][1] = popHP2.y ; spTd.item[1][2] = popHP2.z ;
+			spTd.item[2][0] = popHP3.x ; spTd.item[2][1] = popHP3.y ; spTd.item[2][2] = popHP3.z ;
+			spTd.hostToDev() ;
 
 			// setup texture bitmap
-			texturej = gpu.getIntMatrix( dimp, dimo ) ;
+			t4 = System.currentTimeMillis() ;
+			textured = gpu.getIntMatrix( dimp, dimo ) ;
 			for ( int p=0 ; dimp>p ; p++ )
 				for ( int o=0 ; dimo>o ; o++ )
-					texturej.item[p][o] = texture[dimo*p+o] ;
-			texturej.hostToDev() ;
+					textured.item[p][o] = texture[dimo*p+o] ;
+			textured.hostToDev() ;
+			t5 = System.currentTimeMillis() ;
+			tm = t5-t4 ;
 			// setup texture params (dimo, dimp)
 			dimoj = module.getIntVbl( "dimo" ) ;
 			dimoj.item = dimo ;
@@ -472,12 +478,15 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			dimpj.hostToDev() ;
 
 			// setup mapping bitmap
-			mappingj = gpu.getIntMatrix( dimt, dims ) ;
+			t4 = System.currentTimeMillis() ;
+			mappingd = gpu.getIntMatrix( dimt, dims ) ;
 			// copy to device to preserve background color
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					mappingj.item[t][s] = mapping[dims*t+s] ;
-			mappingj.hostToDev() ;
+					mappingd.item[t][s] = mapping[dims*t+s] ;
+			mappingd.hostToDev() ;
+			t5 = System.currentTimeMillis() ;
+			tm = tm+t5-t4 ;
 			// setup mapping params (dims, dimt)
 			dimsj = module.getIntVbl( "dims" ) ;
 			dimsj.item = dims ;
@@ -494,14 +503,27 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			// run kernel
 			kernel = module.getKernel( PJ2TextureMapperKernel.class ) ;
 			kernel.setBlockDim( NT, NT ) ;
-			kernel.setGridDim( ( dims+NT-1 )/NT, ( dimt+NT-1 )/NT ) ; 
-			kernel.run( pnam, tmM2Pj, tmH2Tj, spTj, texturej, mappingj ) ;
+			kernel.setGridDim( ( dims+NT-1 )/NT, ( dimt+NT-1 )/NT ) ;
+
+			t4 = System.currentTimeMillis() ;
+			kernel.run( pnam, tmM2Pd, tmH2Td, spTd, textured, mappingd ) ;
+			t5 = System.currentTimeMillis() ;
+			tk = t5-t4 ;
 
 			// retrieve mapping result
-			mappingj.devToHost() ;
+			t4 = System.currentTimeMillis() ;
+			mappingd.devToHost() ;
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					mapping[dims*t+s] = mappingj.item[t][s] ;
+					mapping[dims*t+s] = mappingd.item[t][s] ;
+			t5 = System.currentTimeMillis() ;
+			tm = tm+t5-t4 ;
+
+			log.info( MessageCatalog.compose( this, MK_CUDASTAT, new Object[] {
+				String.valueOf( ( dimo*dimp+2*dims*dimt )/1000000. ),
+				String.valueOf( tm ),
+				String.valueOf( dims*dimt ),
+				String.valueOf( tk ), } ) ) ;
 		}
 	}
 
@@ -729,7 +751,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		taskinst.main( null ) ;
 		t1 = System.currentTimeMillis() ;
 
-		log.info( MessageCatalog.compose( this, MK_RUNTIME, new Object[] { classconf, String.valueOf( t1-t0 ) } ) ) ;
+		log.info( MessageCatalog.compose( this, MK_TASKTIME, new Object[] { classconf, String.valueOf( t1-t0 ) } ) ) ;
 	}
 
 	@Override

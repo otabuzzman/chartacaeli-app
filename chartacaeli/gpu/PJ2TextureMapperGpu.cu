@@ -40,12 +40,12 @@ __device__ int dimt ;
 __device__ double ups ;
 
 // CUDA kernel
-extern "C" __global__ void run( const char* pnam, double* tmM2Pj, double* tmH2Tj, double** spTj, const int** texture, int** mapping ) {
+extern "C" __global__ void run( const char* pnam, double* tmM2P, double* tmH2T, double** spT, const int** texture, int** mapping ) {
 	int t, s ;
 	P4Projector* proj ;
-	RealMatrix *tmM2P, *tmH2T ;
+	RealMatrix *m2p, *h2t ;
 	Vector3D *p1, *p2, *p3 ;
-	Plane* spT ;
+	Plane* spt ;
 	double st[] = { 0, 0, 1 }, *t0, *op, ca[] = { 0, 0, 0, 1 } ;
 	Coordinate uv, *eq, *t1 ;
 	Vector3D l0, l1, *t2 ;
@@ -59,19 +59,19 @@ extern "C" __global__ void run( const char* pnam, double* tmM2Pj, double* tmH2Tj
 	proj = createP4Projector( pnam ) ;
 	proj->init( lim0, phi1, R, k0 ) ;
 
-	tmM2P = new RealMatrix( tmM2Pj, 3, 3 ) ;
-	tmH2T = new RealMatrix( tmH2Tj, 4, 4 ) ;
+	m2p = new RealMatrix( tmM2P, 3, 3 ) ;
+	h2t = new RealMatrix( tmH2T, 4, 4 ) ;
 
-	p1 = new Vector3D( spTj[0] ) ;
-	p2 = new Vector3D( spTj[1] ) ;
-	p3 = new Vector3D( spTj[2] ) ;
-	spT = new Plane( *p1, *p2, *p3 ) ;
+	p1 = new Vector3D( spT[0] ) ;
+	p2 = new Vector3D( spT[1] ) ;
+	p3 = new Vector3D( spT[2] ) ;
+	spt = new Plane( *p1, *p2, *p3 ) ;
 
 	st[1] = t*ups ;
 	st[0] = s*ups ;
 
 	// transform s/t to projection coordinates u/v
-	t0 = tmM2P->operate( st ) ;
+	t0 = m2p->operate( st ) ;
 	uv.set( t0[0], t0[1], t0[2] ) ;
 	// transform u/v to spherical (equatorial) coordinates
 	eq = proj->inverse( uv ) ;
@@ -79,12 +79,12 @@ extern "C" __global__ void run( const char* pnam, double* tmM2Pj, double* tmH2Tj
 	t1 = eq->cartesian() ;
 	l1.set( t1->x, t1->y, t1->z ) ;
 	// find cartesian coordinates c/a of spatial intersection with texture
-	t2 = spT->intersection( l0, l1 ) ;
+	t2 = spt->intersection( l0, l1 ) ;
 	ca[0] = t2->x ;
 	ca[1] = t2->y ;
 	ca[2] = t2->z ;
 	// transform c/a to texture coordinates o/p
-	op = tmH2T->operate( ca ) ;
+	op = h2t->operate( ca ) ;
 
 	// map o/p if on texture
 	if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
@@ -95,12 +95,12 @@ extern "C" __global__ void run( const char* pnam, double* tmM2Pj, double* tmH2Tj
 	delete t1 ;
 	delete eq ;
 	delete t0 ;
-	delete spT ;
+	delete spt ;
 	delete p3 ;
 	delete p2;
 	delete p1 ;
-	delete tmH2T ;
-	delete tmM2P ;
+	delete h2t ;
+	delete m2p ;
 	delete proj ;
 }
 

@@ -24,6 +24,7 @@ chartacaeli/model/
 *.exe
 *.exp
 *.jar
+*.jfr
 *.lib
 *.o
 *.out
