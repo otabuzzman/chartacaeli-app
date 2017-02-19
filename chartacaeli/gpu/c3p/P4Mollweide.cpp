@@ -20,7 +20,7 @@ void P4Mollweide::init( double lam0, double phi1, double R, double k0 ) {
 	this->R = R ;
 }
 
-Coordinate* P4Mollweide::forward( Coordinate& lamphi ) {
+Coordinate* P4Mollweide::forward( const Coordinate& lamphi ) {
 	Coordinate* xy = new Coordinate() ;
 	double tht2 = lamphi.y, dtht2 = 0, sintht2, costht2 ;
 	double sinphi, tht, sintht, costht ;
@@ -46,7 +46,7 @@ Coordinate* P4Mollweide::forward( Coordinate& lamphi ) {
 	return xy ;
 }
 
-Coordinate* P4Mollweide::inverse( Coordinate& xy ) {
+Coordinate* P4Mollweide::inverse( const Coordinate& xy ) {
 	Coordinate* lamphi = new Coordinate() ;
 	double tht, sin2tht, costht ;
 
@@ -87,18 +87,16 @@ void P4Mollweide::inverse( /* arg(s) */ double xy[3], /* return */ double lamphi
 #define NUM_THREADS 360
 
 int main( int argc, char** argv ) {
-	P4Projector* proj ;
-	Coordinate *lamphi, *xy, *res ;
+	P4Mollweide proj ;
+	Coordinate lamphi, *xy, *res ;
 	double* buf ;
 
-	proj = new P4Mollweide() ;
-	lamphi = new Coordinate() ;
 	buf = new double[2*NUM_THREADS] ;
 
 	for ( int i=0 ; NUM_THREADS>i ; i++ ) {
-		lamphi->set( (double) i, (double) ( i%90 ), 0 ) ;
-		xy = proj->forward( *lamphi ) ;
-		res = proj->inverse( *xy ) ;
+		lamphi.set( (double) i, (double) ( i%90 ), 0 ) ;
+		xy = proj.forward( lamphi ) ;
+		res = proj.inverse( *xy ) ;
 		buf[2*i] = res->x ;
 		buf[2*i+1] = res->y ;
 		delete xy ;
@@ -109,8 +107,6 @@ int main( int argc, char** argv ) {
 		printf( "%.4f %.4f\n", buf[2*i], buf[2*i+1] ) ;
 
 	delete buf ;
-	delete lamphi ;
-	delete proj ;
 
 	return EXIT_SUCCESS ;
 }

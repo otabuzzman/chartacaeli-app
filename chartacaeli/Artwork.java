@@ -172,7 +172,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		// configuration key (CK_)
 		private final static String CK_LIBGPU		= "libgpu" ;
 
-		private final static String DEFAULT_LIBGPU	= "gpu" ;
+		private final static String DEFAULT_LIBGPU	= "c3p" ;
 
 		private double[] st ;
 		private double[] uv ;
@@ -275,7 +275,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		// configuration key (CK_)
 		private final static String CK_LIBGPU		= "libgpu" ;
 
-		private final static String DEFAULT_LIBGPU	= "gpu" ;
+		private final static String DEFAULT_LIBGPU	= "c3p" ;
 
 		public PJ2TextureMapperC3p() {
 			String libgpu = Configuration.getValue(
@@ -520,10 +520,10 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			tm = tm+t5-t4 ;
 
 			log.info( MessageCatalog.compose( this, MK_CUDASTAT, new Object[] {
-				String.valueOf( ( dimo*dimp+2*dims*dimt )/1000000. ),
-				String.valueOf( tm ),
-				String.valueOf( dims*dimt ),
-				String.valueOf( tk ), } ) ) ;
+					String.valueOf( ( dimo*dimp+2*dims*dimt )/1000000. ),
+					String.valueOf( tm ),
+					String.valueOf( dims*dimt ),
+					String.valueOf( tk ), } ) ) ;
 		}
 	}
 

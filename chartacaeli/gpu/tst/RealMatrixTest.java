@@ -107,7 +107,7 @@ public class RealMatrixTest {
 
 	@Test
 	public void testOperateDoubleArrayDoubleArray() {
-		RealMatrix rmc = new RealMatrix() ;
+		RealMatrix rmc = null ;
 		org.apache.commons.math3.linear.RealMatrix rmj ;
 		double resc[], resj[], rmf[] ;
 		int rows, cols ;
@@ -125,7 +125,10 @@ public class RealMatrixTest {
 				for ( int c=0 ; cols>c ; c++ )
 					rmf[rows*r+c] = ds_mat3[mat][r][c] ;
 			// set C3P matrix
-			rmc.set( rmf, rows, cols ) ;
+			if ( rmc == null )
+				rmc = new RealMatrix( rmf, rows, cols ) ;
+			else
+				rmc.set( rmf, rows, cols ) ;
 
 			for ( int vec=0 ; ds_vec3.length>vec ; vec++ ) {
 				// check C3P classes

@@ -9,11 +9,7 @@ using namespace std;
 Coordinate::Coordinate() : x( 0 ), y( 0 ), z( 0 ) {
 }
 
-Coordinate::Coordinate( double c[3] ) {
-	set( c[0], c[1], c[2] ) ;
-}
-
-Coordinate::Coordinate( Coordinate& c ) {
+Coordinate::Coordinate( const Coordinate& c ) {
 	set( c.x, c.y, c.z ) ;
 }
 
@@ -27,56 +23,34 @@ void Coordinate::set( double x, double y, double z ) {
 	this->z = z ;
 }
 
-Coordinate* Coordinate::spherical() {
-	double x, y ;
-	Coordinate *c ;
+void Coordinate::spherical() {
+	double r = sqrt( x*x+y*y+z*z ) ;
 
-	x = Math::atan2( this->y, this->x ) ;
-	y = Math::asin( z/sqrt( this->x*this->x+this->y*this->y+z*z ) ) ;
-
-	c = new Coordinate( x, y, 0 ) ;
-
-	return c ;
+	x = Math::atan2( y, x ) ;
+	y = Math::asin( z/r ) ;
+	z = 0 ;
 }
 
-Coordinate* Coordinate::cartesian() {
-	double x, y, z ;
-	Coordinate *c ;
-
-	x = Math::cos( this->y )*Math::cos( this->x ) ;
-	y = Math::cos( this->y )*Math::sin( this->x ) ;
-	z = Math::sin( this->y ) ;
-
-	c = new Coordinate( x, y, z ) ;
-
-	return c ;
-}
-
-double* Coordinate::toArray() {
-	double* r = new double[3] ;
-
-	r[0] = x ;
-	r[1] = y ;
-	r[2] = z ;
-
-	return r ;
+void Coordinate::cartesian() {
+	double _x = x, _y = y ;
+	x = Math::cos( _y )*Math::cos( _x ) ;
+	y = Math::cos( _y )*Math::sin( _x ) ;
+	z = Math::sin( _y ) ;
 }
 
 // CXXWRAP/ JUnit
-void Coordinate::spercical( /* return */ double retval[] ) {
-	Coordinate* c = spherical() ;
-	retval[0] = c->x ;
-	retval[1] = c->y ;
-	retval[2] = c->z ;
-	delete c ;
+void Coordinate::spherical( /* return */ double retval[] ) {
+	spherical() ;
+	retval[0] = x ;
+	retval[1] = y ;
+	retval[2] = z ;
 }
 
 void Coordinate::cartesian( /* return */ double retval[] ) {
-	Coordinate* c = cartesian() ;
-	retval[0] = c->x ;
-	retval[1] = c->y ;
-	retval[2] = c->z ;
-	delete c ;
+	cartesian() ;
+	retval[0] = x ;
+	retval[1] = y ;
+	retval[2] = z ;
 }
 
 #ifdef COORDINATE_MAIN
@@ -84,28 +58,24 @@ void Coordinate::cartesian( /* return */ double retval[] ) {
 #define NUM_THREADS 360
 
 int main( int argc, char** argv ) {
-	Coordinate *ca, *t0, *co ;
+	Coordinate c ;
 	double* buf ;
 
-	ca = new Coordinate() ;
 	buf = new double[3*NUM_THREADS] ;
 
 	for ( int i=0 ; NUM_THREADS>i ; i++ ) {
-		ca->set( i, i+1, i+2 ) ;
-		t0 = ca->spherical() ;
-		co = t0->cartesian() ;
-		buf[3*i] = co->x ;
-		buf[3*i+1] = co->y ;
-		buf[3*i+2] = co->z ;
-		delete co ;
-		delete t0 ;
+		c.set( i, i+1, i+2 ) ;
+		c.spherical() ;
+		c.cartesian() ;
+		buf[3*i] = c.x ;
+		buf[3*i+1] = c.y ;
+		buf[3*i+2] = c.z ;
 	}
 
 	for ( int i=0 ; NUM_THREADS>i ; i++ )
 		printf( "%.8f %.8f %.8f\n", buf[3*i], buf[3*i+1], buf[3*i+2] ) ;
 
 	delete buf ;
-	delete ca ;
 
 	return EXIT_SUCCESS ;
 }

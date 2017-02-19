@@ -11,8 +11,9 @@ public:
 	P4Stereographic() ;
 
 	void init( double lam0, double phi1, double R, double k0 ) ;
-	Coordinate* forward( Coordinate& lamphi ) ;
-	Coordinate* inverse( Coordinate& xy ) ;
+	Coordinate* forward( const Coordinate& lamphi ) ;
+	Coordinate* inverse( const Coordinate& xy ) ;
+
 	// CXXWRAP/ JUnit
 	void forward( /* arg(s) */ double lamphi[3], /* return */ double xy[3] ) ;
 	void inverse( /* arg(s) */ double xy[3], /* return */ double lamphi[3] ) ;

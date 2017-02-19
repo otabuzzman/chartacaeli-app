@@ -9,17 +9,15 @@ public:
 	double z ;
 
 	Coordinate() ;
-	Coordinate( double c[3] ) ;
-	Coordinate( Coordinate& c ) ;
+	Coordinate( const Coordinate& c ) ;
 	Coordinate( double x, double y, double z ) ;
 
 	void set( double x, double y, double z ) ;
-	Coordinate* spherical() ;
-	Coordinate* cartesian() ;
+	void spherical() ;
+	void cartesian() ;
 
-	double* toArray() ;
 	// CXXWRAP/ JUnit
-	void spercical( /* return */ double retval[] ) ;
+	void spherical( /* return */ double retval[] ) ;
 	void cartesian( /* return */ double retval[] ) ;
 } ;
 

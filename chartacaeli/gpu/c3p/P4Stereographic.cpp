@@ -5,6 +5,7 @@
 #include "P4Stereographic.h"
 #include "Coordinate.h"
 #include "Math.h"
+using namespace std;
 
 P4PROJECTOR_CDEF(P4Stereographic) ;
 
@@ -30,7 +31,7 @@ void P4Stereographic::init( double lam0, double phi1, double R, double k0 ) {
 		mode = M_OBLIQUE ;
 }
 
-Coordinate* P4Stereographic::forward( Coordinate& lamphi ) {
+Coordinate* P4Stereographic::forward( const Coordinate& lamphi ) {
 	Coordinate* xy = new Coordinate() ;
 	double sinlamdif, coslamdif ;
 	double sinphi, cosphi, k, t ;
@@ -70,7 +71,7 @@ Coordinate* P4Stereographic::forward( Coordinate& lamphi ) {
 	return xy ;
 }
 
-Coordinate* P4Stereographic::inverse( Coordinate& xy ) {
+Coordinate* P4Stereographic::inverse( const Coordinate& xy ) {
 	Coordinate* lamphi = new Coordinate() ;
 	double p, c, sinc, cosc ;
 
@@ -123,18 +124,16 @@ void P4Stereographic::inverse( /* arg(s) */ double xy[3], /* return */ double la
 #define NUM_THREADS 360
 
 int main( int argc, char** argv ) {
-	P4Projector* proj ;
-	Coordinate *lamphi, *xy, *res ;
+	P4Stereographic proj ;
+	Coordinate lamphi, *xy, *res ;
 	double* buf ;
 
-	proj = new P4Stereographic() ;
-	lamphi = new Coordinate() ;
 	buf = new double[2*NUM_THREADS] ;
 
 	for ( int i=0 ; NUM_THREADS>i ; i++ ) {
-		lamphi->set( (double) i, (double) ( i%90 ), 0 ) ;
-		xy = proj->forward( *lamphi ) ;
-		res = proj->inverse( *xy ) ;
+		lamphi.set( (double) i, (double) ( i%90 ), 0 ) ;
+		xy = proj.forward( lamphi ) ;
+		res = proj.inverse( *xy ) ;
 		buf[2*i] = res->x ;
 		buf[2*i+1] = res->y ;
 		delete xy ;
@@ -145,8 +144,6 @@ int main( int argc, char** argv ) {
 		printf( "%.4f %.4f\n", buf[2*i], buf[2*i+1] ) ;
 
 	delete buf ;
-	delete lamphi ;
-	delete proj ;
 
 	return EXIT_SUCCESS ;
 }
