@@ -383,7 +383,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		private final static String DEFAULT_PJ2MODULE	= "chartacaeli/gpu/PJ2TextureMapperGpu.cubin" ;
 
 		// number of threads per GPU kernel block = NT * NT
-		private final static int NT = 6 ;
+		private final static int NT = 32 ;
 
 		public PJ2TextureMapperGpu() {
 		}

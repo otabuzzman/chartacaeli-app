@@ -22,6 +22,10 @@ Finally write the kernel.
 ### Notes on CUDA optimization
 The SMP implementation of *Artwork* took roughly 2,650 milliseconds to map Andromedaon on Intel Core 2 Duo 2,40 GHz using `Artwork$PJ2TextureMapperSmp`. The same task took 3,800 milliseconds on an AWS T2 instance (2 cores) and 750 milliseconds on AWS G2 (8 cores). The CUDA implementation `Artwork$PJ2TextureMapperGpu` on G2 without any optimization took 61,000 milliseconde for 2,063,120 threads of which 80 milliseconds account for host/device memory transfers of 4.4 MB.
 
+|Kind of optimization|Kernel time (ms) on G2|Comment|
+|-|-|-|
+|Apply some C++ design patterns for C3P and DCP|16,500|Setup stack variables then exit kernel took 5,900 ms|
+
 ### Notes on C3P and DCP test programs
 There will be linker errors in case of modules (both C3P and DCP) that depend on others (e.g. *Coordinate* depends on *Math*). These errors are due to the fact that each module defines a global `main` function. To come around this there is a preprocessor constant that controls which `main` to compile. For *Math* the constant is `MATH_MAIN` for *Vector3D* it's `VECTOR3D_MAIN`. Same linker errors will occur if building a program that depends on one (or more) that has been build before. To avoid this remove artefacts of previous build(s).
 ```

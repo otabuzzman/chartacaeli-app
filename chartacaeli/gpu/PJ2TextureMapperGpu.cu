@@ -86,6 +86,7 @@ extern "C" __global__ void run( const char* pnam, double* tmM2P, double* tmH2T, 
 
 	delete[] op ;
 	delete t1 ;
+	delete eq ;
 	delete[] t0 ;
 	delete proj ;
 }
