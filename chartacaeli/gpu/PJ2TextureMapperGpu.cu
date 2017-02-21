@@ -43,12 +43,14 @@ __device__ double ups ;
 extern "C" __global__ void run( const char* pnam, double* tmM2P, double* tmH2T, double** spT, const int** texture, int** mapping ) {
 	int t, s ;
 	P4Projector* proj ;
-	RealMatrix *m2p, *h2t ;
-	Vector3D *p1, *p2, *p3 ;
-	Plane* spt ;
+	RealMatrix m2p( tmM2P, 3, 3 ), h2t( tmH2T, 4, 4 ) ;
+	Vector3D p1( spT[0][0], spT[0][1], spT[0][2] ) ;
+	Vector3D p2( spT[1][0], spT[1][1], spT[1][2] ) ;
+	Vector3D p3( spT[2][0], spT[2][1], spT[2][2] ) ;
+	Plane spt( p1, p2, p3 ) ;
 	double st[] = { 0, 0, 1 }, *t0, *op, ca[] = { 0, 0, 0, 1 } ;
-	Coordinate uv, *eq, *t1 ;
-	Vector3D l0, l1, *t2 ;
+	Coordinate uv, *eq ;
+	Vector3D l0, l1, *t1 ;
 
 	t = blockIdx.y*blockDim.y+threadIdx.y ;
 	s = blockIdx.x*blockDim.x+threadIdx.x ;
@@ -59,48 +61,32 @@ extern "C" __global__ void run( const char* pnam, double* tmM2P, double* tmH2T, 
 	proj = createP4Projector( pnam ) ;
 	proj->init( lim0, phi1, R, k0 ) ;
 
-	m2p = new RealMatrix( tmM2P, 3, 3 ) ;
-	h2t = new RealMatrix( tmH2T, 4, 4 ) ;
-
-	p1 = new Vector3D( spT[0] ) ;
-	p2 = new Vector3D( spT[1] ) ;
-	p3 = new Vector3D( spT[2] ) ;
-	spt = new Plane( *p1, *p2, *p3 ) ;
-
 	st[1] = t*ups ;
 	st[0] = s*ups ;
 
 	// transform s/t to projection coordinates u/v
-	t0 = m2p->operate( st ) ;
+	t0 = m2p.operate( st ) ;
 	uv.set( t0[0], t0[1], t0[2] ) ;
 	// transform u/v to spherical (equatorial) coordinates
 	eq = proj->inverse( uv ) ;
 	// convert spherical to cartesian
-	t1 = eq->cartesian() ;
-	l1.set( t1->x, t1->y, t1->z ) ;
+	eq->cartesian() ;
+	l1.set( eq->x, eq->y, eq->z ) ;
 	// find cartesian coordinates c/a of spatial intersection with texture
-	t2 = spt->intersection( l0, l1 ) ;
-	ca[0] = t2->x ;
-	ca[1] = t2->y ;
-	ca[2] = t2->z ;
+	t1 = spt.intersection( l0, l1 ) ;
+	ca[0] = t1->x ;
+	ca[1] = t1->y ;
+	ca[2] = t1->z ;
 	// transform c/a to texture coordinates o/p
-	op = h2t->operate( ca ) ;
+	op = h2t.operate( ca ) ;
 
 	// map o/p if on texture
 	if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
 		mapping[t][s] = texture[(int) op[1]][(int) op[0]] ;
 
-	delete op ;
-	delete t2 ;
+	delete[] op ;
 	delete t1 ;
-	delete eq ;
-	delete t0 ;
-	delete spt ;
-	delete p3 ;
-	delete p2;
-	delete p1 ;
-	delete h2t ;
-	delete m2p ;
+	delete[] t0 ;
 	delete proj ;
 }
 

@@ -5,12 +5,11 @@ class RealMatrix {
 
 public:
 	__device__ RealMatrix( double matrix[], int rows, int cols ) ;
-	__device__ RealMatrix() ;
 
 	__device__ ~RealMatrix() ;
 
-	__device__ double* operate( double vector[] ) ;
 	__device__ void set( double matrix[], int rows, int cols ) ;
+	__device__ double* operate( double vector[] ) ;
 
 private:
 	double* matrix ;

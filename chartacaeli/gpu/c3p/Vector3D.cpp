@@ -77,13 +77,13 @@ int main( int argc, char** argv ) {
 	for ( int i=0 ; NUM_THREADS>i ; i++ ) {
 		a.set( i, i+.123, i+.234 ) ;
 		b.set( i+.234, i+.123, i ) ;
-		buf[i] = a->cross( *b )->dot( *a ) ;
+		buf[i] = a.cross( b ).dot( a ) ;
 	}
 
 	for ( int i=0 ; NUM_THREADS>i ; i++ )
 		printf( "%.6f\n", buf[i] ) ;
 
-	delete buf ;
+	delete[] buf ;
 
 	return EXIT_SUCCESS ;
 }

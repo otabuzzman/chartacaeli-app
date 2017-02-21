@@ -21,7 +21,7 @@ __device__ void P4Mollweide::init( double lam0, double phi1, double R, double k0
 	this->R = R ;
 }
 
-__device__ Coordinate* P4Mollweide::forward( Coordinate& lamphi ) {
+__device__ Coordinate* P4Mollweide::forward( const Coordinate& lamphi ) {
 	Coordinate* xy = new Coordinate() ;
 	double tht2 = lamphi.y, dtht2 = 0, sintht2, costht2 ;
 	double sinphi, tht, sintht, costht ;
@@ -47,7 +47,7 @@ __device__ Coordinate* P4Mollweide::forward( Coordinate& lamphi ) {
 	return xy ;
 }
 
-__device__ Coordinate* P4Mollweide::inverse( Coordinate& xy ) {
+__device__ Coordinate* P4Mollweide::inverse( const Coordinate& xy ) {
 	Coordinate* lamphi = new Coordinate() ;
 	double tht, sin2tht, costht ;
 
@@ -69,21 +69,16 @@ __device__ Coordinate* P4Mollweide::inverse( Coordinate& xy ) {
 #ifdef P4MOLLWEIDE_MAIN
 // kernel
 __global__ void p4mollweide( double* buf ) {
-	P4Projector* proj ;
-	Coordinate *lamphi, *xy, *res ;
+	P4Mollweide proj ;
+	Coordinate lamphi, *xy, *res ;
 	int i = threadIdx.x ;
 
-	proj = new P4Mollweide() ;
-	lamphi = new Coordinate() ;
-
-	lamphi->set( (double) i, (double) ( i%90 ), 0 ) ;
-	xy = proj->forward( *lamphi ) ;
-	res = proj->inverse( *xy ) ;
+	lamphi.set( (double) i, (double) ( i%90 ), 0 ) ;
+	xy = proj.forward( lamphi ) ;
+	res = proj.inverse( *xy ) ;
 	buf[2*i] = res->x ;
 	buf[2*i+1] = res->y ;
 
-	delete proj ;
-	delete lamphi ;
 	delete xy ;
 	delete res ;
 }

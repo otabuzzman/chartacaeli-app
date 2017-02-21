@@ -29,7 +29,7 @@ __device__ void P4Orthographic::init( double lam0, double phi1, double R, double
 		mode = M_OBLIQUE ;
 }
 
-__device__ Coordinate* P4Orthographic::forward( Coordinate& lamphi ) {
+__device__ Coordinate* P4Orthographic::forward( const Coordinate& lamphi ) {
 	Coordinate* xy = new Coordinate() ;
 	double sinlamdif, coslamdif ;
 	double sinphi, cosphi ;
@@ -63,7 +63,7 @@ __device__ Coordinate* P4Orthographic::forward( Coordinate& lamphi ) {
 	return xy ;
 }
 
-__device__ Coordinate* P4Orthographic::inverse( Coordinate& xy ) {
+__device__ Coordinate* P4Orthographic::inverse( const Coordinate& xy ) {
 	Coordinate* lamphi = new Coordinate() ;
 	double p, c, sinc, cosc ;
 
@@ -97,21 +97,16 @@ __device__ Coordinate* P4Orthographic::inverse( Coordinate& xy ) {
 #ifdef P4ORTHOGRAPHIC_MAIN
 // kernel
 __global__ void p4orthographic( double* buf ) {
-	P4Projector* proj ;
-	Coordinate *lamphi, *xy, *res ;
+	P4Orthographic proj ;
+	Coordinate lamphi, *xy, *res ;
 	int i = threadIdx.x ;
 
-	proj = new P4Orthographic() ;
-	lamphi = new Coordinate() ;
-
-	lamphi->set( (double) i, (double) ( i%90 ), 0 ) ;
-	xy = proj->forward( *lamphi ) ;
-	res = proj->inverse( *xy ) ;
+	lamphi.set( (double) i, (double) ( i%90 ), 0 ) ;
+	xy = proj.forward( lamphi ) ;
+	res = proj.inverse( *xy ) ;
 	buf[2*i] = res->x ;
 	buf[2*i+1] = res->y ;
 
-	delete proj ;
-	delete lamphi ;
 	delete xy ;
 	delete res ;
 }

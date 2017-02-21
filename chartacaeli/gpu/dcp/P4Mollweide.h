@@ -10,8 +10,8 @@ public:
 	__device__ P4Mollweide() ;
 
 	__device__ void init( double lam0, double phi1, double R, double k0 ) ;
-	__device__ Coordinate* forward( Coordinate& lamphi ) ;
-	__device__ Coordinate* inverse( Coordinate& xy ) ;
+	__device__ Coordinate* forward( const Coordinate& lamphi ) ;
+	__device__ Coordinate* inverse( const Coordinate& xy ) ;
 
 private:
 	double lam0 ;

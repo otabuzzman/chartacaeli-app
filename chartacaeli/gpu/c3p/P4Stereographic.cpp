@@ -143,7 +143,7 @@ int main( int argc, char** argv ) {
 	for ( int i=0 ; NUM_THREADS>i ; i++ )
 		printf( "%.4f %.4f\n", buf[2*i], buf[2*i+1] ) ;
 
-	delete buf ;
+	delete[] buf ;
 
 	return EXIT_SUCCESS ;
 }

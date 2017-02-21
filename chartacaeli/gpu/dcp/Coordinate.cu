@@ -12,11 +12,7 @@
 __device__ Coordinate::Coordinate() : x( 0 ), y( 0 ), z( 0 ) {
 }
 
-__device__ Coordinate::Coordinate( double c[3] ) {
-	set( c[0], c[1], c[2] ) ;
-}
-
-__device__ Coordinate::Coordinate( Coordinate& c ) {
+__device__ Coordinate::Coordinate( const Coordinate& c ) {
 	set( c.x, c.y, c.z ) ;
 }
 
@@ -30,53 +26,33 @@ __device__ void Coordinate::set( double x, double y, double z ) {
 	this->z = z ;
 }
 
-__device__ Coordinate* Coordinate::spherical() {
-	double x, y ;
-	Coordinate *c ;
+__device__ void Coordinate::spherical() {
+	double r = sqrt( x*x+y*y+z*z ) ;
 
-	x = degrees( atan2( this->y, this->x ) ) ;
-	y = degrees( asin( z/sqrt( this->x*this->x+this->y*this->y+z*z ) ) ) ;
-
-	c = new Coordinate( x, y, 0 ) ;
-
-	return c ;
+	x = degrees( atan2( y, x ) ) ;
+	y = degrees( asin( z/r ) ) ;
+	z = 0 ;
 }
 
-__device__ Coordinate* Coordinate::cartesian() {
-	double x, y, z ;
-	Coordinate *c ;
+__device__ void Coordinate::cartesian() {
+	double _x = x, _y = y ;
 
-	x = cos( radians( this->y ) )*cos( radians( this->x ) ) ;
-	y = cos( radians( this->y ) )*sin( radians( this->x ) ) ;
-	z = sin( radians( this->y ) ) ;
-
-	c = new Coordinate( x, y, z ) ;
-
-	return c ;
-}
-
-__device__ double* Coordinate::toArray() {
-	double* r = new double[3] ;
-
-	r[0] = x ;
-	r[1] = y ;
-	r[2] = z ;
-
-	return r ;
+	x = cos( radians( _y ) )*cos( radians( _x ) ) ;
+	y = cos( radians( _y ) )*sin( radians( _x ) ) ;
+	z = sin( radians( _y ) ) ;
 }
 
 #ifdef COORDINATE_MAIN
 // kernel
 __global__ void coordinate( double* buf ) {
-	Coordinate c( threadIdx.x, threadIdx.x+1, threadIdx.x+2 ), *t0, *t1 ;
+	Coordinate c ;
 
-	t0 = c.spherical() ;
-	t1 = t0->cartesian() ;
-	buf[3*threadIdx.x] = t1->x ;
-	buf[3*threadIdx.x+1] = t1->y ;
-	buf[3*threadIdx.x+2] = t1->z ;
-	delete t1 ;
-	delete t0 ;
+	c.set( threadIdx.x, threadIdx.x+1, threadIdx.x+2 ) ;
+	c.spherical() ;
+	c.cartesian() ;
+	buf[3*threadIdx.x] = c.x ;
+	buf[3*threadIdx.x+1] = c.y ;
+	buf[3*threadIdx.x+2] = c.z ;
 }
 
 #define NUM_BLOCKS 1

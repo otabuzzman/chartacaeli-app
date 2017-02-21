@@ -33,6 +33,7 @@ void Coordinate::spherical() {
 
 void Coordinate::cartesian() {
 	double _x = x, _y = y ;
+
 	x = Math::cos( _y )*Math::cos( _x ) ;
 	y = Math::cos( _y )*Math::sin( _x ) ;
 	z = Math::sin( _y ) ;
@@ -75,7 +76,7 @@ int main( int argc, char** argv ) {
 	for ( int i=0 ; NUM_THREADS>i ; i++ )
 		printf( "%.8f %.8f %.8f\n", buf[3*i], buf[3*i+1], buf[3*i+2] ) ;
 
-	delete buf ;
+	delete[] buf ;
 
 	return EXIT_SUCCESS ;
 }

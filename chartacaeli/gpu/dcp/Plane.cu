@@ -9,86 +9,65 @@
 // from CUDA Toolkit samples
 #include <helper_cuda.h>
 
-__device__ Plane::Plane( Vector3D& p1, Vector3D& p2, Vector3D& p3 ) {
+__device__ Plane::Plane( const Vector3D& p1, const Vector3D& p2, const Vector3D& p3 ) {
 	set( p1, p2, p3 ) ;
 }
 
-__device__ Plane::~Plane() {
-	delete p1 ;
-	delete p2 ;
-	delete p3 ;
-	delete normal ;
-}
-
 // https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#Algebraic_form
-__device__ Vector3D* Plane::intersection( Vector3D& l1, Vector3D& l2 ) {
-	Vector3D *d00, *l, *x ;
-	double d ;
+__device__ Vector3D* Plane::intersection( const Vector3D& l1, const Vector3D& l2 ) {
+	Vector3D d00( p1 ), l( l2 ), nd0( normal ), ndl( normal ), *x ;
+	double a, b, d ;
 
-	d00 = new Vector3D( *p1) ;
-	d00->sub( l1 ) ;
+	d00.sub( l1 ) ;
 
-	l = new Vector3D( l2 ) ;
-	l->sub( l1 ) ;
+	l.sub( l1 ) ;
 
-	d = normal->dot( *d00 )/normal->dot( *l ) ;
-	l->mul( d ) ;
+	a = nd0.dot( d00 ) ;
+	b = ndl.dot( l ) ;
+	d = a/b ;
+	l.mul( d ) ;
 
-	x = new Vector3D( l1) ;
-	x->add( *l ) ;
-
-	delete d00 ;
-	delete l ;
+	x = new Vector3D( l1 ) ;
+	x->add( l ) ;
 
 	return x ;
 }
 
-__device__ void Plane::set( Vector3D& p1, Vector3D& p2, Vector3D& p3 ) {
-	Vector3D* d21 = ( new Vector3D( p2 ) )->sub( p1 ) ;
-	Vector3D* d31 = ( new Vector3D( p3 ) )->sub( p1 ) ;
+// private
+__device__ void Plane::set( const Vector3D& p1, const Vector3D& p2, const Vector3D& p3 ) {
+	Vector3D d21( p2 ) ;
+	Vector3D d31( p3 ) ;
 
-	this->p1 = new Vector3D( p1.x, p1.y, p1.z ) ;
-	this->p2 = new Vector3D( p2.x, p2.y, p2.z ) ;
-	this->p3 = new Vector3D( p3.x, p3.y, p3.z ) ;
+	d21.sub( p1 ) ;
+	d31.sub( p1 ) ;
 
-	normal = new Vector3D( *( d21->cross( *d31 ) ) ) ;
+	this->p1.set( p1.x, p1.y, p1.z ) ;
+	this->p2.set( p2.x, p2.y, p2.z ) ;
+	this->p3.set( p3.x, p3.y, p3.z ) ;
 
-	delete d21 ;
-	delete d31 ;
+	d21.cross( d31 ) ;
+	normal.set( d21.x, d21.y, d21.z ) ;
 }
 
 #ifdef PLANE_MAIN
 // kernel
 __global__ void plane( double* buf ) {
-	Vector3D *p1, *p2, *p3 ;
-	Plane* p ;
-	Vector3D *l0, *l1, *x ;
+	Vector3D p1( 1., 3., 7. ) ;
+	Vector3D p2( 3., 7., 1. ) ;
+	Vector3D p3( 7., 1., 3. ) ;
+	Plane p( p1, p2, p3 ) ;
+	Vector3D l0, l1, *x ;
 	double a, b, c ;
 	int i = threadIdx.x ;
 
-	p1 = new Vector3D( 1., 3., 7. ) ;
-	p2 = new Vector3D( 3., 7., 1. ) ;
-	p3 = new Vector3D( 7., 1., 3. ) ;
-	p = new Plane( *p1, *p2, *p3 ) ;
-
-	l0 = new Vector3D() ;
-	l1 = new Vector3D() ;
-
 	a = i ; b = a+1 ; c = b+1 ;
-	l1->set( ( ( a+4 )+( a+1 )+( a-2 ) )/4, ( ( b+4 )+( b+1 )+( b-2 ) )/4, ( ( c+4 )+( c+1 )+( c-2 ) )/4 ) ;
-	x = p->intersection( *l0, *l1 ) ;
+	l1.set( ( ( a+4 )+( a+1 )+( a-2 ) )/4, ( ( b+4 )+( b+1 )+( b-2 ) )/4, ( ( c+4 )+( c+1 )+( c-2 ) )/4 ) ;
+	x = p.intersection( l0, l1 ) ;
 	buf[3*i] = x->x ;
 	buf[3*i+1] = x->y ;
 	buf[3*i+2] = x->z ;
 
 	delete x ;
-
-	delete l1 ;
-	delete l0 ;
-	delete p ;
-	delete p3 ;
-	delete p2 ;
-	delete p1 ;
 }
 
 #define NUM_BLOCKS 1

@@ -32,7 +32,7 @@ __device__ void P4Stereographic::init( double lam0, double phi1, double R, doubl
 		mode = M_OBLIQUE ;
 }
 
-__device__ Coordinate* P4Stereographic::forward( Coordinate& lamphi ) {
+__device__ Coordinate* P4Stereographic::forward( const Coordinate& lamphi ) {
 	Coordinate* xy = new Coordinate() ;
 	double sinlamdif, coslamdif ;
 	double sinphi, cosphi, k, t ;
@@ -72,7 +72,7 @@ __device__ Coordinate* P4Stereographic::forward( Coordinate& lamphi ) {
 	return xy ;
 }
 
-__device__ Coordinate* P4Stereographic::inverse( Coordinate& xy ) {
+__device__ Coordinate* P4Stereographic::inverse( const Coordinate& xy ) {
 	Coordinate* lamphi = new Coordinate() ;
 	double p, c, sinc, cosc ;
 
@@ -106,21 +106,16 @@ __device__ Coordinate* P4Stereographic::inverse( Coordinate& xy ) {
 #ifdef P4STEREOGRAPHIC_MAIN
 // kernel
 __global__ void p4stereographic( double* buf ) {
-	P4Projector* proj ;
-	Coordinate *lamphi, *xy, *res ;
+	P4Stereographic proj ;
+	Coordinate lamphi, *xy, *res ;
 	int i = threadIdx.x ;
 
-	proj = new P4Stereographic() ;
-	lamphi = new Coordinate() ;
-
-	lamphi->set( (double) i, (double) ( i%90 ), 0 ) ;
-	xy = proj->forward( *lamphi ) ;
-	res = proj->inverse( *xy ) ;
+	lamphi.set( (double) i, (double) ( i%90 ), 0 ) ;
+	xy = proj.forward( lamphi ) ;
+	res = proj.inverse( *xy ) ;
 	buf[2*i] = res->x ;
 	buf[2*i+1] = res->y ;
 
-	delete proj ;
-	delete lamphi ;
 	delete xy ;
 	delete res ;
 }

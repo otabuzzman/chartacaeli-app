@@ -8,7 +8,6 @@ class Plane {
 public:
 	Plane( const Vector3D& p1, const Vector3D& p2, const Vector3D& p3 ) ;
 
-	void set( const Vector3D& p1, const Vector3D& p2, const Vector3D& p3 ) ;
 	Vector3D* intersection( const Vector3D& l1, const Vector3D& l2 ) ;
 
 	// CXXWRAP/ JUnit
@@ -21,5 +20,7 @@ private:
 	Vector3D p2 ;
 	Vector3D p3 ;
 	Vector3D normal ;
+
+	void set( const Vector3D& p1, const Vector3D& p2, const Vector3D& p3 ) ;
 } ;
 #endif // __PLANE_H__

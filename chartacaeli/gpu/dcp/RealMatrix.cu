@@ -13,10 +13,19 @@ __device__ RealMatrix::RealMatrix( double matrix[], int rows, int cols ) {
 	set( matrix, rows, cols ) ;
 }
 
-__device__ RealMatrix::RealMatrix() {}
-
 __device__ RealMatrix::~RealMatrix() {
-	delete matrix ;
+	delete[] matrix ;
+}
+
+__device__ void RealMatrix::set( double matrix[], int rows, int cols ) {
+	int size = rows*cols ;
+
+	this->rows = rows ;
+	this->cols = cols ;
+	this->matrix = new double[size] ;
+
+	for ( int i=0 ; size>i ; i++ )
+		this->matrix[i] = matrix[i] ;
 }
 
 __device__ double* RealMatrix::operate( double vector[] ) {
@@ -32,41 +41,29 @@ __device__ double* RealMatrix::operate( double vector[] ) {
 	return retval ;
 }
 
-__device__ void RealMatrix::set( double matrix[], int rows, int cols ) {
-	int size = rows*cols ;
-	this->rows = rows ;
-	this->cols = cols ;
-	this->matrix = new double[size] ;
-	for ( int i=0 ; size>i ; i++ )
-		this->matrix[i] = matrix[i] ;
-}
-
 #ifdef REALMATRIX_MAIN
 // kernel
 __global__ void realmatrix( double* buf ) {
-	RealMatrix* mat ;
 	double dat[] = {
 		10, 12, 12, 14,
 		21, 22, 23, 25,
 		32, 32, 34, 36,
 		43, 42, 45, 47
 	}, vec[4], *res ;
+	RealMatrix mat( dat, 4, 4 ) ;
 	int i = threadIdx.x ;
-
-	mat = new RealMatrix( dat, 4, 4 ) ;
 
 	vec[0] = i+.12 ;
 	vec[1] = i+1+.34 ;
 	vec[2] = i+2+.56 ;
 	vec[3] = i+3+.78 ;
-	res = mat->operate( vec ) ;
+	res = mat.operate( vec ) ;
 	buf[4*i] = res[0] ;
 	buf[4*i+1] = res[1] ;
 	buf[4*i+2] = res[2] ;
 	buf[4*i+3] = res[3] ;
 
-	delete mat ;
-	delete res ;
+	delete[] res ;
 }
 
 #define NUM_BLOCKS 1
