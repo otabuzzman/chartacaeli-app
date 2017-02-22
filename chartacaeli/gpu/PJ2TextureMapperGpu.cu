@@ -22,32 +22,34 @@ __device__ P4Projector* createP4Projector( const char *pnam ) {
 	}
 }
 
-// projector params in global memory
-__device__ double lim0 ;
-__device__ double phi1 ;
-__device__ double R ;
-__device__ double k0 ;
-
-// texture params (dimo, dimp) in global memory
-__device__ int dimo ;
-__device__ int dimp ;
-
-// mapping params (dims, dimt) in global memory
-__device__ int dims ;
-__device__ int dimt ;
-
-// general params in global memory
-__device__ double ups ;
-
 // CUDA kernel
-extern "C" __global__ void run( const char* pnam, double* tmM2P, double* tmH2T, double** spT, const int** texture, int** mapping ) {
+extern "C" __global__ void run(
+			const char* pnam, const double lam0, const double phi1, const double R, const double k0,
+			const double m2p00, const double m2p01, const double m2p02,
+			const double m2p10, const double m2p11, const double m2p12,
+			const double m2p20, const double m2p21, const double m2p22,
+			const double h2t00, const double h2t01, const double h2t02, const double h2t03,
+			const double h2t10, const double h2t11, const double h2t12, const double h2t13,
+			const double h2t20, const double h2t21, const double h2t22, const double h2t23,
+			const double h2t30, const double h2t31, const double h2t32, const double h2t33,
+			const double p1x, const double p1y, const double p1z,
+			const double p2x, const double p2y, const double p2z,
+			const double p3x, const double p3y, const double p3z,
+			const int dimo, const int dimp, const int** texture,
+			const int dims, const int dimt, int** mapping,
+			const double ups ) {
 	int t, s ;
 	P4Projector* proj ;
-	RealMatrix m2p( tmM2P, 3, 3 ), h2t( tmH2T, 4, 4 ) ;
-	Vector3D p1( spT[0][0], spT[0][1], spT[0][2] ) ;
-	Vector3D p2( spT[1][0], spT[1][1], spT[1][2] ) ;
-	Vector3D p3( spT[2][0], spT[2][1], spT[2][2] ) ;
-	Plane spt( p1, p2, p3 ) ;
+	RealMatrix m2p(
+		m2p00, m2p01, m2p02,
+		m2p10, m2p11, m2p12,
+		m2p20, m2p21, m2p22 ) ;
+	RealMatrix h2t(
+		h2t00, h2t01, h2t02, h2t03,
+		h2t10, h2t11, h2t12, h2t13,
+		h2t20, h2t21, h2t22, h2t23,
+		h2t30, h2t31, h2t32, h2t33 ) ;
+	Plane spt( p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z ) ;
 	double st[] = { 0, 0, 1 }, *t0, *op, ca[] = { 0, 0, 0, 1 } ;
 	Coordinate uv, *eq ;
 	Vector3D l0, l1, *t1 ;
@@ -59,7 +61,7 @@ extern "C" __global__ void run( const char* pnam, double* tmM2P, double* tmH2T, 
 		return ;
 
 	proj = createP4Projector( pnam ) ;
-	proj->init( lim0, phi1, R, k0 ) ;
+	proj->init( lam0, phi1, R, k0 ) ;
 
 	st[1] = t*ups ;
 	st[0] = s*ups ;

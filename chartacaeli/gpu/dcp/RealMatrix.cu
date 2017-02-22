@@ -13,6 +13,32 @@ __device__ RealMatrix::RealMatrix( double matrix[], int rows, int cols ) {
 	set( matrix, rows, cols ) ;
 }
 
+__device__ RealMatrix::RealMatrix(
+						const double rc00, const double rc01, const double rc02,
+						const double rc10, const double rc11, const double rc12,
+						const double rc20, const double rc21, const double rc22 ) {
+	this->rows = 3 ;
+	this->cols = 3 ;
+	this->matrix = new double[9] {
+			rc00, rc01, rc02,
+			rc10, rc11, rc12,
+			rc20, rc21, rc22 } ;
+}
+
+__device__ RealMatrix::RealMatrix(
+						const double rc00, const double rc01, const double rc02, const double rc03,
+						const double rc10, const double rc11, const double rc12, const double rc13,
+						const double rc20, const double rc21, const double rc22, const double rc23,
+						const double rc30, const double rc31, const double rc32, const double rc33 ) {
+	this->rows = 4 ;
+	this->cols = 4 ;
+	this->matrix = new double[16] {
+			rc00, rc01, rc02, rc03,
+			rc10, rc11, rc12, rc03,
+			rc20, rc21, rc22, rc23,
+			rc30, rc31, rc32, rc33 } ;
+}
+
 __device__ RealMatrix::~RealMatrix() {
 	delete[] matrix ;
 }

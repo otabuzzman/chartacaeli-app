@@ -7,6 +7,10 @@ class Plane {
 
 public:
 	__device__ Plane( const Vector3D& p1, const Vector3D& p2, const Vector3D& p3 ) ;
+	__device__ Plane(
+		const double p1x, const double p1y, const double p1z,
+		const double p2x, const double p2y, const double p2z,
+		const double p3x, const double p3y, const double p3z ) ;
 
 	__device__ Vector3D* intersection( const Vector3D& l1, const Vector3D& l2 ) ;
 	// CXXWRAP/ JUnit

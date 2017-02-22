@@ -4,7 +4,8 @@ The class *Artwork* draws artistic images of star signs on the star chart. A *fo
 ### Approach
 Find the code suitable to parallization (the *for-loop* mentioned above). For instance use Oracle Mission Control and Flight Recorder to find out about bottlenecks in Java application. Checkout [Oracle slides on FR in general](https://www.doag.org/formes/servlet/DocNavi?action=getFile&did=7862533&key=) and Oracle Help Center on [how to use FR from command line](https://docs.oracle.com/javacomponents/jmc-5-5/jfr-runtime-guide/comline.htm#JFRRT183). Set shell variable `JFRX_OPTS` to setup Flight Recorder (Note that Flight Recorder will output some text on stdout. Also note that Flight Recorder requires a commercial license for use in production).
 ```
-export JFRX_OPTS='-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=duration=0s,filename=$(basename $@).jfr'
+export JFRX_OPTS='-XX:+UnlockCommercialFeatures \
+	-XX:+FlightRecorder -XX:StartFlightRecording=duration=0s,filename=$(basename $@).jfr'
 ```
 
 Get familiar with PJ2 by using it to enable the *for-loop* to make use of multiple cores. That is turning a sequentional Java application into one that makes use of Symmetric Multiprocessing.
@@ -20,11 +21,13 @@ Implement a real kernel in each DCP perfoming the same test as the corresponding
 Finally write the kernel.
 
 ### Notes on CUDA optimization
-The SMP implementation of *Artwork* took roughly 2,650 milliseconds to map Andromedaon on Intel Core 2 Duo 2,40 GHz using `Artwork$PJ2TextureMapperSmp`. The same task took 3,800 milliseconds on an AWS T2 instance (2 cores) and 750 milliseconds on AWS G2 (8 cores). The CUDA implementation `Artwork$PJ2TextureMapperGpu` on G2 without any optimization took 61,000 milliseconde for 2,063,120 threads of which 80 milliseconds account for host/device memory transfers of 4.4 MB.
+The SMP implementation of *Artwork* took roughly 2,650 milliseconds to map Andromedaon on Intel Core 2 Duo 2,40 GHz using `Artwork$PJ2TextureMapperSmp`. The same task took 3,800 milliseconds on an AWS T2 instance (2 cores) and 750 milliseconds on AWS G2 (8 cores).
 
-|Kind of optimization|Kernel time (ms) on G2|Comment|
-|-|-|-|
-|Apply some C++ design patterns for C3P and DCP|16,500|Setup stack variables then exit kernel took 5,900 ms|
+The CUDA implementation `Artwork$PJ2TextureMapperGpu` on G2 without any optimization took 61,000 milliseconde for 2,063,120 threads of which 80 milliseconds account for host/device memory transfers of 4.4 MB.
+
+|Kind of optimization|Threads per block|Kernel time (ms) on G2|Comment|
+|-|-:|-:|-|
+|Apply some C++ design patterns for C3P and DCP|1024|16,500|Setup stack variables then exit took 5,900 ms of kernel time.|
 
 ### Notes on C3P and DCP test programs
 There will be linker errors in case of modules (both C3P and DCP) that depend on others (e.g. *Coordinate* depends on *Math*). These errors are due to the fact that each module defines a global `main` function. To come around this there is a preprocessor constant that controls which `main` to compile. For *Math* the constant is `MATH_MAIN` for *Vector3D* it's `VECTOR3D_MAIN`. Same linker errors will occur if building a program that depends on one (or more) that has been build before. To avoid this remove artefacts of previous build(s).
@@ -105,6 +108,7 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 ### Cues and findings
 - A really nice [Introduction to Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp/)
 - Online book about [Programming on Parallel Machines](http://heather.cs.ucdavis.edu/~matloff/158/PLN/ParProcBook.pdf)
+- Processing results on Windows differ in edge area from Linux. Use [ImageMagick](https://www.imagemagick.org/script/index.php) command `compare -compsoe src <win pdf> <lin pdf> <result>` for details. Neither Linux T2/ G2 nor Linux T2/ G2/ GPU differ.
 
 **CXXWRAP**
 - [CXXWRAP](http://sourceforge.net/projects/cxxwrap/) does not support Java objects as return types as stated in [changelog](http://cxxwrap.sourceforge.net/CHANGELOG.txt) entry *20010424*. See [screenshot](screenshot-return-type-object-unsupported.png) of CXXWRAP output for using a Java object as return type.
@@ -120,6 +124,7 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 - [CUDA Toolkit Documentation](http://docs.nvidia.com/cuda/index.html#) containing [programming guides](http://docs.nvidia.com/cuda/index.html#programming-guides), [API references](http://docs.nvidia.com/cuda/index.html#cuda-api-references) and [NVCC documentation](http://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#abstract) (among others)
 - [Separate Compilation and Linking of CUDA C++ Device Code](https://devblogs.nvidia.com/parallelforall/separate-compilation-linking-cuda-device-code/)
 - [CUDAcons repository](https://github.com/otabuzzman/cudacons) with information about setting up CUDA without capable device
+- Global memory allocated in kernel with _new_ must be deleted before exiting to prevent memory leaks as it remains allocated after kernel exit.
 
 **C++ and CUDA**
 - [Sample implementation](https://github.com/egaburov/vanaheimr) of `std::map` with [usage example](https://devtalk.nvidia.com/default/topic/523766/std-map-in-device-code/) from [CUDA ZONE](https://developer.nvidia.com/cuda-zone)
@@ -127,3 +132,6 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 
 **Java**
 - If on Linux and not as root and if JVM runs longer (than expected) there will most likely be Backing Store warnings. They tell system preferences could not be flushed. [This article](http://www.allaboutbalance.com/articles/disableprefs/) depicts why and how to fix.
+
+**PJ2**
+- Parallel Java Library 2 supports `cuMemcpyHtoD` to copy from host to device global memory. `cudaMemcpyToSymbol` to copy to constant memory is not supported (note [post on how to copy from host to constant memory](http://codeofhonour.blogspot.de/2014/10/memories-from-cuda-constant-memory-ii.html)). Thus to reduce global memory accesses of kernel one should use discrete kernel parameters instead of referencing global memory (e.g. `kernel( double array00, double array01, double array10, double array11)` instead of `kernel(double* array)` with array referencing a 2x2 array of doubles).

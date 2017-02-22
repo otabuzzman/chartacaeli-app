@@ -33,11 +33,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 import edu.rit.gpu.Gpu;
 import edu.rit.gpu.GpuByteArray;
-import edu.rit.gpu.GpuDoubleArray;
-import edu.rit.gpu.GpuDoubleMatrix;
-import edu.rit.gpu.GpuDoubleVbl;
 import edu.rit.gpu.GpuIntMatrix;
-import edu.rit.gpu.GpuIntVbl;
 import edu.rit.gpu.Module;
 import edu.rit.pj2.Loop;
 import edu.rit.pj2.Task;
@@ -393,20 +389,15 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			String modnam ;
 			Module module ;
 
-			P4Projector t0 ; byte[] t1 ;
+			P4Projector proj ; byte[] t0 ;
 			GpuByteArray pnam ;
-			GpuDoubleVbl lam0, phi1, R, k0 ;
 
-			GpuDoubleArray tmH2Td, tmM2Pd ;
-			double[][] t2, t3 ;
+			double[][] m2p, h2t ;
 
-			GpuDoubleMatrix spTd ;
 			GpuIntMatrix textured, mappingd ;
-			GpuDoubleVbl upsj ;
-			GpuIntVbl dimoj, dimpj, dimsj, dimtj ;
 			PJ2TextureMapperKernel kernel ;
 
-			long t4, t5, tk, tm ;
+			long t10, t11, tk, tm ;
 
 			// setup GPU
 			gpu = Gpu.gpu() ;
@@ -417,107 +408,67 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			module = gpu.getModule( modnam ) ;
 
 			// setup projector name
-			t0 = (P4Projector) Registry.retrieve( P4Projector.class.getName() ) ;
-			t1 = t0.getClass().getSimpleName().getBytes( StandardCharsets.US_ASCII ) ;
-			pnam = gpu.getByteArray( t1.length ) ;
-			for ( int i=0 ; t1.length>i ; i++ )
-				pnam.item[i] = t1[i] ;
+			proj = (P4Projector) Registry.retrieve( P4Projector.class.getName() ) ;
+			t0 = proj.getClass().getSimpleName().getBytes( StandardCharsets.US_ASCII ) ;
+			pnam = gpu.getByteArray( t0.length ) ;
+			for ( int i=0 ; t0.length>i ; i++ )
+				pnam.item[i] = t0[i] ;
 			pnam.hostToDev() ;
-			// setup projector params
-			lam0 = module.getDoubleVbl( "lim0" ) ;
-			lam0.item = t0.lam0() ;
-			lam0.hostToDev() ;
-			phi1 = module.getDoubleVbl( "phi1" ) ;
-			phi1.item = t0.phi1() ;
-			phi1.hostToDev() ;
-			R = module.getDoubleVbl( "R" ) ;
-			R.item = t0.R() ;
-			R.hostToDev() ;
-			k0 = module.getDoubleVbl( "k0" ) ;
-			k0.item = t0.k0() ;
-			k0.hostToDev() ;
-
-			// setup M2P matrix
-			tmM2Pd = gpu.getDoubleArray( 3*3 ) ;
-			t2 = tmM2P.getData() ;
-			for ( int r=0 ; 3>r ; r++ )
-				for ( int c=0 ; 3>c ; c++ )
-					tmM2Pd.item[3*r+c] = t2[r][c] ;
-			tmM2Pd.hostToDev() ;
-
-			// setup T2H matrix
-			tmH2Td = gpu.getDoubleArray( 4*4 ) ;
-			t3 = tmH2T.getData() ;
-			for ( int r=0 ; 4>r ; r++ )
-				for ( int c=0 ; 4>c ; c++ )
-					tmH2Td.item[4*r+c] = t3[r][c] ;
-			tmH2Td.hostToDev() ;
-
-			// setup texture spatial plane
-			spTd = gpu.getDoubleMatrix( 3, 3 ) ;
-			spTd.item[0][0] = popHP1.x ; spTd.item[0][1] = popHP1.y ; spTd.item[0][2] = popHP1.z ;
-			spTd.item[1][0] = popHP2.x ; spTd.item[1][1] = popHP2.y ; spTd.item[1][2] = popHP2.z ;
-			spTd.item[2][0] = popHP3.x ; spTd.item[2][1] = popHP3.y ; spTd.item[2][2] = popHP3.z ;
-			spTd.hostToDev() ;
 
 			// setup texture bitmap
-			t4 = System.currentTimeMillis() ;
+			t10 = System.currentTimeMillis() ;
 			textured = gpu.getIntMatrix( dimp, dimo ) ;
 			for ( int p=0 ; dimp>p ; p++ )
 				for ( int o=0 ; dimo>o ; o++ )
 					textured.item[p][o] = texture[dimo*p+o] ;
 			textured.hostToDev() ;
-			t5 = System.currentTimeMillis() ;
-			tm = t5-t4 ;
-			// setup texture params (dimo, dimp)
-			dimoj = module.getIntVbl( "dimo" ) ;
-			dimoj.item = dimo ;
-			dimoj.hostToDev() ;
-			dimpj = module.getIntVbl( "dimp" ) ;
-			dimpj.item = dimp ;
-			dimpj.hostToDev() ;
+			t11 = System.currentTimeMillis() ;
+			tm = t11-t10 ;
 
 			// setup mapping bitmap
-			t4 = System.currentTimeMillis() ;
+			t10 = System.currentTimeMillis() ;
 			mappingd = gpu.getIntMatrix( dimt, dims ) ;
 			// copy to device to preserve background color
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
 					mappingd.item[t][s] = mapping[dims*t+s] ;
 			mappingd.hostToDev() ;
-			t5 = System.currentTimeMillis() ;
-			tm = tm+t5-t4 ;
-			// setup mapping params (dims, dimt)
-			dimsj = module.getIntVbl( "dims" ) ;
-			dimsj.item = dims ;
-			dimsj.hostToDev() ;
-			dimtj = module.getIntVbl( "dimt" ) ;
-			dimtj.item = dimt ;
-			dimtj.hostToDev() ;
-
-			// setup general params
-			upsj = module.getDoubleVbl( "ups" ) ;
-			upsj.item = ups ;
-			upsj.hostToDev() ;
+			t11 = System.currentTimeMillis() ;
+			tm = tm+t11-t10 ;
 
 			// run kernel
 			kernel = module.getKernel( PJ2TextureMapperKernel.class ) ;
 			kernel.setBlockDim( NT, NT ) ;
 			kernel.setGridDim( ( dims+NT-1 )/NT, ( dimt+NT-1 )/NT ) ;
 
-			t4 = System.currentTimeMillis() ;
-			kernel.run( pnam, tmM2Pd, tmH2Td, spTd, textured, mappingd ) ;
-			t5 = System.currentTimeMillis() ;
-			tk = t5-t4 ;
+			m2p = tmM2P.getData() ;
+			h2t = tmH2T.getData() ;
+			t10 = System.currentTimeMillis() ;
+			kernel.run( pnam, proj.lam0(), proj.phi1(), proj.R(), proj.k0(),
+					m2p[0][0], m2p[0][1], m2p[0][2],
+					m2p[1][0], m2p[1][1], m2p[1][2],
+					m2p[2][0], m2p[2][1], m2p[2][2],
+					h2t[0][0], h2t[0][1], h2t[0][2], h2t[0][3],
+					h2t[1][0], h2t[1][1], h2t[1][2], h2t[1][3],
+					h2t[2][0], h2t[2][1], h2t[2][2], h2t[2][3],
+					h2t[3][0], h2t[3][1], h2t[3][2], h2t[3][3],
+					popHP1.x, popHP1.y, popHP1.z,
+					popHP2.x, popHP2.y, popHP2.z,
+					popHP3.x, popHP3.y, popHP3.z,
+					dimo, dimp, textured,
+					dims, dimt, mappingd,
+					ups ) ;
+			t11 = System.currentTimeMillis() ;
+			tk = t11-t10 ;
 
 			// retrieve mapping result
-			t4 = System.currentTimeMillis() ;
+			t10 = System.currentTimeMillis() ;
 			mappingd.devToHost() ;
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
 					mapping[dims*t+s] = mappingd.item[t][s] ;
-			t5 = System.currentTimeMillis() ;
-			tm = tm+t5-t4 ;
+			t11 = System.currentTimeMillis() ;
+			tm = tm+t11-t10 ;
 
 			log.info( MessageCatalog.compose( this, MK_CUDASTAT, new Object[] {
 					String.valueOf( ( dimo*dimp+2*dims*dimt )/1000000. ),

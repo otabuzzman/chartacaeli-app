@@ -13,6 +13,16 @@ __device__ Plane::Plane( const Vector3D& p1, const Vector3D& p2, const Vector3D&
 	set( p1, p2, p3 ) ;
 }
 
+__device__ Plane::Plane(
+					const double p1x, const double p1y, const double p1z,
+					const double p2x, const double p2y, const double p2z,
+					const double p3x, const double p3y, const double p3z ) {
+	Vector3D p1( p1x, p1y, p1z ) ;
+	Vector3D p2( p2x, p2y, p2z ) ;
+	Vector3D p3( p3x, p3y, p3z ) ;
+	set( p1, p2, p3 ) ;
+}
+
 // https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#Algebraic_form
 __device__ Vector3D* Plane::intersection( const Vector3D& l1, const Vector3D& l2 ) {
 	Vector3D d00( p1 ), l( l2 ), nd0( normal ), ndl( normal ), *x ;
