@@ -261,7 +261,7 @@ $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(
 	$(CXX) -o $@ $^
 
 .cu.o:
-	nvcc $(CXXFLAGS) -Wno-deprecated-gpu-targets \
+	nvcc $(CXXFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
 	-I$(CUDA_HOME)/include \
 	-I$(CUDA_SAMP)/common/inc \
 	-o $@ -dc $<

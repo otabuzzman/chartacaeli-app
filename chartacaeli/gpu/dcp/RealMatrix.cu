@@ -34,7 +34,7 @@ __device__ RealMatrix::RealMatrix(
 	this->cols = 4 ;
 	this->matrix = new double[16] {
 			rc00, rc01, rc02, rc03,
-			rc10, rc11, rc12, rc03,
+			rc10, rc11, rc12, rc13,
 			rc20, rc21, rc22, rc23,
 			rc30, rc31, rc32, rc33 } ;
 }
