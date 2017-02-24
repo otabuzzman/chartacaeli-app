@@ -29,8 +29,7 @@ __device__ void P4Orthographic::init( double lam0, double phi1, double R, double
 		mode = M_OBLIQUE ;
 }
 
-__device__ Coordinate* P4Orthographic::forward( const Coordinate& lamphi ) {
-	Coordinate* xy = new Coordinate() ;
+__device__ Coordinate& P4Orthographic::forward( const Coordinate& lamphi, Coordinate& xy ) {
 	double sinlamdif, coslamdif ;
 	double sinphi, cosphi ;
 
@@ -39,23 +38,23 @@ __device__ Coordinate* P4Orthographic::forward( const Coordinate& lamphi ) {
 	sinphi = sin( radians( lamphi.y ) ) ;
 	cosphi = cos( radians( lamphi.y ) ) ;
 
-	xy->x = R*cosphi*sinlamdif ;
+	xy.x = R*cosphi*sinlamdif ;
 
 	switch ( mode ) {
 	case M_NORTH:
-		xy->y = -R*cosphi*coslamdif ;
+		xy.y = -R*cosphi*coslamdif ;
 
 		break ;
 	case M_SOUTH:
-		xy->y = R*cosphi*coslamdif ;
+		xy.y = R*cosphi*coslamdif ;
 
 		break ;
 	case M_EQUATOR:
-		xy->y = R*sinphi ;
+		xy.y = R*sinphi ;
 
 		break ;
 	case M_OBLIQUE:
-		xy->y = R*( cosphi1*sinphi-sinphi1*cosphi*coslamdif ) ;
+		xy.y = R*( cosphi1*sinphi-sinphi1*cosphi*coslamdif ) ;
 
 		break ;
 	}
@@ -63,8 +62,7 @@ __device__ Coordinate* P4Orthographic::forward( const Coordinate& lamphi ) {
 	return xy ;
 }
 
-__device__ Coordinate* P4Orthographic::inverse( const Coordinate& xy ) {
-	Coordinate* lamphi = new Coordinate() ;
+__device__ Coordinate& P4Orthographic::inverse( const Coordinate& xy, Coordinate& lamphi ) {
 	double p, c, sinc, cosc ;
 
 	p = pow( xy.x*xy.x+xy.y*xy.y, .5 ) ;
@@ -73,20 +71,20 @@ __device__ Coordinate* P4Orthographic::inverse( const Coordinate& xy ) {
 	sinc = sin( radians( c ) ) ;
 	cosc = cos( radians( c ) ) ;
 
-	lamphi->y = degrees( asin( cosc*sinphi1+( xy.y*sinc*cosphi1/p ) ) ) ;
+	lamphi.y = degrees( asin( cosc*sinphi1+( xy.y*sinc*cosphi1/p ) ) ) ;
 
 	switch ( mode ) {
 	case M_NORTH:
-		lamphi->x = lam0+degrees( atan2(xy.x, -xy.y ) ) ;
+		lamphi.x = lam0+degrees( atan2(xy.x, -xy.y ) ) ;
 
 		break ;
 	case M_SOUTH:
-		lamphi->x = lam0+degrees( atan2(xy.x, xy.y ) ) ;
+		lamphi.x = lam0+degrees( atan2(xy.x, xy.y ) ) ;
 
 		break ;
 	case M_EQUATOR:
 	case M_OBLIQUE:
-		lamphi->x = lam0+degrees( atan2( xy.x*sinc, p*cosphi1*cosc-xy.y*sinphi1*sinc ) ) ;
+		lamphi.x = lam0+degrees( atan2( xy.x*sinc, p*cosphi1*cosc-xy.y*sinphi1*sinc ) ) ;
 
 		break ;
 	}
@@ -98,17 +96,14 @@ __device__ Coordinate* P4Orthographic::inverse( const Coordinate& xy ) {
 // kernel
 __global__ void p4orthographic( double* buf ) {
 	P4Orthographic proj ;
-	Coordinate lamphi, *xy, *res ;
+	Coordinate lamphi, xy, res ;
 	int i = threadIdx.x ;
 
 	lamphi.set( (double) i, (double) ( i%90 ), 0 ) ;
-	xy = proj.forward( lamphi ) ;
-	res = proj.inverse( *xy ) ;
-	buf[2*i] = res->x ;
-	buf[2*i+1] = res->y ;
-
-	delete xy ;
-	delete res ;
+	proj.forward( lamphi, xy ) ;
+	proj.inverse( xy, res ) ;
+	buf[2*i] = res.x ;
+	buf[2*i+1] = res.y ;
 }
 
 #define NUM_BLOCKS 1

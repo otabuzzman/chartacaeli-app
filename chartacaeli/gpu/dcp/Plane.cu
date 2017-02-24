@@ -24,8 +24,8 @@ __device__ Plane::Plane(
 }
 
 // https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection#Algebraic_form
-__device__ Vector3D* Plane::intersection( const Vector3D& l1, const Vector3D& l2 ) {
-	Vector3D d00( p1 ), l( l2 ), nd0( normal ), ndl( normal ), *x ;
+__device__ Vector3D& Plane::intersection( const Vector3D& l1, const Vector3D& l2, Vector3D& x ) {
+	Vector3D d00( p1 ), l( l2 ), nd0( normal ), ndl( normal ) ;
 	double a, b, d ;
 
 	d00.sub( l1 ) ;
@@ -37,8 +37,8 @@ __device__ Vector3D* Plane::intersection( const Vector3D& l1, const Vector3D& l2
 	d = a/b ;
 	l.mul( d ) ;
 
-	x = new Vector3D( l1 ) ;
-	x->add( l ) ;
+	x.set( l.x, l.y, l.z ) ;
+	x.add( l1 ) ;
 
 	return x ;
 }
@@ -66,18 +66,16 @@ __global__ void plane( double* buf ) {
 	Vector3D p2( 3., 7., 1. ) ;
 	Vector3D p3( 7., 1., 3. ) ;
 	Plane p( p1, p2, p3 ) ;
-	Vector3D l0, l1, *x ;
+	Vector3D l0, l1, x ;
 	double a, b, c ;
 	int i = threadIdx.x ;
 
 	a = i ; b = a+1 ; c = b+1 ;
 	l1.set( ( ( a+4 )+( a+1 )+( a-2 ) )/4, ( ( b+4 )+( b+1 )+( b-2 ) )/4, ( ( c+4 )+( c+1 )+( c-2 ) )/4 ) ;
-	x = p.intersection( l0, l1 ) ;
-	buf[3*i] = x->x ;
-	buf[3*i+1] = x->y ;
-	buf[3*i+2] = x->z ;
-
-	delete x ;
+	p.intersection( l0, l1, x ) ;
+	buf[3*i] = x.x ;
+	buf[3*i+1] = x.y ;
+	buf[3*i+2] = x.z ;
 }
 
 #define NUM_BLOCKS 1

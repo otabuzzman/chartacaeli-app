@@ -10,8 +10,8 @@ public:
 	__device__ P4Orthographic() ;
 
 	__device__ void init( double lam0, double phi1, double R, double k0 ) ;
-	__device__ Coordinate* forward( const Coordinate& lamphi ) ;
-	__device__ Coordinate* inverse( const Coordinate& xy ) ;
+	__device__ Coordinate& forward( const Coordinate& lamphi, Coordinate& xy ) ;
+	__device__ Coordinate& inverse( const Coordinate& xy, Coordinate& lamphi ) ;
 
 private:
 	double lam0 ;

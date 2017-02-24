@@ -4,9 +4,9 @@
 #include "dcp/P4Stereographic.h"
 #include "dcp/P4Orthographic.h"
 #include "dcp/P4Mollweide.h"
-#include "dcp/RealMatrix.h"
-#include "dcp/Vector3D.h"
 #include "dcp/Plane.h"
+#include "dcp/Vector4D.h"
+#include "dcp/Vector3D.h"
 #include "dcp/Coordinate.h"
 
 __device__ P4Projector* createP4Projector( const char *pnam ) {
@@ -40,19 +40,9 @@ extern "C" __global__ void run(
 			const double ups ) {
 	int t, s ;
 	P4Projector* proj ;
-	RealMatrix m2p(
-		m2p00, m2p01, m2p02,
-		m2p10, m2p11, m2p12,
-		m2p20, m2p21, m2p22 ) ;
-	RealMatrix h2t(
-		h2t00, h2t01, h2t02, h2t03,
-		h2t10, h2t11, h2t12, h2t13,
-		h2t20, h2t21, h2t22, h2t23,
-		h2t30, h2t31, h2t32, h2t33 ) ;
+	Vector3D uv, l0, l1, ca ;
+	Vector4D op ;
 	Plane spt( p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z ) ;
-	double st[] = { 0, 0, 1 }, *t0, *op, ca[] = { 0, 0, 0, 1 } ;
-	Coordinate uv, *eq ;
-	Vector3D l0, l1, *t1 ;
 
 	t = blockIdx.y*blockDim.y+threadIdx.y ;
 	s = blockIdx.x*blockDim.x+threadIdx.x ;
@@ -60,36 +50,36 @@ extern "C" __global__ void run(
 	if ( t>=dimt || s>=dims )
 		return ;
 
+	// transform s/t to projection coordinates u/v
+	uv.set( s*ups, t*ups, 1 ) ;
+	uv.apply(
+		m2p00, m2p01, m2p02,
+		m2p10, m2p11, m2p12,
+		m2p20, m2p21, m2p22 ) ;
+
+	// transform u/v to spherical (equatorial) coordinates
 	proj = createP4Projector( pnam ) ;
 	proj->init( lam0, phi1, R, k0 ) ;
+	proj->inverse( uv, l1 ) ;
 
-	st[1] = t*ups ;
-	st[0] = s*ups ;
-
-	// transform s/t to projection coordinates u/v
-	t0 = m2p.operate( st ) ;
-	uv.set( t0[0], t0[1], t0[2] ) ;
-	// transform u/v to spherical (equatorial) coordinates
-	eq = proj->inverse( uv ) ;
 	// convert spherical to cartesian
-	eq->cartesian() ;
-	l1.set( eq->x, eq->y, eq->z ) ;
-	// find cartesian coordinates c/a of spatial intersection with texture
-	t1 = spt.intersection( l0, l1 ) ;
-	ca[0] = t1->x ;
-	ca[1] = t1->y ;
-	ca[2] = t1->z ;
-	// transform c/a to texture coordinates o/p
-	op = h2t.operate( ca ) ;
+	l1.cartesian() ;
+
+	// find spatial intersection with texture
+	spt.intersection( l0, l1, ca ) ;
+
+	// transform to texture coordinates o/p
+	op.set( ca.x, ca.y, ca.z, 1 ) ;
+	op.apply(
+		h2t00, h2t01, h2t02, h2t03,
+		h2t10, h2t11, h2t12, h2t13,
+		h2t20, h2t21, h2t22, h2t23,
+		h2t30, h2t31, h2t32, h2t33 ) ;
 
 	// map o/p if on texture
-	if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
-		mapping[t][s] = texture[(int) op[1]][(int) op[0]] ;
+	if ( op.e0>=0 && op.e1>=0 && dimo>op.e0 && dimp>op.e1 )
+		mapping[t][s] = texture[(int) op.e1][(int) op.e0] ;
 
-	delete[] op ;
-	delete t1 ;
-	delete eq ;
-	delete[] t0 ;
 	delete proj ;
 }
 

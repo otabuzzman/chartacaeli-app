@@ -52,6 +52,7 @@ C3PTST = $(wildcard $(c3ptst)/*Test.java)
 DCPIMP = \
 	$(dcpsrc)/Coordinate.cu \
 	$(dcpsrc)/Vector3D.cu \
+	$(dcpsrc)/Vector4D.cu \
 	$(dcpsrc)/Plane.cu \
 	$(dcpsrc)/Math.cu \
 	$(dcpsrc)/RealMatrix.cu \
@@ -178,7 +179,7 @@ $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
-$(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o
+$(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	@echo "*** linking $@ from $^ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
@@ -269,7 +270,7 @@ $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(
 # DCP test programs (dcp/%.exe)
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
-$(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o
+$(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^

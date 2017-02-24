@@ -12,7 +12,7 @@ public:
 		const double p2x, const double p2y, const double p2z,
 		const double p3x, const double p3y, const double p3z ) ;
 
-	__device__ Vector3D* intersection( const Vector3D& l1, const Vector3D& l2 ) ;
+	__device__ Vector3D& intersection( const Vector3D& l1, const Vector3D& l2, Vector3D& x ) ;
 	// CXXWRAP/ JUnit
 	Plane( double p1[3], double p2[3], double p3[3] ) ;
 

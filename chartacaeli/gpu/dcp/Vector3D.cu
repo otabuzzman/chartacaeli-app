@@ -8,21 +8,13 @@
 // from CUDA Toolkit samples
 #include <helper_cuda.h>
 
-__device__ Vector3D::Vector3D() : x( 0 ), y( 0 ), z( 0 ) {
+__device__ Vector3D::Vector3D() : Coordinate( 0, 0, 0 ) {
 }
 
-__device__ Vector3D::Vector3D( const Vector3D& v ) {
-	set( v.x, v.y, v.z ) ;
+__device__ Vector3D::Vector3D( const Vector3D& v ) : Coordinate( v.x, v.y, v.z ) {
 }
 
-__device__ Vector3D::Vector3D( double x, double y, double z ) {
-	set( x, y, z ) ;
-}
-
-__device__ void Vector3D::set( double x, double y, double z ) {
-	this->x = x ;
-	this->y = y ;
-	this->z = z ;
+__device__ Vector3D::Vector3D( double x, double y, double z ) : Coordinate( x, y, z ) {
 }
 
 __device__ Vector3D& Vector3D::add( const Vector3D& v ) {
@@ -63,6 +55,24 @@ __device__ Vector3D& Vector3D::cross( const Vector3D& v ) {
 	this->x = y*v.z-z*v.y ;
 	this->y = z*v.x-x*v.z ;
 	this->z = x*v.y-y*v.x ;
+
+	return *this ;
+}
+
+__device__ Vector3D& Vector3D::apply( const Vector3D& matcol0, const Vector3D& matcol1, const Vector3D& matcol2 ) {
+	return apply(
+			matcol0.x, matcol1.x, matcol2.x,
+			matcol0.y, matcol1.y, matcol2.y,
+			matcol0.z, matcol1.z, matcol2.z ) ;
+}
+
+__device__ Vector3D& Vector3D::apply(
+			const double m00, const double m01, const double m02,
+			const double m10, const double m11, const double m12,
+			const double m20, const double m21, const double m22 ) {
+	x = x*m00+x*m01+x*m02 ;
+	y = y*m10+y*m11+y*m12 ;
+	z = z*m20+z*m21+z*m22 ;
 
 	return *this ;
 }

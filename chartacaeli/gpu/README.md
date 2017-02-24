@@ -28,7 +28,7 @@ The CUDA implementation `Artwork$PJ2TextureMapperGpu` on G2 without any optimiza
 |Kind of optimization|Threads per block|Kernel time (ms) on G2|Comment|
 |-|-:|-:|-|
 |Apply some C++ design patterns for C3P and DCP|1024|16,500|Setup stack variables then exit took 5,900 ms of kernel time.|
-|Minimize global device memory usage|16,200||
+|Minimize global device memory usage|1024|16,250||
 
 ### Notes on C3P and DCP test programs
 There will be linker errors in case of modules (both C3P and DCP) that depend on others (e.g. *Coordinate* depends on *Math*). These errors are due to the fact that each module defines a global `main` function. To come around this there is a preprocessor constant that controls which `main` to compile. For *Math* the constant is `MATH_MAIN` for *Vector3D* it's `VECTOR3D_MAIN`. Same linker errors will occur if building a program that depends on one (or more) that has been build before. To avoid this remove artefacts of previous build(s).

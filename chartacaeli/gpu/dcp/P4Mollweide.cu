@@ -21,8 +21,7 @@ __device__ void P4Mollweide::init( double lam0, double phi1, double R, double k0
 	this->R = R ;
 }
 
-__device__ Coordinate* P4Mollweide::forward( const Coordinate& lamphi ) {
-	Coordinate* xy = new Coordinate() ;
+__device__ Coordinate& P4Mollweide::forward( const Coordinate& lamphi, Coordinate& xy ) {
 	double tht2 = lamphi.y, dtht2 = 0, sintht2, costht2 ;
 	double sinphi, tht, sintht, costht ;
 
@@ -41,26 +40,25 @@ __device__ Coordinate* P4Mollweide::forward( const Coordinate& lamphi ) {
 	sintht = sin( radians( tht ) ) ;
 	costht = cos( radians( tht ) ) ;
 
-	xy->x = ( pow( 8., .5 )/CUDART_PI )*R*( lamphi.x-lam0 )*costht*radperdeg ;
-	xy->y = pow( 2., .5 )*R*sintht ;
+	xy.x = ( pow( 8., .5 )/CUDART_PI )*R*( lamphi.x-lam0 )*costht*radperdeg ;
+	xy.y = pow( 2., .5 )*R*sintht ;
 
 	return xy ;
 }
 
-__device__ Coordinate* P4Mollweide::inverse( const Coordinate& xy ) {
-	Coordinate* lamphi = new Coordinate() ;
+__device__ Coordinate& P4Mollweide::inverse( const Coordinate& xy, Coordinate& lamphi ) {
 	double tht, sin2tht, costht ;
 
 	tht = degrees( asin( xy.y/( pow( 2., .5 )*R ) ) ) ;
 
 	sin2tht = sin( radians( 2*tht ) ) ;
-	lamphi->y = degrees( asin( ( 2*tht*radperdeg+sin2tht )/CUDART_PI ) ) ;
+	lamphi.y = degrees( asin( ( 2*tht*radperdeg+sin2tht )/CUDART_PI ) ) ;
 
-	if ( abs( lamphi->y ) == 90 )
-		lamphi->x = lam0 ;
+	if ( abs( lamphi.y ) == 90 )
+		lamphi.x = lam0 ;
 	else {
 		costht = cos( radians( tht ) ) ;
-		lamphi->x = lam0+( CUDART_PI*xy.x/( pow( 8., .5 )*R*costht ) )*degperrad ;
+		lamphi.x = lam0+( CUDART_PI*xy.x/( pow( 8., .5 )*R*costht ) )*degperrad ;
 	}
 
 	return lamphi ;
@@ -70,17 +68,14 @@ __device__ Coordinate* P4Mollweide::inverse( const Coordinate& xy ) {
 // kernel
 __global__ void p4mollweide( double* buf ) {
 	P4Mollweide proj ;
-	Coordinate lamphi, *xy, *res ;
+	Coordinate lamphi, xy, res ;
 	int i = threadIdx.x ;
 
 	lamphi.set( (double) i, (double) ( i%90 ), 0 ) ;
-	xy = proj.forward( lamphi ) ;
-	res = proj.inverse( *xy ) ;
-	buf[2*i] = res->x ;
-	buf[2*i+1] = res->y ;
-
-	delete xy ;
-	delete res ;
+	proj.forward( lamphi, xy ) ;
+	proj.inverse( xy, res ) ;
+	buf[2*i] = res.x ;
+	buf[2*i+1] = res.y ;
 }
 
 #define NUM_BLOCKS 1
