@@ -55,7 +55,6 @@ DCPIMP = \
 	$(dcpsrc)/Vector4D.cu \
 	$(dcpsrc)/Plane.cu \
 	$(dcpsrc)/Math.cu \
-	$(dcpsrc)/RealMatrix.cu \
 	$(dcpsrc)/P4Mollweide.cu \
 	$(dcpsrc)/P4Orthographic.cu \
 	$(dcpsrc)/P4Stereographic.cu \

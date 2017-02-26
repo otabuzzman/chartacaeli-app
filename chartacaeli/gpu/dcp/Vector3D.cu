@@ -70,9 +70,11 @@ __device__ Vector3D& Vector3D::apply(
 			const double m00, const double m01, const double m02,
 			const double m10, const double m11, const double m12,
 			const double m20, const double m21, const double m22 ) {
-	x = x*m00+x*m01+x*m02 ;
-	y = y*m10+y*m11+y*m12 ;
-	z = z*m20+z*m21+z*m22 ;
+	double _x = x, _y = y, _z = z ;
+
+	x = _x*m00+_y*m01+_z*m02 ;
+	y = _x*m10+_y*m11+_z*m12 ;
+	z = _x*m20+_y*m21+_z*m22 ;
 
 	return *this ;
 }
