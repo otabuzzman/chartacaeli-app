@@ -1,3 +1,4 @@
+#include <new>
 #include <cstdlib>
 
 #include "dcp/P4Projector.h"
@@ -9,16 +10,16 @@
 #include "dcp/Vector3D.h"
 #include "dcp/Coordinate.h"
 
-__device__ P4Projector* createP4Projector( const char *pnam ) {
+__device__ P4Projector* createP4Projector( const char *pnam, unsigned char* pmem ) {
 	switch ( *( pnam+2 ) ) {
 		case 'S':
-			return new P4Stereographic() ;
+			return new( pmem ) P4Stereographic() ;
 		case 'O':
-			return new P4Orthographic() ;
+			return new( pmem ) P4Orthographic() ;
 		case 'M':
-			return new P4Mollweide() ;
+			return new( pmem ) P4Mollweide() ;
 		default:
-			return NULL ;
+			return nullptr ;
 	}
 }
 
@@ -39,16 +40,24 @@ extern "C" __global__ void run(
 			const int dims, const int dimt, int** mapping,
 			const double ups ) {
 	int t, s ;
+	unsigned char pool[256] ;
 	P4Projector* proj ;
+	Plane* spt ;
 	Vector3D uv, l0, l1, ca ;
 	Vector4D op ;
-	Plane spt( p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z ) ;
 
 	t = blockIdx.y*blockDim.y+threadIdx.y ;
 	s = blockIdx.x*blockDim.x+threadIdx.x ;
 
 	if ( t>=dimt || s>=dims )
 		return ;
+
+	proj = createP4Projector( pnam, &pool[0] ) ;
+	if ( proj == nullptr )
+		return ;
+	proj->init( lam0, phi1, R, k0 ) ;
+
+	spt = new( &pool[128] ) Plane( p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z ) ;
 
 	// transform s/t to projection coordinates u/v
 	uv.set( s*ups, t*ups, 1 ) ;
@@ -58,15 +67,13 @@ extern "C" __global__ void run(
 		m2p20, m2p21, m2p22 ) ;
 
 	// transform u/v to spherical (equatorial) coordinates
-	proj = createP4Projector( pnam ) ;
-	proj->init( lam0, phi1, R, k0 ) ;
 	proj->inverse( uv, l1 ) ;
 
 	// convert spherical to cartesian
 	l1.cartesian() ;
 
 	// find spatial intersection with texture
-	spt.intersection( l0, l1, ca ) ;
+	spt->intersection( l0, l1, ca ) ;
 
 	// transform to texture coordinates o/p
 	op.set( ca.x, ca.y, ca.z, 1 ) ;
@@ -79,8 +86,6 @@ extern "C" __global__ void run(
 	// map o/p if on texture
 	if ( op.e0>=0 && op.e1>=0 && dimo>op.e0 && dimp>op.e1 )
 		mapping[t][s] = texture[(int) op.e1][(int) op.e0] ;
-
-	delete proj ;
 }
 
 #ifdef PJ2TEXTUREMAPPERGPU_MAIN
