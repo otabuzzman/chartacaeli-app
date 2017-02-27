@@ -25,23 +25,21 @@ __device__ Coordinate& P4Mollweide::forward( const Coordinate& lamphi, Coordinat
 	double tht2 = lamphi.y, dtht2 = 0, sintht2, costht2 ;
 	double sinphi, tht, sintht, costht ;
 
-	sinphi = sin( radians( lamphi.y ) ) ;
+	sinphi = sinpi( lamphi.y/180 ) ;
 
 	do {
 		tht2 = tht2+dtht2 ;
 
-		sintht2 = sin( radians( tht2 ) ) ;
-		costht2 = cos( radians( tht2 ) ) ;
+		sincospi( tht2/180, &sintht2, &costht2 ) ;
 
 		dtht2 = -( tht2*radperdeg+sintht2-CUDART_PI*sinphi )/( 1+costht2 )*degperrad ;
 	} while ( abs( dtht2 )>V_CON ) ;
 
 	tht = tht2*.5 ;
-	sintht = sin( radians( tht ) ) ;
-	costht = cos( radians( tht ) ) ;
+	sincospi( tht/180, &sintht, &costht ) ;
 
-	xy.x = ( pow( 8., .5 )/CUDART_PI )*R*( lamphi.x-lam0 )*costht*radperdeg ;
-	xy.y = pow( 2., .5 )*R*sintht ;
+	xy.x = ( 2.82842712475/CUDART_PI )*R*( lamphi.x-lam0 )*costht*radperdeg ;
+	xy.y = 1.41421356237*R*sintht ;
 
 	return xy ;
 }
@@ -49,16 +47,16 @@ __device__ Coordinate& P4Mollweide::forward( const Coordinate& lamphi, Coordinat
 __device__ Coordinate& P4Mollweide::inverse( const Coordinate& xy, Coordinate& lamphi ) {
 	double tht, sin2tht, costht ;
 
-	tht = degrees( asin( xy.y/( pow( 2., .5 )*R ) ) ) ;
+	tht = degrees( asin( xy.y/( 1.41421356237*R ) ) ) ;
 
-	sin2tht = sin( radians( 2*tht ) ) ;
+	sin2tht = sinpi( ( 2*tht )/180 ) ;
 	lamphi.y = degrees( asin( ( 2*tht*radperdeg+sin2tht )/CUDART_PI ) ) ;
 
 	if ( abs( lamphi.y ) == 90 )
 		lamphi.x = lam0 ;
 	else {
-		costht = cos( radians( tht ) ) ;
-		lamphi.x = lam0+( CUDART_PI*xy.x/( pow( 8., .5 )*R*costht ) )*degperrad ;
+		costht = cospi( tht/180 ) ;
+		lamphi.x = lam0+( CUDART_PI*xy.x/( 2.82842712475*R*costht ) )*degperrad ;
 	}
 
 	return lamphi ;

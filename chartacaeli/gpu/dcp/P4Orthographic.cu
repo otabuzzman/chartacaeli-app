@@ -15,8 +15,7 @@ __device__ P4Orthographic::P4Orthographic() {
 __device__ void P4Orthographic::init( double lam0, double phi1, double R, double k0 ) {
 	this->lam0 = lam0 ;
 	this->phi1 = phi1 ;
-	sinphi1 = sin( radians( phi1 ) ) ;
-	cosphi1 = cos( radians( phi1 ) ) ;
+	sincospi( phi1/180, &sinphi1, &cosphi1 ) ;
 	this->R = R ;
 
 	if ( phi1 == 90 )
@@ -33,10 +32,8 @@ __device__ Coordinate& P4Orthographic::forward( const Coordinate& lamphi, Coordi
 	double sinlamdif, coslamdif ;
 	double sinphi, cosphi ;
 
-	sinlamdif = sin( radians( lamphi.x-lam0 ) ) ;
-	coslamdif = cos( radians( lamphi.x-lam0 ) ) ;
-	sinphi = sin( radians( lamphi.y ) ) ;
-	cosphi = cos( radians( lamphi.y ) ) ;
+	sincospi( ( lamphi.x-lam0 )/180, &sinlamdif, &coslamdif ) ;
+	sincospi( lamphi.y/180, &sinphi, &cosphi ) ;
 
 	xy.x = R*cosphi*sinlamdif ;
 
@@ -65,11 +62,10 @@ __device__ Coordinate& P4Orthographic::forward( const Coordinate& lamphi, Coordi
 __device__ Coordinate& P4Orthographic::inverse( const Coordinate& xy, Coordinate& lamphi ) {
 	double p, c, sinc, cosc ;
 
-	p = pow( xy.x*xy.x+xy.y*xy.y, .5 ) ;
+	p = sqrt( xy.x*xy.x+xy.y*xy.y ) ;
 	c = degrees( asin( p/R ) ) ;
 
-	sinc = sin( radians( c ) ) ;
-	cosc = cos( radians( c ) ) ;
+	sincospi( c/180, &sinc, &cosc ) ;
 
 	lamphi.y = degrees( asin( cosc*sinphi1+( xy.y*sinc*cosphi1/p ) ) ) ;
 

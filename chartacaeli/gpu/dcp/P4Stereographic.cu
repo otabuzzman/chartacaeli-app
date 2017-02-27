@@ -17,8 +17,7 @@ __device__ P4Stereographic::P4Stereographic() {
 __device__ void P4Stereographic::init( double lam0, double phi1, double R, double k0 ) {
 	this->lam0 = lam0 ;
 	this->phi1 = phi1 ;
-	sinphi1 = sin( radians( phi1 ) ) ;
-	cosphi1 = cos( radians( phi1 ) ) ;
+	sincospi( phi1/180, &sinphi1, &cosphi1 ) ;
 	this->R = R ;
 	this->k0 = k0 ;
 
@@ -36,10 +35,8 @@ __device__ Coordinate& P4Stereographic::forward( const Coordinate& lamphi, Coord
 	double sinlamdif, coslamdif ;
 	double sinphi, cosphi, k, t ;
 
-	sinlamdif = sin( radians( lamphi.x-lam0 ) ) ;
-	coslamdif = cos( radians( lamphi.x-lam0 ) ) ;
-	sinphi = sin( radians( lamphi.y ) ) ;
-	cosphi = cos( radians( lamphi.y ) ) ;
+	sincospi( ( lamphi.x-lam0 )/180, &sinlamdif, &coslamdif ) ;
+	sincospi( lamphi.y/180, &sinphi, &cosphi ) ;
 
 	switch ( mode ) {
 	case M_NORTH:
@@ -74,11 +71,10 @@ __device__ Coordinate& P4Stereographic::forward( const Coordinate& lamphi, Coord
 __device__ Coordinate& P4Stereographic::inverse( const Coordinate& xy, Coordinate& lamphi ) {
 	double p, c, sinc, cosc ;
 
-	p = pow( xy.x*xy.x+xy.y*xy.y, .5 ) ;
+	p = sqrt( xy.x*xy.x+xy.y*xy.y ) ;
 	c = 2*degrees( atan2( p, 2*R*k0 ) ) ;
 
-	sinc = sin( radians( c ) ) ;
-	cosc = cos( radians( c ) ) ;
+	sincospi( c/180, &sinc, &cosc ) ;
 
 	lamphi.y = degrees( asin( cosc*sinphi1+( xy.y*sinc*cosphi1/p ) ) ) ;
 

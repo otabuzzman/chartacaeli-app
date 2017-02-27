@@ -35,11 +35,14 @@ __device__ void Coordinate::spherical() {
 }
 
 __device__ void Coordinate::cartesian() {
-	double _x = x, _y = y ;
+	double sinx, cosx, siny, cosy ;
 
-	x = cos( radians( _y ) )*cos( radians( _x ) ) ;
-	y = cos( radians( _y ) )*sin( radians( _x ) ) ;
-	z = sin( radians( _y ) ) ;
+	sincospi( x/180, &sinx, &cosx ) ;
+	sincospi( y/180, &siny, &cosy ) ;
+
+	x = cosy*cosx ;
+	y = cosy*sinx ;
+	z = siny ;
 }
 
 #ifdef COORDINATE_MAIN
