@@ -40,9 +40,9 @@ extern "C" __global__ void run(
 			const int dims, const int dimt, int** mapping,
 			const double ups ) {
 	int t, s ;
-	unsigned char pool[256] ;
-	P4Projector* proj ;
-	Plane* spt ;
+	__shared__ unsigned char pool[256] ;
+	__shared__ P4Projector* proj ;
+	__shared__ Plane* spt ;
 	Vector3D uv, l0, l1, ca ;
 	Vector4D op ;
 
@@ -52,12 +52,16 @@ extern "C" __global__ void run(
 	if ( t>=dimt || s>=dims )
 		return ;
 
-	proj = createP4Projector( pnam, &pool[0] ) ;
-	if ( proj == nullptr )
-		return ;
-	proj->init( lam0, phi1, R, k0 ) ;
+	if ( threadIdx.y == 0 && threadIdx.x == 0 ) {
+		proj = createP4Projector( pnam, &pool[0] ) ;
+		if ( proj == nullptr )
+			return ;
+		proj->init( lam0, phi1, R, k0 ) ;
 
-	spt = new( &pool[128] ) Plane( p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z ) ;
+		spt = new( &pool[128] ) Plane( p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z ) ;
+	}
+
+	__syncthreads() ;
 
 	// transform s/t to projection coordinates u/v
 	uv.set( s*ups, t*ups, 1 ) ;
