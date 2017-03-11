@@ -26,13 +26,15 @@ The SMP implementation of *Artwork* took roughly 2,650 milliseconds to map Andro
 The CUDA implementation `Artwork$PJ2TextureMapperGpu` on G2 without any optimization took 61,000 milliseconde for 2,063,120 threads of which 80 milliseconds account for host/device memory transfers of 4.4 MB.
 
 |Kind of optimization|Threads per block|Kernel time (ms) on G2|Comment|
-|-|-:|-:|-|
-|Apply  C++ design patterns for C3P and DCP|1024|16,500|Setup stack variables then exit took 5,900 ms of kernel time.|
+|---|---:|---:|---|
+|Apply C++ design patterns for C3P and DCP|1024|16,500|Setup stack variables then exit took 5,900 ms of kernel time.|
 |Minimize global device memory usage|1024|16,250||
-|Rework coordinate handling|1024|3,250||
-|Use placement new|1024|450||
-|Make threads in block share objects|1024|430||
+|Rework coordinate handling (double\[\], *Coordinate*, *Vector3D*)|1024|3,250||
+|Use placement new (*P4Projector*)|1024|450||
+|Make threads in block share objects (*P4Projector*, *Plane*)|1024|430||
 |Apply specialized math|1024|430||
+
+There is an executable version of the kernel as well that allows profiling. To compile with debug information run `make clean "CXXFLAGS=-g -G -DPJ2TEXTUREMAPPERGPU_MAIN" PJ2TextureMapperGpu`.
 
 ### Notes on C3P and DCP test programs
 There will be linker errors in case of modules (both C3P and DCP) that depend on others (e.g. *Coordinate* depends on *Math*). These errors are due to the fact that each module defines a global `main` function. To come around this there is a preprocessor constant that controls which `main` to compile. For *Math* the constant is `MATH_MAIN` for *Vector3D* it's `VECTOR3D_MAIN`. Same linker errors will occur if building a program that depends on one (or more) that has been build before. To avoid this remove artefacts of previous build(s).
@@ -130,6 +132,7 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 - [Separate Compilation and Linking of CUDA C++ Device Code](https://devblogs.nvidia.com/parallelforall/separate-compilation-linking-cuda-device-code/)
 - [CUDAcons repository](https://github.com/otabuzzman/cudacons) with information about setting up CUDA without capable device
 - Global memory allocated in kernel with _new_ must be deleted before exiting to prevent memory leaks as it remains allocated after kernel exit.
+- Examples from Stackoverflow [how to pass an array of arrays to a CUDA kernel](http://stackoverflow.com/questions/1835537/cuda-allocating-array-of-arrays) and [how to copy an array of device pointers to device memory](http://stackoverflow.com/questions/20497108/in-cuda-how-to-copy-an-array-of-device-pointers-to-device-memory). Finally and in same context another [article at CUDA ZONE](https://devtalk.nvidia.com/default/topic/743742/passing-cudeviceptr-to-culaunchkernel-in-32-bit-app-on-windows-7-64-bit/) about usage of `CUdeviceptr`.
 
 **C++ and CUDA**
 - [Sample implementation](https://github.com/egaburov/vanaheimr) of `std::map` with [usage example](https://devtalk.nvidia.com/default/topic/523766/std-map-in-device-code/) from [CUDA ZONE](https://developer.nvidia.com/cuda-zone)

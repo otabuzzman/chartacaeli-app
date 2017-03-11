@@ -41,6 +41,8 @@ C3POBJ = \
 	$(subst .cpp,.o,$(C3PIMP)) \
 	$(subst .cxx,.o,$(C3PJXX)) \
 
+C3PEXE = $(basename $(C3PIMP))
+
 # JNI wrapper for JUnit testing
 C3PJNI = $(patsubst $(c3psrc)/%.cpp,$(c3ptst)/%.java,$(C3PIMP) $(c3psrc)/PJ2TextureMapperC3p.cpp)
 C3PJXX = $(subst .java,_jni.cxx,$(C3PJNI))
@@ -52,6 +54,22 @@ C3PTST = $(wildcard $(c3ptst)/*Test.java)
 DCPIMP = \
 	$(dcpsrc)/Coordinate.cu \
 	$(dcpsrc)/Vector3D.cu \
+	$(dcpsrc)/Plane.cu \
+	$(dcpsrc)/Math.cu \
+	$(dcpsrc)/RealMatrix.cu \
+	$(dcpsrc)/P4Mollweide.cu \
+	$(dcpsrc)/P4Orthographic.cu \
+	$(dcpsrc)/P4Stereographic.cu \
+
+DCPOBJ = $(subst .cu,.o,$(DCPIMP))
+
+DCPEXE = $(basename $(DCPIMP))
+
+# actual kernel objects
+GPUIMP = \
+	PJ2TextureMapperGpu.cu \
+	$(dcpsrc)/Coordinate.cu \
+	$(dcpsrc)/Vector3D.cu \
 	$(dcpsrc)/Vector4D.cu \
 	$(dcpsrc)/Plane.cu \
 	$(dcpsrc)/Math.cu \
@@ -59,7 +77,7 @@ DCPIMP = \
 	$(dcpsrc)/P4Orthographic.cu \
 	$(dcpsrc)/P4Stereographic.cu \
 
-DCPOBJ = $(subst .cu,.o,$(DCPIMP))
+GPUOBJ = $(subst .cu,.o,$(GPUIMP))
 
 # default goal
 cuda: PJ2TextureMapperGpu.cubin
@@ -117,10 +135,8 @@ vpath %.cu $(c3psrc)
 
 ifdef winos
 sep := ;
-exe := .exe
 else
 sep := :
-exe :=
 endif
 
 # see GNU make manual 4.14 "Generating Prerequisites Automatically"
@@ -173,56 +189,60 @@ $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(
 
 # DCP test programs (dcp/%.exe)
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** linking $^ to $@ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** linking $^ to $@ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o
-	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** linking $^ to $@ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
-	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** linking $^ to $@ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/RealMatrix: $(dcpsrc)/RealMatrix.o
-	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** linking $^ to $@ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** linking $^ to $@ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** linking $^ to $@ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $@ from $^ not supported on Windows"
+	@echo "*** linking $^ to $@ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 
-PJ2TextureMapperGpu.cubin: PJ2TextureMapperGpu.o $(DCPOBJ)
+PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu: $(GPUOBJ)
 	@echo "*** compiling $@ from $^ not supported on Windows"
+	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
+	@echo $(basename $@).cmd
 else
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \
@@ -284,7 +304,10 @@ $(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dc
 $(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 
-PJ2TextureMapperGpu.cubin: PJ2TextureMapperGpu.o $(DCPOBJ)
+PJ2TextureMapperGpu: $(GPUOBJ)
+	nvcc -Wno-deprecated-gpu-targets --resource-usage -arch=sm_30 -o $@ $^
+
+PJ2TextureMapperGpu.cubin: $(GPUOBJ)
 	nvcc -Wno-deprecated-gpu-targets --resource-usage -cubin -dlink -arch=sm_30 -o $@ $^
 endif
 
@@ -304,14 +327,8 @@ dcpclean:
 lclean: clean
 	rm -f $(C3PJXX) $(C3PJNI)
 	rm -f $(C3PDLL)
-	rm -f $(c3psrc)/Coordinate$(exe) $(dcpsrc)/Coordinate$(exe) $(dcpsrc)/Coordinate.exp $(dcpsrc)/Coordinate.lib
-	rm -f $(c3psrc)/Vector3D$(exe) $(dcpsrc)/Vector3D$(exe) $(dcpsrc)/Vector3D.exp $(dcpsrc)/Vector3D.lib
-	rm -f $(c3psrc)/Plane$(exe) $(dcpsrc)/Plane$(exe) $(dcpsrc)/Plane.exp $(dcpsrc)/Plane.lib
-	rm -f $(c3psrc)/Math$(exe) $(dcpsrc)/Math$(exe) $(dcpsrc)/Math.exp $(dcpsrc)/Math.lib
-	rm -f $(c3psrc)/RealMatrix$(exe) $(dcpsrc)/RealMatrix$(exe) $(dcpsrc)/RealMatrix.exp $(dcpsrc)/RealMatrix.lib
-	rm -f $(c3psrc)/P4Mollweide$(exe) $(dcpsrc)/P4Mollweide$(exe) $(dcpsrc)/P4Mollweide.exp $(dcpsrc)/P4Mollweide.lib
-	rm -f $(c3psrc)/P4Orthographic$(exe) $(dcpsrc)/P4Orthographic$(exe) $(dcpsrc)/P4Orthographic.exp $(dcpsrc)/P4Orthographic.lib
-	rm -f $(c3psrc)/P4Stereographic$(exe) $(dcpsrc)/P4Stereographic$(exe) $(dcpsrc)/P4Stereographic.exp $(dcpsrc)/P4Stereographic.lib
+	rm -f $(C3PEXE) $(DCPEXE)
+	rm -f PJ2TextureMapperGpu
 	rm -f PJ2TextureMapperGpu.cubin
 
 # real clean

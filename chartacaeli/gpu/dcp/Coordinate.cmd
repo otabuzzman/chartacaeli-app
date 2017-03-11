@@ -6,3 +6,5 @@ rem compile object file(s)
 %CUDA_HOME%\bin\nvcc -DCOORDINATE_MAIN -Wno-deprecated-gpu-targets -I%CUDA_HOME%\..\CUDASamples\common\inc -o dcp\Coordinate.o -dc dcp\Coordinate.cu
 rem compile executable file
 %CUDA_HOME%\bin\nvcc -Wno-deprecated-gpu-targets -o dcp\Coordinate.exe dcp\Coordinate.o dcp\Math.o
+rem cleanup
+del Coordinate.lib Coordinate.exp

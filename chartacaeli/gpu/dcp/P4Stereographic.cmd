@@ -7,3 +7,5 @@ rem compile object file(s)
 %CUDA_HOME%\bin\nvcc -DP4STEREOGRAPHIC_MAIN -Wno-deprecated-gpu-targets -I%CUDA_HOME%\..\CUDASamples\common\inc -o dcp\P4Stereographic.o -dc dcp\P4Stereographic.cu
 rem compile executable file
 %CUDA_HOME%\bin\nvcc -Wno-deprecated-gpu-targets -o dcp\P4Stereographic.exe dcp\P4Stereographic.o dcp\Coordinate.o dcp\Math.o
+rem cleanup
+del P4Stereographic.lib P4Stereographic.exp
