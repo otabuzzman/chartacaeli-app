@@ -1,6 +1,4 @@
 #include <new>
-#include <cstdio>
-#include <cstdlib>
 
 #include "dcp/P4Projector.h"
 #include "dcp/P4Stereographic.h"
@@ -99,6 +97,7 @@ extern "C" __global__ void run(
 int main( int argc, char** argv ) {
 	cudaDeviceProp devProp ;
 	int devID ;
+	unsigned char buf[3] ;
 	const char *h_pnam = "P4Stereographic" ;
 	char *d_pnam ;
 	double lam0, phi1, R, k0 ;
@@ -141,9 +140,16 @@ int main( int argc, char** argv ) {
 	checkCudaErrors( cudaMalloc( (void**) &d_pnam, strlen( h_pnam )+1 ) ) ;
 	checkCudaErrors( cudaMemcpy( d_pnam, h_pnam, strlen( h_pnam )+1, cudaMemcpyHostToDevice ) ) ;
 
-	// allocate host...
+	// allocate host memory for texture
 	texture = (int*) malloc( dimo*dimp*sizeof( int ) ) ;
-	// ...and device memory for texture (mind 'array of arrays' type)
+	// initialize texture with RGB data
+	for ( int i=0 ; dimo*dimp>i ; i++ ) {
+		fread( &buf[0], 1, 3, stdin ) ;
+		if ( ferror( stdin ) || feof( stdin ) )
+			break ;
+		texture[i] = buf[0]<<16|buf[1]<<8|buf[2] ;
+	}
+	// allocate device memory pendant and copy texture from host (mind 'array of arrays' type)
 	h_texture = (int**) malloc( dimp*sizeof( int* ) ) ;
 	for ( int i=0 ; dimp>i ; i++ ) {
 		checkCudaErrors( cudaMalloc( (void**) &h_texture[i], dimo*sizeof( int ) ) ) ;
@@ -183,6 +189,13 @@ int main( int argc, char** argv ) {
 	// copy mapping from device back to host
 	for ( int i=0 ; dimt>i ; i++ )
 		checkCudaErrors( cudaMemcpy( &mapping[i*dims], h_mapping[i], dims*sizeof( int ), cudaMemcpyDeviceToHost ) ) ;
+	// output mapping result RGB data
+	for ( int i=0 ; dims*dimt>i ; i++ ) {
+		buf[0] = mapping[i]>>16&255 ;
+		buf[1] = mapping[i]>>8&255 ;
+		buf[2] = mapping[i]&255 ;
+		fwrite( &buf[0], 1, 3, stdout ) ;
+	}
 
 	for ( int i=0 ; dimt>i ; i++ )
 		checkCudaErrors( cudaFree( h_mapping[i] ) ) ;

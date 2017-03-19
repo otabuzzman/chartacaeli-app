@@ -168,77 +168,36 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 
 # C3P test programs (c3p/%.exe)
 $(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
-	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 $(c3psrc)/Vector3D: $(c3psrc)/Vector3D.o
-	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 $(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o
-	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 $(c3psrc)/Math: $(c3psrc)/Math.o
-	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 $(c3psrc)/RealMatrix: $(c3psrc)/RealMatrix.o
-	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 $(c3psrc)/P4Mollweide: $(c3psrc)/P4Mollweide.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
-	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 $(c3psrc)/P4Orthographic: $(c3psrc)/P4Orthographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
-	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+
+$(C3PEXE):
 	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 
 .cu.o:
-	@echo "*** compiling $@ from $< not supported on Windows"
 
 # DCP test programs (dcp/%.exe)
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $^ to $@ not supported on Windows"
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
-	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $^ to $@ not supported on Windows"
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
-	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o
-	@echo "*** linking $^ to $@ not supported on Windows"
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
-	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
-	@echo "*** linking $^ to $@ not supported on Windows"
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
-	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/RealMatrix: $(dcpsrc)/RealMatrix.o
-	@echo "*** linking $^ to $@ not supported on Windows"
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
-	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $^ to $@ not supported on Windows"
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
-	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $^ to $@ not supported on Windows"
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
-	@echo $(subst /,\\,$@).cmd
 $(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	@echo "*** linking $^ to $@ not supported on Windows"
+
+$(DCPEXE):
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 
 PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu: $(GPUOBJ)
-	@echo "*** compiling $@ from $^ not supported on Windows"
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
@@ -264,20 +223,15 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 
 # C3P test programs (c3p/%.exe)
 $(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
-	$(CXX) -o $@ $^
 $(c3psrc)/Vector3D: $(c3psrc)/Vector3D.o
-	$(CXX) -o $@ $^
 $(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o
-	$(CXX) -o $@ $^
 $(c3psrc)/Math: $(c3psrc)/Math.o
-	$(CXX) -o $@ $^
 $(c3psrc)/RealMatrix: $(c3psrc)/RealMatrix.o
-	$(CXX) -o $@ $^
 $(c3psrc)/P4Mollweide: $(c3psrc)/P4Mollweide.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
-	$(CXX) -o $@ $^
 $(c3psrc)/P4Orthographic: $(c3psrc)/P4Orthographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
-	$(CXX) -o $@ $^
 $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+
+$(C3PEXE):
 	$(CXX) -o $@ $^
 
 .cu.o:
@@ -288,20 +242,15 @@ $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(
 
 # DCP test programs (dcp/%.exe)
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o
-	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
-	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/RealMatrix: $(dcpsrc)/RealMatrix.o
-	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 $(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+
+$(DCPEXE):
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 
 PJ2TextureMapperGpu: $(GPUOBJ)
