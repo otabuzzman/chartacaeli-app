@@ -65,7 +65,7 @@ DCPOBJ = $(subst .cu,.o,$(DCPIMP))
 
 DCPEXE = $(basename $(DCPIMP))
 
-# actual kernel objects
+# actual kernel objects (double precision)
 GPUIMP = \
 	PJ2TextureMapperGpu.cu \
 	$(dcpsrc)/Coordinate.cu \
@@ -78,6 +78,10 @@ GPUIMP = \
 	$(dcpsrc)/P4Stereographic.cu \
 
 GPUOBJ = $(subst .cu,.o,$(GPUIMP))
+
+# actual kernel objects (single precision)
+GPUIMP_F = $(GPUIMP:.cu=_f.cu)
+GPUOBJ_F = $(GPUIMP:.cu=.o)
 
 # default goal
 cuda: PJ2TextureMapperGpu.cubin
@@ -124,7 +128,7 @@ testrun: $(C3PTST)
 				$(addprefix $(pkgdir)/,$(JAREXT)))" \
 				org.junit.runner.JUnitCore $(TST).$$t ; done )
 
-.PHONY: all cuda testbuild testrun clean c3pclean dcpclean lclean rclean tidy
+.PHONY: all cuda testbuild testrun clean c3pclean dcpclean gpuclean lclean rclean tidy
 .SUFFIXES: .cxx .cu .cubin .dll .so
 
 empty =
@@ -202,6 +206,8 @@ PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu: $(GPUOBJ)
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(basename $@).cmd
+
+PJ2TextureMapperGpu_f: $(GPUOBJ_F)
 else
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \
@@ -254,6 +260,9 @@ $(DCPEXE):
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 
 PJ2TextureMapperGpu: $(GPUOBJ)
+PJ2TextureMapperGpu_f: $(GPUOBJ_F)
+
+PJ2TextureMapperGpu PJ2TextureMapperGpu_f:
 	nvcc -Wno-deprecated-gpu-targets --resource-usage -arch=sm_30 -o $@ $^
 
 PJ2TextureMapperGpu.cubin: $(GPUOBJ)
@@ -263,21 +272,23 @@ endif
 all: cuda
 
 # compiler objects
-clean: c3pclean dcpclean
+clean: c3pclean dcpclean gpuclean
 	rm -f $(subst .java,.class,$(C3PJNI)) $(c3ptst)/P4Projector.class $(c3ptst)/RandomDataset.class
 	rm -f $(subst .java,.class,$(C3PTST))
-	rm -f PJ2TextureMapperGpu.o
 c3pclean:
 	rm -f $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
 dcpclean:
 	rm -f $(DCPOBJ)
+gpuclean:
+	rm -f $(GPUOBJ) $(GPUOBJ_F)
+	rm -f PJ2TextureMapperGpu.o PJ2TextureMapperGpu_f.o
 
 # local clean
 lclean: clean
 	rm -f $(C3PJXX) $(C3PJNI)
 	rm -f $(C3PDLL)
 	rm -f $(C3PEXE) $(DCPEXE)
-	rm -f PJ2TextureMapperGpu
+	rm -f PJ2TextureMapperGpu PJ2TextureMapperGpu_f
 	rm -f PJ2TextureMapperGpu.cubin
 
 # real clean
