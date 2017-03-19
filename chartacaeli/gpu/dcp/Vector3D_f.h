@@ -1,7 +1,7 @@
 #ifndef __VECTOR3D_H__
 #define __VECTOR3D_H__
 
-#include "Coordinate.h"
+#include "Coordinate_f.h"
 
 class Vector3D : public Coordinate {
 

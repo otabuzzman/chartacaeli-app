@@ -81,7 +81,7 @@ GPUOBJ = $(subst .cu,.o,$(GPUIMP))
 
 # actual kernel objects (single precision)
 GPUIMP_F = $(GPUIMP:.cu=_f.cu)
-GPUOBJ_F = $(GPUIMP:.cu=.o)
+GPUOBJ_F = $(GPUIMP_F:.cu=.o)
 
 # default goal
 cuda: PJ2TextureMapperGpu.cubin

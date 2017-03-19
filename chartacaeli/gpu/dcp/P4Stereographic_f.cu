@@ -3,9 +3,9 @@
 
 #include <cuda_runtime.h>
 
-#include "P4Stereographic.h"
-#include "Coordinate.h"
-#include "Math.h"
+#include "P4Stereographic_f.h"
+#include "Coordinate_f.h"
+#include "Math_f.h"
 
 // from CUDA Toolkit samples
 #include <helper_cuda.h>

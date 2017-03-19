@@ -1,8 +1,8 @@
 #ifndef __P4STEREOGRAPHIC_H__
 #define __P4STEREOGRAPHIC_H__
 
-#include "P4Projector.h"
-#include "Coordinate.h"
+#include "P4Projector_f.h"
+#include "Coordinate_f.h"
 
 class P4Stereographic : public P4Projector {
 

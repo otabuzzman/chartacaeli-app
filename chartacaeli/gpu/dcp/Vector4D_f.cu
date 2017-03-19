@@ -3,7 +3,7 @@
 
 #include <cuda_runtime.h>
 
-#include "Vector4D.h"
+#include "Vector4D_f.h"
 
 __device__ Vector4D::Vector4D() : e0( 0 ), e1( 0 ), e2( 0 ), e3( 0 ) {
 }

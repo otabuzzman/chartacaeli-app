@@ -3,8 +3,8 @@
 
 #include <cuda_runtime.h>
 
-#include "Plane.h"
-#include "Vector3D.h"
+#include "Plane_f.h"
+#include "Vector3D_f.h"
 
 // from CUDA Toolkit samples
 #include <helper_cuda.h>

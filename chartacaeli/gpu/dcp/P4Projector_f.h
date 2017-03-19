@@ -1,7 +1,7 @@
 #ifndef __P4PROJECTOR_H__
 #define __P4PROJECTOR_H__
 
-#include "Coordinate.h"
+#include "Coordinate_f.h"
 
 class P4Projector {
 

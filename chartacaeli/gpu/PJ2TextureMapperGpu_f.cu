@@ -1,13 +1,13 @@
 #include <new>
 
-#include "dcp/P4Projector.h"
-#include "dcp/P4Stereographic.h"
-#include "dcp/P4Orthographic.h"
-#include "dcp/P4Mollweide.h"
-#include "dcp/Plane.h"
-#include "dcp/Vector4D.h"
-#include "dcp/Vector3D.h"
-#include "dcp/Coordinate.h"
+#include "dcp/P4Projector_f.h"
+#include "dcp/P4Stereographic_f.h"
+#include "dcp/P4Orthographic_f.h"
+#include "dcp/P4Mollweide_f.h"
+#include "dcp/Plane_f.h"
+#include "dcp/Vector4D_f.h"
+#include "dcp/Vector3D_f.h"
+#include "dcp/Coordinate_f.h"
 
 // CUDA kernel
 extern "C" __global__ void run(

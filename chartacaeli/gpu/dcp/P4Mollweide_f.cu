@@ -3,9 +3,9 @@
 
 #include <math_constants.h>
 
-#include "P4Mollweide.h"
-#include "Coordinate.h"
-#include "Math.h"
+#include "P4Mollweide_f.h"
+#include "Coordinate_f.h"
+#include "Math_f.h"
 
 // from CUDA Toolkit samples
 #include <helper_cuda.h>
