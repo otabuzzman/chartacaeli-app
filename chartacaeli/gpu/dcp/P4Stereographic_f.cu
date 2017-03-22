@@ -17,7 +17,7 @@ __device__ P4Stereographic::P4Stereographic() {
 __device__ void P4Stereographic::init( float lam0, float phi1, float R, float k0 ) {
 	this->lam0 = lam0 ;
 	this->phi1 = phi1 ;
-	sincospif( __fdividef( phi1, 180f ), &sinphi1, &cosphi1 ) ;
+	sincospif( __fdividef( phi1, 180.f ), &sinphi1, &cosphi1 ) ;
 	this->R = R ;
 	this->k0 = k0 ;
 
@@ -35,18 +35,18 @@ __device__ Coordinate& P4Stereographic::forward( const Coordinate& lamphi, Coord
 	float sinlamdif, coslamdif ;
 	float sinphi, cosphi, k, t ;
 
-	sincospif( __fdividef( ( lamphi.x-lam0 ), 180f ), &sinlamdif, &coslamdif ) ;
-	sincospif( __fdividef( lamphi.y, 180f ), &sinphi, &cosphi ) ;
+	sincospif( __fdividef( ( lamphi.x-lam0 ), 180.f ), &sinlamdif, &coslamdif ) ;
+	sincospif( __fdividef( lamphi.y, 180.f ), &sinphi, &cosphi ) ;
 
 	switch ( mode ) {
 	case M_NORTH:
-		t = __tanf( radians( 45-__fdividef( lamphi.y, 2f ) ) ) ;
+		t = __tanf( radians( 45-__fdividef( lamphi.y, 2.f ) ) ) ;
 		xy.x = 2*R*k0*t*sinlamdif ;
 		xy.y = -2*R*k0*t*coslamdif ;
 
 		break ;
 	case M_SOUTH:
-		t = __tanf( radians( 45+__fdividef( lamphi.y, 2f ) ) ) ;
+		t = __tanf( radians( 45+__fdividef( lamphi.y, 2.f ) ) ) ;
 		xy.x = 2*R*k0*t*sinlamdif ;
 		xy.y = 2*R*k0*t*coslamdif ;
 
@@ -74,7 +74,7 @@ __device__ Coordinate& P4Stereographic::inverse( const Coordinate& xy, Coordinat
 	p = sqrtf( xy.x*xy.x+xy.y*xy.y ) ;
 	c = 2*degrees( atan2f( p, 2*R*k0 ) ) ;
 
-	sincospif( __fdividef( c, 180f ), &sinc, &cosc ) ;
+	sincospif( __fdividef( c, 180.f ), &sinc, &cosc ) ;
 
 	lamphi.y = degrees( asinf( cosc*sinphi1+( xy.y*sinc*__fdividef( cosphi1, p ) ) ) ) ;
 

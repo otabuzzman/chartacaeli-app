@@ -10,9 +10,7 @@
 // from CUDA Toolkit samples
 #include <helper_cuda.h>
 
-__device__ P4Mollweide::P4Mollweide() : V_CON( 1e-7f ),
-								radperdeg( __fdividef( 3.141592653589793f, 180.f ) ) ,
-								degperrad( __fdividef( 180.f, 3.141592653589793f ) ) {
+__device__ P4Mollweide::P4Mollweide() {
 	init( 0, 0, 1, 1 ) ;
 }
 
@@ -25,18 +23,18 @@ __device__ Coordinate& P4Mollweide::forward( const Coordinate& lamphi, Coordinat
 	float tht2 = lamphi.y, dtht2 = 0, sintht2, costht2 ;
 	float sinphi, tht, sintht, costht ;
 
-	sinphi = sinpif( __fdividef( lamphi.y, 180f ) ) ;
+	sinphi = sinpif( __fdividef( lamphi.y, 180.f ) ) ;
 
 	do {
 		tht2 = tht2+dtht2 ;
 
-		sincospif( __fdividef( tht2, 180f ), &sintht2, &costht2 ) ;
+		sincospif( __fdividef( tht2, 180.f ), &sintht2, &costht2 ) ;
 
 		dtht2 = __fdividef( -( tht2*radperdeg+sintht2-CUDART_PI_F*sinphi ), ( 1+costht2 )*degperrad ) ;
 	} while ( abs( dtht2 )>V_CON ) ;
 
 	tht = tht2*.5f ;
-	sincospif( __fdividef( tht, 180f ), &sintht, &costht ) ;
+	sincospif( __fdividef( tht, 180.f ), &sintht, &costht ) ;
 
 	xy.x = ( __fdividef( 2.82842712475f, CUDART_PI_F ) )*R*( lamphi.x-lam0 )*costht*radperdeg ;
 	xy.y = 1.41421356237f*R*sintht ;
@@ -49,13 +47,13 @@ __device__ Coordinate& P4Mollweide::inverse( const Coordinate& xy, Coordinate& l
 
 	tht = degrees( asinf( __fdividef( xy.y, ( 1.41421356237f*R ) ) ) ) ;
 
-	sin2tht = sinpif( __fdividef( ( 2*tht ), 180f ) ) ;
+	sin2tht = sinpif( __fdividef( ( 2*tht ), 180.f ) ) ;
 	lamphi.y = degrees( asinf( __fdividef( ( 2*tht*radperdeg+sin2tht ), CUDART_PI_F ) ) ) ;
 
 	if ( abs( lamphi.y ) == 90 )
 		lamphi.x = lam0 ;
 	else {
-		costht = cospif( __fdividef( tht, 180f ) ) ;
+		costht = cospif( __fdividef( tht, 180.f ) ) ;
 		lamphi.x = lam0+( CUDART_PI_F*__fdividef( xy.x, ( 2.82842712475f*R*costht ) ) )*degperrad ;
 	}
 

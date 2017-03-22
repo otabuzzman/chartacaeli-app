@@ -37,8 +37,8 @@ __device__ void Coordinate::spherical() {
 __device__ void Coordinate::cartesian() {
 	float sinx, cosx, siny, cosy ;
 
-	sincospif( __fdividef( x, 180f ), &sinx, &cosx ) ;
-	sincospif( __fdividef( y, 180f ), &siny, &cosy ) ;
+	sincospif( __fdividef( x, 180.f ), &sinx, &cosx ) ;
+	sincospif( __fdividef( y, 180.f ), &siny, &cosy ) ;
 
 	x = cosy*cosx ;
 	y = cosy*sinx ;
