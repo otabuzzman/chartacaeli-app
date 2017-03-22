@@ -8,4 +8,4 @@ rem compile object file(s)
 rem compile executable file
 %CUDA_HOME%\bin\nvcc -Wno-deprecated-gpu-targets -o dcp\Vector3D.exe dcp\Vector3D.o dcp\Coordinate.o dcp\Math.o
 rem cleanup
-del Vector3D.lib Vector3D.exp
+del dcp\Vector3D.lib dcp\Vector3D.exp

@@ -8,4 +8,4 @@ rem compile object file(s)
 rem compile executable file
 %CUDA_HOME%\bin\nvcc -Wno-deprecated-gpu-targets -o dcp\P4Orthographic.exe dcp\P4Orthographic.o dcp\Coordinate.o dcp\Math.o
 rem cleanup
-del P4Orthographic.lib P4Orthographic.exp
+del dcp\P4Orthographic.lib dcp\P4Orthographic.exp

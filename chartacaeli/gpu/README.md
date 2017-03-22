@@ -21,7 +21,7 @@ Implement a real kernel in each DCP perfoming the same test as the corresponding
 Finally write the kernel.
 
 ### Notes on CUDA optimization
-The SMP implementation of *Artwork* took roughly 2,650 milliseconds to map Andromedaon on Intel Core 2 Duo 2,40 GHz using `Artwork$PJ2TextureMapperSmp`. The same task took 3,800 milliseconds on an AWS T2 instance (2 cores) and 750 milliseconds on AWS G2 (8 cores).
+The SMP implementation of *Artwork* took roughly 2,650 milliseconds to map Andromeda on Intel Core 2 Duo 2,40 GHz using `Artwork$PJ2TextureMapperSmp`. The same task took 3,800 milliseconds on an AWS T2 instance (2 cores) and 750 milliseconds on AWS G2 (8 cores).
 
 The CUDA implementation `Artwork$PJ2TextureMapperGpu` on G2 without any optimization took 61,000 milliseconde for 2,063,120 threads of which 80 milliseconds account for host/device memory transfers of 4.4 MB.
 
@@ -34,7 +34,7 @@ The CUDA implementation `Artwork$PJ2TextureMapperGpu` on G2 without any optimiza
 |Make threads in block share objects (*P4Projector*, *Plane*)|1024|430||
 |Apply specialized math|1024|430||
 
-There is an executable version of the kernel as well that allows profiling. To compile with debug information run `make clean "CXXFLAGS=-g -G -DPJ2TEXTUREMAPPERGPU_MAIN" PJ2TextureMapperGpu`.
+There is an executable version of the kernel as well that allows profiling. To compile with debug information run `make clean "NVCCFLAGS=-g -G -DPJ2TEXTUREMAPPERGPU_MAIN" PJ2TextureMapperGpu`.
 
 ### Notes on C3P and DCP test programs
 There will be linker errors in case of modules (both C3P and DCP) that depend on others (e.g. *Coordinate* depends on *Math*). These errors are due to the fact that each module defines a global `main` function. To come around this there is a preprocessor constant that controls which `main` to compile. For *Math* the constant is `MATH_MAIN` for *Vector3D* it's `VECTOR3D_MAIN`. Same linker errors will occur if building a program that depends on one (or more) that has been build before. To avoid this remove artefacts of previous build(s).

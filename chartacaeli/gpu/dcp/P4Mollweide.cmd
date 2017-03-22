@@ -8,4 +8,4 @@ rem compile object file(s)
 rem compile executable file
 %CUDA_HOME%\bin\nvcc -Wno-deprecated-gpu-targets -o dcp\P4Mollweide.exe dcp\P4Mollweide.o dcp\Math.o dcp\Coordinate.o
 rem cleanup
-del P4Mollweide.lib P4Mollweide.exp
+del dcp\P4Mollweide.lib dcp\P4Mollweide.exp

@@ -7,4 +7,4 @@ rem compile object file(s)
 rem compile executable file
 %CUDA_HOME%\bin\nvcc -Wno-deprecated-gpu-targets -o dcp\Coordinate.exe dcp\Coordinate.o dcp\Math.o
 rem cleanup
-del Coordinate.lib Coordinate.exp
+del dcp\Coordinate.lib dcp\Coordinate.exp

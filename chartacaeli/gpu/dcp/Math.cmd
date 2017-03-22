@@ -6,4 +6,4 @@ rem compile object file(s)
 rem compile executable file
 %CUDA_HOME%\bin\nvcc -Wno-deprecated-gpu-targets -o dcp\Math.exe dcp\Math.o
 rem cleanup
-del Math.lib Math.exp
+del dcp\Math.lib dcp\Math.exp

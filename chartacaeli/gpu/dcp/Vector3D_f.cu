@@ -78,3 +78,49 @@ __device__ Vector3D& Vector3D::apply(
 
 	return *this ;
 }
+
+#ifdef VECTOR3D_MAIN
+// kernel
+__global__ void vector3d( float* buf ) {
+	Vector3D a, b ;
+	int i = threadIdx.x ;
+
+	a.set( i, i+.123, i+.234 ) ;
+	b.set( i+.234, i+.123, i ) ;
+	buf[i] = a.cross( b ).dot( a ) ;
+}
+
+#define NUM_BLOCKS 1
+#define NUM_THREADS 360
+
+int main( int argc, char** argv ) {
+	// host buffer
+	float buf[NUM_THREADS] ;
+	// device buffer
+	float* dbuf = NULL ;
+	cudaDeviceProp devProp ;
+	int devID ;
+
+	// find device and output compute capability on stderr
+	devID = gpuGetMaxGflopsDeviceId() ;
+	checkCudaErrors( cudaSetDevice( devID ) ) ;
+	checkCudaErrors( cudaGetDeviceProperties( &devProp, devID ) ) ;
+	fprintf( stderr, "%d%d\n", devProp.major, devProp.minor ) ;
+
+	// allocate device buffer memory
+	checkCudaErrors( cudaMalloc( (void**) &dbuf, sizeof( float )*NUM_THREADS ) ) ;
+
+	// run kernel
+	vector3d<<<NUM_BLOCKS, NUM_THREADS>>>( dbuf ) ;
+
+	// copy kernel results from device buffer to host
+	checkCudaErrors( cudaMemcpy( buf, dbuf, sizeof( float )*NUM_THREADS, cudaMemcpyDeviceToHost ) ) ;
+	checkCudaErrors( cudaFree( dbuf ) ) ;
+
+	// output result on stdout
+	for ( int i=0 ; NUM_THREADS>i ; i++ )
+		printf( "%.6f\n", buf[i] ) ;
+
+	return EXIT_SUCCESS ;
+}
+#endif // VECTOR3D_MAIN

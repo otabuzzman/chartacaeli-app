@@ -17,7 +17,7 @@ __device__ P4Stereographic::P4Stereographic() {
 __device__ void P4Stereographic::init( float lam0, float phi1, float R, float k0 ) {
 	this->lam0 = lam0 ;
 	this->phi1 = phi1 ;
-	sincospif( phi1/180, &sinphi1, &cosphi1 ) ;
+	sincospif( __fdividef( phi1, 180f ), &sinphi1, &cosphi1 ) ;
 	this->R = R ;
 	this->k0 = k0 ;
 
@@ -35,30 +35,30 @@ __device__ Coordinate& P4Stereographic::forward( const Coordinate& lamphi, Coord
 	float sinlamdif, coslamdif ;
 	float sinphi, cosphi, k, t ;
 
-	sincospif( ( lamphi.x-lam0 )/180, &sinlamdif, &coslamdif ) ;
-	sincospif( lamphi.y/180, &sinphi, &cosphi ) ;
+	sincospif( __fdividef( ( lamphi.x-lam0 ), 180f ), &sinlamdif, &coslamdif ) ;
+	sincospif( __fdividef( lamphi.y, 180f ), &sinphi, &cosphi ) ;
 
 	switch ( mode ) {
 	case M_NORTH:
-		t = __tanf( radians( 45-lamphi.y/2 ) ) ;
+		t = __tanf( radians( 45-__fdividef( lamphi.y, 2f ) ) ) ;
 		xy.x = 2*R*k0*t*sinlamdif ;
 		xy.y = -2*R*k0*t*coslamdif ;
 
 		break ;
 	case M_SOUTH:
-		t = __tanf( radians( 45+lamphi.y/2 ) ) ;
+		t = __tanf( radians( 45+__fdividef( lamphi.y, 2f ) ) ) ;
 		xy.x = 2*R*k0*t*sinlamdif ;
 		xy.y = 2*R*k0*t*coslamdif ;
 
 		break ;
 	case M_EQUATOR:
-		k = 2*k0/( 1+cosphi*coslamdif ) ;
+		k = 2*__fdividef( k0, ( 1+cosphi*coslamdif ) ) ;
 		xy.x = R*k*cosphi*sinlamdif ;
 		xy.y = R*k*sinphi ;
 
 		break ;
 	case M_OBLIQUE:
-		k = 2*k0/( 1+sinphi1*sinphi+cosphi1*cosphi*coslamdif ) ;
+		k = 2*__fdividef( k0, ( 1+sinphi1*sinphi+cosphi1*cosphi*coslamdif ) ) ;
 		xy.x = R*k*cosphi*sinlamdif ;
 		xy.y = R*k*( cosphi1*sinphi-sinphi1*cosphi*coslamdif ) ;
 
@@ -74,9 +74,9 @@ __device__ Coordinate& P4Stereographic::inverse( const Coordinate& xy, Coordinat
 	p = sqrtf( xy.x*xy.x+xy.y*xy.y ) ;
 	c = 2*degrees( atan2f( p, 2*R*k0 ) ) ;
 
-	sincospif( c/180, &sinc, &cosc ) ;
+	sincospif( __fdividef( c, 180f ), &sinc, &cosc ) ;
 
-	lamphi.y = degrees( asinf( cosc*sinphi1+( xy.y*sinc*cosphi1/p ) ) ) ;
+	lamphi.y = degrees( asinf( cosc*sinphi1+( xy.y*sinc*__fdividef( cosphi1, p ) ) ) ) ;
 
 	switch ( mode ) {
 	case M_NORTH:
@@ -96,3 +96,52 @@ __device__ Coordinate& P4Stereographic::inverse( const Coordinate& xy, Coordinat
 
 	return lamphi ;
 }
+
+#ifdef P4STEREOGRAPHIC_MAIN
+// kernel
+__global__ void p4stereographic( float* buf ) {
+	P4Stereographic proj ;
+	Coordinate lamphi, xy, res ;
+	int i = threadIdx.x ;
+
+	lamphi.set( (float) i, (float) ( i%90 ), 0 ) ;
+	proj.forward( lamphi, xy ) ;
+	proj.inverse( xy, res ) ;
+	buf[2*i] = res.x ;
+	buf[2*i+1] = res.y ;
+}
+
+#define NUM_BLOCKS 1
+#define NUM_THREADS 360
+
+int main( int argc, char** argv ) {
+	// host buffer
+	float buf[2*NUM_THREADS] ;
+	// device buffer
+	float* dbuf = NULL ;
+	cudaDeviceProp devProp ;
+	int devID ;
+
+	// find device and output compute capability on stderr
+	devID = gpuGetMaxGflopsDeviceId() ;
+	checkCudaErrors( cudaSetDevice( devID ) ) ;
+	checkCudaErrors( cudaGetDeviceProperties( &devProp, devID ) ) ;
+	fprintf( stderr, "%d%d\n", devProp.major, devProp.minor ) ;
+
+	// allocate device buffer memory
+	checkCudaErrors( cudaMalloc( (void**) &dbuf, sizeof( float )*2*NUM_THREADS ) ) ;
+
+	// run kernel
+	p4stereographic<<<NUM_BLOCKS, NUM_THREADS>>>( dbuf ) ;
+
+	// copy kernel results from device buffer to host
+	checkCudaErrors( cudaMemcpy( buf, dbuf, sizeof( float )*2*NUM_THREADS, cudaMemcpyDeviceToHost ) ) ;
+	checkCudaErrors( cudaFree( dbuf ) ) ;
+
+	// output result on stdout
+	for ( int i=0 ; NUM_THREADS>i ; i++ )
+		printf( "%.4f %.4f\n", buf[2*i], buf[2*i+1] ) ;
+
+	return EXIT_SUCCESS ;
+}
+#endif // P4STEREOGRAPHIC_MAIN

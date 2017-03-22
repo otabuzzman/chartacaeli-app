@@ -84,7 +84,7 @@ GPUIMP_F = $(GPUIMP:.cu=_f.cu)
 GPUOBJ_F = $(GPUIMP_F:.cu=.o)
 
 # default goal
-cuda: PJ2TextureMapperGpu.cubin
+cuda: PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin
 
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
@@ -241,7 +241,7 @@ $(C3PEXE):
 	$(CXX) -o $@ $^
 
 .cu.o:
-	nvcc $(CXXFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
+	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
 	-I$(CUDA_HOME)/include \
 	-I$(CUDA_SAMP)/common/inc \
 	-o $@ -dc $<
@@ -259,14 +259,14 @@ $(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(
 $(DCPEXE):
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 
-PJ2TextureMapperGpu: $(GPUOBJ)
-PJ2TextureMapperGpu_f: $(GPUOBJ_F)
+PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
+PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
 
 PJ2TextureMapperGpu PJ2TextureMapperGpu_f:
-	nvcc -Wno-deprecated-gpu-targets --resource-usage -arch=sm_30 -o $@ $^
+	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets --resource-usage -arch=sm_30 -o $@ $^
 
-PJ2TextureMapperGpu.cubin: $(GPUOBJ)
-	nvcc -Wno-deprecated-gpu-targets --resource-usage -cubin -dlink -arch=sm_30 -o $@ $^
+PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin:
+	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets --resource-usage -cubin -dlink -arch=sm_30 -o $@ $^
 endif
 
 all: cuda
@@ -289,7 +289,7 @@ lclean: clean
 	rm -f $(C3PDLL)
 	rm -f $(C3PEXE) $(DCPEXE)
 	rm -f PJ2TextureMapperGpu PJ2TextureMapperGpu_f
-	rm -f PJ2TextureMapperGpu.cubin
+	rm -f PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin
 
 # real clean
 rclean: lclean

@@ -87,7 +87,7 @@ int main( int argc, char** argv ) {
 
 	// output result on stdout
 	for ( int i=0 ; NUM_THREADS>i ; i++ )
-		printf( "%.8f %.8f %.8f\n", buf[3*i], buf[3*i+1], buf[3*i+2] ) ;
+		printf( "%.6f %.6f %.6f\n", buf[3*i], buf[3*i+1], buf[3*i+2] ) ;
 
 	return EXIT_SUCCESS ;
 }

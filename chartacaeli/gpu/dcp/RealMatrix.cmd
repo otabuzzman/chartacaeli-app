@@ -6,4 +6,4 @@ rem compile object file(s)
 rem compile executable file
 %CUDA_HOME%\bin\nvcc -Wno-deprecated-gpu-targets -o dcp\RealMatrix.exe dcp\RealMatrix.o
 rem cleanup
-del RealMatrix.lib RealMatrix.exp
+del dcp\RealMatrix.lib dcp\RealMatrix.exp
