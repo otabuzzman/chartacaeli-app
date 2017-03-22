@@ -173,7 +173,7 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 # C3P test programs (c3p/%.exe)
 $(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
 $(c3psrc)/Vector3D: $(c3psrc)/Vector3D.o
-$(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o
+$(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
 $(c3psrc)/Math: $(c3psrc)/Math.o
 $(c3psrc)/RealMatrix: $(c3psrc)/RealMatrix.o
 $(c3psrc)/P4Mollweide: $(c3psrc)/P4Mollweide.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
@@ -188,7 +188,7 @@ $(C3PEXE):
 # DCP test programs (dcp/%.exe)
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 $(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-$(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o
+$(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
 $(dcpsrc)/RealMatrix: $(dcpsrc)/RealMatrix.o
 $(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
@@ -230,7 +230,7 @@ $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3
 # C3P test programs (c3p/%.exe)
 $(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
 $(c3psrc)/Vector3D: $(c3psrc)/Vector3D.o
-$(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o
+$(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
 $(c3psrc)/Math: $(c3psrc)/Math.o
 $(c3psrc)/RealMatrix: $(c3psrc)/RealMatrix.o
 $(c3psrc)/P4Mollweide: $(c3psrc)/P4Mollweide.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
@@ -249,7 +249,7 @@ $(C3PEXE):
 # DCP test programs (dcp/%.exe)
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 $(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-$(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o
+$(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 $(dcpsrc)/Math: $(dcpsrc)/Math.o
 $(dcpsrc)/RealMatrix: $(dcpsrc)/RealMatrix.o
 $(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o

@@ -53,9 +53,10 @@ cmp c3p/Coordinate.3 dcp/Coordinate.C
 ```
 # build and run DCP test programs automatically
 ( set -e ; for p in Coordinate Vector3D Plane Math RealMatrix P4Mollweide P4Orthographic P4Stereographic ; do
-	cxxflags=CXXFLAGS=-D`echo $p | tr [[a-z]] [[A-Z]]`_MAIN
-	make $cxxflags c3pclean c3p/$p
-	make $cxxflags dcpclean dcp/$p
+	ccflags=CXXFLAGS=-D`echo $p | tr [[a-z]] [[A-Z]]`_MAIN
+	make $ccflags c3pclean c3p/$p
+	ccflags=NVCCFLAGS=-D`echo $p | tr [[a-z]] [[A-Z]]`_MAIN
+	make $ccflags dcpclean dcp/$p
 	c3p/$p >c3p/$p.out
 	dcp/$p >dcp/$p.out
 	cmp c3p/$p.out dcp/$p.out && ( echo $p : OK ; rm -f c3p/$p.out dcp/$p.out )
