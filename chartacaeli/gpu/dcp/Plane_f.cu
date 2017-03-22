@@ -61,7 +61,7 @@ __device__ void Plane::set( const Vector3D& p1, const Vector3D& p2, const Vector
 
 #ifdef PLANE_MAIN
 // kernel
-__global__ void plane( double* buf ) {
+__global__ void plane( float* buf ) {
 	Vector3D p1( 1., 3., 7. ) ;
 	Vector3D p2( 3., 7., 1. ) ;
 	Vector3D p3( 7., 1., 3. ) ;
@@ -71,7 +71,7 @@ __global__ void plane( double* buf ) {
 	int i = threadIdx.x ;
 
 	a = i ; b = a+1 ; c = b+1 ;
-	l1.set( __fdividef( ( ( a+4 )+( a+1 )+( a-2 ) ), 4f ), __fdividef( ( ( b+4 )+( b+1 )+( b-2 ) ), 4f ), __fdividef( ( ( c+4 )+( c+1 )+( c-2 ) ), 4f ) ) ;
+	l1.set( __fdividef( ( ( a+4 )+( a+1 )+( a-2 ) ), 4.f ), __fdividef( ( ( b+4 )+( b+1 )+( b-2 ) ), 4.f ), __fdividef( ( ( c+4 )+( c+1 )+( c-2 ) ), 4.f ) ) ;
 	p.intersection( l0, l1, x ) ;
 	buf[3*i] = x.x ;
 	buf[3*i+1] = x.y ;
