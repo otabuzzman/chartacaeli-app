@@ -84,8 +84,10 @@ extern "C" __global__ void run(
 		h2t30, h2t31, h2t32, h2t33 ) ;
 
 	// map o/p if on texture
-	if ( op.e0>=0 && op.e1>=0 && dimo>op.e0 && dimp>op.e1 )
-		mapping[t][s] = texture[(int) op.e1][(int) op.e0] ;
+	p = (int) op.e1 ;
+	o = (int) op.e0 ;
+	if ( (unsigned int) p<dimp && (unsigned int) o<dimo )
+		mapping[t][s] = texture[p][o] ;
 }
 
 #ifdef PJ2TEXTUREMAPPERGPU_MAIN
@@ -208,6 +210,8 @@ int main( int argc, char** argv ) {
 	checkCudaErrors( cudaFree( d_texture ) ) ;
 	free( h_texture ) ;
 	free( texture ) ;
+
+	checkCudaErrors( cudaFree( d_pnam ) ) ;
 
 	return EXIT_SUCCESS ;
 }
