@@ -265,6 +265,7 @@ $(C3PEXE):
 
 .cu.o:
 	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
+	--use_fast_math --maxrregcount 32 \
 	-I$(CUDA_HOME)/include \
 	-I$(CUDA_SAMP)/common/inc \
 	-o $@ -dc $<
@@ -295,10 +296,13 @@ PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
 PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
 
 PJ2TextureMapperGpu PJ2TextureMapperGpu_f:
-	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets --resource-usage -arch=sm_30 -o $@ $^
+	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
+	-arch=sm_30 -o $@ $^
 
 PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin:
-	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets --resource-usage -cubin -dlink -arch=sm_30 -o $@ $^
+	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
+	--resource-usage -cubin -dlink \
+	-arch=sm_30 -o $@ $^
 endif
 
 all: cuda
