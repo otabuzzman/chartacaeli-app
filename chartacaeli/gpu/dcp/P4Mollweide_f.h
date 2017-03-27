@@ -17,7 +17,7 @@ private:
 	float lam0 ;
 	float R ;
 
-	const float V_CON = 1e-7f ;
+	const float V_CON = 1e-5f ;
 	const float radperdeg = 0.01745329251f ; // __fdividef( 3.141592653589793f, 180.f )
 	const float degperrad = 57.2957795131f ; // __fdividef( 180.f, 3.141592653589793f )
 } ;
