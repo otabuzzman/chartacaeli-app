@@ -98,7 +98,7 @@ GPUIMP_F = $(GPUIMP:.cu=_f.cu)
 GPUOBJ_F = $(GPUIMP_F:.cu=.o)
 
 # default goal
-cuda: PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin
+cuda: PJ2TextureMapperGpu_f.cubin
 
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
@@ -224,13 +224,13 @@ $(DCPEXE) $(DCPEXE_F):
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(subst /,\\,$@).cmd
 
-PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu: $(GPUOBJ)
+PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
 	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\chartacaeli\gpu
 	@echo $(basename $@).cmd
 
-PJ2TextureMapperGpu_f: $(GPUOBJ_F)
+PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
 else
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \

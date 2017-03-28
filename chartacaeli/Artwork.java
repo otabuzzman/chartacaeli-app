@@ -376,7 +376,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		// configuration key (CK_)
 		private final static String CK_PJ2MODULE		= "pj2module" ;
 
-		private final static String DEFAULT_PJ2MODULE	= "chartacaeli/gpu/PJ2TextureMapperGpu.cubin" ;
+		private final static String DEFAULT_PJ2MODULE	= "chartacaeli/gpu/PJ2TextureMapperGpu_f.cubin" ;
 
 		// number of threads per GPU kernel block = NT * NT
 		private final static int NT = 32 ;
@@ -394,7 +394,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 			double[][] m2p, h2t ;
 
-			GpuIntMatrix textured, mappingd ;
+			GpuIntMatrix d_texture, d_mapping ;
 			PJ2TextureMapperKernel kernel ;
 
 			long t10, t11, tk, tm ;
@@ -417,22 +417,22 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 			// setup texture bitmap
 			t10 = System.currentTimeMillis() ;
-			textured = gpu.getIntMatrix( dimp, dimo ) ;
+			d_texture = gpu.getIntMatrix( dimp, dimo ) ;
 			for ( int p=0 ; dimp>p ; p++ )
 				for ( int o=0 ; dimo>o ; o++ )
-					textured.item[p][o] = texture[dimo*p+o] ;
-			textured.hostToDev() ;
+					d_texture.item[p][o] = texture[dimo*p+o] ;
+			d_texture.hostToDev() ;
 			t11 = System.currentTimeMillis() ;
 			tm = t11-t10 ;
 
 			// setup mapping bitmap
 			t10 = System.currentTimeMillis() ;
-			mappingd = gpu.getIntMatrix( dimt, dims ) ;
+			d_mapping = gpu.getIntMatrix( dimt, dims ) ;
 			// copy to device to preserve background color
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					mappingd.item[t][s] = mapping[dims*t+s] ;
-			mappingd.hostToDev() ;
+					d_mapping.item[t][s] = mapping[dims*t+s] ;
+			d_mapping.hostToDev() ;
 			t11 = System.currentTimeMillis() ;
 			tm = tm+t11-t10 ;
 
@@ -444,29 +444,29 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			m2p = tmM2P.getData() ;
 			h2t = tmH2T.getData() ;
 			t10 = System.currentTimeMillis() ;
-			kernel.run( pnam, proj.lam0(), proj.phi1(), proj.R(), proj.k0(),
-					m2p[0][0], m2p[0][1], m2p[0][2],
-					m2p[1][0], m2p[1][1], m2p[1][2],
-					m2p[2][0], m2p[2][1], m2p[2][2],
-					h2t[0][0], h2t[0][1], h2t[0][2], h2t[0][3],
-					h2t[1][0], h2t[1][1], h2t[1][2], h2t[1][3],
-					h2t[2][0], h2t[2][1], h2t[2][2], h2t[2][3],
-					h2t[3][0], h2t[3][1], h2t[3][2], h2t[3][3],
-					popHP1.x, popHP1.y, popHP1.z,
-					popHP2.x, popHP2.y, popHP2.z,
-					popHP3.x, popHP3.y, popHP3.z,
-					dimo, dimp, textured,
-					dims, dimt, mappingd,
-					ups ) ;
+			kernel.run( pnam, (float) proj.lam0(), (float) proj.phi1(), (float) proj.R(), (float) proj.k0(),
+					(float) m2p[0][0], (float) m2p[0][1], (float) m2p[0][2],
+					(float) m2p[1][0], (float) m2p[1][1], (float) m2p[1][2],
+					(float) m2p[2][0], (float) m2p[2][1], (float) m2p[2][2],
+					(float) h2t[0][0], (float) h2t[0][1], (float) h2t[0][2], (float) h2t[0][3],
+					(float) h2t[1][0], (float) h2t[1][1], (float) h2t[1][2], (float) h2t[1][3],
+					(float) h2t[2][0], (float) h2t[2][1], (float) h2t[2][2], (float) h2t[2][3],
+					(float) h2t[3][0], (float) h2t[3][1], (float) h2t[3][2], (float) h2t[3][3],
+					(float) popHP1.x, (float) popHP1.y, (float) popHP1.z,
+					(float) popHP2.x, (float) popHP2.y, (float) popHP2.z,
+					(float) popHP3.x, (float) popHP3.y, (float) popHP3.z,
+					dimo, dimp, d_texture,
+					dims, dimt, d_mapping,
+					(float) ups ) ;
 			t11 = System.currentTimeMillis() ;
 			tk = t11-t10 ;
 
 			// retrieve mapping result
 			t10 = System.currentTimeMillis() ;
-			mappingd.devToHost() ;
+			d_mapping.devToHost() ;
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					mapping[dims*t+s] = mappingd.item[t][s] ;
+					mapping[dims*t+s] = d_mapping.item[t][s] ;
 			t11 = System.currentTimeMillis() ;
 			tm = tm+t11-t10 ;
 

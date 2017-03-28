@@ -657,7 +657,7 @@
 			</node>
 			<node name="Artwork$PJ2TextureMapperGpu">
 				<map>
-					<entry key="pj2module" value="chartacaeli/gpu/PJ2TextureMapperGpu.cubin"/>
+					<entry key="pj2module" value="chartacaeli/gpu/PJ2TextureMapperGpu_f.cubin"/>
 				</map>
 			</node>
 			<node name="Sign">

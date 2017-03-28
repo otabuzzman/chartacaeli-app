@@ -25,7 +25,7 @@ extern "C" __global__ void run(
 			const int dimo, const int dimp, const int** texture,
 			const int dims, const int dimt, int** mapping,
 			const double ups ) {
-	int t, s ;
+	int t, s, p, o ;
 	__shared__ unsigned char pool[256] ;
 	__shared__ P4Projector* proj ;
 	__shared__ Plane* spt ;
