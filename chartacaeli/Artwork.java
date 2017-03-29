@@ -33,7 +33,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 import edu.rit.gpu.Gpu;
 import edu.rit.gpu.GpuByteArray;
-import edu.rit.gpu.GpuIntMatrix;
+import edu.rit.gpu.GpuIntArray;
 import edu.rit.gpu.Module;
 import edu.rit.pj2.Loop;
 import edu.rit.pj2.Task;
@@ -394,7 +394,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 			double[][] m2p, h2t ;
 
-			GpuIntMatrix d_texture, d_mapping ;
+			GpuIntArray d_texture, d_mapping ;
 			PJ2TextureMapperKernel kernel ;
 
 			long t10, t11, tk, tm ;
@@ -417,21 +417,21 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 			// setup texture bitmap
 			t10 = System.currentTimeMillis() ;
-			d_texture = gpu.getIntMatrix( dimp, dimo ) ;
+			d_texture = gpu.getIntArray( dimp*dimo ) ;
 			for ( int p=0 ; dimp>p ; p++ )
 				for ( int o=0 ; dimo>o ; o++ )
-					d_texture.item[p][o] = texture[dimo*p+o] ;
+					d_texture.item[p*dimo+o] = texture[p*dimo+o] ;
 			d_texture.hostToDev() ;
 			t11 = System.currentTimeMillis() ;
 			tm = t11-t10 ;
 
 			// setup mapping bitmap
 			t10 = System.currentTimeMillis() ;
-			d_mapping = gpu.getIntMatrix( dimt, dims ) ;
+			d_mapping = gpu.getIntArray( dimt*dims ) ;
 			// copy to device to preserve background color
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					d_mapping.item[t][s] = mapping[dims*t+s] ;
+					d_mapping.item[t*dims+s] = mapping[t*dims+s] ;
 			d_mapping.hostToDev() ;
 			t11 = System.currentTimeMillis() ;
 			tm = tm+t11-t10 ;
@@ -466,7 +466,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			d_mapping.devToHost() ;
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					mapping[dims*t+s] = d_mapping.item[t][s] ;
+					mapping[t*dims+s] = d_mapping.item[t*dims+s] ;
 			t11 = System.currentTimeMillis() ;
 			tm = tm+t11-t10 ;
 

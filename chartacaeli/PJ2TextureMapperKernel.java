@@ -2,7 +2,7 @@
 package chartacaeli;
 
 import edu.rit.gpu.GpuByteArray;
-import edu.rit.gpu.GpuIntMatrix;
+import edu.rit.gpu.GpuIntArray;
 import edu.rit.gpu.Kernel;
 
 public interface PJ2TextureMapperKernel extends Kernel {
@@ -18,7 +18,7 @@ public interface PJ2TextureMapperKernel extends Kernel {
 			float p1x, float p1y, float p1z,
 			float p2x, float p2y, float p2z,
 			float p3x, float p3y, float p3z,
-			int dimo, int dimp, GpuIntMatrix texture,
-			int dims, int dimt, GpuIntMatrix mapping,
+			int dimo, int dimp, GpuIntArray texture,
+			int dims, int dimt, GpuIntArray mapping,
 			float ups ) ;
 }

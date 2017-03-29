@@ -22,8 +22,8 @@ extern "C" __global__ void run(
 			const float p1x, const float p1y, const float p1z,
 			const float p2x, const float p2y, const float p2z,
 			const float p3x, const float p3y, const float p3z,
-			const int dimo, const int dimp, const int** texture,
-			const int dims, const int dimt, int** mapping,
+			const int dimo, const int dimp, const int* texture,
+			const int dims, const int dimt, int* mapping,
 			const float ups ) {
 	int t, s, p, o ;
 	__shared__ unsigned char pool[256] ;
@@ -87,7 +87,7 @@ extern "C" __global__ void run(
 	p = (int) op.e1 ;
 	o = (int) op.e0 ;
 	if ( (unsigned int) p<dimp && (unsigned int) o<dimo )
-		mapping[t][s] = texture[p][o] ;
+		mapping[t*dims+s] = texture[p*dimo+o] ;
 }
 
 #ifdef PJ2TEXTUREMAPPERGPU_MAIN
@@ -113,8 +113,8 @@ int main( int argc, char** argv ) {
 	float p1x, p1y, p1z ;
 	float p2x, p2y, p2z ;
 	float p3x, p3y, p3z ;
-	int dimo, dimp, *texture, **h_texture, **d_texture ;
-	int dims, dimt, *mapping, **h_mapping, **d_mapping ;
+	int dimo, dimp, *h_texture, *d_texture ;
+	int dims, dimt, *h_mapping, *d_mapping ;
 	float ups ;
 
 	lam0 = 0.0f ; phi1 = 90.0f ; R = 118.8f ; k0 = 1.0f ;
@@ -143,31 +143,23 @@ int main( int argc, char** argv ) {
 	checkCudaErrors( cudaMemcpy( d_pnam, h_pnam, strlen( h_pnam )+1, cudaMemcpyHostToDevice ) ) ;
 
 	// allocate host memory for texture
-	texture = (int*) malloc( dimo*dimp*sizeof( int ) ) ;
+	h_texture = (int*) malloc( dimo*dimp*sizeof( int ) ) ;
 	// initialize texture with RGB data
 	for ( int i=0 ; dimo*dimp>i ; i++ ) {
 		fread( &buf[0], 1, 3, stdin ) ;
 		if ( ferror( stdin ) || feof( stdin ) )
 			break ;
-		texture[i] = buf[0]<<16|buf[1]<<8|buf[2] ;
+		h_texture[i] = buf[0]<<16|buf[1]<<8|buf[2] ;
 	}
-	// allocate device memory pendant and copy texture from host (mind 'array of arrays' type)
-	h_texture = (int**) malloc( dimp*sizeof( int* ) ) ;
-	for ( int i=0 ; dimp>i ; i++ ) {
-		checkCudaErrors( cudaMalloc( (void**) &h_texture[i], dimo*sizeof( int ) ) ) ;
-		checkCudaErrors( cudaMemcpy( h_texture[i], &texture[i*dimo], dimo*sizeof( int ), cudaMemcpyHostToDevice ) ) ;
-	}
-	checkCudaErrors( cudaMalloc( (void**) &d_texture, dimp*sizeof( int* ) ) ) ;
-	checkCudaErrors( cudaMemcpy( d_texture, h_texture, dimp*sizeof( int* ), cudaMemcpyHostToDevice ) ) ;
+	// allocate device memory pendant and copy texture from host
+	checkCudaErrors( cudaMalloc( (void**) &d_texture, dimo*dimp*sizeof( int ) ) ) ;
+	checkCudaErrors( cudaMemcpy( d_texture, h_texture, dimo*dimp*sizeof( int ), cudaMemcpyHostToDevice ) ) ;
 
 	// allocate host...
-	mapping = (int*) malloc( dims*dimt*sizeof( int ) ) ;
-	// ...and device memory for mapping (mind 'array of arrays' type)
-	h_mapping = (int**) malloc( dimt*sizeof( int* ) ) ;
-	for ( int i=0 ; dimt>i ; i++ )
-		checkCudaErrors( cudaMalloc( (void**) &h_mapping[i], dims*sizeof( int ) ) ) ;
-	checkCudaErrors( cudaMalloc( (void**) &d_mapping, dimt*sizeof( int* ) ) ) ;
-	checkCudaErrors( cudaMemcpy( d_mapping, h_mapping, dimt*sizeof( int* ), cudaMemcpyHostToDevice ) ) ;
+	h_mapping = (int*) malloc( dims*dimt*sizeof( int ) ) ;
+	// ...and device memory for mapping
+	checkCudaErrors( cudaMalloc( (void**) &d_mapping, dims*dimt*sizeof( int ) ) ) ;
+	checkCudaErrors( cudaMemcpy( d_mapping, h_mapping, dims*dimt*sizeof( int ), cudaMemcpyHostToDevice ) ) ;
 
 	// run kernel
 	dim3 gdim( ( dims+32-1 )/32, ( dimt+32-1 )/32 ) ;
@@ -184,32 +176,25 @@ int main( int argc, char** argv ) {
 			p1x, p1y, p1z,
 			p2x, p2y, p2z,
 			p3x, p3y, p3z,
-			dimo, dimp, (const int**) d_texture,
+			dimo, dimp, (const int*) d_texture,
 			dims, dimt, d_mapping,
 			ups ) ;
 
 	// copy mapping from device back to host
-	for ( int i=0 ; dimt>i ; i++ )
-		checkCudaErrors( cudaMemcpy( &mapping[i*dims], h_mapping[i], dims*sizeof( int ), cudaMemcpyDeviceToHost ) ) ;
+	checkCudaErrors( cudaMemcpy( h_mapping, d_mapping, dims*dimt*sizeof( int ), cudaMemcpyDeviceToHost ) ) ;
 	// output mapping result RGB data
 	for ( int i=0 ; dims*dimt>i ; i++ ) {
-		buf[0] = mapping[i]>>16&255 ;
-		buf[1] = mapping[i]>>8&255 ;
-		buf[2] = mapping[i]&255 ;
+		buf[0] = h_mapping[i]>>16&255 ;
+		buf[1] = h_mapping[i]>>8&255 ;
+		buf[2] = h_mapping[i]&255 ;
 		fwrite( &buf[0], 1, 3, stdout ) ;
 	}
 
-	for ( int i=0 ; dimt>i ; i++ )
-		checkCudaErrors( cudaFree( h_mapping[i] ) ) ;
 	checkCudaErrors( cudaFree( d_mapping ) ) ;
 	free( h_mapping ) ;
-	free( mapping ) ;
 
-	for ( int i=0 ; dimp>i ; i++ )
-		checkCudaErrors( cudaFree( h_texture[i] ) ) ;
 	checkCudaErrors( cudaFree( d_texture ) ) ;
 	free( h_texture ) ;
-	free( texture ) ;
 
 	checkCudaErrors( cudaFree( d_pnam ) ) ;
 
