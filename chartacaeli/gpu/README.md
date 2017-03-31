@@ -20,21 +20,40 @@ Implement a real kernel in each DCP perfoming the same test as the corresponding
 
 Finally write the kernel.
 
+### Notes on stand-alone kernels
+Both double and single precision kernels compile to stand-alone programs suitable for profiling with `nvprof` and memory checking with `cuda-memcheck`. Run `make clean "NVCCFLAGS=-g -G -DPJ2TEXTUREMAPPERGPU_MAIN" PJ2TextureMapperGpu` to build for double precision. Replace file name with `PJ2TextureMapperGpu_f` for single precision.
+
+Executables read 512x512 RGB files from *stdin* (enter `^D` in case no input file) and output kernel results 1360x1517 RGB encoded on *stdout*. Use [ImageMagick](https://www.imagemagick.org/script/index.php) to compare output files from different runs.
+```
+# get reference image of andromeda and convert to RGB
+curl --output and.png http://bazaar.launchpad.net/~stellarium/stellarium/trunk/download/head:/skycultureswesternan-20080218002651-n5q35t9w2d524frt-1455/andromeda.png
+convert and.png and.rgb
+# make double precision projection and convert to PNG
+./PJ2TextureMapperGpu < and.rgb > and_d.rgb
+convert -size 1360x1517 -depth 8 and_d.rgb and_d.png
+# make single precision projection and convert to PNG
+./PJ2TextureMapperGpu_f < and.rgb > and_f.rgb
+convert -size 1360x1517 -depth 8 and_f.rgb and_f.png
+# compare single with double precision output
+compare -compose src and_d.png and_f.png and_c.png
+```
+
 ### Notes on CUDA optimization
-The SMP implementation of *Artwork* took roughly 2,650 milliseconds to map Andromeda on Intel Core 2 Duo 2,40 GHz using `Artwork$PJ2TextureMapperSmp`. The same task took 3,800 milliseconds on an AWS T2 instance (2 cores) and 750 milliseconds on AWS G2 (8 cores).
+The SMP implementation of *Artwork* took roughly 2,650 milliseconds to map Andromeda on Intel Core 2 Duo 2,40 GHz using worker `Artwork$PJ2TextureMapperSmp`. The same task took 3,800 milliseconds on an AWS T2 instance (2 cores) and 750 milliseconds on AWS G2 (8 cores).
 
-The CUDA implementation `Artwork$PJ2TextureMapperGpu` on G2 without any optimization took 61,000 milliseconde for 2,063,120 threads of which 80 milliseconds account for host/device memory transfers of 4.4 MB.
+The CUDA implementation of worker `Artwork$PJ2TextureMapperGpu` on G2 without any optimization took 61,000 milliseconde for 2,063,120 threads of which 80 milliseconds account for host/device memory transfers of 4.4 MB. The kernel `PJ2TextureMapperGpu.cubin` applied by `Artwork$PJ2TextureMapperGpu` uses DCP modules as they result from one-to-one conversion from Java to C/C++. Various kernel optimizations listed in table below finaly reduced execution time of `Artwork$PJ2TextureMapperGpu` on G2 to a total of 360 ms.
 
-|Kind of optimization|Threads per block|Kernel time (ms) on G2|Comment|
+|Kind of optimization|Worker time (ms)|Kernel time (ms)|Comment|
 |---|---:|---:|---|
-|Apply C++ design patterns for C3P and DCP|1024|16,500|Setup stack variables then exit took 5,900 ms of kernel time.|
-|Minimize global device memory usage|1024|16,250||
-|Rework coordinate handling (double\[\], *Coordinate*, *Vector3D*)|1024|3,250||
-|Use placement new (*P4Projector*)|1024|450||
-|Make threads in block share objects (*P4Projector*, *Plane*)|1024|430||
-|Apply specialized math|1024|430||
-
-There is an executable version of the kernel as well that allows profiling. To compile with debug information run `make clean "NVCCFLAGS=-g -G -DPJ2TEXTUREMAPPERGPU_MAIN" PJ2TextureMapperGpu`.
+|Apply C++ design patterns for C3P and DCP|16,600|16,210|Times measured on Java side.|
+|Minimize global device memory usage|16,550|16,180||
+|Rework coordinate handling (double\[\], *Coordinate*, *Vector3D*)|3,200|2,800||
+|Use placement new (*P4Projector*)|420|50||
+|Make threads in block share objects (*P4Projector*, *Plane*)|410|40||
+|Apply specialized math|410|30||
+|Use single instead of double precision kernel|400|30||
+|Optimize register usage|380|10|According to [CUDA occupancy calculator](http://developer.download.nvidia.com/compute/cuda/CUDA_Occupancy_calculator.xls)|
+|Reduce cudaMalloc() calls|360|10|Memory transfer times reduced to total of 50 ms.|
 
 ### Notes on C3P and DCP test programs
 There will be linker errors in case of modules (both C3P and DCP) that depend on others (e.g. *Coordinate* depends on *Math*). These errors are due to the fact that each module defines a global `main` function. To come around this there is a preprocessor constant that controls which `main` to compile. For *Math* the constant is `MATH_MAIN` for *Vector3D* it's `VECTOR3D_MAIN`. Same linker errors will occur if building a program that depends on one (or more) that has been build before. To avoid this remove artefacts of previous build(s).
@@ -51,7 +70,7 @@ cmp c3p/Coordinate.3 dcp/Coordinate.C
 ```
 
 ```
-# build and run DCP test programs automatically
+# build and run DCP test programs automatically (double precision)
 ( set -e ; for p in Coordinate Vector3D Plane Math RealMatrix P4Mollweide P4Orthographic P4Stereographic ; do
 	ccflags=CXXFLAGS=-D`echo $p | tr [[a-z]] [[A-Z]]`_MAIN
 	make $ccflags c3pclean c3p/$p
@@ -60,6 +79,18 @@ cmp c3p/Coordinate.3 dcp/Coordinate.C
 	c3p/$p >c3p/$p.out
 	dcp/$p >dcp/$p.out
 	cmp c3p/$p.out dcp/$p.out && ( echo $p : OK ; rm -f c3p/$p.out dcp/$p.out )
+done )
+```
+
+These will output errors due to lowered precision when using `float` instead of `double` as can easily proved by manual comparision of result files (suffix `.out`).
+```
+# build and run DCP test programs automatically (single precision)
+( set -e ; for p in Coordinate Vector3D Plane Math P4Mollweide P4Orthographic P4Stereographic ; do
+	ccflags=NVCCFLAGS=-D`echo $p | tr [[a-z]] [[A-Z]]`_MAIN
+	make $ccflags dcpclean dcp/${p}_f
+	c3p/$p >c3p/$p.out
+	dcp/${p}_f >dcp/${p}_f.out
+	cmp c3p/$p.out dcp/${p}_f.out && ( echo $p : OK ; rm -f c3p/$p.out dcp/${p}_f.out )
 done )
 ```
 
@@ -134,6 +165,7 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 - [CUDAcons repository](https://github.com/otabuzzman/cudacons) with information about setting up CUDA without capable device
 - Global memory allocated in kernel with _new_ must be deleted before exiting to prevent memory leaks as it remains allocated after kernel exit.
 - Examples from Stackoverflow [how to pass an array of arrays to a CUDA kernel](http://stackoverflow.com/questions/1835537/cuda-allocating-array-of-arrays) and [how to copy an array of device pointers to device memory](http://stackoverflow.com/questions/20497108/in-cuda-how-to-copy-an-array-of-device-pointers-to-device-memory). Finally and in same context another [article at CUDA ZONE](https://devtalk.nvidia.com/default/topic/743742/passing-cudeviceptr-to-culaunchkernel-in-32-bit-app-on-windows-7-64-bit/) about usage of `CUdeviceptr`.
+- Considerations on [profiling CUDA functions](https://devtalk.nvidia.com/default/topic/466810/profiling-particular-cuda-function/). See [section on Time Function](http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#time-function) in CUDA Programming Guide as well.
 
 **C++ and CUDA**
 - [Sample implementation](https://github.com/egaburov/vanaheimr) of `std::map` with [usage example](https://devtalk.nvidia.com/default/topic/523766/std-map-in-device-code/) from [CUDA ZONE](https://developer.nvidia.com/cuda-zone)
