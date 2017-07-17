@@ -471,7 +471,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			tm = tm+t11-t10 ;
 
 			log.info( MessageCatalog.compose( this, MK_CUDASTAT, new Object[] {
-					String.valueOf( ( dimo*dimp+2*dims*dimt )/1000000. ),
+					String.valueOf( ( ( dimo*dimp+2*dims*dimt )*4 /* sizeof( int ) */ )/1000000. ),
 					String.valueOf( tm ),
 					String.valueOf( dims*dimt ),
 					String.valueOf( tk ), } ) ) ;

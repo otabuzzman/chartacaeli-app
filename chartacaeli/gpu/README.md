@@ -147,7 +147,7 @@ These are for testing the C3P classes from inside the application (JUnit not inv
 ### Cues and findings
 - A really nice [Introduction to Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp/)
 - Online book about [Programming on Parallel Machines](http://heather.cs.ucdavis.edu/~matloff/158/PLN/ParProcBook.pdf)
-- Processing results on Windows differ in edge area from Linux. Use [ImageMagick](https://www.imagemagick.org/script/index.php) command `compare -compsoe src <win pdf> <lin pdf> <result>` for details. Neither Linux T2/ G2 nor Linux T2/ G2/ GPU differ.
+- Processing results on Windows differ from Linux near the edges. Use [ImageMagick](https://www.imagemagick.org/script/index.php) command `compare -compose src <win pdf> <lin pdf> <result>` for details. Neither Linux T2/ G2 nor Linux T2/ G2/ GPU differ.
 
 **CXXWRAP**
 - [CXXWRAP](http://sourceforge.net/projects/cxxwrap/) does not support Java objects as return types as stated in [changelog](http://cxxwrap.sourceforge.net/CHANGELOG.txt) entry *20010424*. See [screenshot](screenshot-return-type-object-unsupported.png) of CXXWRAP output for using a Java object as return type.
