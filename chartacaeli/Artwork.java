@@ -95,6 +95,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private int dims, dimt ;
 	private double maxs, maxt ;
 
+	// mapping interpolator
+	private BilinearInterpolator interpolator ;
+
 	// spatial plane of texture in heaven's coordinate system
 	private Plane spT ;
 
@@ -132,6 +135,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			double t0[], op[] ;
 			Coordinate t1 ;
 			Vector3D vca, xca ;
+			int j, a, b, c, d ;
 
 			for ( int y=0 ; dimt>y ; y++ ) {
 				st[1] = y*ups ;
@@ -154,8 +158,39 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 					op = tmH2T.operate( ca ) ;
 
-					if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
-						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
+					if ( 0>op[0] || 0>op[1] || op[0]>maxo || op[1]>maxp )
+						continue ;
+
+					j = (int) op[1]*dimo+(int) op[0] ;
+
+					// boundary handling option ``nearest´´
+					a = texture[j] ;
+					if ( op[0] == maxo ) {
+						b = a ;
+						if ( op[1] == maxp )
+							c = d = a ;
+						else {
+							c = texture[j+dimo] ;
+							d = c ;
+						}
+					} else {
+						b = texture[j+1] ;
+						if ( op[1] == maxp ) {
+							c = a ;
+							d = b ;
+						} else {
+							c = texture[j+dimo] ;
+							d = texture[j+dimo+1] ;
+						}
+					}
+
+					int al = a>>24&255 ;
+
+					int rd = interpolator.operate( a>>16&255, b>>16&255, c>>16&255, d>>16&255, x, y ) ;
+					int gn = interpolator.operate( a>>8&255, b>>8&255, c>>8&255, d>>8&255, x, y ) ;
+					int bl = interpolator.operate( a&255, b&255, c&255, d&255, x, y ) ;
+
+					mapping[y*dims+x] = al<<24|rd<<16|gn<<8|bl ;
 				}
 			}
 		}
@@ -341,6 +376,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					Coordinate t1 ;
 					Vector3D vca, xca ;
 					int x, y ;
+					int j, a, b, c, d  ;
 
 					x = i%dims ;
 					y = i%dimt ;
@@ -363,8 +399,39 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 					op = tmH2T.operate( ca ) ;
 
-					if ( op[0]>=0 && op[1]>=0 && dimo>op[0] && dimp>op[1] )
-						mapping[y*dims+x] = texture[(int) op[1]*dimo+(int) op[0]] ;
+					if ( 0>op[0] || 0>op[1] || op[0]>maxo || op[1]>maxp )
+						return ;
+
+					j = (int) op[1]*dimo+(int) op[0] ;
+
+					// boundary handling option ``nearest´´
+					a = texture[j] ;
+					if ( op[0] == maxo ) {
+						b = a ;
+						if ( op[1] == maxp )
+							c = d = a ;
+						else {
+							c = texture[j+dimo] ;
+							d = c ;
+						}
+					} else {
+						b = texture[j+1] ;
+						if ( op[1] == maxp ) {
+							c = a ;
+							d = b ;
+						} else {
+							c = texture[j+dimo] ;
+							d = texture[j+dimo+1] ;
+						}
+					}
+
+					int al = a>>24&255 ;
+
+					int rd = interpolator.operate( a>>16&255, b>>16&255, c>>16&255, d>>16&255, x, y ) ;
+					int gn = interpolator.operate( a>>8&255, b>>8&255, c>>8&255, d>>8&255, x, y ) ;
+					int bl = interpolator.operate( a&255, b&255, c&255, d&255, x, y ) ;
+
+					mapping[y*dims+x] = al<<24|rd<<16|gn<<8|bl ;
 				}
 			} ) ;
 		}
@@ -583,6 +650,8 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		for ( int t=0 ; dimt>t ; t++ )
 			for ( int s=0 ; dims>s ; s++ )
 				mapping[t*dims+s] = bg ;
+
+		interpolator = new BilinearInterpolator( (double) dims/dimo, (double) dimt/dimp ) ;
 
 		// base matrix of texture projection
 		bmP = MatrixUtils.createRealMatrix( new double[][] {
