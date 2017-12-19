@@ -1,3 +1,4 @@
 *		text=auto
 *.pdf	-text
 *.sh	eol=lf
+*.pptm	binary
