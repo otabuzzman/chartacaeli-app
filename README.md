@@ -25,10 +25,10 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ```
   export CXX=x86_64-w64-mingw32-c++.exe
   export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
-  export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.7.0_71
+  export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.7.0_80
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
-  export PATH=/cygdrive/c/program\ files/java/jdk1.7.0_71/bin:$PATH
+  export PATH=/cygdrive/c/program\ files/java/jdk1.7.0_80/bin:$PATH
   # Makefile uses java.library.path but caa loads aaplus thus needs PATH set as well
   export PATH=.:chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$PATH
   ```

@@ -65,9 +65,10 @@ ifdef winos
 
 $(CAADLL): $(AADLL) $(CAADLLOBJ)
 	$(CXX) -Wall -shared \
-	-static-libgcc -static-libstdc++ \
 	-o $@ $(CAADLLOBJ) \
-	-L. -l$(DST)
+	-L. -l$(DST) \
+	-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic
+	
 else
 .cpp.o:
 	$(CXX) -Wall -shared -fPIC -c $< -o $@

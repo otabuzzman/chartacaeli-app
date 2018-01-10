@@ -17,7 +17,7 @@
 						<!--used by Configuration, ApplicationResource, Artwork-->
 						<entry key="verbose" value="false"/>
 						<!--used by ChartaCaeli, FieldOfView-->
-						<entry key="viewer" value="gswin32c.exe -dBATCH -dNOPAUSE -q -"/>
+						<entry key="viewer" value="gswin64c.exe -dBATCH -dNOPAUSE -q -"/>
 						<!--used by DMS, Rational, ProstscriptStream, HorizonType-->
 						<entry key="precision" value="2"/>
 						<!--used by CircleMeridian, CircleParallel, BodyPlanet, BodyMoon, BodySun, ShapeElliptical, Artwork-->
