@@ -19,10 +19,6 @@
 	} bind
 >> setpagedevice
 
-/BGcolor {
-	1 1 1
-} bind def
-
 % <halo width> <brightness increase> hfade -
 /hfade {
 	flattenpath
@@ -33,7 +29,7 @@
 	1 index
 	setlinewidth
 	0 setlinecap
-	BGcolor
+	AVbackground
 	setrgbcolor
 	stroke
 	grestore

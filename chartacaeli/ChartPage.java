@@ -12,11 +12,13 @@ public class ChartPage extends chartacaeli.model.ChartPage implements Postscript
 	private double[] layRTopEdge ;
 
 	// configuration key (CK_)
-	private final static String CK_PSUNIT		= "psunit" ;
-	private final static String CK_LAYOUT		= "layout" ;
+	private final static String CK_PSUNIT			= "psunit" ;
+	private final static String CK_LAYOUT			= "layout" ;
+	private final static String CK_BACKGROUND		= "background" ;
 
-	private final static double DEFAULT_PSUNIT	= 2.834646 ;
-	private final static String DEFAULT_LAYOUT	= "100x100" ;
+	private final static double DEFAULT_PSUNIT		= 2.834646 ;
+	private final static String DEFAULT_LAYOUT		= "100x100" ;
+	private final static String DEFAULT_BACKGROUND	= "1:1:1" ;
 
 	public double[] size() {
 		String sv, sd[] ;
@@ -110,6 +112,7 @@ public class ChartPage extends chartacaeli.model.ChartPage implements Postscript
 		double[] size, view ;
 		double psunit ;
 		long seed ;
+		String bgv[] ;
 
 		size = size() ;
 		view = view() ;
@@ -130,6 +133,16 @@ public class ChartPage extends chartacaeli.model.ChartPage implements Postscript
 		seed = new Date().getTime()/1000 ;
 		ps.push( seed ) ;
 		ps.op( "srand" ) ;
+
+		bgv = Configuration.getValue( this, CK_BACKGROUND, DEFAULT_BACKGROUND ).split( ":" ) ;
+		ps.script( "/AVbackground" ) ;
+		ps.proc( true ) ;
+		ps.push( Double.parseDouble( bgv[0] ) ) ;
+		ps.push( Double.parseDouble( bgv[1] ) ) ;
+		ps.push( Double.parseDouble( bgv[2] ) ) ;
+		ps.proc( false ) ;
+		ps.op( "bind" ) ;
+		ps.op( "def" ) ;
 
 		ps.dc( "%EndSetup", null ) ;
 

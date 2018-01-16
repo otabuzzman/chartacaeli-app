@@ -4,11 +4,11 @@ package chartacaeli;
 public class ImageDiscrete implements PostscriptEmitter {
 
 	// configuration key (CK_), node (CN_)
-	private final static String CK_BACKGROUND		= "background" ;
-	private final static String CK_TONEMAP			= "tonemap" ;
+	private final static String CK_MASKOUT		= "maskout" ;
+	private final static String CK_TONEMAP		= "tonemap" ;
 
-	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
-	private final static String DEFAULT_TONEMAP		= "0:0:0,1:1:1" ;
+	private final static String DEFAULT_MASKOUT	= "0:0:0,0:0:0" ;
+	private final static String DEFAULT_TONEMAP	= "0:0:0,1:1:1" ;
 
 	private int[] image ;
 	private int dimx ;
@@ -24,9 +24,9 @@ public class ImageDiscrete implements PostscriptEmitter {
 	}
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
-		String[] bgv, bgav, bgov ;
-		int bgar, bgag, bgab, bga ;
-		int bgor, bgog, bgob, bgo ;
+		String[] mov, moav, moov ;
+		int moar, moag, moab, moa ;
+		int moor, moog, moob, moo ;
 		String[] tmv, tmav, tmov ;
 		double tmar, tmag, tmab ;
 		double tmor, tmog, tmob ;
@@ -34,21 +34,19 @@ public class ImageDiscrete implements PostscriptEmitter {
 		int p ;
 		double r, g, b ;
 
-		bgv = Configuration.getValue( this, CK_BACKGROUND, DEFAULT_BACKGROUND )
-				.split( "," ) ;
-		bgav = bgv[0].split( ":" ) ;
-		bgar = (int) ( Double.parseDouble( bgav[0] )*255 ) ;
-		bgag = (int) ( Double.parseDouble( bgav[1] )*255 ) ;
-		bgab = (int) ( Double.parseDouble( bgav[2] )*255 ) ;
-		bgov = bgv[1].split( ":" ) ;
-		bga = bgar<<16|bgag<<8|bgab ;
-		bgor = (int) ( Double.parseDouble( bgov[0] )*255 ) ;
-		bgog = (int) ( Double.parseDouble( bgov[1] )*255 ) ;
-		bgob = (int) ( Double.parseDouble( bgov[2] )*255 ) ;
-		bgo = bgor<<16|bgog<<8|bgob ;
+		mov = Configuration.getValue( this, CK_MASKOUT, DEFAULT_MASKOUT ).split( "," ) ;
+		moav = mov[0].split( ":" ) ;
+		moar = (int) ( Double.parseDouble( moav[0] )*255 ) ;
+		moag = (int) ( Double.parseDouble( moav[1] )*255 ) ;
+		moab = (int) ( Double.parseDouble( moav[2] )*255 ) ;
+		moov = mov[1].split( ":" ) ;
+		moa = moar<<16|moag<<8|moab ;
+		moor = (int) ( Double.parseDouble( moov[0] )*255 ) ;
+		moog = (int) ( Double.parseDouble( moov[1] )*255 ) ;
+		moob = (int) ( Double.parseDouble( moov[2] )*255 ) ;
+		moo = moor<<16|moog<<8|moob ;
 
-		tmv = Configuration.getValue( this, CK_TONEMAP, DEFAULT_TONEMAP )
-				.split( "," ) ;
+		tmv = Configuration.getValue( this, CK_TONEMAP, DEFAULT_TONEMAP ).split( "," ) ;
 		tmav = tmv[0].split( ":" ) ;
 		tmar = Double.parseDouble( tmav[0] ) ;
 		tmag = Double.parseDouble( tmav[1] ) ;
@@ -65,7 +63,7 @@ public class ImageDiscrete implements PostscriptEmitter {
 			for ( int x=0 ; dimx>x ; x++ ) {
 				p = image[y*dimx+x]&0xffffff ;
 
-				if ( p>=bga && bgo>=p )
+				if ( p>=moa && moo>=p )
 					continue ;
 
 				r = tmar+( ( p>>16)&0xff )*tmr/255 ;

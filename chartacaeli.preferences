@@ -39,9 +39,12 @@
 						<entry key="psunit" value="2.834646"/>
 						<!--used by ASCII85Encoder-->
 						<entry key="cpl" value="72"/>
-						<!--used by Artwork, ImageOperator, ImageDiscrete-->
+						<!--used by ChartPage, Artwork-->
 						<!--RGB 0..1 each-->
-						<entry key="background" value="0:0:0,.0833:.0833:.0833"/>
+						<entry key="background" value="1:1:1"/>
+						<!--used by ImageOperator, ImageDiscrete-->
+						<!--RGB 0..1 each-->
+						<entry key="maskout" value="0:0:0,.0833:.0833:.0833"/>
 						<!--used by ImageOperator, ImageDiscrete-->
 						<!--RGB 0..1 each-->
 						<entry key="tonemap" value=".8157:.8157:.8157,.9569:.9569:.9569"/>
@@ -233,7 +236,6 @@
 				<node name="prolib">
 					<map>
 						<!--prolog.ps-->
-						<entry key="BGcolor" value=""/>
 						<entry key="hfade" value=""/>
 						<entry key="upix" value=""/>
 						<entry key="udot" value=""/>

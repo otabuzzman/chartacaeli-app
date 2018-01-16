@@ -4,11 +4,11 @@ package chartacaeli;
 public class ImageOperator implements PostscriptEmitter {
 
 	// configuration key (CK_), node (CN_)
-	private final static String CR_BACKGROUND		= "background" ;
-	private final static String CK_TONEMAP			= "tonemap" ;
+	private final static String CR_MASKOUT		= "maskout" ;
+	private final static String CK_TONEMAP		= "tonemap" ;
 
-	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
-	private final static String DEFAULT_TONEMAP		= "0:0:0,1:1:1" ;
+	private final static String DEFAULT_MASKOUT	= "0:0:0,0:0:0" ;
+	private final static String DEFAULT_TONEMAP	= "0:0:0,1:1:1" ;
 
 	private int[] image ;
 	private int dimx ;
@@ -24,28 +24,26 @@ public class ImageOperator implements PostscriptEmitter {
 	}
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
-		String[] bgv, bgav, bgov ;
-		int bgar, bgag, bgab ;
-		int bgor, bgog, bgob ;		
+		String[] mov, moav, moov ;
+		int moar, moag, moab ;
+		int moor, moog, moob ;		
 		String[] tmv, tmav, tmov ;
 		double tmar, tmag, tmab ;
 		double tmor, tmog, tmob ;
 		ASCII85StringBuilder a85 ;
 		int p, r, g, b ;
 
-		bgv = Configuration.getValue( this, CR_BACKGROUND, DEFAULT_BACKGROUND )
-				.split( "," ) ;
-		bgav = bgv[0].split( ":" ) ;
-		bgar = (int) ( Double.parseDouble( bgav[0] )*255 ) ;
-		bgag = (int) ( Double.parseDouble( bgav[1] )*255 ) ;
-		bgab = (int) ( Double.parseDouble( bgav[2] )*255 ) ;
-		bgov = bgv[1].split( ":" ) ;
-		bgor = (int) ( Double.parseDouble( bgov[0] )*255 ) ;
-		bgog = (int) ( Double.parseDouble( bgov[1] )*255 ) ;
-		bgob = (int) ( Double.parseDouble( bgov[2] )*255 ) ;
+		mov = Configuration.getValue( this, CR_MASKOUT, DEFAULT_MASKOUT ).split( "," ) ;
+		moav = mov[0].split( ":" ) ;
+		moar = (int) ( Double.parseDouble( moav[0] )*255 ) ;
+		moag = (int) ( Double.parseDouble( moav[1] )*255 ) ;
+		moab = (int) ( Double.parseDouble( moav[2] )*255 ) ;
+		moov = mov[1].split( ":" ) ;
+		moor = (int) ( Double.parseDouble( moov[0] )*255 ) ;
+		moog = (int) ( Double.parseDouble( moov[1] )*255 ) ;
+		moob = (int) ( Double.parseDouble( moov[2] )*255 ) ;
 
-		tmv = Configuration.getValue( this, CK_TONEMAP, DEFAULT_TONEMAP )
-				.split( "," ) ;
+		tmv = Configuration.getValue( this, CK_TONEMAP, DEFAULT_TONEMAP ).split( "," ) ;
 		tmav = tmv[0].split( ":" ) ;
 		tmar = Double.parseDouble( tmav[0] ) ;
 		tmag = Double.parseDouble( tmav[1] ) ;
@@ -78,12 +76,12 @@ public class ImageOperator implements PostscriptEmitter {
 		ps.push( 8 ) ;
 		ps.script( "/MaskColor" ) ;
 		ps.array( true ) ;
-		ps.push( bgar ) ;
-		ps.push( bgor ) ;
-		ps.push( bgag ) ;
-		ps.push( bgog ) ;
-		ps.push( bgab ) ;
-		ps.push( bgob ) ;
+		ps.push( moar ) ;
+		ps.push( moor ) ;
+		ps.push( moag ) ;
+		ps.push( moog ) ;
+		ps.push( moab ) ;
+		ps.push( moob ) ;
 		ps.array( false ) ;
 		ps.script( "/Decode" ) ;
 		ps.array( true ) ;

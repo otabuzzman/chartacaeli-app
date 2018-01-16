@@ -55,7 +55,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static int DEFAULT_INTERVAL		= 1 ;
 	private final static boolean DEFAULT_IMAGEOP	= false ;
 	private final static double DEFAULT_MINVISIBLE	= 25 ;
-	private final static String DEFAULT_BACKGROUND	= "0:0:0,0:0:0" ;
+	private final static String DEFAULT_BACKGROUND	= "1:1:1" ;
 	private final static String DEFAULT_PJ2WORKER	= "chartacaeli.Artwork$PJ2TextureMapperSeq" ;
 
 	// message key (MK_)
@@ -110,6 +110,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private RealMatrix tmT2H ; // transform texture to heaven coordinates...
 	private RealMatrix tmH2T ; // ...and vice versa
 	private RealMatrix tmM2P ; // transform texture mapping to projection coordinates
+	
+	// ARGB color of deep space on chart with A set to opaque (0xff).
+	private int background ;
 
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperSeq extends Task {
@@ -230,7 +233,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			chartacaeli.gpu.tst.P4Projector projc ;
 			Class<?> projcls ;
 			Constructor<?> projctr ;
-
 
 			tmM2Pj = tmM2P.getData() ;
 			for ( int r=0 ; 3>r ; r++ )
@@ -546,7 +548,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		RealMatrix bmP, bmM ;	// base matrices for projection and mapping
 		double dpi, psu ;		// dots per inch, dots per unit
 		String bgv[] ;
-		int bgr, bgg, bgb, bg ;
+		int bgr, bgg, bgb ;
 
 		try {
 			image = ImageIO.read( reader() ) ;
@@ -613,16 +615,15 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		dimt = (int) ( maxt/ups+1 ) ;
 		mapping = new int[dims*dimt] ;
 
-		bgv = Configuration.getValue( this, CK_BACKGROUND, DEFAULT_BACKGROUND )
-				.split( "," )[0].split( ":" ) ;
+		bgv = Configuration.getValue( this, CK_BACKGROUND, DEFAULT_BACKGROUND ).split( ":" ) ;
 		bgr = (int) ( Double.parseDouble( bgv[0] )*255 )&0xff ;
 		bgg = (int) ( Double.parseDouble( bgv[1] )*255 )&0xff ;
 		bgb = (int) ( Double.parseDouble( bgv[2] )*255 )&0xff ;
-		bg = bgr<<16|bgg<<8|bgb ;
+		background = 0xff000000|bgr<<16|bgg<<8|bgb ;
 
 		for ( int t=0 ; dimt>t ; t++ )
 			for ( int s=0 ; dims>s ; s++ )
-				mapping[t*dims+s] = bg ;
+				mapping[t*dims+s] = background ;
 
 		// base matrix of texture projection
 		bmP = MatrixUtils.createRealMatrix( new double[][] {
