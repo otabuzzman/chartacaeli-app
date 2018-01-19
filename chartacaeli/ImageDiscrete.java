@@ -21,12 +21,13 @@ public class ImageDiscrete implements PostscriptEmitter {
 	}
 
 	public void headPS( ApplicationPostscriptStream ps ) {
+		ps.op( "newpath" ) ;
 	}
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
 		String[] mov, moav, moov ;
-		int moar, moag, moab, moa ;
-		int moor, moog, moob, moo ;
+		int moar, moag, moab ;
+		int moor, moog, moob ;
 		String[] tmv, tmav, tmov ;
 		double tmar, tmag, tmab ;
 		double tmor, tmog, tmob ;
@@ -40,11 +41,9 @@ public class ImageDiscrete implements PostscriptEmitter {
 		moag = (int) ( Double.parseDouble( moav[1] )*255 ) ;
 		moab = (int) ( Double.parseDouble( moav[2] )*255 ) ;
 		moov = mov[1].split( ":" ) ;
-		moa = moar<<16|moag<<8|moab ;
 		moor = (int) ( Double.parseDouble( moov[0] )*255 ) ;
 		moog = (int) ( Double.parseDouble( moov[1] )*255 ) ;
 		moob = (int) ( Double.parseDouble( moov[2] )*255 ) ;
-		moo = moor<<16|moog<<8|moob ;
 
 		tmv = Configuration.getValue( this, CK_TONEMAP, DEFAULT_TONEMAP ).split( "," ) ;
 		tmav = tmv[0].split( ":" ) ;
@@ -61,28 +60,32 @@ public class ImageDiscrete implements PostscriptEmitter {
 
 		for ( int y=0 ; dimy>y ; y++ )
 			for ( int x=0 ; dimx>x ; x++ ) {
-				p = image[y*dimx+x]&0xffffff ;
+				p = image[y*dimx+x] ;
 
-				if ( p>=moa && moo>=p )
+				r = p>>16&0xff ;
+				g = p>> 8&0xff ;
+				b = p    &0xff ;
+
+				if ( r>=moar && moor>=r && g>=moag && moog>=g && b>=moab && moob>=b )
 					continue ;
 
-				r = tmar+( ( p>>16)&0xff )*tmr/255 ;
-				g = tmag+( ( p>>8)&0xff )*tmg/255 ;
-				b = tmab+( p&0xff )*tmb/255 ;
-
-				ps.op( "gsave" ) ;
-				ps.op( "currentpoint" ) ;
-				ps.op( "translate" ) ;
-				ps.push( r ) ;
-				ps.push( g ) ;
-				ps.push( b ) ;
-				ps.op( "setrgbcolor" ) ;
-				ps.op( "upix" ) ;
-				ps.op( "grestore" ) ;
+				r = tmar+r*tmr/255 ;
+				g = tmag+g*tmg/255 ;
+				b = tmab+b*tmb/255 ;
 
 				ps.push( x ) ;
 				ps.push( y ) ;
 				ps.op( "moveto" ) ;
+
+				ps.op( "gsave" ) ;
+				ps.push( r ) ;
+				ps.push( g ) ;
+				ps.push( b ) ;
+				ps.op( "setrgbcolor" ) ;
+				ps.op( "currentpoint" ) ;
+				ps.op( "translate" ) ;
+				ps.op( "upix" ) ;
+				ps.op( "grestore" ) ;
 			}
 	}
 

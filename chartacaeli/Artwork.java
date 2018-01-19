@@ -110,7 +110,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private RealMatrix tmT2H ; // transform texture to heaven coordinates...
 	private RealMatrix tmH2T ; // ...and vice versa
 	private RealMatrix tmM2P ; // transform texture mapping to projection coordinates
-	
+
 	// ARGB color of deep space on chart with A set to opaque (0xff).
 	private int background ;
 

@@ -106,9 +106,9 @@ public class ImageOperator implements PostscriptEmitter {
 			for ( int x=0 ; dimx>x ; x++ ) {
 				p = image[y*dimx+x] ;
 
-				r = ( p>>16 )&0xff ;
-				g = ( p>>8 )&0xff ;
-				b = p&0xff ;
+				r = p>>16&0xff ;
+				g = p>> 8&0xff ;
+				b = p    &0xff ;
 
 				a85.append( (byte) ( r ) ) ;
 				a85.append( (byte) ( g ) ) ;

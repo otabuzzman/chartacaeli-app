@@ -57,7 +57,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 
 ### Build on Linux
 - Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/). Set shell variable `CXX` to point at C++ compiler.
-- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7). Set `JAVA_HOME` as descibed in Windows section.
+- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7). Set `JAVA_HOME` as described in Windows section.
 - Download and install [Ghostscript](http://ghostscript.com/download/).
 - Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub. Set shell variables according to sction on Windows.
 - Download and install [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) and samples as described in PJ2AWS repository. Set `CUDA_HOME` to point at installation directory. Set `CUDA_SAMP` to properly resolve `$CUDA_SAMP/common/inc` directory in CUDA Samples.
