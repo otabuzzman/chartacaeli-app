@@ -98,7 +98,10 @@ public class ImageOperator implements PostscriptEmitter {
 		ps.op( "filter" ) ;
 		ps.dict( false ) ;
 
+		ps.op( "systemdict" ) ;
+		ps.op( "begin" ) ;
 		ps.op( "image" ) ;
+		ps.op( "end" ) ;
 
 		a85 = new ASCII85StringBuilder() ;
 

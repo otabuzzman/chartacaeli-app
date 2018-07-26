@@ -239,6 +239,7 @@
 						<entry key="hfade" value=""/>
 						<entry key="upix" value=""/>
 						<entry key="udot" value=""/>
+						<entry key="image" value=""/>
 						<!--graph.ps-->
 						<entry key="gpath" value=""/>
 						<entry key="gdraw" value=""/>
