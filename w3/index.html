@@ -7,29 +7,8 @@
 	<link type="text/css" rel="stylesheet" href="lib/xonomy-3.5.0/xonomy.css"/>
 	<script type="text/javascript">
 		function start() {
-			// to populate defaults section:
-			//	1. create default xml from XSD with XML Spy
-			//	2. run mkdefxml.sh <default xml file>
-			//	3. insert script output between markers below
-			//	4. assign values to element variables
-			// *** defaults section starts here ***
-			// defaults for ChartAzimuthal element
-			var def_projection = "stereopolar";
-			var def_scale = "100";
-			// defaults for ChartPage element
-			var def_view = "100";
-			var def_size = "a0";
-			// defaults for HorizonEquatorial element
-			var def_practicality = "always";
-			// defaults for AnnotationStraight element
-			var def_reverse = "topleft";
-			var def_radiant = "false";
-			var def_anchor = "false";
-			// defaults for Script element
-			var def_purpose = "CHARTA CAELI";
-			var def_value = "obsure";
-			var xml = "<?xml version='1.0' encoding='UTF-8'?><ChartaCaeli xmlns='http://www.chartacaeli.eu/chartacaeli/model' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.chartacaeli.eu/chartacaeli/model C:\Users\jschuck\src\chartacaeli\chartacaeli.xsd'><Chart><ChartAzimuthal projection='"+def_projection+"' scale='"+def_scale+"'><ChartPage view='"+def_view+"' size='"+def_size+"'/><Horizon><HorizonEquatorial practicality='"+def_practicality+"'><AnnotationStraight reverse='"+def_reverse+"' radiant='"+def_radiant+"' anchor='"+def_anchor+"'><Script purpose='"+def_purpose+"' value='"+def_value+"'/></AnnotationStraight></HorizonEquatorial></Horizon></ChartAzimuthal></Chart></ChartaCaeli>";
-			// *** defaults section ends here ***
+			// set to Charta Caeli root element
+			var xml = "<?xml version='1.0' encoding='UTF-8'?><ChartaCaeli xmlns='http://www.chartacaeli.eu/chartacaeli/model' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.chartacaeli.eu/chartacaeli/model C:\Users\jschuck\src\chartacaeli\chartacaeli.xsd'/>";
 			var editor=document.getElementById("editor");
 			Xonomy.setMode("laic");
 			Xonomy.render(xml, editor, docSpec);
