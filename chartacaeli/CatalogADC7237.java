@@ -151,13 +151,13 @@ public class CatalogADC7237 extends chartacaeli.model.CatalogADC7237 implements 
 
 			position = new chartacaeli.model.Position() ;
 			// chartacaeli.model.AngleType
-			position.setLon( new chartacaeli.model.Lon() ) ;
-			position.getLon().setRational( new chartacaeli.model.Rational() ) ;
-			position.getLon().getRational().setValue( ra ) ;  
+			position.setLongitude( new chartacaeli.model.Longitude() ) ;
+			position.getLongitude().setRational( new chartacaeli.model.Rational() ) ;
+			position.getLongitude().getRational().setValue( ra ) ;  
 			// chartacaeli.model.AngleType
-			position.setLat( new chartacaeli.model.Lat() ) ;
-			position.getLat().setRational( new chartacaeli.model.Rational() ) ;
-			position.getLat().getRational().setValue( de ) ;  
+			position.setLatitude( new chartacaeli.model.Latitude() ) ;
+			position.getLatitude().setRational( new chartacaeli.model.Rational() ) ;
+			position.getLatitude().getRational().setValue( de ) ;  
 
 			d = 0 ;
 			s = 0 ;

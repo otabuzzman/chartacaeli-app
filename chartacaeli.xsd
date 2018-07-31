@@ -140,8 +140,7 @@
 			<xs:complexContent>
 				<xs:extension base="HorizonType">
 					<xs:sequence>
-						<xs:element ref="Longitude"/>
-						<xs:element ref="Latitude"/>
+						<xs:element ref="Oblique"/>
 						<xs:element ref="Time"/>
 					</xs:sequence>
 				</xs:extension>
@@ -1009,8 +1008,6 @@
 	<xs:element name="Latitude" type="AngleType"/>
 	<xs:element name="Longitude" type="AngleType"/>
 	<xs:element name="HA" type="TimeType"/>
-	<xs:element name="lon" type="AngleType"/>
-	<xs:element name="lat" type="AngleType"/>
 	<xs:element name="rad" type="RationalType"/>
 	<xs:element name="phi" type="AngleType"/>
 	<xs:complexType name="TimeType">
@@ -1056,8 +1053,8 @@
 	<xs:element name="Polar" type="PolarType"/>
 	<xs:complexType name="SphericalType">
 		<xs:sequence>
-			<xs:element ref="lon"/>
-			<xs:element ref="lat"/>
+			<xs:element ref="Longitude"/>
+			<xs:element ref="Latitude"/>
 			<xs:element ref="rad" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>

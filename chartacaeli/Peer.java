@@ -228,8 +228,8 @@ public class Peer {
 	public static Coordinate valueOf( SphericalType spherical ) {
 		double lon, lat, rad ;
 
-		lon = valueOf( spherical.getLon() ) ;
-		lat = valueOf( spherical.getLat() ) ;
+		lon = valueOf( spherical.getLongitude() ) ;
+		lat = valueOf( spherical.getLatitude() ) ;
 		if ( spherical.getRad() != null )
 			rad = valueOf( spherical.getRad() ) ;
 		else

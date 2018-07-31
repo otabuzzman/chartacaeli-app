@@ -32,8 +32,8 @@ public class ChartAzimuthal extends ChartType {
 			lam0 = Configuration.getValue( this, CK_DEFOBLIQUELON, DEFAULT_DEFOBLIQUELON ) ;
 			phi1 = Configuration.getValue( this, CK_DEFOBLIQUELAT, DEFAULT_DEFOBLIQUELAT ) ;
 		} else {
-			lam0 = valueOf( getOblique().getLon() ) ;
-			phi1 = valueOf( getOblique().getLat() ) ;
+			lam0 = valueOf( getOblique().getLongitude() ) ;
+			phi1 = valueOf( getOblique().getLatitude() ) ;
 		}
 
 		R = scale() ;

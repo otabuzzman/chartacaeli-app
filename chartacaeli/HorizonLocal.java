@@ -25,7 +25,7 @@ public class HorizonLocal extends HorizonType {
 	public double longitude() {
 		double lo ;
 
-		lo = valueOf( peer.getLongitude() ) ;
+		lo = valueOf( peer.getOblique().getLongitude() ) ;
 
 		if ( lo>180 )
 			while ( lo>180 )
@@ -40,7 +40,7 @@ public class HorizonLocal extends HorizonType {
 	public double latitude() {
 		double la ;
 
-		la = valueOf( peer.getLatitude() ) ;
+		la = valueOf( peer.getOblique().getLatitude() ) ;
 
 		if ( la>90 )
 			while ( la>90 )
@@ -74,8 +74,8 @@ public class HorizonLocal extends HorizonType {
 		double t ;
 
 		utc = peer.getTime().getStandard()
-		.substring( 4 )
-		.split( ":" ) ;
+				.substring( 4 )
+				.split( ":" ) ;
 		h = Integer.parseInt( utc[0] )%24 ;
 		m = 0 ;
 		if ( utc.length>1 )

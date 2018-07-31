@@ -142,13 +142,13 @@ public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements 
 				ceq = CAAPrecession.PrecessEquatorial( eq.x, eq.y, 2451545./*J2000*/, e ) ;
 				pm = new chartacaeli.model.Position() ;
 				// chartacaeli.model.AngleType
-				pm.setLon( new chartacaeli.model.Lon() ) ;
-				pm.getLon().setRational( new chartacaeli.model.Rational() ) ;
-				pm.getLon().getRational().setValue( CAACoordinateTransformation.HoursToDegrees( ceq.X() ) ) ;  
+				pm.setLongitude( new chartacaeli.model.Longitude() ) ;
+				pm.getLongitude().setRational( new chartacaeli.model.Rational() ) ;
+				pm.getLongitude().getRational().setValue( CAACoordinateTransformation.HoursToDegrees( ceq.X() ) ) ;  
 				// chartacaeli.model.AngleType
-				pm.setLat( new chartacaeli.model.Lat() ) ;
-				pm.getLat().setRational( new chartacaeli.model.Rational() ) ;
-				pm.getLat().getRational().setValue( ceq.Y() ) ;  
+				pm.setLatitude( new chartacaeli.model.Latitude() ) ;
+				pm.getLatitude().setRational( new chartacaeli.model.Rational() ) ;
+				pm.getLatitude().getRational().setValue( ceq.Y() ) ;  
 
 				body.getBodyAreal().getBodyArealTypeChoice().addPosition( pm ) ;
 				ceq.delete() ;

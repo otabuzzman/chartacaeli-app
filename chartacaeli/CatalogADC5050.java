@@ -198,13 +198,13 @@ public class CatalogADC5050 extends chartacaeli.model.CatalogADC5050 implements 
 
 			pm = new chartacaeli.model.Position() ;
 			// chartacaeli.model.AngleType
-			pm.setLon( new chartacaeli.model.Lon() ) ;
-			pm.getLon().setRational( new chartacaeli.model.Rational() ) ;
-			pm.getLon().getRational().setValue( ra ) ;  
+			pm.setLongitude( new chartacaeli.model.Longitude() ) ;
+			pm.getLongitude().setRational( new chartacaeli.model.Rational() ) ;
+			pm.getLongitude().getRational().setValue( ra ) ;  
 			// chartacaeli.model.AngleType
-			pm.setLat( new chartacaeli.model.Lat() ) ;
-			pm.getLat().setRational( new chartacaeli.model.Rational() ) ;
-			pm.getLat().getRational().setValue( de ) ;  
+			pm.setLatitude( new chartacaeli.model.Latitude() ) ;
+			pm.getLatitude().setRational( new chartacaeli.model.Rational() ) ;
+			pm.getLatitude().getRational().setValue( de ) ;  
 
 			body.getBodyStellar().setPosition( pm ) ;
 
