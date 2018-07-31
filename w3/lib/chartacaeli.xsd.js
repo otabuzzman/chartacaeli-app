@@ -11,6 +11,276 @@ issues:
 
 var docSpec = {
 	elements: {
+		"HorizonEquatorial": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@practicality",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "practicality"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("practicality");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"practicality": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "none"},
+						{value: "seldom"},
+						{value: "sometimes"},
+						{value: "frequent"},
+						{value: "always"}
+					]
+				}
+			}
+		},
+		"HorizonLocal": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@practicality",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "practicality"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("practicality");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"practicality": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "none"},
+						{value: "seldom"},
+						{value: "sometimes"},
+						{value: "frequent"},
+						{value: "always"}
+					]
+				}
+			}
+		},
+		"HorizonEcliptical": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@practicality",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "practicality"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("practicality");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"practicality": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "none"},
+						{value: "seldom"},
+						{value: "sometimes"},
+						{value: "frequent"},
+						{value: "always"}
+					]
+				}
+			}
+		},
+		"HorizonGalactic": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@practicality",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "practicality"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("practicality");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"practicality": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "none"},
+						{value: "seldom"},
+						{value: "sometimes"},
+						{value: "frequent"},
+						{value: "always"}
+					]
+				}
+			}
+		},
+		"ChartPage": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@size",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "size"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("size");
+				}
+			}, {
+				caption: "add \@@view",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "view"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("view");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"size": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "a0"},
+						{value: "a1"},
+						{value: "a2"},
+						{value: "a3"},
+						{value: "a4"},
+						{value: "a5"}
+					]
+				},
+				"view": {
+					asker: Xonomy.askString
+				}
+			},
+			mustBeBefore: ["Oblique", "Horizon"]
+		},
+		"Oblique": {
+			menu: [{
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			mustBeBefore: ["Horizon"]
+		},
+		"Horizon": {
+			menu: [{
+				caption: "add <HorizonEquatorial>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<HorizonEquatorial/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("HorizonEquatorial") ||
+								jsElement.hasChildElement("HorizonLocal") ||
+								jsElement.hasChildElement("HorizonEcliptical") ||
+								jsElement.hasChildElement("HorizonGalactic");
+				}
+			}, {
+				caption: "add <HorizonLocal>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<HorizonLocal/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("HorizonEquatorial") ||
+								jsElement.hasChildElement("HorizonLocal") ||
+								jsElement.hasChildElement("HorizonEcliptical") ||
+								jsElement.hasChildElement("HorizonGalactic");
+				}
+			}, {
+				caption: "add <HorizonEcliptical>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<HorizonEcliptical/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("HorizonEquatorial") ||
+								jsElement.hasChildElement("HorizonLocal") ||
+								jsElement.hasChildElement("HorizonEcliptical") ||
+								jsElement.hasChildElement("HorizonGalactic");
+				}
+			}, {
+				caption: "add <HorizonGalactic>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<HorizonGalactic/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("HorizonEquatorial") ||
+								jsElement.hasChildElement("HorizonLocal") ||
+								jsElement.hasChildElement("HorizonEcliptical") ||
+								jsElement.hasChildElement("HorizonGalactic");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			canDropTo: ["ChartAzimuthal", "ChartPseudoCylindrical"]
+		},
 		"HMS": {
 			menu: [{
 				caption: "add \@@neg",
@@ -147,7 +417,6 @@ var docSpec = {
 					asker: Xonomy.askString,
 				}
 			},
-			mustBeAfter: ["YMD"]
 		},
 		"Calendar": {
 			menu: [{
@@ -216,7 +485,6 @@ var docSpec = {
 					return jsElement.hasElements();
 				}
 			}],
-			mustBeAfter: ["Calendar", "JD"],
 		},
 		"ChartAzimuthal": {
 			menu: [{
@@ -240,6 +508,24 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("projection");
 				}
+			}, {
+				caption: "add <ChartPage>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ChartPage/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ChartPage");
+				}
+			}, {
+				caption: "add <Oblique>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Oblique/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Oblique");
+				}
+			}, {
+				caption: "add <Horizon>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Horizon/>"
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -289,6 +575,24 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("projection");
 				}
+			}, {
+				caption: "add <ChartPage>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ChartPage/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ChartPage");
+				}
+			}, {
+				caption: "add <Oblique>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Oblique/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Oblique");
+				}
+			}, {
+				caption: "add <Horizon>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Horizon/>"
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -375,7 +679,6 @@ var docSpec = {
 					return jsElement.hasElements();
 				}
 			}],
-			mustBeAfter: ["Epoch"],
 			canDropTo: ["ChartaCaeli"]
 		},
 		"ChartaCaeli": {
