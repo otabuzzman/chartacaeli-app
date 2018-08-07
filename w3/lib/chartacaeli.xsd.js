@@ -8,6 +8,306 @@ as this has to be done element by element and layer by layer starting bottom-up.
 
 var docSpec = {
 	elements: {
+		"Cartesian": {
+			menu: [{
+				caption: "add \@@x",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "x"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("x");
+				}
+			}, {
+				caption: "add \@@y",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "y"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("y");
+				}
+			}, {
+				caption: "add \@@z",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "z"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("z");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"x": {
+					asker: Xonomy.askString
+				},
+				"y": {
+					asker: Xonomy.askString
+				},
+				"z": {
+					asker: Xonomy.askString
+				}
+			}
+		},
+		"Popper": {
+			menu: [{
+				caption: "add <Position>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Position/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Position");
+				}
+			}, {
+				caption: "add <Cartesian>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Cartesian/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Cartesian");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}]
+		},
+		"Limb": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Annotation");
+				}
+			}, {
+				caption: "add <Position>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Position/>",
+			}, {
+				caption: "add <Limb>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Limb/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Limb");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				}
+			}
+		},
+		"AnnotationCurved": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@anchor",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "anchor"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("anchor");
+				}
+			}, {
+				caption: "add \@@reverse",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "reverse"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("reverse");
+				}
+			}, {
+				caption: "add \@@distance",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "distance"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("distance");
+				}
+			}, {
+				caption: "add <Script>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Script/>",
+			}, {
+				caption: "add <Frame>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Frame/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Frame");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"anchor": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "topleft"},
+						{value: "topmiddle"},
+						{value: "topright"},
+						{value: "middleleft"},
+						{value: "middle"},
+						{value: "middleright"},
+						{value: "bottomleft"},
+						{value: "bottommiddle"},
+						{value: "bottomright"}
+					]
+				},
+				"reverse": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				},
+				"distance": {
+					asker: Xonomy.askString
+				}
+			}
+		},
+		"ScalebaseNone": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				}
+			},
+			mustBeBefore: ["Scaleline", "Annotation"]
+		},
+		"ScalebaseLine": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				}
+			},
+			mustBeBefore: ["Scaleline", "Annotation"]
+		},
+		"ScalebaseRail": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				}
+			},
+			mustBeBefore: ["Scaleline", "Annotation"]
+		},
+		"Scaleline": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@value",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "value"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("value");
+				}
+			}, {
+				caption: "add <AnnotationStraight>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<AnnotationStraight/>"
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"value": {
+					asker: Xonomy.askString
+				}
+			},
+			mustBeBefore: ["Annotation"]
+		},
 		"CatalogADC1239HRecord": {
 			menu: [{
 				caption: "add \@@name",
@@ -22,6 +322,17 @@ var docSpec = {
 				actionParameter: {name: "select"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>"
+			}, {
+				caption: "add <Script>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Script/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Script");
 				}
 			}, {
 				caption: "@duplicate",
@@ -66,6 +377,17 @@ var docSpec = {
 					return jsElement.hasAttribute("select");
 				}
 			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>"
+			}, {
+				caption: "add <Script>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Script/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Script");
+				}
+			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
 			}, {
@@ -106,6 +428,17 @@ var docSpec = {
 				actionParameter: {name: "select"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>"
+			}, {
+				caption: "add <Script>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Script/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Script");
 				}
 			}, {
 				caption: "@duplicate",
@@ -150,6 +483,17 @@ var docSpec = {
 					return jsElement.hasAttribute("select");
 				}
 			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>"
+			}, {
+				caption: "add <Script>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Script/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Script");
+				}
+			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
 			}, {
@@ -191,6 +535,10 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("select");
 				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>"
 			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
@@ -234,6 +582,17 @@ var docSpec = {
 					return jsElement.hasAttribute("select");
 				}
 			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>"
+			}, {
+				caption: "add <Script>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Script/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Script");
+				}
+			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
 			}, {
@@ -267,6 +626,17 @@ var docSpec = {
 				actionParameter: {name: "name"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>"
+			}, {
+				caption: "add <Script>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Script/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Script");
 				}
 			}, {
 				caption: "add \@@select",
@@ -325,6 +695,10 @@ var docSpec = {
 					return jsElement.hasAttribute("heaven");
 				}
 			}, {
+				caption: "add <Popper>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Popper/>",
+			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
 			}, {
@@ -369,6 +743,24 @@ var docSpec = {
 				actionParameter: {name: "nature"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("nature");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Annotation");
+				}
+			}, {
+				caption: "add <Position>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Position/>",
+			}, {
+				caption: "add <Limb>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Limb/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Limb");
 				}
 			}, {
 				caption: "@duplicate",
@@ -419,6 +811,10 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("contour");
 				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>"
 			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
@@ -473,6 +869,14 @@ var docSpec = {
 					return jsElement.hasAttribute("value");
 				}
 			}, {
+				caption: "add <Subscript>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Subscript/>",
+			}, {
+				caption: "add <Superscript>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Superscript/>",
+			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
 			}, {
@@ -511,6 +915,14 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("value");
 				}
+			}, {
+				caption: "add <Subscript>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Subscript/>"
+			}, {
+				caption: "add <Superscript>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Superscript/>"
 			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
@@ -636,6 +1048,27 @@ var docSpec = {
 					return jsElement.hasAttribute("name");
 				}
 			}, {
+				caption: "add <Longitude>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Longitude/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Longitude");
+				}
+			}, {
+				caption: "add <Latitude>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Latitude/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Latitude");
+				}
+			}, {
+				caption: "add <Rational>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Rational/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Rational");
+				}
+			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
 			}, {
@@ -654,7 +1087,7 @@ var docSpec = {
 					}]
 				}
 			},
-			mustBeBefore: ["ShapeElliptical", "Script"]
+			mustBeBefore: ["ShapeElliptical", "Script", "Limb", "Cartesian"]
 		},
 		"ShapeElliptical": {
 			menu: [{
@@ -670,6 +1103,40 @@ var docSpec = {
 				actionParameter: {name: "PA"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("PA");
+				}
+			}, {
+				caption: "add <DMS>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DMS/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <HMS>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<HMS/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <Rational>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Rational/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <Position>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Position/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Position");
 				}
 			}, {
 				caption: "@delete",
@@ -689,6 +1156,22 @@ var docSpec = {
 		},
 		"Annotation": {
 			menu: [{
+				caption: "add <AnnotationStraight>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<AnnotationStraight/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("AnnotationStraight") ||
+								jsElement.hasChildElement("AnnotationCurved");
+				}
+			}, {
+				caption: "add <AnnotationCurved>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<AnnotationCurved/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("AnnotationStraight") ||
+								jsElement.hasChildElement("AnnotationCurved");
+				}
+			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
 			}, {
@@ -698,7 +1181,7 @@ var docSpec = {
 					return jsElement.hasElements();
 				}
 			}],
-			mustBeBefore: ["Epoch", "DialDay", "Position", "ShapeElliptical", "Angle"]
+			mustBeBefore: ["Epoch", "DialDay", "Position", "ShapeElliptical", "Angle", "Limb", "Script"]
 		},
 		"DialDay": {
 			menu: [{
@@ -729,6 +1212,41 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("baseline");
 				}
+			}, {
+				caption: "add <ScalebaseNone>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ScalebaseNone/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ScalebaseNone") ||
+								jsElement.hasChildElement("ScalebaseLine") ||
+								jsElement.hasChildElement("ScalebaseRail");
+				}
+			}, {
+				caption: "add <ScalebaseLine>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ScalebaseLine/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ScalebaseNone") ||
+								jsElement.hasChildElement("ScalebaseLine") ||
+								jsElement.hasChildElement("ScalebaseRail");
+				}
+			}, {
+				caption: "add <ScalebaseRail>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ScalebaseRail/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ScalebaseNone") ||
+								jsElement.hasChildElement("ScalebaseLine") ||
+								jsElement.hasChildElement("ScalebaseRail");
+				}
+			}, {
+				caption: "add <Scaleline>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Scaleline/>",
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -779,6 +1297,18 @@ var docSpec = {
 					return jsElement.hasAttribute("url");
 				}
 			}, {
+				caption: "add <Artwork>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Artwork/>",
+			}, {
+				caption: "add <Sign>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Sign/>",
+			}, {
+				caption: "add <CatalogADC1239HRecord>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<CatalogADC1239HRecord/>",
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -813,6 +1343,18 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("url");
 				}
+			}, {
+				caption: "add <Artwork>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Artwork/>",
+			}, {
+				caption: "add <Sign>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Sign/>",
+			}, {
+				caption: "add <CatalogADC1239TRecord>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<CatalogADC1239TRecord/>",
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -849,6 +1391,18 @@ var docSpec = {
 					return jsElement.hasAttribute("url");
 				}
 			}, {
+				caption: "add <Artwork>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Artwork/>",
+			}, {
+				caption: "add <Sign>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Sign/>",
+			}, {
+				caption: "add <CatalogADC5050Record>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<CatalogADC5050Record/>",
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -883,6 +1437,18 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("url");
 				}
+			}, {
+				caption: "add <Artwork>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Artwork/>",
+			}, {
+				caption: "add <Sign>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Sign/>",
+			}, {
+				caption: "add <CatalogADC5109Record>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<CatalogADC5109Record/>",
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -919,6 +1485,18 @@ var docSpec = {
 					return jsElement.hasAttribute("url");
 				}
 			}, {
+				caption: "add <Artwork>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Artwork/>",
+			}, {
+				caption: "add <Sign>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Sign/>",
+			}, {
+				caption: "add <CatalogADC6049Record>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<CatalogADC6049Record/>",
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -954,6 +1532,18 @@ var docSpec = {
 					return jsElement.hasAttribute("url");
 				}
 			}, {
+				caption: "add <Artwork>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Artwork/>",
+			}, {
+				caption: "add <Sign>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Sign/>",
+			}, {
+				caption: "add <CatalogADC7118Record>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<CatalogADC7118Record/>",
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -988,6 +1578,18 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("url");
 				}
+			}, {
+				caption: "add <Artwork>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Artwork/>",
+			}, {
+				caption: "add <Sign>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Sign/>",
+			}, {
+				caption: "add <CatalogADC7237Record>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<CatalogADC7237Record/>",
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -2375,7 +2977,8 @@ var docSpec = {
 				"sec": {
 					asker: Xonomy.askString
 				}
-			}
+			},
+			mustBeBefore: ["HMS", "Rational", "Position"]
 		},
 		"Catalog": {
 			menu: [{
@@ -2588,7 +3191,7 @@ var docSpec = {
 					]
 				}
 			},
-			mustBeBefore: ["Circle", "Body", "Oblique", "Time", "Catalog"]
+			mustBeBefore: ["Circle", "Body", "Oblique", "Time", "Catalog", "AnnotationCurved"]
 		},
 		"Circle": {
 			menu: [{
@@ -2825,7 +3428,8 @@ var docSpec = {
 				"sec": {
 					asker: Xonomy.askString
 				}
-			}
+			},
+			mustBeBefore: ["Rational", "Position"]
 		},
 		"Rational": {
 			menu: [{
@@ -2843,7 +3447,8 @@ var docSpec = {
 				"value": {
 					asker: Xonomy.askString
 				}
-			}
+			},
+			mustBeBefore: ["Position"]
 		},
 		"Longitude": {
 			menu: [{
