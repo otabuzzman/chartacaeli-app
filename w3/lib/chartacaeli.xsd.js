@@ -8,6 +8,761 @@ as this has to be done element by element and layer by layer starting bottom-up.
 
 var docSpec = {
 	elements: {
+		"CatalogADC1239HRecord": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@select",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "select"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"select": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				}
+			}
+		},
+		"CatalogADC1239TRecord": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@select",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "select"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"select": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				}
+			}
+		},
+		"CatalogADC5050Record": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@select",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "select"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"select": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				}
+			}
+		},
+		"CatalogADC5109Record": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@select",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "select"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"select": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				}
+			}
+		},
+		"CatalogADC6049Record": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@select",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "select"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"select": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				}
+			}
+		},
+		"CatalogADC7118Record": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@select",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "select"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"select": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				}
+			}
+		},
+		"CatalogADC7237Record": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@select",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "select"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"select": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				}
+			}
+		},
+		"Artwork": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@url",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "url"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("url");
+				}
+			}, {
+				caption: "add \@@heaven",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "heaven"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("heaven");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"url": {
+					asker: Xonomy.askString,
+				},
+				"heaven": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				}
+			},
+			mustBeBefore: ["Sign", "CatalogDS9Record", "CatalogADC7237Record", "CatalogADC7118Record", "CatalogADC6049Record", "CatalogADC5109Record", "CatalogADC5050Record", "CatalogADC1239TRecord", "CatalogADC1239HRecord"]
+		},
+		"Sign": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@nature",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "nature"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("nature");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"nature": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "constellation"}
+					]
+				}
+			},
+			mustBeBefore: ["CatalogDS9Record", "CatalogADC7237Record", "CatalogADC7118Record", "CatalogADC6049Record", "CatalogADC5109Record", "CatalogADC5050Record", "CatalogADC1239TRecord", "CatalogADC1239HRecord"]
+		},
+		"CatalogDS9Record": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@select",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "select"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("select");
+				}
+			}, {
+				caption: "add \@@contour",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "contour"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("contour");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"select": {
+					asker: Xonomy.askOpenPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				},
+				"contour": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "fill"},
+						{value: "line"}
+					],
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				}
+			}
+		},
+		"Subscript": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@value",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "value"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("value");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"value": {
+					asker: Xonomy.askString
+				}
+			},
+			mustBeBefore: ["Superscript"]
+		},
+		"Superscript": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@value",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "value"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("value");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"value": {
+					asker: Xonomy.askString
+				}
+			}
+		},
+		"Angle": {
+			menu: [{
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}]
+		},
+		"Alpha": {
+			menu: [{
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			mustBeBefore: ["Omega", "DialDeg", "Annotation", "Angle"]
+		},
+		"Omega": {
+			menu: [{
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			mustBeBefore: ["DialDeg", "Annotation", "Angle"]
+		},
+		"DialDeg": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@division",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "division"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("division");
+				}
+			}, {
+				caption: "add \@@reflect",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "reflect"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("reflect");
+				}
+			}, {
+				caption: "add \@@baseline",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "baseline"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("baseline");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"division": {
+					asker: Xonomy.askString
+				},
+				"reflect": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				},
+				"baseline": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+			},
+			mustBeBefore: ["Annotation", "Angle"]
+		},
+		"Position": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				}
+			},
+			mustBeBefore: ["ShapeElliptical", "Script"]
+		},
+		"ShapeElliptical": {
+			menu: [{
+				caption: "add \@@proportion",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "proportion"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("proportion");
+				}
+			}, {
+				caption: "add \@@PA",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "PA"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("PA");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"proportion": {
+					asker: Xonomy.askString
+				},
+				"PA": {
+					asker: Xonomy.askString
+				}
+			}
+		},
+		"Annotation": {
+			menu: [{
+				caption: "@duplicate",
+				action: Xonomy.duplicateElement
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			mustBeBefore: ["Epoch", "DialDay", "Position", "ShapeElliptical", "Angle"]
+		},
+		"DialDay": {
+			menu: [{
+				caption: "add \@@name",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "name"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("name");
+				}
+			}, {
+				caption: "add \@@division",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "division"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("division");
+				}
+			}, {
+				caption: "add \@@reflect",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "reflect"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("reflect");
+				}
+			}, {
+				caption: "add \@@baseline",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "baseline"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("baseline");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+				hideIf: function(jsElement) {
+					return jsElement.hasElements();
+				}
+			}],
+			attributes: {
+				"name": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+				"division": {
+					asker: Xonomy.askString
+				},
+				"reflect": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "true"},
+						{value: "false"}
+					]
+				},
+				"baseline": {
+					asker: Xonomy.askString,
+					menu: [{
+						caption: "delete",
+						action: Xonomy.deleteAttribute
+					}]
+				},
+			}
+		},
 		"CatalogADC1239H": {
 			menu: [{
 				caption: "add \@@name",
@@ -269,6 +1024,18 @@ var docSpec = {
 					return jsElement.hasAttribute("url");
 				}
 			}, {
+				caption: "add <Artwork>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Artwork/>",
+			}, {
+				caption: "add <Sign>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Sign/>",
+			}, {
+				caption: "add <CatalogDS9Record>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<CatalogDS9Record/>",
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -311,6 +1078,14 @@ var docSpec = {
 					return jsElement.hasAttribute("purpose");
 				}
 			}, {
+				caption: "add <Subscript>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Subscript/>",
+			}, {
+				caption: "add <Superscript>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Superscript/>",
+			}, {
 				caption: "@duplicate",
 				action: Xonomy.duplicateElement
 			}, {
@@ -347,7 +1122,8 @@ var docSpec = {
 						{value: "obscure"}
 					]
 				}
-			}
+			},
+			mustBeBefore: ["Frame"]
 		},
 		"Frame": {
 			menu: [{
@@ -411,6 +1187,38 @@ var docSpec = {
 					return jsElement.hasAttribute("importance");
 				}
 			}, {
+				caption: "add <Alpha>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Alpha/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Alpha");
+				}
+			}, {
+				caption: "add <Omega>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Omega/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Omega");
+				}
+			}, {
+				caption: "add <DialDeg>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDeg/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDeg");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Angle>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Angle/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Angle");
+				}
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -466,6 +1274,38 @@ var docSpec = {
 				actionParameter: {name: "importance"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("importance");
+				}
+			}, {
+				caption: "add <Alpha>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Alpha/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Alpha");
+				}
+			}, {
+				caption: "add <Omega>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Omega/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Omega");
+				}
+			}, {
+				caption: "add <DialDeg>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDeg/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDeg");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Angle>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Angle/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Angle");
 				}
 			}, {
 				caption: "@delete",
@@ -525,6 +1365,31 @@ var docSpec = {
 					return jsElement.hasAttribute("importance");
 				}
 			}, {
+				caption: "add <Alpha>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Alpha/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Alpha");
+				}
+			}, {
+				caption: "add <Omega>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Omega/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Omega");
+				}
+			}, {
+				caption: "add <DialDeg>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDeg/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDeg");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -581,6 +1446,31 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("importance");
 				}
+			}, {
+				caption: "add <Alpha>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Alpha/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Alpha");
+				}
+			}, {
+				caption: "add <Omega>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Omega/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Omega");
+				}
+			}, {
+				caption: "add <DialDeg>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDeg/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDeg");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -639,6 +1529,31 @@ var docSpec = {
 					return jsElement.hasAttribute("importance");
 				}
 			}, {
+				caption: "add <Alpha>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Alpha/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Alpha");
+				}
+			}, {
+				caption: "add <Omega>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Omega/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Omega");
+				}
+			}, {
+				caption: "add <DialDeg>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDeg/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDeg");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -695,6 +1610,31 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("importance");
 				}
+			}, {
+				caption: "add <Alpha>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Alpha/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Alpha");
+				}
+			}, {
+				caption: "add <Omega>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Omega/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Omega");
+				}
+			}, {
+				caption: "add <DialDeg>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDeg/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDeg");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -753,6 +1693,24 @@ var docSpec = {
 					return jsElement.hasAttribute("spin");
 				}
 			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Position>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Position/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Position");
+				}
+			}, {
+				caption: "add <Script>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Script/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Script");
+				}
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -789,6 +1747,25 @@ var docSpec = {
 				actionParameter: {name: "nature"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("nature");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Position>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Position/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ShapeElliptical");
+				}
+			}, {
+				caption: "add <ShapeElliptical>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ShapeElliptical/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Position") ||
+								jsElement.hasChildElement("ShapeElliptical");
 				}
 			}, {
 				caption: "@delete",
@@ -842,6 +1819,24 @@ var docSpec = {
 				actionParameter: {name: "type"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("type");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Epoch>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Epoch/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Epoch");
+				}
+			}, {
+				caption: "add <DialDay>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDay/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDay");
 				}
 			}, {
 				caption: "@delete",
@@ -913,6 +1908,24 @@ var docSpec = {
 					return jsElement.hasAttribute("nature");
 				}
 			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Epoch>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Epoch/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Epoch");
+				}
+			}, {
+				caption: "add <DialDay>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDay/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDay");
+				}
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -975,6 +1988,24 @@ var docSpec = {
 				actionParameter: {name: "type"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("type");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Epoch>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Epoch/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Epoch");
+				}
+			}, {
+				caption: "add <DialDay>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDay/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDay");
 				}
 			}, {
 				caption: "@delete",
@@ -1088,6 +2119,24 @@ var docSpec = {
 				actionParameter: {name: "equinox"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("equinox");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Epoch>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Epoch/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Epoch");
+				}
+			}, {
+				caption: "add <DialDay>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDay/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDay");
 				}
 			}, {
 				caption: "@delete",
@@ -1208,6 +2257,24 @@ var docSpec = {
 				actionParameter: {name: "equinox"},
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("equinox");
+				}
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
+			}, {
+				caption: "add <Epoch>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Epoch/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Epoch");
+				}
+			}, {
+				caption: "add <DialDay>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DialDay/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DialDay");
 				}
 			}, {
 				caption: "@delete",
@@ -2546,7 +3613,7 @@ var docSpec = {
 					return jsElement.hasElements();
 				}
 			}],
-			mustBeBefore: ["Chart"]
+			mustBeBefore: ["Chart", "DialDay"]
 		},
 		"Chart": {
 			menu: [{
