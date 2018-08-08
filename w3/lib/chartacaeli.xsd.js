@@ -1,10 +1,17 @@
 /*
-top-level elements are supposed to create by start(). no add/ delete methods.
-other elements have both methods but delete only if there are no child elements
+top-level elements don't have add/ delete actions. They are supposed to create
+by start() as defined in xmlInit.
+
+other elements have both actions but delete only if there are no child elements
 to prevent from accidential removal of possibly large structures.
 drawback is some inconvenience in case of intended removal of those structures
 as this has to be done element by element and layer by layer starting bottom-up.
+
+another restriction regarding delete applies to mandatory elements when their
+minimum occurrences (minOcc) are reached.
  */
+
+var xmlInit = "<?xml version='1.0' encoding='UTF-8'?><ChartaCaeli xmlns='http://www.chartacaeli.eu/chartacaeli/model' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.chartacaeli.eu/chartacaeli/model chartacaeli.xsd'/>";
 
 var docSpec = {
 	elements: {
@@ -43,6 +50,38 @@ var docSpec = {
 				},
 				"z": {
 					asker: Xonomy.askString
+				}
+			}
+		},
+		"Indirect": {
+			menu: [{
+				caption: "add \@@value",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "value"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("value");
+				}
+			}, {
+				caption: "add \@@node",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "node"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("node");
+				}
+			}, {
+				caption: "@delete",
+				action: Xonomy.deleteElement,
+			}],
+			attributes: {
+				"value": {
+					asker: Xonomy.askString
+				},
+				"node": {
+					asker: Xonomy.askPicklist,
+					askerParameter: [
+						{value: "chasing"},
+						{value: "leading"}
+					]
 				}
 			}
 		},
@@ -948,6 +987,33 @@ var docSpec = {
 		},
 		"Angle": {
 			menu: [{
+				caption: "add <DMS>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DMS/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <HMS>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<HMS/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <Rational>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Rational/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -957,6 +1023,40 @@ var docSpec = {
 		},
 		"Alpha": {
 			menu: [{
+				caption: "add <DMS>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DMS/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <HMS>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<HMS/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <Rational>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Rational/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <Indirect>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Indirect/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Indirect");
+				}
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -967,6 +1067,40 @@ var docSpec = {
 		},
 		"Omega": {
 			menu: [{
+				caption: "add <DMS>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<DMS/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <HMS>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<HMS/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <Rational>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Rational/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("DMS") ||
+								jsElement.hasChildElement("HMS") ||
+								jsElement.hasChildElement("Rational");
+				}
+			}, {
+				caption: "add <Indirect>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Indirect/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("Indirect");
+				}
+			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
 				hideIf: function(jsElement) {
@@ -1004,6 +1138,41 @@ var docSpec = {
 				hideIf: function(jsElement) {
 					return jsElement.hasAttribute("baseline");
 				}
+			}, {
+				caption: "add <ScalebaseNone>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ScalebaseNone/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ScalebaseNone") ||
+								jsElement.hasChildElement("ScalebaseLine") ||
+								jsElement.hasChildElement("ScalebaseRail");
+				}
+			}, {
+				caption: "add <ScalebaseLine>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ScalebaseLine/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ScalebaseNone") ||
+								jsElement.hasChildElement("ScalebaseLine") ||
+								jsElement.hasChildElement("ScalebaseRail");
+				}
+			}, {
+				caption: "add <ScalebaseRail>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<ScalebaseRail/>",
+				hideIf: function(jsElement) {
+					return jsElement.hasChildElement("ScalebaseNone") ||
+								jsElement.hasChildElement("ScalebaseLine") ||
+								jsElement.hasChildElement("ScalebaseRail");
+				}
+			}, {
+				caption: "add <Scaleline>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Scaleline/>",
+			}, {
+				caption: "add <Annotation>",
+				action: Xonomy.newElementChild,
+				actionParameter: "<Annotation/>",
 			}, {
 				caption: "@delete",
 				action: Xonomy.deleteElement,
@@ -2643,7 +2812,7 @@ var docSpec = {
 					]
 				},
 				"type": {
-					asker: Xonomy.askOpenPicklist,
+					asker: Xonomy.askPicklist,
 					askerParameter: [
 						{value: "mean"},
 						{value: "true"}
@@ -2978,7 +3147,7 @@ var docSpec = {
 					asker: Xonomy.askString
 				}
 			},
-			mustBeBefore: ["HMS", "Rational", "Position"]
+			mustBeBefore: ["HMS", "Rational", "Position", "Indirect"]
 		},
 		"Catalog": {
 			menu: [{
@@ -3429,7 +3598,7 @@ var docSpec = {
 					asker: Xonomy.askString
 				}
 			},
-			mustBeBefore: ["Rational", "Position"]
+			mustBeBefore: ["Rational", "Position", "Indirect"]
 		},
 		"Rational": {
 			menu: [{
@@ -3448,7 +3617,7 @@ var docSpec = {
 					asker: Xonomy.askString
 				}
 			},
-			mustBeBefore: ["Position"]
+			mustBeBefore: ["Position", "Indirect"]
 		},
 		"Longitude": {
 			menu: [{
