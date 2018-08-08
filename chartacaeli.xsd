@@ -442,8 +442,8 @@
 	</xs:element>
 	<xs:complexType name="TextType">
 		<xs:sequence>
-			<xs:element ref="Subscript" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="Superscript" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="Subscript" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional"/>
 		<xs:attribute name="value" use="required">
@@ -480,8 +480,8 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Subscript" type="TextType"/>
 	<xs:element name="Superscript" type="TextType"/>
+	<xs:element name="Subscript" type="TextType"/>
 	<xs:element name="Body">
 		<xs:complexType>
 			<xs:choice>

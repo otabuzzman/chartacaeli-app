@@ -70,7 +70,7 @@ public class AnnotationStraight extends chartacaeli.model.AnnotationStraight imp
 				frame = page.frame( num ) ;
 
 				xyRaw = Configuration.getValue( this, getFrame().getAnchor(), DEFAULT_ANCHOR )
-				.split( ":" ) ;
+						.split( ":" ) ;
 
 				xyVal = new double[2] ;
 				xyVal[0] = frame[0]+frame[2]*new Double( xyRaw[0] ).doubleValue() ;
@@ -208,15 +208,15 @@ public class AnnotationStraight extends chartacaeli.model.AnnotationStraight imp
 				ps.array( false ) ;
 			}
 
-		for ( int d=0 ; d<text.getSubscriptCount() ; d++ ) {
-			emitPS( ps, text.getSubscript( d ),
-					height*subscriptshrink, shift+height*subscriptshift,
-					subscriptshrink, subscriptshift, superscriptshrink, superscriptshift ) ;
-		}
-
 		for ( int u=0 ; u<text.getSuperscriptCount() ; u++ ) {
 			emitPS( ps, text.getSuperscript( u ),
 					height*superscriptshrink, shift+height*superscriptshift,
+					subscriptshrink, subscriptshift, superscriptshrink, superscriptshift ) ;
+		}
+
+		for ( int d=0 ; d<text.getSubscriptCount() ; d++ ) {
+			emitPS( ps, text.getSubscript( d ),
+					height*subscriptshrink, shift+height*subscriptshift,
 					subscriptshrink, subscriptshift, superscriptshrink, superscriptshift ) ;
 		}
 	}
