@@ -66,11 +66,11 @@ public class BodyAreal extends chartacaeli.model.BodyAreal implements Postscript
 	}
 
 	public void headPS( ApplicationPostscriptStream ps ) {
-		String nature ;
+		String gstate ;
 
-		if ( ( nature = getNature() ) == null )
+		if ( ( gstate = Configuration.getValue( this, getNature(), null ) ) == null )
 			return ;
-		ps.script( Configuration.getValue( this, nature, null ) ) ;	
+		ps.script( gstate ) ;
 	}
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
