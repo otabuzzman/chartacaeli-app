@@ -14,7 +14,7 @@
 			<xs:complexContent>
 				<xs:extension base="DateType">
 					<xs:sequence>
-						<xs:element name="Omega" type="DateType" minOccurs="0"/>
+						<xs:element name="Finis" type="DateType" minOccurs="0"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

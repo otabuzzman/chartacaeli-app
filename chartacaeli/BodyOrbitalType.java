@@ -54,14 +54,14 @@ abstract public class BodyOrbitalType extends chartacaeli.model.BodyOrbitalType 
 		return epoch.alpha() ;
 	}
 
-	protected double getEpochOmega() {
+	protected double getEpochFinis() {
 		if ( getEpoch() != null ) {
 			epoch = new Epoch() ;
 			getEpoch().copyValues( epoch ) ;
 		} else if ( epoch == null )
 			epoch = new Epoch() ;
 
-		return epoch.omega() ;
+		return epoch.finis() ;
 	}
 
 	public Vector posVecOfScaleMarkVal( double jd ) {
@@ -69,7 +69,7 @@ abstract public class BodyOrbitalType extends chartacaeli.model.BodyOrbitalType 
 	}
 
 	public double valOfScaleMarkN( int mark, double span ) {
-		return new LinearScale( span, new double[] { getEpochAlpha(), getEpochOmega() } ).markN( mark ) ;
+		return new LinearScale( span, new double[] { getEpochAlpha(), getEpochFinis() } ).markN( mark ) ;
 	}
 
 	public Coordinate[] list( double jdA, double jdO ) {
@@ -109,7 +109,7 @@ abstract public class BodyOrbitalType extends chartacaeli.model.BodyOrbitalType 
 		conf = new Configuration( this ) ;
 		segmin = conf.getValue( CK_SEGMIN, DEFAULT_SEGMIN ) ;
 
-		ccrc = list( getEpochAlpha(), getEpochOmega() ) ;
+		ccrc = list( getEpochAlpha(), getEpochFinis() ) ;
 
 		fov = ChartType.findFieldOfView() ;
 		if ( fov == null )

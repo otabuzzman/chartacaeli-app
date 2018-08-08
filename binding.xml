@@ -11,7 +11,4 @@
 	<complexTypeBinding name="/HMSType/@min">
 		<member java-type="int"/>
 	</complexTypeBinding>
-	<elementBinding name="/Epoch/Omega">
-		<java-class name="OmegaDay"/>
-	</elementBinding>
 </binding>

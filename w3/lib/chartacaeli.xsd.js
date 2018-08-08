@@ -4177,7 +4177,7 @@ var docSpec = {
 					return jsElement.hasElements();
 				}
 			}],
-			mustBeBefore: ["Omega"]
+			mustBeBefore: ["Finis"]
 		},
 		"JD": {
 			menu: [{
@@ -4196,9 +4196,9 @@ var docSpec = {
 					asker: Xonomy.askString
 				}
 			},
-			mustBeBefore: ["Omega"]
+			mustBeBefore: ["Finis"]
 		},
-		"Omega": {
+		"Finis": {
 			menu: [{
 				caption: "add <Calendar>",
 				action: Xonomy.newElementChild,
@@ -4374,11 +4374,11 @@ var docSpec = {
 								jsElement.hasChildElement("JD");
 				}
 			}, {
-				caption: "add <Omega>",
+				caption: "add <Finis>",
 				action: Xonomy.newElementChild,
-				actionParameter: "<Omega/>",
+				actionParameter: "<Finis/>",
 				hideIf: function(jsElement) {
-					return jsElement.hasChildElement("Omega");
+					return jsElement.hasChildElement("Finis");
 				}
 			}, {
 				caption: "@delete",

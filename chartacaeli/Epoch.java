@@ -34,17 +34,17 @@ public class Epoch extends chartacaeli.model.Epoch {
 		return alpha ;
 	}
 
-	public double omega() {
+	public double finis() {
 		double alpha ;
 		CAADate t, a ;
 
 		if ( omega>Double.NEGATIVE_INFINITY )
 			return omega ;
 
-		if ( getOmegaDay() != null ) {
-			if ( getOmegaDay().getCalendar() != null )
-				return omega = valueOf( getOmegaDay().getCalendar() ) ;
-			return omega = valueOf( getOmegaDay().getJD() ) ;
+		if ( getFinis() != null ) {
+			if ( getFinis().getCalendar() != null )
+				return omega = valueOf( getFinis().getCalendar() ) ;
+			return omega = valueOf( getFinis().getJD() ) ;
 		}
 
 		alpha = alpha() ;
