@@ -884,11 +884,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "fill"},
 						{value: "line"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				}
 			}
 		},
@@ -2009,11 +2005,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"importance": {
 					asker: Xonomy.askPicklist,
@@ -2098,11 +2090,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"importance": {
 					asker: Xonomy.askPicklist,
@@ -2180,11 +2168,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"importance": {
 					asker: Xonomy.askPicklist,
@@ -2262,11 +2246,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"importance": {
 					asker: Xonomy.askPicklist,
@@ -2344,11 +2324,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"importance": {
 					asker: Xonomy.askPicklist,
@@ -2426,11 +2402,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"importance": {
 					asker: Xonomy.askPicklist,
@@ -2629,11 +2601,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"nature": {
 					asker: Xonomy.askPicklist,
@@ -2716,11 +2684,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"nature": {
 					asker: Xonomy.askPicklist,
@@ -2798,11 +2762,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"nature": {
 					asker: Xonomy.askPicklist,
@@ -2929,11 +2889,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"nature": {
 					asker: Xonomy.askPicklist,
@@ -3067,11 +3023,7 @@ var docSpec = {
 					askerParameter: [
 						{value: "true"},
 						{value: "false"}
-					],
-					menu: [{
-						caption: "delete",
-						action: Xonomy.deleteAttribute
-					}]
+					]
 				},
 				"nature": {
 					asker: Xonomy.askPicklist,
