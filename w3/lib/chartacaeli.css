@@ -1,0 +1,13 @@
+* { margin: 0 ; padding: 0 ; }
+@font-face { font-family: Justv22 ; src: url('Justv22.ttf') ; }
+html { font-family: 'M PLUS Rounded 1c', Arial, Helvetica, sans-serif ; font-size: 16px ; }
+body { background-color: #000000 ; }
+/* golden ratio descent for font-size */
+h1 { font-family: Justv22 ; font-size: 6.8rem ; }
+h2 { font-size: 4.94rem ; }
+h3 { font-size: 3.05rem ; }
+h4, p { font-size: 1.89rem ; }
+.welcome { color: #cccccc ; margin: auto ; width: 1600px ; height: 1200px ; background-image: url('../starrysky.png') ; background-repeat: no-repeat ; }
+.content { color: #222222 ; margin: auto ; width: 1600px ; position: relative ; z-index: -2 ; background-color: #ffffff ; background-image: url('../starchart-fade.png') ; background-repeat: no-repeat ; }
+.content-footer { margin: auto ; width: 1600px ; height: 1200px ; position: absolute ; bottom: 0 ; z-index: -2 ; background-image: url('../starchart-fade.png') ; background-repeat: no-repeat ; transform: scale(-1, -1) ; }
+.skyline { margin: auto ; width: 1600px ; height: 360px ; background-image: url('../skyline.png') ; background-repeat: no-repeat ; background-position: bottom ; }

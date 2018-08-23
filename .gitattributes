@@ -2,3 +2,4 @@
 *.pdf	-text
 *.sh	eol=lf
 *.pptm	binary
+*.png	binary

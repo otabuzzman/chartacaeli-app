@@ -10,22 +10,28 @@ else
 sep := :
 endif
 
-all: lib/jquery-1.10.2.min.js lib/xonomy/xonomy.js
+all: lib/jquery-1.10.2.min.js lib/xonomy lib/Justv2.ttf lib/Justv22.ttf
 
 clean:
 
 # local clean
 lclean: clean
-	rm -rf lib/xonomy
+	rm -f lib/Justv2.ttf lib/Justv22.ttf
 
 # real clean
 rclean: lclean
 	rm -f lib/jquery-1.10.2.min.js
+	rm -rf lib/xonomy
+	rm -f just.zip
 
 tidy: rclean
 
 lib/jquery-1.10.2.min.js:
 	wget -q -O $@ https://code.jquery.com/$(@F)
-lib/xonomy/xonomy.js:
+lib/xonomy:
 	(cd lib ; git clone https://github.com/michmech/xonomy.git)
-	(cd $(@D) ; git checkout 810057e13c671728d236f85579296188e93a9fb3)
+	(cd $@ ; git checkout 810057e13c671728d236f85579296188e93a9fb3)
+just.zip:
+	wget -q http://www.iconian.com/fonts/just.zip
+lib/Justv2.ttf lib/Justv22.ttf: just.zip
+	unzip -qod $(@D) $< $(@F)
