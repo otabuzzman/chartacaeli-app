@@ -8,6 +8,6 @@ h2 { font-size: 4.94rem ; }
 h3 { font-size: 3.05rem ; }
 h4, p { font-size: 1.89rem ; }
 .welcome { color: #cccccc ; margin: auto ; width: 1600px ; height: 1200px ; background-image: url('../starrysky.png') ; background-repeat: no-repeat ; }
-.content { color: #222222 ; margin: auto ; width: 1600px ; position: relative ; z-index: -2 ; background-color: #ffffff ; background-image: url('../starchart-fade.png') ; background-repeat: no-repeat ; }
-.content-footer { margin: auto ; width: 1600px ; height: 1200px ; position: absolute ; bottom: 0 ; z-index: -2 ; background-image: url('../starchart-fade.png') ; background-repeat: no-repeat ; transform: scale(-1, -1) ; }
+.content { color: #222222 ; margin: auto ; width: 1600px ; position: relative ; z-index: -2 ; background-color: #ffffff ; background-image: url('../starchart.png') ; background-repeat: no-repeat ; }
+.content-footer { margin: auto ; width: 1600px ; height: 1200px ; position: absolute ; bottom: 0 ; z-index: -2 ; background-image: url('../starchart.png') ; background-repeat: no-repeat ; transform: scale(-1, -1) ; }
 .skyline { margin: auto ; width: 1600px ; height: 360px ; background-image: url('../skyline.png') ; background-repeat: no-repeat ; background-position: bottom ; }
