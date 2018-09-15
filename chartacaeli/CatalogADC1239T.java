@@ -137,7 +137,6 @@ public class CatalogADC1239T extends chartacaeli.model.CatalogADC1239T implement
 			artwork.load() ;
 			artwork.init() ;
 
-			Artwork.verbose() ;
 			ps.op( "gsave" ) ;
 
 			artwork.headPS( ps ) ;
@@ -145,7 +144,6 @@ public class CatalogADC1239T extends chartacaeli.model.CatalogADC1239T implement
 			artwork.tailPS( ps ) ;
 
 			ps.op( "grestore" ) ;
-			Artwork.verbose() ;
 		}
 
 		for ( int s=0 ; s<getSignCount() ; s++ ) {

@@ -135,7 +135,6 @@ public class CatalogADC5050 extends chartacaeli.model.CatalogADC5050 implements 
 			artwork.load() ;
 			artwork.init() ;
 
-			Artwork.verbose() ;
 			ps.op( "gsave" ) ;
 
 			artwork.headPS( ps ) ;
@@ -143,7 +142,6 @@ public class CatalogADC5050 extends chartacaeli.model.CatalogADC5050 implements 
 			artwork.tailPS( ps ) ;
 
 			ps.op( "grestore" ) ;
-			Artwork.verbose() ;
 		}
 
 		for ( int s=0 ; s<getSignCount() ; s++ ) {

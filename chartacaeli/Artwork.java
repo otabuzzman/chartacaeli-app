@@ -63,7 +63,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String MK_CUDASTAT			= "cudastat" ;
 
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
-	private static boolean verbose = false ;
+	private static boolean verbose = Configuration.getValue( Artwork.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
 
 	// set by init
 	private boolean initialized = false ;
@@ -750,14 +750,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	public void tailPS( ApplicationPostscriptStream ps ) {
 		if ( ! initialized )
 			return ;
-	}
-
-	public static boolean verbose() {
-		boolean config = Configuration.getValue( Artwork.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
-
-		if ( config )
-			return ! ( verbose = ! verbose ) ;
-		return config ;
 	}
 
 	private InputStream reader() throws URISyntaxException, MalformedURLException {

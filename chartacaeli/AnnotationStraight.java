@@ -36,6 +36,8 @@ public class AnnotationStraight extends chartacaeli.model.AnnotationStraight imp
 
 	private final static String DEFAULT_ANCHOR				= "0:0" ; // bottomleft
 
+	private static boolean verbose = Configuration.getValue( AnnotationStraight.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
+
 	public void headPS( ApplicationPostscriptStream ps ) {
 	}
 
@@ -79,6 +81,30 @@ public class AnnotationStraight extends chartacaeli.model.AnnotationStraight imp
 				ps.push( xyVal[0] ) ;
 				ps.push( xyVal[1] ) ;
 				ps.op( "moveto" ) ;
+
+				if ( verbose ) {
+					ps.op( "gsave" ) ;
+
+					ps.array( true ) ;
+					ps.push( frame[0] ) ;
+					ps.push( frame[1] ) ;
+					ps.push( frame[0]+frame[2] ) ;
+					ps.push( frame[1] ) ;
+					ps.push( frame[0]+frame[2] ) ;
+					ps.push( frame[1]+frame[3] ) ;
+					ps.push( frame[0] ) ;
+					ps.push( frame[1]+frame[3] ) ;
+					ps.push( frame[0] ) ;
+					ps.push( frame[1] ) ;
+					ps.array( false ) ;
+
+					ps.op( "newpath" ) ;
+					ps.op( "gdraw" ) ;
+
+					ps.op( "stroke" ) ;
+
+					ps.op( "grestore" ) ;
+				}
 			}
 		}
 

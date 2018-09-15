@@ -18,7 +18,7 @@ public final class Configuration {
 	private final static String MK_DEFAULT	= "default" ;
 
 	private final static Log log = LogFactory.getLog( Configuration.class ) ;
-	private static boolean verbose = false ;
+	private static boolean verbose = Configuration.getValue( Configuration.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
 
 	private final static StringBuffer mem = new StringBuffer() ;
 
@@ -95,7 +95,7 @@ public final class Configuration {
 		int p ;
 
 		n = "/"+clazz.getName()
-				.replaceAll( "\\.", "/" ) ;
+		.replaceAll( "\\.", "/" ) ;
 
 		if ( instance != null )
 			n += "/"+instance ;
@@ -166,7 +166,7 @@ public final class Configuration {
 		int p, f ;
 
 		n = "/"+clazz.getName()
-				.replaceAll( "\\.", "/" ) ;
+		.replaceAll( "\\.", "/" ) ;
 
 		f = key.lastIndexOf( "/" ) ;
 		if ( f>0 ) {
@@ -285,14 +285,6 @@ public final class Configuration {
 
 	public static double getValue( Class<?> clazz, String key, double def ) {
 		return new Configuration( clazz ).getValue( key, def ) ;
-	}
-
-	public static boolean verbose() {
-		boolean config = Configuration.getValue( Configuration.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
-
-		if ( config )
-			return ! ( verbose = ! verbose ) ;
-		return config ;
 	}
 
 	private String par4PNV( String key ) {

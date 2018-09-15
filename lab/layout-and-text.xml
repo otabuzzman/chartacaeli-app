@@ -233,7 +233,7 @@ Use //ChartPage@name to select a particular layout and //Frame@number for a part
 						<Frame number="338" anchor="middle"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
-						<Script purpose="1.6" value="Flat galaxy with eliptic shape."/>
+						<Script purpose="1.6" value="Flat galaxy with elliptic shape."/>
 						<Frame number="339" anchor="middleleft"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
@@ -241,7 +241,7 @@ Use //ChartPage@name to select a particular layout and //Frame@number for a part
 						<Frame number="344" anchor="middle"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
-						<Script purpose="1.6" value="Galaxy with eliptic shape."/>
+						<Script purpose="1.6" value="Galaxy with elliptic shape."/>
 						<Frame number="345" anchor="middleleft"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="middle">

@@ -77,9 +77,6 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			preferences = new File( path ) ;
 			Configuration.importPreferences( preferences ) ;
 
-			Configuration.verbose() ;
-			ApplicationResource.verbose() ;
-
 			viewerDecl = Configuration.getValue( ChartaCaeli.class, CK_VIEWER, null ) ;
 			out =  new TeeOutputStream( System.out ) ;
 
@@ -120,9 +117,6 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			Registry.degister( ParserAttribute.class.getName() ) ;
 			Registry.degister( Epoch.class.getName() ) ;
 			Registry.remove() ;
-
-			Configuration.verbose() ;
-			ApplicationResource.verbose() ;
 		} catch ( Exception e ) {
 			e.printStackTrace() ;
 			System.exit( 1 ) ;

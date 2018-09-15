@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 public class ApplicationResource {
 
 	private final static Log log = LogFactory.getLog( ApplicationResource.class ) ;
-	private static boolean verbose = false ;
+	private static boolean verbose = Configuration.getValue( ApplicationResource.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
 
 	private final static StringBuffer mem = new StringBuffer() ;
 
@@ -70,14 +70,6 @@ public class ApplicationResource {
 		mem.delete( 0, mem.length() ) ;
 
 		return val == null ? def : val ;
-	}
-
-	public static boolean verbose() {
-		boolean config = Configuration.getValue( ApplicationResource.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
-
-		if ( config )
-			return ! ( verbose = ! verbose ) ;
-		return verbose ;
 	}
 
 	private String recurseC( Class<?> clazz, String key ) {

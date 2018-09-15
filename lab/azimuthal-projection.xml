@@ -199,7 +199,7 @@
 						<Frame number="340" anchor="middle"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
-						<Script purpose="4.0" value="Flat galaxy with eliptic shape"/>
+						<Script purpose="4.0" value="Flat galaxy with elliptic shape"/>
 						<Frame number="340" anchor="middle"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
@@ -207,7 +207,7 @@
 						<Frame number="346" anchor="middle"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
-						<Script purpose="4.0" value="Galaxy with eliptic shape"/>
+						<Script purpose="4.0" value="Galaxy with elliptic shape"/>
 						<Frame number="346" anchor="middle"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
