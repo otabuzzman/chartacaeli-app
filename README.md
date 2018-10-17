@@ -16,6 +16,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   `CXX` to mingw C++ compiler.<br>
   `CXXWRAP` to cxxwrap.exe.<br>
   `JAVA_HOME` to JDK installation directory.<br>
+  `GS_FONTPATH` to directory for extra font files.<br>
   `PJ2_GENERAL_PATHJAR` to PJ2 jar file or directory.<br>
   `PJ2_GENERAL_PATHLIB` to PJ2 native library directory.<br>
   Extend `PATH` appropriately.<br>
@@ -26,6 +27,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CXX=x86_64-w64-mingw32-c++.exe
   export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
   export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.7.0_80
+  export GS_FONTPATH=c:/users/$USERNAME/src/chartacaeli
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
   export PATH=/cygdrive/c/program\ files/java/jdk1.7.0_80/bin:$PATH
@@ -41,6 +43,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   make
   make all
   ```
+- Copy extra font files into top-level directory of Charta Caeli.
 - Read and run the samples:
 
   ```  
@@ -66,6 +69,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CXX=g++
   export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
   export JAVA_HOME=/usr/lib/jvm/java
+  export GS_FONTPATH=~/src/chartacaeli
   export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
   export CUDA_HOME=/usr/local/cuda
