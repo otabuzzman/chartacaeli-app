@@ -189,6 +189,7 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 				if ( s>threshold ) {
 					area = new BodyAreal( converter, projector ) ;
 					area.setName( record.Name ) ;
+					area.initValues() ;
 
 					area.setAnnotation( record.getAnnotation() ) ;
 

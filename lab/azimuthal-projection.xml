@@ -5,12 +5,12 @@
 		<ChartAzimuthal scale="32" projection="stereographic">
 			<ChartPage name="useful" view="100" size="a0"/>
 			<Oblique>
-				<lon>
+				<Longitude>
 					<Rational value="-90"/>
-				</lon>
-				<lat>
+				</Longitude>
+				<Latitude>
 					<Rational value="90"/>
-				</lat>
+				</Latitude>
 			</Oblique>
 			<!--Title, subtitle, description, legends, etc.-->
 			<Horizon>
@@ -1131,7 +1131,8 @@
 					<Circle>
 						<CircleMeridian importance="canonical">
 							<Alpha>
-								<Rational value="-5"/>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
 							</Alpha>
 							<DialDeg name="nosuperscriptshift" division="1" reflect="false">
 								<ScalebaseNone name="nospace"/>
@@ -1530,12 +1531,12 @@
 								</AnnotationCurved>
 							</Annotation>
 							<Position>
-								<lon>
+								<Longitude>
 									<Rational value="0"/>
-								</lon>
-								<lat>
+								</Longitude>
+								<Latitude>
 									<Rational value="90"/>
-								</lat>
+								</Latitude>
 							</Position>
 							<Script purpose="3.2" value="&#xf810;"/>
 						</BodyStellar>

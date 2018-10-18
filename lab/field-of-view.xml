@@ -131,12 +131,14 @@ The area to draw a star chart is limited by a field of view. Each //Chart has a 
 							</Angle>
 						</CircleParallel>
 					</Circle>
-					<Longitude>
-						<Rational value="7.5"/>
-					</Longitude>
-					<Latitude>
-						<Rational value="51.5"/>
-					</Latitude>
+					<Oblique>
+						<Longitude>
+							<Rational value="7.5"/>
+						</Longitude>
+						<Latitude>
+							<Rational value="51.5"/>
+						</Latitude>
+					</Oblique>
 					<Time standard="UTC+1">
 						<Rational value="12"/>
 					</Time>
