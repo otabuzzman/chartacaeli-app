@@ -508,7 +508,7 @@
 			<Horizon>
 				<HorizonEquatorial practicality="always">
 					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
-						<Script purpose="12" value="CHARTA CAELI"/>
+						<Script purpose="12" value="&#xE043;&#xE048;&#xE041;&#xE052;&#xE054;&#xE041;&#xE020;&#xE043;&#xE041;&#xE045;&#xE04C;&#xE049;"/>
 						<Frame number="21" anchor="middleright"/>
 					</AnnotationStraight>
 					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
