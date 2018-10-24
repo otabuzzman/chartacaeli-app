@@ -3,3 +3,4 @@
 *.sh	eol=lf
 *.pptm	binary
 *.png	binary
+*.xcf	binary
