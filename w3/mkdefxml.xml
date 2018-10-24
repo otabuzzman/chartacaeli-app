@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ChartaCaeli xmlns="http://www.chartacaeli.eu/chartacaeli/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.eu/chartacaeli/model
+c:\users\jschuck\src\chartacaeli\chartacaeli.xsd">
+	<Chart>
+		<ChartAzimuthal projection="" scale="">
+			<ChartPage view="" size=""/>
+			<Horizon>
+				<HorizonEquatorial practicality="">
+					<AnnotationStraight reverse="" radiant="" anchor="">
+						<Script purpose="" value=""/>
+					</AnnotationStraight>
+				</HorizonEquatorial>
+			</Horizon>
+		</ChartAzimuthal>
+	</Chart>
+</ChartaCaeli>
