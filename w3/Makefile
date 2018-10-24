@@ -10,9 +10,16 @@ else
 sep := :
 endif
 
+.SUFFIXES: .xml .pdf
+
+.xml.pdf:
+	@( cd .. ; make $@ )
+	@test -f ../$@ && mv ../$@ .
+
 all: lib/jquery-1.10.2.min.js lib/xonomy lib/Justv2.ttf lib/Justv22.ttf
 
 clean:
+	rm -f general-features-selection.pdf
 
 # local clean
 lclean: clean
