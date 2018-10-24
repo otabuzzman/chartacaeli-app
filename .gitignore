@@ -3,10 +3,14 @@
 .classpath
 .project
 # downloads
-*.tar
-*.zip
-*.gz
 Blocks-4.1.0.txt
+jquery-*
+xonomy
+*.gz
+*.jar
+*.tar
+*.ttf
+*.zip
 # artefacts
 chartacaeli/UnicodeBlock.java
 chartacaeli/caa/**
@@ -23,10 +27,14 @@ chartacaeli/model/
 *.dll
 *.exe
 *.exp
-*.jar
 *.jfr
 *.lib
 *.o
 *.out
 *.so
-*.ttf
+# artefacts from Artwork development
+andromeda.*
+g2.2xlarge.gpuinfo
+iorgb.*
+sf-*
+tf-*
