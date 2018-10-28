@@ -600,6 +600,8 @@
 					<entry key="DEm" value=".+"/>
 					<entry key="mag" value=".+"/>
 					<entry key="Type" value="^(Gx|OC|Gb|Nb|Pl|C\+N|Ast|Kt|\*\*\*|D\*|\*)$"/>
+					<!--names.dat-->
+					<entry key="CName" value=".*"/>
 				</map>
 			</node>
 			<node name="CatalogADC7237">

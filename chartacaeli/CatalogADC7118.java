@@ -35,11 +35,22 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 
 	private final static double DEFAULT_THRESHOLDSCALE	= 5.2 ;
 
+	private final static int I_CHUNK = 70+1/*0x0a*/ ;
 	private final static int C_CHUNK = 96+1/*0x0a*/ ;
 
 	private final static Log log = LogFactory.getLog( CatalogADC7118.class ) ;
 
-	private Hashtable<String, CatalogADC7118Record> catalog ;
+	protected class Catalog {
+		public Hashtable<String, CatalogADC7118Record> main = new Hashtable<String, CatalogADC7118Record>() ;
+
+		public Supplement supp = new Supplement() ;
+
+		protected class Supplement {
+			public Hashtable<String, String> index = new Hashtable<String, String>() ;
+		}
+	}
+
+	private Catalog catalog ;
 
 	private Converter converter ;
 	private Projector projector ;
@@ -49,26 +60,23 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 		this.projector = projector ;
 	}
 
-	@SuppressWarnings("unchecked")
-	private Hashtable<String, CatalogADC7118Record> unsafecast( Object hashtable ) {
-		return (Hashtable<String, CatalogADC7118Record>) hashtable ;
-	}
-
 	public void addAllCatalogRecord() {
 		Reader reader ;
 		CatalogADC7118Record record ;
 		String key ;
 
 		key = getClass().getSimpleName()+":"+getName() ;
-		catalog = unsafecast( Registry.retrieve( key ) ) ;
+		catalog = (Catalog) Registry.retrieve( key ) ;
 		if ( catalog == null ) {
-			catalog = new Hashtable<String, CatalogADC7118Record>() ;
+			catalog = new Catalog() ;
 			Registry.register( key, catalog ) ;
 		} else
 			return ;
 
 		try {
-			reader = reader() ;
+
+			reader = reader( new URI( getUrl() ) ) ;
+			index( reader( new URI( getIndex() ) ) ) ;
 
 			while ( ( record = record( reader ) ) != null ) {
 				try {
@@ -84,7 +92,7 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 				for ( chartacaeli.model.CatalogADC7118Record select : getCatalogADC7118Record() ) {
 					select.copyValues( record ) ;
 					if ( Boolean.parseBoolean( record.getSelect() ) ) {
-						catalog.put( record.Name, record ) ;
+						catalog.main.put( record.Name, record ) ;
 
 						break ;
 					}
@@ -104,11 +112,11 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 	}
 
 	public void delAllCatalogRecord() {
-		catalog.clear() ;
+		catalog.main.clear() ;
 	}
 
 	public CatalogRecord[] getCatalogRecord() {
-		return catalog.values().toArray( new CatalogRecord[0] ) ;
+		return catalog.main.values().toArray( new CatalogRecord[0] ) ;
 	}
 
 	public void headPS( ApplicationPostscriptStream ps ) {
@@ -148,7 +156,7 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 
 		threshold = Configuration.getValue( this, CK_THRESHOLDSCALE, DEFAULT_THRESHOLDSCALE ) ;
 
-		catalog = Arrays.asList( this.catalog
+		catalog = Arrays.asList( this.catalog.main
 				.values()
 				.toArray( new CatalogADC7118Record[0] ) ) ;
 		Collections.sort( catalog, comparator ) ;
@@ -239,14 +247,12 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 	public void tailPS( ApplicationPostscriptStream ps ) {
 	}
 
-	public Reader reader() throws URISyntaxException, MalformedURLException {
-		URI uri ;
+	public Reader reader( URI uri ) throws URISyntaxException, MalformedURLException {
 		URL url ;
 		File file ;
 		InputStream in ;
 		GZIPInputStream gz ;
 
-		uri = new URI( getUrl() ) ;
 		if ( uri.isAbsolute() ) {
 			url = uri.toURL() ;	
 		} else {
@@ -267,6 +273,39 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 			} catch ( IOException ein ) {
 				throw new RuntimeException ( egz.toString() ) ;
 			}
+		}
+	}
+
+	public void index( java.io.Reader index ) {
+		char[] cl ;
+		int o ;
+		String rl ;
+		String k, n ;
+
+		cl = new char[I_CHUNK] ;
+		o = 0 ;
+
+		try {
+			while ( index.read( cl, o++, 1 ) == 1 ) {
+				if ( cl[o-1] == '\n' ) {
+					if ( o<I_CHUNK ) {
+						for ( o-- ; o<I_CHUNK ; o++ ) {
+							cl[o] = ' ' ;
+						}
+						cl[o-1] = '\n' ;
+					}
+					rl = new String( cl ) ;
+					o = 0 ;
+					rl = rl.substring( 0, rl.length()-1 ) ;
+
+					k = rl.substring( 36, 41 ).replaceAll( " ", "" ) ;
+					n = rl.substring( 0, 35 ).trim() ;
+
+					catalog.supp.index.put( k, n ) ;
+				}
+			}
+		} catch ( IOException e ) {
+			throw new RuntimeException( e.toString() ) ;
 		}
 	}
 
@@ -296,7 +335,7 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 		CatalogADC7118Record r = null ;
 
 		try {
-			r = new CatalogADC7118Record( record ) ;
+			r = new CatalogADC7118Record( record, catalog.supp ) ;
 		} catch ( ParameterNotValidException e ) {
 			log.warn( ParameterNotValidError.errmsg( '"'+record+'"', e.getMessage() ) ) ;
 		}

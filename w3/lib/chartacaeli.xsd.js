@@ -1697,6 +1697,13 @@ var docSpec = {
 					return jsElement.hasAttribute("url");
 				}
 			}, {
+				caption: "add \@@index",
+				action: Xonomy.newAttribute,
+				actionParameter: {name: "index"},
+				hideIf: function(jsElement) {
+					return jsElement.hasAttribute("index");
+				}
+			}, {
 				caption: "add <Artwork>",
 				action: Xonomy.newElementChild,
 				actionParameter: "<Artwork/>",
@@ -1724,6 +1731,9 @@ var docSpec = {
 					}]
 				},
 				"url": {
+					asker: Xonomy.askString
+				},
+				"index": {
 					asker: Xonomy.askString
 				}
 			}

@@ -3,6 +3,7 @@ package chartacaeli;
 
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.Hashtable;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -31,6 +32,8 @@ public class CatalogADC7118Record extends chartacaeli.model.CatalogADC7118Record
 	private final static String QK_MAG		= "mag" ;
 	private final static String QK_N_MAG	= "n_mag" ;
 	private final static String QK_DESC		= "Desc" ;
+	// names.dat
+	private final static String QK_CNAME	= "CName" ;
 
 	public String Name    ; //  NGC or IC designation (preceded by I)
 	public String Type    ; // *Object classification
@@ -46,12 +49,14 @@ public class CatalogADC7118Record extends chartacaeli.model.CatalogADC7118Record
 	public String mag     ; //  ? Integrated magnitude, visual or photographic (see n_mag)
 	public String n_mag   ; //  [p] 'p' if mag is photographic (blue)
 	public String Desc    ; // *Description of the object
+	// names.dat
+	public String CName   ; //  Common name (including Messier numbers)
 
 	// message key (MK_)
 	private final static String MK_ERECLEN = "ereclen" ;
 	private final static String MK_ERECVAL = "erecval" ;
 
-	public CatalogADC7118Record( String data ) throws ParameterNotValidException {
+	public CatalogADC7118Record( String data, CatalogADC7118.Catalog.Supplement supp ) throws ParameterNotValidException {
 		MessageCatalog cat ;
 		StringBuffer msg ;
 		String fmt ;
@@ -82,6 +87,11 @@ public class CatalogADC7118Record extends chartacaeli.model.CatalogADC7118Record
 		mag     = data.substring(40, 44 ).trim() ;
 		n_mag   = data.substring(44, 45 ).trim() ;
 		Desc    = data.substring(46, 96 ).trim() ;
+		// names.dat
+		if ( supp.index.containsKey( Name ) )
+			CName = supp.index.get( Name ) ;
+		else
+			CName = "" ;
 	}
 
 	public void register() {
@@ -118,6 +128,9 @@ public class CatalogADC7118Record extends chartacaeli.model.CatalogADC7118Record
 		Registry.register( sub, n_mag ) ;
 		sub = cat.substitute( QK_DESC, QK_DESC ) ;
 		Registry.register( sub, Desc ) ;
+		// names.dat
+		sub = cat.substitute( QK_CNAME, QK_CNAME ) ;
+		Registry.register( sub, CName ) ;
 	}
 
 	public void degister() {
@@ -153,6 +166,9 @@ public class CatalogADC7118Record extends chartacaeli.model.CatalogADC7118Record
 		sub = cat.substitute( QK_N_MAG, QK_N_MAG ) ;
 		Registry.degister( sub ) ;
 		sub = cat.substitute( QK_DESC, QK_DESC ) ;
+		Registry.degister( sub ) ;
+		// names.dat
+		sub = cat.substitute( QK_CNAME, QK_CNAME ) ;
 		Registry.degister( sub ) ;
 	}
 

@@ -742,6 +742,7 @@
 					<xs:sequence>
 						<xs:element ref="CatalogADC7118Record" maxOccurs="unbounded"/>
 					</xs:sequence>
+					<xs:attribute name="index" type="xs:anyURI" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
