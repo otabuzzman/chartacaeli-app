@@ -990,7 +990,13 @@
 					</AnnotationStraight>
 					<Catalog>
 						<CatalogADC7118 url="ftp://cdsarc.u-strasbg.fr/pub/cats/VII/118/ngc2000.dat" index="ftp://cdsarc.u-strasbg.fr/pub/cats/VII/118/names.dat">
-							<CatalogADC7118Record select="{mag&lt;11}">
+						<!--how to find equal named objects in supplementary catalog file names.dat:-->
+						<!--1. $ sort names.dat | uniq -w 35 -D >names.dup-->
+						<!--2. manually remove 1st of multiple objects (e.g. notepad++)-->
+						<!--3. vertically select IDs and remove spaces (Ctrl+Alt+Mouse)-->
+						<!--4. prepend/append IDs with '&amp;&amp;Name!~&#x0022;'/'&#x0022;'-->
+						<!--5. join lines, remove spaces and append to select-->
+							<CatalogADC7118Record select="{mag&lt;11&amp;&amp;Name!~&#x0022;4039&#x0022;&amp;&amp;Name!~&#x0022;3034&#x0022;&amp;&amp;Name!~&#x0022;4173&#x0022;&amp;&amp;Name!~&#x0022;4174&#x0022;&amp;&amp;Name!~&#x0022;4175&#x0022;&amp;&amp;Name!~&#x0022;3746&#x0022;&amp;&amp;Name!~&#x0022;3748&#x0022;&amp;&amp;Name!~&#x0022;3750&#x0022;&amp;&amp;Name!~&#x0022;3751&#x0022;&amp;&amp;Name!~&#x0022;3753&#x0022;&amp;&amp;Name!~&#x0022;3754&#x0022;&amp;&amp;Name!~&#x0022;884&#x0022;&amp;&amp;Name!~&#x0022;I63&#x0022;&amp;&amp;Name!~&#x0022;I2948&#x0022;&amp;&amp;Name!~&#x0022;651&#x0022;&amp;&amp;Name!~&#x0022;5195&#x0022;&amp;&amp;Name!~&#x0022;650&#x0022;&amp;&amp;Name!~&#x0022;651&#x0022;&amp;&amp;Name!~&#x0022;6995&#x0022;&amp;&amp;Name!~&#x0022;I5070&#x0022;&amp;&amp;Name!~&#x0022;2238&#x0022;&amp;&amp;Name!~&#x0022;2239&#x0022;&amp;&amp;Name!~&#x0022;2246&#x0022;&amp;&amp;Name!~&#x0022;4568&#x0022;&amp;&amp;Name!~&#x0022;7318&#x0022;&amp;&amp;Name!~&#x0022;7319&#x0022;&amp;&amp;Name!~&#x0022;7320&#x0022;&amp;&amp;Name!~&#x0022;4438&#x0022;&amp;&amp;Name!~&#x0022;6992&#x0022;&amp;&amp;Name!~&#x0022;6995&#x0022;&amp;&amp;Name!~&#x0022;5195&#x0022;}">
 								<Annotation>
 									<AnnotationStraight anchor="middleleft" reverse="false" radiant="false">
 										<Script purpose="bodylettering7" value="{CName~&#x0022;.+&#x0022;?CName:&#x0022; &#x0022;}"/>
