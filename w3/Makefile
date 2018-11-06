@@ -18,6 +18,10 @@ endif
 
 all: lib/jquery-1.10.2.min.js lib/xonomy lib/Justv2.ttf lib/Justv22.ttf
 
+general-features-selection.pdf: general-features-selection.preferences
+scientific-star-chart.pdf: scientific-star-chart.preferences
+artistic-star-chart.pdf: artistic-star-chart.preferences
+
 clean:
 	rm -f general-features-selection.pdf
 

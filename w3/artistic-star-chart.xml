@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ChartaCaeli name="artistic-star-chart" xmlns="http://www.chartacaeli.eu/chartacaeli/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.eu/chartacaeli/model ../chartacaeli.xsd">
+	<Chart>
+		<ChartAzimuthal scale="32" projection="stereographic">
+			<ChartPage name="useful" view="100" size="a0"/>
+			<Oblique>
+				<Longitude>
+					<Rational value="-90"/>
+				</Longitude>
+				<Latitude>
+					<Rational value="90"/>
+				</Latitude>
+			</Oblique>
+			<!--Title, subtitles, legends-->
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="36" value="&#xE043;&#xE048;&#xE041;&#xE052;&#xE054;&#xE041;&#xE020;&#xE043;&#xE041;&#xE045;&#xE04C;&#xE049;"/>
+						<Frame number="21" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="topmiddle">
+						<Script purpose="16" value="An azimuthal projection of the northern skies"/>
+						<Frame number="27" anchor="topright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
+						<Script purpose="18" value="Artistic star chart"/>
+						<Frame number="33" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="8.6" value="Legend"/>
+						<Frame number="248" anchor="bottomright"/>
+					</AnnotationStraight>
+				</HorizonEquatorial>
+			</Horizon>
+			<!--Southernmost declination circle of equatorial grid with dial.-->
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Southern declination limit:"/>
+						<Frame number="260" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="-20°"/>
+						<Frame number="261" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<DialDeg division="6" reflect="true">
+								<ScalebaseRail/>
+								<Scaleline name="half" value="7.5">
+									<AnnotationStraight anchor="middleleft" radiant="false" reverse="false">
+										<Script purpose="dialfraction" value="30">
+											<Superscript value="m"/>
+										</Script>
+									</AnnotationStraight>
+								</Scaleline>
+								<Scaleline name="full" value="15">
+									<AnnotationStraight anchor="middleleft" radiant="false" reverse="false">
+										<Script purpose="dialcardinal" value="{skalagrd/15}">
+											<Superscript value="h"/>
+										</Script>
+									</AnnotationStraight>
+								</Scaleline>
+								<Annotation>
+									<AnnotationCurved reverse="true" distance="98.96" anchor="bottommiddle">
+										<Script purpose="diallettering" value="Right Ascension (RA)"/>
+									</AnnotationCurved>
+								</Annotation>
+							</DialDeg>
+							<Angle>
+								<Rational value="-20"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+				</HorizonEquatorial>
+			</Horizon>
+			<!--Field of view-->
+			<Horizon>
+				<HorizonEquatorial practicality="none">
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="none" value="none"/>
+					</AnnotationStraight>
+					<Circle>
+						<CircleParallel name="fieldofview" importance="canonical" fieldofview="true">
+							<Angle>
+								<Rational value="-19.5"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+				</HorizonEquatorial>
+			</Horizon>
+			<!--Equatorial grid-->
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Grid width for Declination:"/>
+						<Frame number="272" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="10°"/>
+						<Frame number="273" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Grid width for Right Ascension:"/>
+						<Frame number="278" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="1">
+							<Superscript value="h"/>
+						</Script>
+						<Frame number="279" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Graduation for Right Ascension:"/>
+						<Frame number="284" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="5">
+							<Superscript value="m"/>
+						</Script>
+						<Frame number="285" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="-10"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="cardinal">
+							<Annotation>
+								<AnnotationCurved reverse="true" distance="47.92" anchor="bottommiddle">
+									<Script purpose="guidance" value="&#x22;Everything under the sun is in tune but the sun is eclipsed by the moon.&#x22;"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Annotation>
+								<AnnotationCurved reverse="true" distance="75" anchor="bottomright">
+									<Script purpose="circlelettering" value="Celestial equator"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Annotation>
+								<AnnotationCurved reverse="false" distance="60.4" anchor="bottommiddle">
+									<Script purpose="circlelettering" value="Celestial equator"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Annotation>
+								<AnnotationCurved reverse="false" distance="97.2" anchor="bottommiddle">
+									<Script purpose="circlelettering" value="Celestial equator"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Angle>
+								<Rational value="0"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="10"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="20"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="30"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="40"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="50"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="60"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="70"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="80"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleNorthernTropic importance="cardinal">
+							<Annotation>
+								<AnnotationCurved reverse="false" distance="62.5" anchor="bottomright">
+									<Script purpose="circlelettering" value="Northern solstice circle"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Annotation>
+								<AnnotationCurved reverse="true" distance="66.7" anchor="topleft">
+									<Script purpose="circlelettering" value="Northern solstice circle"/>
+								</AnnotationCurved>
+							</Annotation>
+						</CircleNorthernTropic>
+					</Circle>
+					<Circle>
+						<CircleNorthernPolar importance="cardinal">
+							<Annotation>
+								<AnnotationCurved reverse="true" distance="74.85" anchor="bottommiddle">
+									<Script purpose="circlelettering" value="Arctic circle"/>
+								</AnnotationCurved>
+							</Annotation>
+						</CircleNorthernPolar>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="0"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="15"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="30"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="45"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="60"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="75"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="90"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="105"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="120"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="135"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="150"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="165"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<DialDeg division="1" reflect="false">
+								<ScalebaseNone/>
+								<Scaleline value="10">
+									<AnnotationStraight anchor="bottomright" radiant="false" reverse="false">
+										<Script purpose="dialfraction" value="{skalagrdneg==true?&#x22;-&#x22;:&#x22;&#x22;}{skalagrd}°"/>
+									</AnnotationStraight>
+								</Scaleline>
+								<Annotation>
+									<AnnotationCurved reverse="false" distance="8.67" anchor="bottommiddle">
+										<Script purpose="diallettering" value="Declination (&#x03b4;)"/>
+									</AnnotationCurved>
+								</Annotation>
+							</DialDeg>
+							<Angle>
+								<Rational value="180"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="195"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="210"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="225"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="240"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="255"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="270"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="285"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="300"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<DialDeg division="1" reflect="false">
+								<ScalebaseNone/>
+								<Scaleline value="10">
+									<AnnotationStraight anchor="bottomright" radiant="false" reverse="true">
+										<Script purpose="dialfraction" value="{skalagrdneg==true?&#x22;-&#x22;:&#x22;&#x22;}{skalagrd}°"/>
+									</AnnotationStraight>
+								</Scaleline>
+							</DialDeg>
+							<Annotation>
+								<AnnotationCurved reverse="true" distance="83.67" anchor="bottomleft">
+									<Script purpose="diallettering" value="Declination (&#x03b4;)"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Angle>
+								<Rational value="315"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="330"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="-19.75"/>
+							</Alpha>
+							<Angle>
+								<Rational value="345"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+				</HorizonEquatorial>
+			</Horizon>
+			<!--Ecliptical grid-->
+			<Horizon>
+				<HorizonEcliptical practicality="frequent">
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Grid width for ecliptical altitude:"/>
+						<Frame number="296" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="10°"/>
+						<Frame number="297" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Grid width for ecliptical azimuth:"/>
+						<Frame number="302" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="10°"/>
+						<Frame number="303" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Graduation for ecliptical azimuth:"/>
+						<Frame number="308" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="5°"/>
+						<Frame number="309" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Alpha>
+							<Omega>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Omega>
+							<Angle>
+								<Rational value="-40"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Alpha>
+							<Omega>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Omega>
+							<Angle>
+								<Rational value="-30"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Omega>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Omega>
+							<Angle>
+								<Rational value="-20"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Omega>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Omega>
+							<Angle>
+								<Rational value="-10"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="cardinal">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Omega>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Omega>
+							<Annotation>
+								<AnnotationCurved reverse="false" distance="9.5" anchor="bottommiddle">
+									<Script purpose="circlelettering" value="Ecliptic"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Annotation>
+								<AnnotationCurved reverse="false" distance="90.5" anchor="bottommiddle">
+									<Script purpose="circlelettering" value="Ecliptic"/>
+								</AnnotationCurved>
+							</Annotation>
+							<Angle>
+								<Rational value="0"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<DialDeg division="2" reflect="false">
+								<ScalebaseRail/>
+								<Scaleline name="full" value="10">
+									<AnnotationStraight anchor="middleleft" radiant="false" reverse="false">
+										<Script purpose="dialcardinal" value="{skalagrd}°"/>
+									</AnnotationStraight>
+								</Scaleline>
+								<Annotation>
+									<AnnotationCurved reverse="false" distance="4.85" anchor="topright">
+										<Script purpose="diallettering" value="Ecliptical azimuth (&#x03bb;)"/>
+									</AnnotationCurved>
+								</Annotation>
+							</DialDeg>
+							<Angle>
+								<Rational value="10"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="20"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="30"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="40"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="50"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="60"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="70"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<Angle>
+								<Rational value="80"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="0"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="20"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<DialDeg division="1" reflect="false">
+								<ScalebaseNone/>
+								<Scaleline value="20">
+									<AnnotationStraight anchor="bottomright" radiant="true" reverse="false">
+										<Script purpose="dialfraction" value="{skalagrdneg==true?&#x22;-&#x22;:&#x22;&#x22;}{skalagrd}°"/>
+									</AnnotationStraight>
+								</Scaleline>
+								<Annotation>
+									<AnnotationCurved reverse="true" distance="89" anchor="bottommiddle">
+										<Script purpose="diallettering" value="Ecliptical altitude (&#x03b2;)"/>
+									</AnnotationCurved>
+								</Annotation>
+							</DialDeg>
+							<Angle>
+								<Rational value="40"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Alpha>
+							<Angle>
+								<Rational value="60"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Alpha>
+							<Angle>
+								<Rational value="80"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Alpha>
+							<Angle>
+								<Rational value="100"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="chasing"/>
+							</Alpha>
+							<Angle>
+								<Rational value="120"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="140"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="160"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="180"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<DialDeg division="1" reflect="false">
+								<ScalebaseNone/>
+								<Scaleline value="20">
+									<AnnotationStraight anchor="bottomright" radiant="false" reverse="false">
+										<Script purpose="dialfraction" value="{skalagrdneg==true?&#x22;-&#x22;:&#x22;&#x22;}{skalagrd}°"/>
+									</AnnotationStraight>
+								</Scaleline>
+								<Annotation>
+									<AnnotationCurved reverse="false" distance="26.5" anchor="bottommiddle">
+										<Script purpose="diallettering" value="Ecliptical altitude (&#x03b2;)"/>
+									</AnnotationCurved>
+								</Annotation>
+							</DialDeg>
+							<Angle>
+								<Rational value="200"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="220"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="240"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="260"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="280"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="300"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="320"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+					<Circle>
+						<CircleMeridian importance="canonical">
+							<Alpha>
+								<Rational value="0"/>
+								<Indirect value="fieldofview" node="leading"/>
+							</Alpha>
+							<Angle>
+								<Rational value="340"/>
+							</Angle>
+						</CircleMeridian>
+					</Circle>
+				</HorizonEcliptical>
+			</Horizon>
+			<!--The Bright Star Catalogue-->
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Catalogue used:"/>
+						<Frame number="320" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="The Bright Star Catalogue (V/50)"/>
+						<Frame number="321" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
+						<Script purpose="8.6" value="Symbols used for V/50 catalogue"/>
+						<Frame number="251" anchor="bottommiddle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="6.8" value="&#xf811;"/>
+						<Frame number="263" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="Stars brighter than mag-1"/>
+						<Frame number="263" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="6.2" value="&#xf811;"/>
+						<Frame number="269" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="mag0..mag-1"/>
+						<Frame number="269" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="5.6" value="&#xf811;"/>
+						<Frame number="275" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="mag1..mag0"/>
+						<Frame number="275" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="5" value="&#xf811;"/>
+						<Frame number="281" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="mag2..mag1"/>
+						<Frame number="281" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="4.4" value="&#xf811;"/>
+						<Frame number="287" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="mag3..mag2"/>
+						<Frame number="287" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="3.8" value="&#xf811;"/>
+						<Frame number="293" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="mag4..mag3"/>
+						<Frame number="293" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="3.2" value="&#xf811;"/>
+						<Frame number="299" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="mag5..mag4"/>
+						<Frame number="299" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="2.6" value="&#xf811;"/>
+						<Frame number="305" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="mag6..mag5"/>
+						<Frame number="305" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleright">
+						<Script purpose="2" value="&#xf811;"/>
+						<Frame number="311" anchor="middle"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="middleleft">
+						<Script purpose="4.0" value="Stars fainter than mag6"/>
+						<Frame number="311" anchor="middle"/>
+					</AnnotationStraight>
+					<Catalog>
+						<CatalogADC5050 url="ftp://cdsarc.u-strasbg.fr/pub/cats/V/50/catalog.gz">
+							<CatalogADC5050Record select="{Vmag&#x003c;6}">
+								<Annotation>
+									<AnnotationStraight anchor="bottomleft" reverse="false" radiant="false">
+										<Script purpose="{Name~&#x0022;.*[0-9a-zA-Z].*&#x0022;&#x0026;&#x0026;Vmag&#x003c;3?&#x0022;guidance&#x0022;:&#x0022;none&#x0022;}" value="{Name~&#x0022;.*[0-9a-zA-Z].*&#x0022;?Name:&#x0022;default&#x0022;}"/>
+									</AnnotationStraight>
+								</Annotation>
+								<Annotation>
+									<AnnotationStraight anchor="topleft" reverse="false" radiant="false">
+										<Script purpose="{Vmag&#x003c;4?&#x0022;guidance&#x0022;:&#x0022;none&#x0022;}" value="{HR}"/>
+									</AnnotationStraight>
+								</Annotation>
+								<Script value="&#xf811;" purpose="{Vmag&#x003c;-1?4.98:Vmag&#x003c;0?4.02:Vmag&#x003c;1?3.24:Vmag&#x003c;2?2.61:Vmag&#x003c;3?2.11:Vmag&#x003c;4?1.70:Vmag&#x003c;5?1.37:Vmag&#x003c;6?1.10:Vmag&#x003c;7?0.89:Vmag&#x003c;8?0.72:Vmag&#x003c;9?0.58:Vmag&#x003c;10?0.47:Vmag&#x003c;11?0.38:0.30}"/>
+							</CatalogADC5050Record>
+						</CatalogADC5050>
+					</Catalog>
+				</HorizonEquatorial>
+			</Horizon>
+		</ChartAzimuthal>
+	</Chart>
+</ChartaCaeli>
