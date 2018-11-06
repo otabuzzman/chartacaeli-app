@@ -12,7 +12,7 @@ PKG = chartacaeli.gpu
 # C3P test package
 TST = $(PKG).$(c3ptst)
 
-# top-level diretory is current minus package (e.g. /foo/bar/hot minus bar.hot yields /foo)
+# top-level directory is current minus package (e.g. /foo/bar/hot minus bar.hot yields /foo)
 topdir = $(subst $(subst .,/,$(PKG)),,$(CURDIR))
 
 c3psrc = c3p
