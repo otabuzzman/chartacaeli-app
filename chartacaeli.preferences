@@ -652,12 +652,12 @@
 			</node>
 			<node name="Artwork$PJ2TextureMapperJni">
 				<map>
-					<entry key="libgpu" value="gpu"/>
+					<entry key="libgpu" value="c3p"/>
 				</map>
 			</node>
 			<node name="Artwork$PJ2TextureMapperC3p">
 				<map>
-					<entry key="libgpu" value="gpu"/>
+					<entry key="libgpu" value="c3p"/>
 				</map>
 			</node>
 			<node name="Artwork$PJ2TextureMapperGpu">
