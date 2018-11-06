@@ -101,7 +101,6 @@ public class ImageOperator implements PostscriptEmitter {
 		ps.op( "systemdict" ) ;
 		ps.op( "begin" ) ;
 		ps.op( "image" ) ;
-		ps.op( "end" ) ;
 
 		a85 = new ASCII85StringBuilder() ;
 
@@ -120,6 +119,8 @@ public class ImageOperator implements PostscriptEmitter {
 
 		a85.finish() ;
 		ps.script( a85.toString() ) ;
+
+		ps.op( "end" ) ;
 	}
 
 	public void tailPS( ApplicationPostscriptStream ps ) {
