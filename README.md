@@ -27,7 +27,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CXX=x86_64-w64-mingw32-c++.exe
   export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
   export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.7.0_80
-  export GS_FONTPATH=c:/users/$USERNAME/src/chartacaeli\;c:/users/$USERNAME/src/chartacaeli/w3/lib
+  export GS_FONTPATH=c:/users/$USERNAME/src/chartacaeli
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
   export PATH=/cygdrive/c/program\ files/java/jdk1.7.0_80/bin:$PATH
@@ -69,7 +69,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CXX=g++
   export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
   export JAVA_HOME=/usr/lib/jvm/java
-  export GS_FONTPATH=~/src/chartacaeli:~/src/chartacaeli/w3/lib
+  export GS_FONTPATH=~/src/chartacaeli
   export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
   export CUDA_HOME=/usr/local/cuda
