@@ -642,6 +642,7 @@
 					<entry key="imageop" value="false"/>
 					<!--percentage of minimum visible area of Artwork-->
 					<entry key="minvisible" value="25"/>
+					<!--chartacaeli.Artwork$PJ2TextureMapperNul-->
 					<!--chartacaeli.Artwork$PJ2TextureMapperSeq-->
 					<!--chartacaeli.Artwork$PJ2TextureMapperJni (notes on experimental classes in README.md in gpu package)-->
 					<!--chartacaeli.Artwork$PJ2TextureMapperC3p (notes on experimental classes in README.md in gpu package)-->

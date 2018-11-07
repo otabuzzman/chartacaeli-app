@@ -115,6 +115,16 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private int background ;
 
 	@SuppressWarnings("unused")
+	private class PJ2TextureMapperNul extends Task {
+
+		public PJ2TextureMapperNul() {
+		}
+
+		public void main( String[] argv ) {
+		}
+	}
+
+	@SuppressWarnings("unused")
 	private class PJ2TextureMapperSeq extends Task {
 
 		private double[] st ;

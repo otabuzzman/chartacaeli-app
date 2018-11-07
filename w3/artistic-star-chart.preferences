@@ -982,6 +982,22 @@
 					</map>
 				</node>
 			</node>
+			<node name="Artwork">
+				<map>
+					<entry key="verbose" value="true"/>
+					<entry key="dpi" value="300"/>
+					<entry key="interval" value="16"/>
+					<entry key="imageop" value="true"/>
+					<!--percentage of minimum visible area of Artwork-->
+					<entry key="minvisible" value="25"/>
+					<!--chartacaeli.Artwork$PJ2TextureMapperNul-->
+					<!--chartacaeli.Artwork$PJ2TextureMapperSeq-->
+					<!--chartacaeli.Artwork$PJ2TextureMapperSmp-->
+					<!--chartacaeli.Artwork$PJ2TextureMapperGpu-->
+					<entry key="pj2worker" value="chartacaeli.Artwork$PJ2TextureMapperNul"/>
+					<entry key="background" value=".6:0:0"/>
+				</map>
+			</node>
 		</node>
 	</root>
 </preferences>

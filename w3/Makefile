@@ -23,7 +23,7 @@ scientific-star-chart.pdf: scientific-star-chart.preferences
 artistic-star-chart.pdf: artistic-star-chart.preferences
 
 clean:
-	rm -f general-features-selection.pdf
+	rm -f general-features-selection.pdf scientific-star-chart.pdf artistic-star-chart.pdf
 
 # local clean
 lclean: clean
