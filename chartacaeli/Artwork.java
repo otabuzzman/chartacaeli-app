@@ -723,6 +723,15 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		taskinst.main( null ) ;
 		t1 = System.currentTimeMillis() ;
 
+		if ( verbose ) {
+			BufferedImage m ;
+
+			m = new BufferedImage( dims, dimt , BufferedImage.TYPE_INT_ARGB ) ;
+			m.setRGB( 0, 0, dims, dimt, mapping, 0, dims ) ;
+
+			ImageIO.write( m, "png", new File( getName()+"-"+System.currentTimeMillis()+".png" ) ) ;
+		}
+
 		log.info( MessageCatalog.compose( this, MK_TASKTIME, new Object[] { classconf, String.valueOf( t1-t0 ) } ) ) ;
 	}
 
