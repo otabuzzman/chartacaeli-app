@@ -145,8 +145,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			double t0[], op[] ;
 			Coordinate t1 ;
 			Vector3D vca, xca ;
-			int j, A, R, G, B ;
-			int q11, q21, q12, q22 ;
 			double o, p ;
 
 			for ( int t=0 ; dimt>t ; t++ ) {
@@ -175,20 +173,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					if ( 0>o || 0>p || o>=maxo || p>=maxp )
 						continue ;
 
-					j = (int) p*dimo+(int) o ;
-
-					if ( dims>dimo ) {
-						q11 = texture[j] ;
-						q21 = texture[j+1] ;
-						q12 = texture[j+dimo] ;
-						q22 = texture[j+dimo+1] ;
-						A = ( (int) BilinearInterpolator.operate( o-(long) o, p-(long) p, q11>>24&255, q21>>24&255, q12>>24&255, q22>>24&255 ) )&255 ;
-						R = ( (int) BilinearInterpolator.operate( o-(long) o, p-(long) p, q11>>16&255, q21>>16&255, q12>>16&255, q22>>16&255 ) )&255 ;
-						G = ( (int) BilinearInterpolator.operate( o-(long) o, p-(long) p, q11>> 8&255, q21>> 8&255, q12>> 8&255, q22>> 8&255 ) )&255 ;
-						B = ( (int) BilinearInterpolator.operate( o-(long) o, p-(long) p, q11    &255, q21    &255, q12    &255, q22    &255 ) )&255 ;
-						mapping[t*dims+s] = A<<24|R<<16|G<<8|B ;
-					} else
-						mapping[t*dims+s] = texture[j] ;
+					mapping[t*dims+s] = texture[(int) p*dimo+(int) o] ;
 				}
 			}
 		}
@@ -369,11 +354,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 				}
 
 				public void run ( int i ) {
-					double t0[], op[] ;
-					Coordinate t1 ;
+					double t00[], op[] ;
+					Coordinate t01 ;
 					Vector3D vca, xca ;
-					int j, A, R, G, B ;
-					int q11, q21, q12, q22 ;
 					double o, p ;
 					int s, t ;
 
@@ -383,14 +366,14 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					st[0] = s*ups ;
 					st[1] = t*ups ;
 
-					t0 = tmM2P.operate( st ) ;
-					uv.x = t0[0] ;
-					uv.y = t0[1] ;
+					t00 = tmM2P.operate( st ) ;
+					uv.x = t00[0] ;
+					uv.y = t00[1] ;
 
 					eq.setCoordinate( projector.project( uv, true ) ) ;
-					t1 = eq.cartesian() ;
+					t01 = eq.cartesian() ;
 
-					vca = new Vector3D( t1.x, t1.y, t1.z ) ;
+					vca = new Vector3D( t01.x, t01.y, t01.z ) ;
 					xca = spT.intersection( new Line( Vector3D.ZERO, vca, 1.0e-10 ) ) ;
 					ca[0] = xca.getX() ;
 					ca[1] = xca.getY() ;
@@ -403,20 +386,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					if ( 0>o || 0>p || o>=maxo || p>=maxp )
 						return ;
 
-					j = (int) p*dimo+(int) o ;
-
-					if ( dims>dimo ) {
-						q11 = texture[j] ;
-						q21 = texture[j+1] ;
-						q12 = texture[j+dimo] ;
-						q22 = texture[j+dimo+1] ;
-						A = ( (int) BilinearInterpolator.operate( o-(long) o, p-(long) p, q11>>24&255, q21>>24&255, q12>>24&255, q22>>24&255 ) )&255 ;
-						R = ( (int) BilinearInterpolator.operate( o-(long) o, p-(long) p, q11>>16&255, q21>>16&255, q12>>16&255, q22>>16&255 ) )&255 ;
-						G = ( (int) BilinearInterpolator.operate( o-(long) o, p-(long) p, q11>> 8&255, q21>> 8&255, q12>> 8&255, q22>> 8&255 ) )&255 ;
-						B = ( (int) BilinearInterpolator.operate( o-(long) o, p-(long) p, q11    &255, q21    &255, q12    &255, q22    &255 ) )&255 ;
-						mapping[i] = A<<24|R<<16|G<<8|B ;
-					} else
-						mapping[i] = texture[j] ;
+					mapping[i] = texture[(int) p*dimo+(int) o] ;
 				}
 			} ) ;
 		}
