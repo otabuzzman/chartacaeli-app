@@ -997,7 +997,7 @@
 					</AnnotationStraight>
 					<Catalog>
 						<CatalogADC5050 url="ftp://cdsarc.u-strasbg.fr/pub/cats/V/50/catalog.gz">
-							<Artwork name="And" url="../stellarium/0.12/skycultures/western/andromeda.png" heaven="true">
+							<Artwork name="And" url="../stellarium/0.12/skycultures/western/andromeda.png">
 								<Popper>
 									<Position name="226">
 										<Longitude>
@@ -1032,7 +1032,7 @@
 									<Cartesian x="224" y="428"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Ant" url="../stellarium/0.12/skycultures/western/antlia.png" heaven="true">
+							<Artwork name="Ant" url="../stellarium/0.12/skycultures/western/antlia.png">
 								<Popper>
 									<Position name="4104">
 										<Longitude>
@@ -1067,7 +1067,7 @@
 									<Cartesian x="42" y="120"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Aps" url="../stellarium/0.12/skycultures/western/apus.png" heaven="true">
+							<Artwork name="Aps" url="../stellarium/0.12/skycultures/western/apus.png">
 								<Popper>
 									<Position name="6163">
 										<Longitude>
@@ -1102,7 +1102,7 @@
 									<Cartesian x="163" y="110"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Aql" url="../stellarium/0.12/skycultures/western/aquila.png" heaven="true">
+							<Artwork name="Aql" url="../stellarium/0.12/skycultures/western/aquila.png">
 								<Popper>
 									<Position name="7557">
 										<Longitude>
@@ -1137,7 +1137,7 @@
 									<Cartesian x="397" y="397"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Aqr" url="../stellarium/0.12/skycultures/western/aquarius.png" heaven="true">
+							<Artwork name="Aqr" url="../stellarium/0.12/skycultures/western/aquarius.png">
 								<Popper>
 									<Position name="8892">
 										<Longitude>
@@ -1172,7 +1172,7 @@
 									<Cartesian x="465" y="49"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Ara" url="../stellarium/0.12/skycultures/western/ara.png" heaven="true">
+							<Artwork name="Ara" url="../stellarium/0.12/skycultures/western/ara.png">
 								<Popper>
 									<Position name="6285">
 										<Longitude>
@@ -1207,7 +1207,7 @@
 									<Cartesian x="107" y="249"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Ari" url="../stellarium/0.12/skycultures/western/aries.png" heaven="true">
+							<Artwork name="Ari" url="../stellarium/0.12/skycultures/western/aries.png">
 								<Popper>
 									<Position name="838">
 										<Longitude>
@@ -1242,7 +1242,7 @@
 									<Cartesian x="210" y="47"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Aur" url="../stellarium/0.12/skycultures/western/auriga.png" heaven="true">
+							<Artwork name="Aur" url="../stellarium/0.12/skycultures/western/auriga.png">
 								<Popper>
 									<Position name="2095">
 										<Longitude>
@@ -1277,7 +1277,7 @@
 									<Cartesian x="290" y="423"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Boo" url="../stellarium/0.12/skycultures/western/bootes.png" heaven="true">
+							<Artwork name="Boo" url="../stellarium/0.12/skycultures/western/bootes.png">
 								<Popper>
 									<Position name="5505">
 										<Longitude>
@@ -1312,7 +1312,7 @@
 									<Cartesian x="207" y="401"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cae" url="../stellarium/0.12/skycultures/western/caelum.png" heaven="true">
+							<Artwork name="Cae" url="../stellarium/0.12/skycultures/western/caelum.png">
 								<Popper>
 									<Position name="1443">
 										<Longitude>
@@ -1347,7 +1347,7 @@
 									<Cartesian x="199" y="75"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cam" url="../stellarium/0.12/skycultures/western/camelopardalis.png" heaven="true">
+							<Artwork name="Cam" url="../stellarium/0.12/skycultures/western/camelopardalis.png">
 								<Popper>
 									<Position name="1686">
 										<Longitude>
@@ -1382,7 +1382,7 @@
 									<Cartesian x="219" y="136"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cnc" url="../stellarium/0.12/skycultures/western/cancer.png" heaven="true">
+							<Artwork name="Cnc" url="../stellarium/0.12/skycultures/western/cancer.png">
 								<Popper>
 									<Position name="3572">
 										<Longitude>
@@ -1417,7 +1417,7 @@
 									<Cartesian x="206" y="91"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cap" url="../stellarium/0.12/skycultures/western/capricornus.png" heaven="true">
+							<Artwork name="Cap" url="../stellarium/0.12/skycultures/western/capricornus.png">
 								<Popper>
 									<Position name="8322">
 										<Longitude>
@@ -1452,7 +1452,7 @@
 									<Cartesian x="460" y="438"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Car" url="../stellarium/0.12/skycultures/western/argonavis.png" heaven="true">
+							<Artwork name="Car" url="../stellarium/0.12/skycultures/western/argonavis.png">
 								<Popper>
 									<Position name="3685">
 										<Longitude>
@@ -1487,7 +1487,7 @@
 									<Cartesian x="298" y="22"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cas" url="../stellarium/0.12/skycultures/western/cassiopeia.png" heaven="true">
+							<Artwork name="Cas" url="../stellarium/0.12/skycultures/western/cassiopeia.png">
 								<Popper>
 									<Position name="542">
 										<Longitude>
@@ -1522,7 +1522,7 @@
 									<Cartesian x="73" y="243"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cen" url="../stellarium/0.12/skycultures/western/centaurus.png" heaven="true">
+							<Artwork name="Cen" url="../stellarium/0.12/skycultures/western/centaurus.png">
 								<Popper>
 									<Position name="5288">
 										<Longitude>
@@ -1557,7 +1557,7 @@
 									<Cartesian x="463" y="412"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cep" url="../stellarium/0.12/skycultures/western/cepheus.png" heaven="true">
+							<Artwork name="Cep" url="../stellarium/0.12/skycultures/western/cepheus.png">
 								<Popper>
 									<Position name="8974">
 										<Longitude>
@@ -1592,7 +1592,7 @@
 									<Cartesian x="335" y="147"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cet" url="../stellarium/0.12/skycultures/western/cetus.png" heaven="true">
+							<Artwork name="Cet" url="../stellarium/0.12/skycultures/western/cetus.png">
 								<Popper>
 									<Position name="910">
 										<Longitude>
@@ -1627,7 +1627,7 @@
 									<Cartesian x="412" y="440"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cha" url="../stellarium/0.12/skycultures/western/chamaeleon.png" heaven="true">
+							<Artwork name="Cha" url="../stellarium/0.12/skycultures/western/chamaeleon.png">
 								<Popper>
 									<Position name="4674">
 										<Longitude>
@@ -1662,7 +1662,7 @@
 									<Cartesian x="184" y="33"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cir" url="../stellarium/0.12/skycultures/western/circinus.png" heaven="true">
+							<Artwork name="Cir" url="../stellarium/0.12/skycultures/western/circinus.png">
 								<Popper>
 									<Position name="5704">
 										<Longitude>
@@ -1697,7 +1697,7 @@
 									<Cartesian x="235" y="239"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="CMa" url="../stellarium/0.12/skycultures/western/canis-major.png" heaven="true">
+							<Artwork name="CMa" url="../stellarium/0.12/skycultures/western/canis-major.png">
 								<Popper>
 									<Position name="2827">
 										<Longitude>
@@ -1732,7 +1732,7 @@
 									<Cartesian x="318" y="492"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="CMi" url="../stellarium/0.12/skycultures/western/canis-minor.png" heaven="true">
+							<Artwork name="CMi" url="../stellarium/0.12/skycultures/western/canis-minor.png">
 								<Popper>
 									<Position name="3008">
 										<Longitude>
@@ -1767,7 +1767,7 @@
 									<Cartesian x="184" y="124"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Col" url="../stellarium/0.12/skycultures/western/columba.png" heaven="true">
+							<Artwork name="Col" url="../stellarium/0.12/skycultures/western/columba.png">
 								<Popper>
 									<Position name="2296">
 										<Longitude>
@@ -1802,7 +1802,7 @@
 									<Cartesian x="204" y="211"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Com" url="../stellarium/0.12/skycultures/western/coma-berenices.png" heaven="true">
+							<Artwork name="Com" url="../stellarium/0.12/skycultures/western/coma-berenices.png">
 								<Popper>
 									<Position name="4968">
 										<Longitude>
@@ -1837,7 +1837,7 @@
 									<Cartesian x="172" y="64"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="CrA" url="../stellarium/0.12/skycultures/western/corona-australis.png" heaven="true">
+							<Artwork name="CrA" url="../stellarium/0.12/skycultures/western/corona-australis.png">
 								<Popper>
 									<Position name="7226">
 										<Longitude>
@@ -1872,7 +1872,7 @@
 									<Cartesian x="195" y="208"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="CrB" url="../stellarium/0.12/skycultures/western/corona-borealis.png" heaven="true">
+							<Artwork name="CrB" url="../stellarium/0.12/skycultures/western/corona-borealis.png">
 								<Popper>
 									<Position name="5971">
 										<Longitude>
@@ -1907,7 +1907,7 @@
 									<Cartesian x="157" y="20"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Crt" url="../stellarium/0.12/skycultures/western/crater.png" heaven="true">
+							<Artwork name="Crt" url="../stellarium/0.12/skycultures/western/crater.png">
 								<Popper>
 									<Position name="4567">
 										<Longitude>
@@ -1942,7 +1942,7 @@
 									<Cartesian x="55" y="242"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cru" url="../stellarium/0.12/skycultures/western/crux.png" heaven="true">
+							<Artwork name="Cru" url="../stellarium/0.12/skycultures/western/crux.png">
 								<Popper>
 									<Position name="4763">
 										<Longitude>
@@ -1977,7 +1977,7 @@
 									<Cartesian x="21" y="106"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Crv" url="../stellarium/0.12/skycultures/western/corvus.png" heaven="true">
+							<Artwork name="Crv" url="../stellarium/0.12/skycultures/western/corvus.png">
 								<Popper>
 									<Position name="4757">
 										<Longitude>
@@ -2012,7 +2012,7 @@
 									<Cartesian x="213" y="187"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cvn" url="../stellarium/0.12/skycultures/western/canes-venatici.png" heaven="true">
+							<Artwork name="Cvn" url="../stellarium/0.12/skycultures/western/canes-venatici.png">
 								<Popper>
 									<Position name="4943">
 										<Longitude>
@@ -2047,7 +2047,7 @@
 									<Cartesian x="207" y="152"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cyg" url="../stellarium/0.12/skycultures/western/cygnus.png" heaven="true">
+							<Artwork name="Cyg" url="../stellarium/0.12/skycultures/western/cygnus.png">
 								<Popper>
 									<Position name="8309">
 										<Longitude>
@@ -2082,7 +2082,7 @@
 									<Cartesian x="467" y="453"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Del" url="../stellarium/0.12/skycultures/western/delphinus.png" heaven="true">
+							<Artwork name="Del" url="../stellarium/0.12/skycultures/western/delphinus.png">
 								<Popper>
 									<Position name="7948">
 										<Longitude>
@@ -2117,7 +2117,7 @@
 									<Cartesian x="211" y="143"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Dor" url="../stellarium/0.12/skycultures/western/dorado.png" heaven="true">
+							<Artwork name="Dor" url="../stellarium/0.12/skycultures/western/dorado.png">
 								<Popper>
 									<Position name="2102">
 										<Longitude>
@@ -2152,7 +2152,7 @@
 									<Cartesian x="219" y="46"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Dra" url="../stellarium/0.12/skycultures/western/draco.png" heaven="true">
+							<Artwork name="Dra" url="../stellarium/0.12/skycultures/western/draco.png">
 								<Popper>
 									<Position name="4434">
 										<Longitude>
@@ -2187,7 +2187,7 @@
 									<Cartesian x="449" y="429"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Equ" url="../stellarium/0.12/skycultures/western/equuleus.png" heaven="true">
+							<Artwork name="Equ" url="../stellarium/0.12/skycultures/western/equuleus.png">
 								<Popper>
 									<Position name="8097">
 										<Longitude>
@@ -2222,7 +2222,7 @@
 									<Cartesian x="160" y="160"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Eri" url="../stellarium/0.12/skycultures/western/eridanus.png" heaven="true">
+							<Artwork name="Eri" url="../stellarium/0.12/skycultures/western/eridanus.png">
 								<Popper>
 									<Position name="1520">
 										<Longitude>
@@ -2257,7 +2257,7 @@
 									<Cartesian x="493" y="490"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="For" url="../stellarium/0.12/skycultures/western/fornax.png" heaven="true">
+							<Artwork name="For" url="../stellarium/0.12/skycultures/western/fornax.png">
 								<Popper>
 									<Position name="963">
 										<Longitude>
@@ -2292,7 +2292,7 @@
 									<Cartesian x="190" y="129"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Gem" url="../stellarium/0.12/skycultures/western/gemini.png" heaven="true">
+							<Artwork name="Gem" url="../stellarium/0.12/skycultures/western/gemini.png">
 								<Popper>
 									<Position name="2985">
 										<Longitude>
@@ -2327,7 +2327,7 @@
 									<Cartesian x="249" y="165"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Gru" url="../stellarium/0.12/skycultures/western/grus.png" heaven="true">
+							<Artwork name="Gru" url="../stellarium/0.12/skycultures/western/grus.png">
 								<Popper>
 									<Position name="8787">
 										<Longitude>
@@ -2362,7 +2362,7 @@
 									<Cartesian x="220" y="45"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Her" url="../stellarium/0.12/skycultures/western/hercules.png" heaven="true">
+							<Artwork name="Her" url="../stellarium/0.12/skycultures/western/hercules.png">
 								<Popper>
 									<Position name="6095">
 										<Longitude>
@@ -2397,7 +2397,7 @@
 									<Cartesian x="441" y="102"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Hor" url="../stellarium/0.12/skycultures/western/horlogium.png" heaven="true">
+							<Artwork name="Hor" url="../stellarium/0.12/skycultures/western/horlogium.png">
 								<Popper>
 									<Position name="1326">
 										<Longitude>
@@ -2432,7 +2432,7 @@
 									<Cartesian x="235" y="119"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Hya" url="../stellarium/0.12/skycultures/western/hydra.png" heaven="true">
+							<Artwork name="Hya" url="../stellarium/0.12/skycultures/western/hydra.png">
 								<Popper>
 									<Position name="5020">
 										<Longitude>
@@ -2467,7 +2467,7 @@
 									<Cartesian x="401" y="33"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Hyi" url="../stellarium/0.12/skycultures/western/hydrus.png" heaven="true">
+							<Artwork name="Hyi" url="../stellarium/0.12/skycultures/western/hydrus.png">
 								<Popper>
 									<Position name="591">
 										<Longitude>
@@ -2502,7 +2502,7 @@
 									<Cartesian x="241" y="215"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Ind" url="../stellarium/0.12/skycultures/western/indus.png" heaven="true">
+							<Artwork name="Ind" url="../stellarium/0.12/skycultures/western/indus.png">
 								<Popper>
 									<Position name="7869">
 										<Longitude>
@@ -2537,7 +2537,7 @@
 									<Cartesian x="175" y="98"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Lac" url="../stellarium/0.12/skycultures/western/lacerta.png" heaven="true">
+							<Artwork name="Lac" url="../stellarium/0.12/skycultures/western/lacerta.png">
 								<Popper>
 									<Position name="8538">
 										<Longitude>
@@ -2572,7 +2572,7 @@
 									<Cartesian x="67" y="215"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Leo" url="../stellarium/0.12/skycultures/western/leo.png" heaven="true">
+							<Artwork name="Leo" url="../stellarium/0.12/skycultures/western/leo.png">
 								<Popper>
 									<Position name="4534">
 										<Longitude>
@@ -2607,7 +2607,7 @@
 									<Cartesian x="321" y="32"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Lep" url="../stellarium/0.12/skycultures/western/lepus.png" heaven="true">
+							<Artwork name="Lep" url="../stellarium/0.12/skycultures/western/lepus.png">
 								<Popper>
 									<Position name="2155">
 										<Longitude>
@@ -2642,7 +2642,7 @@
 									<Cartesian x="213" y="235"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Lib" url="../stellarium/0.12/skycultures/western/libra.png" heaven="true">
+							<Artwork name="Lib" url="../stellarium/0.12/skycultures/western/libra.png">
 								<Popper>
 									<Position name="5685">
 										<Longitude>
@@ -2677,7 +2677,7 @@
 									<Cartesian x="224" y="107"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="LMi" url="../stellarium/0.12/skycultures/western/leo-minor.png" heaven="true">
+							<Artwork name="LMi" url="../stellarium/0.12/skycultures/western/leo-minor.png">
 								<Popper>
 									<Position name="4247">
 										<Longitude>
@@ -2712,7 +2712,7 @@
 									<Cartesian x="61" y="155"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Lup" url="../stellarium/0.12/skycultures/western/lupus.png" heaven="true">
+							<Artwork name="Lup" url="../stellarium/0.12/skycultures/western/lupus.png">
 								<Popper>
 									<Position name="5649">
 										<Longitude>
@@ -2747,7 +2747,7 @@
 									<Cartesian x="425" y="239"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Lyn" url="../stellarium/0.12/skycultures/western/lynx.png" heaven="true">
+							<Artwork name="Lyn" url="../stellarium/0.12/skycultures/western/lynx.png">
 								<Popper>
 									<Position name="3579">
 										<Longitude>
@@ -2782,7 +2782,7 @@
 									<Cartesian x="472" y="119"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Lyr" url="../stellarium/0.12/skycultures/western/lyra.png" heaven="true">
+							<Artwork name="Lyr" url="../stellarium/0.12/skycultures/western/lyra.png">
 								<Popper>
 									<Position name="7139">
 										<Longitude>
@@ -2817,7 +2817,7 @@
 									<Cartesian x="139" y="162"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Men" url="../stellarium/0.12/skycultures/western/mensa.png" heaven="true">
+							<Artwork name="Men" url="../stellarium/0.12/skycultures/western/mensa.png">
 								<Popper>
 									<Position name="1541">
 										<Longitude>
@@ -2852,7 +2852,7 @@
 									<Cartesian x="54" y="183"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Mic" url="../stellarium/0.12/skycultures/western/microscopium.png" heaven="true">
+							<Artwork name="Mic" url="../stellarium/0.12/skycultures/western/microscopium.png">
 								<Popper>
 									<Position name="8135">
 										<Longitude>
@@ -2887,7 +2887,7 @@
 									<Cartesian x="234" y="115"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Mon" url="../stellarium/0.12/skycultures/western/monoceros.png" heaven="true">
+							<Artwork name="Mon" url="../stellarium/0.12/skycultures/western/monoceros.png">
 								<Popper>
 									<Position name="3188">
 										<Longitude>
@@ -2922,7 +2922,7 @@
 									<Cartesian x="509" y="359"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Mus" url="../stellarium/0.12/skycultures/western/musca.png" heaven="true">
+							<Artwork name="Mus" url="../stellarium/0.12/skycultures/western/musca.png">
 								<Popper>
 									<Position name="4773">
 										<Longitude>
@@ -2957,7 +2957,7 @@
 									<Cartesian x="129" y="236"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Nor" url="../stellarium/0.12/skycultures/western/norma.png" heaven="true">
+							<Artwork name="Nor" url="../stellarium/0.12/skycultures/western/norma.png">
 								<Popper>
 									<Position name="5962">
 										<Longitude>
@@ -2992,7 +2992,7 @@
 									<Cartesian x="16" y="112"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Oct" url="../stellarium/0.12/skycultures/western/octans.png" heaven="true">
+							<Artwork name="Oct" url="../stellarium/0.12/skycultures/western/octans.png">
 								<Popper>
 									<Position name="5339">
 										<Longitude>
@@ -3027,7 +3027,7 @@
 									<Cartesian x="247" y="140"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Oph" url="../stellarium/0.12/skycultures/western/ophiuchus.png" heaven="true">
+							<Artwork name="Oph" url="../stellarium/0.12/skycultures/western/ophiuchus.png">
 								<Popper>
 									<Position name="7141">
 										<Longitude>
@@ -3062,7 +3062,7 @@
 									<Cartesian x="238" y="453"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Ori" url="../stellarium/0.12/skycultures/western/orion.png" heaven="true">
+							<Artwork name="Ori" url="../stellarium/0.12/skycultures/western/orion.png">
 								<Popper>
 									<Position name="2047">
 										<Longitude>
@@ -3097,7 +3097,7 @@
 									<Cartesian x="421" y="91"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Pav" url="../stellarium/0.12/skycultures/western/pavo.png" heaven="true">
+							<Artwork name="Pav" url="../stellarium/0.12/skycultures/western/pavo.png">
 								<Popper>
 									<Position name="7790">
 										<Longitude>
@@ -3132,7 +3132,7 @@
 									<Cartesian x="235" y="146"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Peg" url="../stellarium/0.12/skycultures/western/pegasus.png" heaven="true">
+							<Artwork name="Peg" url="../stellarium/0.12/skycultures/western/pegasus.png">
 								<Popper>
 									<Position name="8308">
 										<Longitude>
@@ -3167,7 +3167,7 @@
 									<Cartesian x="409" y="349"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Per" url="../stellarium/0.12/skycultures/western/perseus.png" heaven="true">
+							<Artwork name="Per" url="../stellarium/0.12/skycultures/western/perseus.png">
 								<Popper>
 									<Position name="1220">
 										<Longitude>
@@ -3202,7 +3202,7 @@
 									<Cartesian x="385" y="386"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Phe" url="../stellarium/0.12/skycultures/western/phoenix.png" heaven="true">
+							<Artwork name="Phe" url="../stellarium/0.12/skycultures/western/phoenix.png">
 								<Popper>
 									<Position name="555">
 										<Longitude>
@@ -3237,7 +3237,7 @@
 									<Cartesian x="229" y="214"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Pic" url="../stellarium/0.12/skycultures/western/pictor.png" heaven="true">
+							<Artwork name="Pic" url="../stellarium/0.12/skycultures/western/pictor.png">
 								<Popper>
 									<Position name="2550">
 										<Longitude>
@@ -3272,7 +3272,7 @@
 									<Cartesian x="167" y="38"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="PsA" url="../stellarium/0.12/skycultures/western/piscis-austrinus.png" heaven="true">
+							<Artwork name="PsA" url="../stellarium/0.12/skycultures/western/piscis-austrinus.png">
 								<Popper>
 									<Position name="8720">
 										<Longitude>
@@ -3307,7 +3307,7 @@
 									<Cartesian x="236" y="92"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Psc" url="../stellarium/0.12/skycultures/western/pisces.png" heaven="true">
+							<Artwork name="Psc" url="../stellarium/0.12/skycultures/western/pisces.png">
 								<Popper>
 									<Position name="291">
 										<Longitude>
@@ -3342,7 +3342,7 @@
 									<Cartesian x="481" y="155"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Pyx" url="../stellarium/0.12/skycultures/western/pyxis.png" heaven="true">
+							<Artwork name="Pyx" url="../stellarium/0.12/skycultures/western/pyxis.png">
 								<Popper>
 									<Position name="3362">
 										<Longitude>
@@ -3377,7 +3377,7 @@
 									<Cartesian x="44" y="202"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Ret" url="../stellarium/0.12/skycultures/western/reticulum.png" heaven="true">
+							<Artwork name="Ret" url="../stellarium/0.12/skycultures/western/reticulum.png">
 								<Popper>
 									<Position name="1247">
 										<Longitude>
@@ -3412,7 +3412,7 @@
 									<Cartesian x="16" y="111"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Scl" url="../stellarium/0.12/skycultures/western/sculptor.png" heaven="true">
+							<Artwork name="Scl" url="../stellarium/0.12/skycultures/western/sculptor.png">
 								<Popper>
 									<Position name="8863">
 										<Longitude>
@@ -3447,7 +3447,7 @@
 									<Cartesian x="32" y="174"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Sco" url="../stellarium/0.12/skycultures/western/scorpius.png" heaven="true">
+							<Artwork name="Sco" url="../stellarium/0.12/skycultures/western/scorpius.png">
 								<Popper>
 									<Position name="5984">
 										<Longitude>
@@ -3482,7 +3482,7 @@
 									<Cartesian x="217" y="462"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Sct" url="../stellarium/0.12/skycultures/western/scutum.png" heaven="true">
+							<Artwork name="Sct" url="../stellarium/0.12/skycultures/western/scutum.png">
 								<Popper>
 									<Position name="7063">
 										<Longitude>
@@ -3517,7 +3517,7 @@
 									<Cartesian x="139" y="206"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Sex" url="../stellarium/0.12/skycultures/western/sextans.png" heaven="true">
+							<Artwork name="Sex" url="../stellarium/0.12/skycultures/western/sextans.png">
 								<Popper>
 									<Position name="4119">
 										<Longitude>
@@ -3552,7 +3552,7 @@
 									<Cartesian x="118" y="84"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Sge" url="../stellarium/0.12/skycultures/western/sagitta.png" heaven="true">
+							<Artwork name="Sge" url="../stellarium/0.12/skycultures/western/sagitta.png">
 								<Popper>
 									<Position name="7679">
 										<Longitude>
@@ -3587,7 +3587,7 @@
 									<Cartesian x="218" y="243"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Sgr" url="../stellarium/0.12/skycultures/western/sagittarius.png" heaven="true">
+							<Artwork name="Sgr" url="../stellarium/0.12/skycultures/western/sagittarius.png">
 								<Popper>
 									<Position name="7340">
 										<Longitude>
@@ -3622,7 +3622,7 @@
 									<Cartesian x="506" y="100"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Tau" url="../stellarium/0.12/skycultures/western/taurus.png" heaven="true">
+							<Artwork name="Tau" url="../stellarium/0.12/skycultures/western/taurus.png">
 								<Popper>
 									<Position name="1910">
 										<Longitude>
@@ -3657,7 +3657,7 @@
 									<Cartesian x="382" y="192"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Tel" url="../stellarium/0.12/skycultures/western/telescopium.png" heaven="true">
+							<Artwork name="Tel" url="../stellarium/0.12/skycultures/western/telescopium.png">
 								<Popper>
 									<Position name="">
 										<Longitude>
@@ -3692,7 +3692,7 @@
 									<Cartesian x="106" y="92"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Tra" url="../stellarium/0.12/skycultures/western/triangulum-australe.png" heaven="true">
+							<Artwork name="Tra" url="../stellarium/0.12/skycultures/western/triangulum-australe.png">
 								<Popper>
 									<Position name="5897">
 										<Longitude>
@@ -3727,7 +3727,7 @@
 									<Cartesian x="60" y="106"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Tri" url="../stellarium/0.12/skycultures/western/triangulum.png" heaven="true">
+							<Artwork name="Tri" url="../stellarium/0.12/skycultures/western/triangulum.png">
 								<Popper>
 									<Position name="622">
 										<Longitude>
@@ -3762,7 +3762,7 @@
 									<Cartesian x="97" y="78"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Tuc" url="../stellarium/0.12/skycultures/western/tucana.png" heaven="true">
+							<Artwork name="Tuc" url="../stellarium/0.12/skycultures/western/tucana.png">
 								<Popper>
 									<Position name="126">
 										<Longitude>
@@ -3797,7 +3797,7 @@
 									<Cartesian x="224" y="141"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="UMa" url="../stellarium/0.12/skycultures/western/ursa-major.png" heaven="true">
+							<Artwork name="UMa" url="../stellarium/0.12/skycultures/western/ursa-major.png">
 								<Popper>
 									<Position name="5191">
 										<Longitude>
@@ -3832,7 +3832,7 @@
 									<Cartesian x="258" y="394"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="UMi" url="../stellarium/0.12/skycultures/western/ursa-minor.png" heaven="true">
+							<Artwork name="UMi" url="../stellarium/0.12/skycultures/western/ursa-minor.png">
 								<Popper>
 									<Position name="424">
 										<Longitude>
@@ -3867,7 +3867,7 @@
 									<Cartesian x="93" y="209"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Vir" url="../stellarium/0.12/skycultures/western/virgo.png" heaven="true">
+							<Artwork name="Vir" url="../stellarium/0.12/skycultures/western/virgo.png">
 								<Popper>
 									<Position name="5511">
 										<Longitude>
@@ -3902,7 +3902,7 @@
 									<Cartesian x="338" y="382"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Vol" url="../stellarium/0.12/skycultures/western/volans.png" heaven="true">
+							<Artwork name="Vol" url="../stellarium/0.12/skycultures/western/volans.png">
 								<Popper>
 									<Position name="3615">
 										<Longitude>
@@ -3937,7 +3937,7 @@
 									<Cartesian x="207" y="163"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Vul" url="../stellarium/0.12/skycultures/western/vulpecula.png" heaven="true">
+							<Artwork name="Vul" url="../stellarium/0.12/skycultures/western/vulpecula.png">
 								<Popper>
 									<Position name="7653">
 										<Longitude>
@@ -3973,7 +3973,7 @@
 								</Popper>
 							</Artwork>
 							<CatalogADC5050Record select="false">
-							<!--<CatalogADC5050Record select="{Vmag&#x003c;7}">-->
+								<!--<CatalogADC5050Record select="{Vmag&#x003c;7}">-->
 								<Annotation>
 									<AnnotationStraight anchor="bottomleft" reverse="false" radiant="false">
 										<Script purpose="{Name~&#x0022;.*[0-9a-zA-Z].*&#x0022;&#x0026;&#x0026;Vmag&#x003c;3?&#x0022;guidance&#x0022;:&#x0022;none&#x0022;}" value="{Name~&#x0022;.*[0-9a-zA-Z].*&#x0022;?Name:&#x0022;default&#x0022;}"/>

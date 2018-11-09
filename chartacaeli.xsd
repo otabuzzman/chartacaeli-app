@@ -886,7 +886,6 @@
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional"/>
 		<xs:attribute name="url" type="xs:anyURI" use="required"/>
-		<xs:attribute name="heaven" type="xs:boolean" use="required"/>
 	</xs:complexType>
 	<xs:element name="Artwork" type="ArtworkType"/>
 	<xs:complexType name="SignType">

@@ -727,13 +727,6 @@ var docSpec = {
 					return jsElement.hasAttribute("url");
 				}
 			}, {
-				caption: "add \@@heaven",
-				action: Xonomy.newAttribute,
-				actionParameter: {name: "heaven"},
-				hideIf: function(jsElement) {
-					return jsElement.hasAttribute("heaven");
-				}
-			}, {
 				caption: "add <Popper>",
 				action: Xonomy.newElementChild,
 				actionParameter: "<Popper/>",
@@ -757,13 +750,6 @@ var docSpec = {
 				},
 				"url": {
 					asker: Xonomy.askString,
-				},
-				"heaven": {
-					asker: Xonomy.askPicklist,
-					askerParameter: [
-						{value: "true"},
-						{value: "false"}
-					]
 				}
 			},
 			mustBeBefore: ["Sign", "CatalogDS9Record", "CatalogADC7237Record", "CatalogADC7118Record", "CatalogADC6049Record", "CatalogADC5109Record", "CatalogADC5050Record", "CatalogADC1239TRecord", "CatalogADC1239HRecord"]
