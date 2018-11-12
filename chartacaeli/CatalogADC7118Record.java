@@ -3,7 +3,6 @@ package chartacaeli;
 
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
-import java.util.Hashtable;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
