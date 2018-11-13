@@ -1,9 +1,11 @@
 
 package chartacaeli;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -86,8 +88,10 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 				try {
 					viewerProc = Runtime.getRuntime().exec( viewerDecl.trim().split( "\\p{Space}+" ) ) ;
 
-					viewerProc.getInputStream().close() ;
-					viewerProc.getErrorStream().close() ;
+					new InputReaderMonitor( new InputStreamReader( viewerProc.getInputStream(), "UTF-8" ) )
+					.start() ;
+					new InputReaderMonitor( new InputStreamReader( viewerProc.getErrorStream(), "UTF-8" ) )
+					.start() ;
 
 					out.add( viewerProc.getOutputStream() ) ;
 				} catch ( IOException e ) {
