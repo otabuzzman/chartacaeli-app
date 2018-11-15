@@ -1,6 +1,9 @@
 
 package chartacaeli;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import chartacaeli.UnicodePostscriptStream.UnicodeControlBlock;
 
 @SuppressWarnings("serial")
@@ -36,7 +39,7 @@ public class AnnotationStraight extends chartacaeli.model.AnnotationStraight imp
 
 	private final static String DEFAULT_ANCHOR				= "0:0" ; // bottomleft
 
-	private static boolean verbose = Configuration.getValue( AnnotationStraight.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
+	private final static Log log = LogFactory.getLog( AnnotationStraight.class ) ;
 
 	public void headPS( ApplicationPostscriptStream ps ) {
 	}
@@ -82,7 +85,7 @@ public class AnnotationStraight extends chartacaeli.model.AnnotationStraight imp
 				ps.push( xyVal[1] ) ;
 				ps.op( "moveto" ) ;
 
-				if ( verbose ) {
+				if ( log.isInfoEnabled() ) {
 					ps.op( "gsave" ) ;
 
 					ps.array( true ) ;

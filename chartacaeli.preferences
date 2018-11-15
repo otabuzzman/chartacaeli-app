@@ -14,8 +14,6 @@
 				<map/>
 				<node name="Object">
 					<map>
-						<!--used by Configuration, ApplicationResource, Artwork, AnnotationStraight-->
-						<entry key="verbose" value="false"/>
 						<!--used by ChartaCaeli, FieldOfView-->
 						<entry key="viewer" value="gswin64c.exe -dBATCH -dNOPAUSE -q -"/>
 						<!--used by DMS, Rational, ProstscriptStream, HorizonType-->

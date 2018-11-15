@@ -984,7 +984,6 @@
 			</node>
 			<node name="Artwork">
 				<map>
-					<entry key="verbose" value="true"/>
 					<entry key="dpi" value="300"/>
 					<entry key="interval" value="16"/>
 					<entry key="imageop" value="true"/>

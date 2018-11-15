@@ -5,11 +5,7 @@
 		<map/>
 		<node name="chartacaeli">
 			<map/>
-			<node name="AnnotationStraight">
-				<map>
-					<entry key="verbose" value="true"/>
-				</map>
-			</node>
+			<!--set AnnotationStraight.level to WARNING for bounding box output-->
 			<node name="ApplicationPostscriptStream">
 				<map/>
 				<node name="0000..007F-0">

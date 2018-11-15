@@ -18,7 +18,6 @@ public final class Configuration {
 	private final static String MK_DEFAULT	= "default" ;
 
 	private final static Log log = LogFactory.getLog( Configuration.class ) ;
-	private static boolean verbose = Configuration.getValue( Configuration.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
 
 	private final static StringBuffer mem = new StringBuffer() ;
 
@@ -71,7 +70,7 @@ public final class Configuration {
 
 		val = recurseC4node( clazz, node ) ;
 
-		if ( val == null && verbose )
+		if ( val == null && log.isInfoEnabled() )
 			log.info( ParameterNotValidError.errmsg( par4PNV( node ), msg4PNV( null ) ) ) ;
 		mem.delete( 0, mem.length() ) ;
 
@@ -116,7 +115,7 @@ public final class Configuration {
 		if ( instance == null )
 			return null ;
 
-		if ( verbose )
+		if ( log.isInfoEnabled() )
 			mem.append( "." ) ;
 
 		p = instance.lastIndexOf( "/" ) ;
@@ -142,7 +141,7 @@ public final class Configuration {
 
 		val = recurseC4key( clazz, key ) ;
 
-		if ( val == null && verbose )
+		if ( val == null && log.isInfoEnabled() )
 			log.info( ParameterNotValidError.errmsg( par4PNV( key ), msg4PNV( def ) ) ) ;
 		mem.delete( 0, mem.length() ) ;
 
@@ -202,7 +201,7 @@ public final class Configuration {
 		if ( instance == null )
 			return null ;
 
-		if ( verbose )
+		if ( log.isInfoEnabled() )
 			mem.append( "." ) ;
 
 		p = instance.lastIndexOf( "/" ) ;

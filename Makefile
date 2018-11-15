@@ -98,6 +98,7 @@ all: classes
 	@time java $(JFRX_OPTS) $(JVMX_OPTS) \
 			-D$(PKG).app=$(APP) \
 			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
+			-Djava.util.logging.config.file=logging.properties \
 			-classpath "$(subst $(space),$(sep), \
 			$(pkgdir) \
 			$$PJ2_GENERAL_PATHJAR \

@@ -63,7 +63,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String MK_CUDASTAT			= "cudastat" ;
 
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
-	private static boolean verbose = Configuration.getValue( Artwork.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
 
 	// set by init
 	private boolean initialized = false ;
@@ -691,7 +690,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 		ps.op( "grestore" ) ;
 
-		if ( verbose ) {
+		if ( log.isInfoEnabled() ) {
 			linePS( ps, cOPT, 1, 0, 0 ) ; // outline projection of texture
 			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[0] }, 1, 0, 0  ) ; // P1, Pi, Pj
 			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.333 )] }, 0, 1, 0  ) ;
@@ -723,7 +722,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		taskinst.main( null ) ;
 		t1 = System.currentTimeMillis() ;
 
-		if ( verbose ) {
+		if ( log.isInfoEnabled() ) {
 			BufferedImage m ;
 
 			m = new BufferedImage( dims, dimt , BufferedImage.TYPE_INT_ARGB ) ;

@@ -15,9 +15,6 @@ import org.exolab.castor.xml.ValidationException;
 public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements PostscriptEmitter {
 
 	// configuration key (CK_)
-	public final static String CK_VERBOSE		= "verbose" ;
-	public final static boolean DEFAULT_VERBOSE	= false ;
-
 	private final static String CK_VIEWER		= "viewer" ;
 	private final static String CK_LIBCAA		= "libcaa" ;
 

@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
 public class ApplicationResource {
 
 	private final static Log log = LogFactory.getLog( ApplicationResource.class ) ;
-	private static boolean verbose = Configuration.getValue( ApplicationResource.class, ChartaCaeli.CK_VERBOSE, ChartaCaeli.DEFAULT_VERBOSE ) ;
 
 	private final static StringBuffer mem = new StringBuffer() ;
 
@@ -65,8 +64,8 @@ public class ApplicationResource {
 		String val ;
 
 		val = recurseC( clazz, key ) ;
-		if ( val == null && verbose )
-			log.error( ParameterNotValidError.errmsg( par4PNV( key ), null ) ) ;
+		if ( val == null && log.isInfoEnabled() )
+			log.warn( ParameterNotValidError.errmsg( par4PNV( key ), null ) ) ;
 		mem.delete( 0, mem.length() ) ;
 
 		return val == null ? def : val ;
@@ -102,7 +101,7 @@ public class ApplicationResource {
 		} catch ( MissingResourceException e ) {
 		}
 
-		if ( verbose )
+		if ( log.isInfoEnabled() )
 			mem.append( "." ) ;
 
 		if ( instance == null )
