@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
 
@@ -19,6 +21,11 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 	private final static String CK_LIBCAA		= "libcaa" ;
 
 	private final static String DEFAULT_LIBCAA	= "caa" ;
+
+	// message key (MK_)
+	private final static String MK_SEVERR		= "severr" ;
+
+	private final static Log log = LogFactory.getLog( ChartaCaeli.class ) ;
 
 	public void headPS( ApplicationPostscriptStream ps ) {
 		ps.emitDSCHeader() ;
@@ -117,6 +124,8 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			Registry.degister( Epoch.class.getName() ) ;
 			Registry.remove() ;
 		} catch ( Exception e ) {
+			log.error( MessageCatalog.compose( ChartaCaeli.class, MK_SEVERR, null ) ) ;
+
 			e.printStackTrace() ;
 			System.exit( 1 ) ;
 		}
