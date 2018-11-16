@@ -64,7 +64,7 @@ public class ApplicationResource {
 		String val ;
 
 		val = recurseC( clazz, key ) ;
-		if ( val == null && log.isInfoEnabled() )
+		if ( val == null )
 			log.warn( ParameterNotValidError.errmsg( par4PNV( key ), null ) ) ;
 		mem.delete( 0, mem.length() ) ;
 

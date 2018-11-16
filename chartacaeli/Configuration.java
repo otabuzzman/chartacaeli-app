@@ -70,7 +70,7 @@ public final class Configuration {
 
 		val = recurseC4node( clazz, node ) ;
 
-		if ( val == null && log.isInfoEnabled() )
+		if ( val == null )
 			log.info( ParameterNotValidError.errmsg( par4PNV( node ), msg4PNV( null ) ) ) ;
 		mem.delete( 0, mem.length() ) ;
 
@@ -141,7 +141,7 @@ public final class Configuration {
 
 		val = recurseC4key( clazz, key ) ;
 
-		if ( val == null && log.isInfoEnabled() )
+		if ( val == null )
 			log.info( ParameterNotValidError.errmsg( par4PNV( key ), msg4PNV( def ) ) ) ;
 		mem.delete( 0, mem.length() ) ;
 
