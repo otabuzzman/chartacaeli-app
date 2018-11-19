@@ -3,7 +3,6 @@ package chartacaeli;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -23,7 +22,8 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 	private final static String DEFAULT_LIBCAA	= "caa" ;
 
 	// message key (MK_)
-	private final static String MK_SEVERR		= "severr" ;
+	private final static String MK_EUNREC		= "eunrec" ;
+	private final static String MK_ERUNEXT		= "erunext" ;
 
 	private final static Log log = LogFactory.getLog( ChartaCaeli.class ) ;
 
@@ -96,7 +96,9 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 					.start() ;
 
 					out.add( viewerProc.getOutputStream() ) ;
-				} catch ( IOException e ) {
+				} catch ( Exception e ) {
+					log.info( MessageCatalog.compose( ChartaCaeli.class, MK_ERUNEXT, new Object[] { viewerDecl } ) ) ;
+
 					viewerDecl = null ;
 					viewerProc = null ;
 				}
@@ -124,7 +126,7 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			Registry.degister( Epoch.class.getName() ) ;
 			Registry.remove() ;
 		} catch ( Exception e ) {
-			log.error( MessageCatalog.compose( ChartaCaeli.class, MK_SEVERR, null ) ) ;
+			log.error( MessageCatalog.compose( ChartaCaeli.class, MK_EUNREC, null ) ) ;
 
 			e.printStackTrace() ;
 			System.exit( 1 ) ;
