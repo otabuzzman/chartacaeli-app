@@ -15,5 +15,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="w3/general-features-selection.xml"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="chartacaeli"/>
 <booleanAttribute key="org.eclipse.jdt.launching.STOP_IN_MAIN" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dchartacaeli.app=chartacaeli&#13;&#10;-Xcheck:jni&#13;&#10;-Xmx1024m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dchartacaeli.app=chartacaeli&#13;&#10;-Djava.util.logging.config.file=logging.properties&#13;&#10;-Xcheck:jni&#13;&#10;-Xmx1024m"/>
 </launchConfiguration>
