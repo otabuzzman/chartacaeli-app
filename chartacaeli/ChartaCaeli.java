@@ -84,7 +84,7 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			viewerDecl = Configuration.getValue( ChartaCaeli.class, CK_VIEWER, null ) ;
 			out =  new TeeOutputStream( System.out ) ;
 
-			if ( viewerDecl == null ) {
+			if ( viewerDecl == null || viewerDecl.length() == 0 ) {
 				viewerProc = null ;
 			} else {
 				try {

@@ -10,11 +10,11 @@ public class ImageDiscrete implements PostscriptEmitter {
 	private final static String DEFAULT_MASKOUT	= "0:0:0,0:0:0" ;
 	private final static String DEFAULT_TONEMAP	= "0:0:0,1:1:1" ;
 
-	private int[] image ;
+	private byte[] image ;
 	private int dimx ;
 	private int dimy ;
 
-	public ImageDiscrete( int[] image, int dimx, int dimy ) {
+	public ImageDiscrete( byte[] image, int dimx, int dimy ) {
 		this.image = image ;
 		this.dimx = dimx ;
 		this.dimy = dimy ;
@@ -26,13 +26,12 @@ public class ImageDiscrete implements PostscriptEmitter {
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
 		String[] mov, moav, moov ;
-		int moar, moag, moab ;
+		int moar, moag, moab, i ;
 		int moor, moog, moob ;
 		String[] tmv, tmav, tmov ;
 		double tmar, tmag, tmab ;
 		double tmor, tmog, tmob ;
 		double tmr, tmg, tmb ;
-		int p ;
 		double r, g, b ;
 
 		mov = Configuration.getValue( this, CK_MASKOUT, DEFAULT_MASKOUT ).split( "," ) ;
@@ -60,11 +59,11 @@ public class ImageDiscrete implements PostscriptEmitter {
 
 		for ( int y=0 ; dimy>y ; y++ )
 			for ( int x=0 ; dimx>x ; x++ ) {
-				p = image[y*dimx+x] ;
+				i = y*dimx*3+x*3 ;
 
-				r = p>>16&0xff ;
-				g = p>> 8&0xff ;
-				b = p    &0xff ;
+				r = image[i] ;
+				g = image[i+1] ;
+				b = image[i+2] ;
 
 				if ( r>=moar && moor>=r && g>=moag && moog>=g && b>=moab && moob>=b )
 					continue ;

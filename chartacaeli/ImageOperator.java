@@ -10,11 +10,11 @@ public class ImageOperator implements PostscriptEmitter {
 	private final static String DEFAULT_MASKOUT	= "0:0:0,0:0:0" ;
 	private final static String DEFAULT_TONEMAP	= "0:0:0,1:1:1" ;
 
-	private int[] image ;
+	private byte[] image ;
 	private int dimx ;
 	private int dimy ;
 
-	public ImageOperator( int[] image, int dimx, int dimy ) {
+	public ImageOperator( byte[] image, int dimx, int dimy ) {
 		this.image = image ;
 		this.dimx = dimx ;
 		this.dimy = dimy ;
@@ -25,13 +25,12 @@ public class ImageOperator implements PostscriptEmitter {
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
 		String[] mov, moav, moov ;
-		int moar, moag, moab ;
+		int moar, moag, moab, i ;
 		int moor, moog, moob ;		
 		String[] tmv, tmav, tmov ;
 		double tmar, tmag, tmab ;
 		double tmor, tmog, tmob ;
 		ASCII85StringBuilder a85 ;
-		int p, r, g, b ;
 
 		mov = Configuration.getValue( this, CR_MASKOUT, DEFAULT_MASKOUT ).split( "," ) ;
 		moav = mov[0].split( ":" ) ;
@@ -106,15 +105,12 @@ public class ImageOperator implements PostscriptEmitter {
 
 		for ( int y=0 ; dimy>y ; y++ )
 			for ( int x=0 ; dimx>x ; x++ ) {
-				p = image[y*dimx+x] ;
+				i = y*dimx*3+x*3 ;
 
-				r = p>>16&0xff ;
-				g = p>> 8&0xff ;
-				b = p    &0xff ;
 
-				a85.append( (byte) ( r ) ) ;
-				a85.append( (byte) ( g ) ) ;
-				a85.append( (byte) ( b ) ) ;
+				a85.append( image[i] ) ;
+				a85.append( image[i+1] ) ;
+				a85.append( image[i+2] ) ;
 			}
 
 		a85.finish() ;

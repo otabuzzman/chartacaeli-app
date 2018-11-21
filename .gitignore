@@ -30,6 +30,7 @@ chartacaeli/model/
 *.lib
 *.o
 *.out
+*.raw
 *.so
 # artefacts from Artwork development
 andromeda.*

@@ -3,7 +3,9 @@ package chartacaeli;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -49,6 +51,8 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String CK_MINVISIBLE		= "minvisible" ;
 	private final static String CK_BACKGROUND		= "background" ;
 	private final static String CK_PJ2WORKER		= "pj2worker" ;
+	private final static String CK_PREFILTER		= "prefilter" ;
+	private final static String CK_MAPFILTER		= "mapfilter" ;
 
 	private final static double DEFAULT_PSUNIT		= 2.834646 ;
 	private final static double DEFAULT_DPI			= 72 ;
@@ -61,6 +65,8 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	// message key (MK_)
 	private final static String MK_TASKTIME			= "tasktime" ;
 	private final static String MK_CUDASTAT			= "cudastat" ;
+	private final static String MK_EWFILE			= "ewfile" ;
+	private final static String MK_EFLTFMT			= "efltfmt" ;
 
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
 
@@ -112,6 +118,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 	// ARGB color of deep space on chart with A set to opaque (0xff).
 	private int background ;
+	private int bgr, bgg, bgb ;
 
 	@SuppressWarnings("unused")
 	private class PJ2TextureMapperNul extends Task {
@@ -526,11 +533,20 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		RealMatrix bmH, bmT ;	// base matrices for heaven and texture
 		RealMatrix bmP, bmM ;	// base matrices for projection and mapping
 		double dpi, psu ;		// dots per inch, dots per unit
-		String bgv[] ;
-		int bgr, bgg, bgb ;
+		String cmd, bgv[] ;
+		ProcessInputStream flt ;
 
 		try {
-			image = ImageIO.read( reader() ) ;
+			cmd = Configuration.getValue( this, CK_PREFILTER, null ) ;
+			if ( cmd == null || cmd.length() == 0 )
+				image = ImageIO.read( reader() ) ;
+			else {
+				cmd = String.format( cmd, bgr, bgg, bgb ) ;
+				flt = new ProcessInputStream( reader(), cmd ) ;
+				image = ImageIO.read( flt ) ;
+
+				flt.close() ;
+			}
 
 			dimo = image.getWidth() ;
 			dimp = image.getHeight() ;
@@ -538,7 +554,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			maxp = dimp-1 ;
 			texture = new int[dimo*dimp] ;
 
-			// assuming TYPE_4BYTE_ABGR
 			for ( int p=0 ; dimp>p ; p++ )
 				for ( int o=0 ; dimo>o ; o++ )
 					texture[p*dimo+o] = image.getRGB( o, p ) ;
@@ -626,17 +641,20 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		return initialized = true ;
 	}
 
-	@Override
 	public void headPS( ApplicationPostscriptStream ps ) {
 		if ( ! initialized )
 			return ;
 	}
 
-	@Override
 	public void emitPS( ApplicationPostscriptStream ps ) {
 		PostscriptEmitter psimage ;
 		Vector2D A, B, R ;
 		double r ;
+		String cmd ;
+		ByteArrayOutputStream buf ;
+		RGBOutputStream cnv ;
+		ProcessOutputStream flt ;
+		byte[] rgb ;
 
 		if ( ! initialized )
 			return ;
@@ -646,6 +664,42 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		} catch ( Exception e ) {
 			throw new RuntimeException( e.toString() ) ;
 		}
+
+		buf = new ByteArrayOutputStream() ;
+
+		cmd = Configuration.getValue( this, CK_MAPFILTER, null ) ;
+		if ( cmd == null || cmd.length() == 0 ) {
+			cnv = new RGBOutputStream( buf ) ;
+			try {
+				for ( int p : mapping )
+					cnv.write( p ) ;
+				cnv.close() ;
+			} catch (IOException e) {
+				throw new RuntimeException( e.toString() ) ;
+			}
+		} else {
+			cmd = String.format( cmd, dims, dimt, bgr, bgg, bgb ) ;
+			try {
+				flt = new ProcessOutputStream( buf, cmd ) ;
+				cnv = new RGBOutputStream( flt ) ;
+				for ( int p : mapping ) {
+					cnv.write( p ) ;
+
+					cnv.flush() ;
+					cnv.flush() ;
+				}
+				cnv.close() ;
+			} catch (IOException e) {
+				throw new RuntimeException( e.toString() ) ;
+			}
+
+			if ( buf.size() != mapping.length*3  ) {
+				log.info( MessageCatalog.compose( this, MK_EFLTFMT, null ) ) ;
+
+				return ;
+			}
+		}
+		rgb = buf.toByteArray() ;
 
 		A = new Vector2D( cBBT[0].x, cBBT[0].y ) ;
 		B = new Vector2D( cBBT[1].x, cBBT[1].y ) ;
@@ -672,12 +726,12 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		ps.op( "rotate" ) ;
 
 		if ( Configuration.getValue( this, CK_IMAGEOP, DEFAULT_IMAGEOP ) ) {
-			psimage = new ImageOperator( mapping, dims, dimt ) ;
+			psimage = new ImageOperator( rgb, dims, dimt ) ;
 
 			ps.push( maxs ) ;
 			ps.push( maxt ) ;
 		} else {
-			psimage = new ImageDiscrete( mapping, dims, dimt ) ;
+			psimage = new ImageDiscrete( rgb, dims, dimt ) ;
 
 			ps.push( ups ) ;
 			ps.push( ups ) ;
@@ -691,14 +745,10 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		ps.op( "grestore" ) ;
 
 		if ( log.isInfoEnabled() ) {
-			linePS( ps, cOPT, 1, 0, 0 ) ; // outline projection of texture
-			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[0] }, 1, 0, 0  ) ; // P1, Pi, Pj
-			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.333 )] }, 0, 1, 0  ) ;
-			linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.666 )] }, 0, 0, 1  ) ;
-			linePS( ps, cBBT, 0, 1, 0 ) ; // bounding box of outline
-			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[0] }, 1, 0, 0  ) ; // P1, P2, P3
-			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[1] }, 0, 1, 0  ) ;
-			linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[2] }, 0, 0, 1  ) ;
+			// mapped texture projection...
+			mapraw( rgb ) ; // ...RGB
+			mapout( ps ) ; // ...outline
+			mapbox( ps ) ; // ...bounding box
 		}
 	}
 
@@ -722,19 +772,9 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		taskinst.main( null ) ;
 		t1 = System.currentTimeMillis() ;
 
-		if ( log.isInfoEnabled() ) {
-			BufferedImage m ;
-
-			m = new BufferedImage( dims, dimt , BufferedImage.TYPE_INT_ARGB ) ;
-			m.setRGB( 0, 0, dims, dimt, mapping, 0, dims ) ;
-
-			ImageIO.write( m, "png", new File( getName()+"-"+System.currentTimeMillis()+".png" ) ) ;
-		}
-
 		log.info( MessageCatalog.compose( this, MK_TASKTIME, new Object[] { classconf, String.valueOf( t1-t0 ) } ) ) ;
 	}
 
-	@Override
 	public void tailPS( ApplicationPostscriptStream ps ) {
 		if ( ! initialized )
 			return ;
@@ -931,6 +971,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		return outline.toArray( new Coordinate[0] ) ;
 	}
 
+	@SuppressWarnings("unused")
 	private void linePS( ApplicationPostscriptStream ps, Coordinate[] list, double gray ) {
 		ps.push( gray ); ;
 		ps.op( "setgray" );
@@ -938,6 +979,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		linePS( ps, list ) ;
 	}
 
+	@SuppressWarnings("unused")
 	private void linePS( ApplicationPostscriptStream ps, Coordinate[] list, double r, double g, double b ) {
 		ps.push( r ) ;
 		ps.push( g ) ;
@@ -947,6 +989,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		linePS( ps, list ) ;
 	}
 
+	@SuppressWarnings("unused")
 	private void linePS( ApplicationPostscriptStream ps, Coordinate[] list ) {
 		ps.array( true ) ;
 		for ( Coordinate c : list ) {
@@ -959,5 +1002,41 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 		ps.op( "gdraw" ) ;
 
 		ps.op( "stroke" ) ;
+	}
+
+	@SuppressWarnings("unused")
+	private void mapraw( byte[] rgb ) {
+		String n ;
+		FileOutputStream f ;
+
+		n = getName()+"-"+System.currentTimeMillis()+"-"+dims+"x"+dimt+".raw" ;
+
+		try {
+			f = new FileOutputStream( n ) ;
+
+			f.write( rgb ) ;
+
+			f.flush() ;
+			f.flush() ;
+			f.close() ;
+		} catch (IOException e) {
+			log.info( MessageCatalog.compose( Artwork.class, MK_EWFILE, new Object[] { n } ) ) ;
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private void mapout(ApplicationPostscriptStream ps ) {
+		linePS( ps, cOPT, 1, 0, 0 ) ;
+		linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[0] }, 1, 0, 0  ) ; // P1, Pi, Pj
+		linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.333 )] }, 0, 1, 0  ) ;
+		linePS( ps, new Coordinate[] { new Coordinate( 10, 10 ), cOPT[(int) (cOPT.length*.666 )] }, 0, 0, 1  ) ;
+	}
+
+	@SuppressWarnings("unused")
+	private void mapbox( ApplicationPostscriptStream ps ) {
+		linePS( ps, cBBT, 0, 1, 0 ) ;
+		linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[0] }, 1, 0, 0  ) ; // P1, P2, P3
+		linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[1] }, 0, 1, 0  ) ;
+		linePS( ps, new Coordinate[] { new Coordinate( 0, 0 ), cBBT[2] }, 0, 0, 1  ) ;
 	}
 }

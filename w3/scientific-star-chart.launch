@@ -8,7 +8,7 @@
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="GS_FONTPATH" value="c:/users/%USERNAME%/src/chartacaeli"/>
-<mapEntry key="PATH" value="chartacaeli\caa;chartacaeli\gpu;..\pj2aws\pj2\lib;c:\program files\gs\gs9.25\bin;%PATH%"/>
+<mapEntry key="PATH" value="chartacaeli\caa;chartacaeli\gpu;..\pj2aws\pj2\lib;c:\program files\gs\gs9.25\bin;c:\program files\imagemagick-7.0.8-q16"/>
 </mapAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="chartacaeli.ChartaCaeli"/>

@@ -647,6 +647,10 @@
 					<!--chartacaeli.Artwork$PJ2TextureMapperSmp-->
 					<!--chartacaeli.Artwork$PJ2TextureMapperGpu-->
 					<entry key="pj2worker" value="chartacaeli.Artwork$PJ2TextureMapperSeq"/>
+					<!--convert image to PNG32 (background RGB (0..255) in %1, %2 or %3)-->
+					<entry key="prefilter" value="magick convert - png32:-"/>
+					<!--filter RGB mapping (x, y or background RGB (0..255) in %1 to %5)-->
+					<entry key="mapfilter" value="magick convert -depth 8 -size %1$dx%2$d rgb:- -"/>
 				</map>
 			</node>
 			<node name="Artwork$PJ2TextureMapperJni">
