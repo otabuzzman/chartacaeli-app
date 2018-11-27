@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ChartaCaeli name="artistic-star-chart--toppage" xmlns="http://www.chartacaeli.eu/chartacaeli/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.eu/chartacaeli/model ../chartacaeli.xsd">
+	<Chart>
+		<ChartAzimuthal scale="32" projection="stereographic">
+			<ChartPage name="useful" view="100" size="a0"/>
+			<Oblique>
+				<Longitude>
+					<Rational value="-90"/>
+				</Longitude>
+				<Latitude>
+					<Rational value="90"/>
+				</Latitude>
+			</Oblique>
+			<!--Title, subtitles, legends-->
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="36" value="&#xE043;&#xE048;&#xE041;&#xE052;&#xE054;&#xE041;&#xE020;&#xE043;&#xE041;&#xE045;&#xE04C;&#xE049;"/>
+						<Frame number="21" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="topmiddle">
+						<Script purpose="16" value="An azimuthal projection of the northern skies"/>
+						<Frame number="27" anchor="topright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottommiddle">
+						<Script purpose="18" value="Artistic star chart"/>
+						<Frame number="33" anchor="middleright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="8.6" value="Legend"/>
+						<Frame number="248" anchor="bottomright"/>
+					</AnnotationStraight>
+				</HorizonEquatorial>
+			</Horizon>
+			<!--Southernmost declination circle of equatorial grid with dial.-->
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomright">
+						<Script purpose="4.0" value="Southern declination limit:"/>
+						<Frame number="260" anchor="bottomright"/>
+					</AnnotationStraight>
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="-20°"/>
+						<Frame number="261" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<Circle>
+						<CircleParallel importance="canonical">
+							<DialDeg division="6" reflect="true">
+								<ScalebaseRail/>
+								<Scaleline name="half" value="7.5">
+									<AnnotationStraight anchor="middleleft" radiant="false" reverse="false">
+										<Script purpose="dialfraction" value="30">
+											<Superscript value="m"/>
+										</Script>
+									</AnnotationStraight>
+								</Scaleline>
+								<Scaleline name="full" value="15">
+									<AnnotationStraight anchor="middleleft" radiant="false" reverse="false">
+										<Script purpose="dialcardinal" value="{skalagrd/15}">
+											<Superscript value="h"/>
+										</Script>
+									</AnnotationStraight>
+								</Scaleline>
+								<Annotation>
+									<AnnotationCurved reverse="true" distance="98.96" anchor="bottommiddle">
+										<Script purpose="diallettering" value="Right Ascension (RA)"/>
+									</AnnotationCurved>
+								</Annotation>
+							</DialDeg>
+							<Angle>
+								<Rational value="-20"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+				</HorizonEquatorial>
+			</Horizon>
+			<!--Field of view-->
+			<Horizon>
+				<HorizonEquatorial practicality="none">
+					<AnnotationStraight reverse="false" radiant="false" anchor="middle">
+						<Script purpose="none" value="none"/>
+					</AnnotationStraight>
+					<Circle>
+						<CircleParallel name="fieldofview" importance="canonical" fieldofview="true">
+							<Angle>
+								<Rational value="-19.5"/>
+							</Angle>
+						</CircleParallel>
+					</Circle>
+				</HorizonEquatorial>
+			</Horizon>
+			<!--The Constellation Boundary Data catalog-->
+			<Horizon>
+				<HorizonEquatorial practicality="always">
+					<AnnotationStraight reverse="false" radiant="false" anchor="bottomleft">
+						<Script purpose="4.0" value="The Constellation Boundary Data catalog (VI/49)"/>
+						<Frame number="327" anchor="bottomleft"/>
+					</AnnotationStraight>
+					<Catalog>
+						<CatalogADC6049 name="6049" url="ftp://cdsarc.u-strasbg.fr/ftp/cats/VI/49/bound_20.dat">
+<CatalogADC6049Record select="{abbreviation~&#x0022;And&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Ant&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Aps&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Aql&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Aqr&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Ara&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Ari&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Aur&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Boo&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cae&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cam&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cap&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Car&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cas&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cen&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cep&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cet&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cha&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cir&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;CMa&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;CMi&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cnc&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Col&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Com&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;CrA&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;CrB&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Crt&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cru&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Crv&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;CVn&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Cyg&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Del&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Dor&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Dra&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Equ&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Eri&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;For&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Gem&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Gru&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Her&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Hor&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Hya&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="middleright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Hyi&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Ind&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Lac&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="middleleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Leo&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Lep&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Lib&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;LMi&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Lup&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Lyn&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Lyr&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Men&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Mic&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Mon&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Mus&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Nor&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Oct&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Oph&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Ori&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Pav&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Peg&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Per&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Phe&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Pic&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;PsA&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Psc&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Pup&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Pyx&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="middleright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Ret&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Scl&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Sco&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Sct&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{con~&#x0022;SER1&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{con~&#x0022;SER2&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Sex&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Sge&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Sgr&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;Tau&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Tel&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;TrA&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Tri&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Tuc&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;UMa&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<CatalogADC6049Record select="{abbreviation~&#x0022;UMi&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Vel&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Vir&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomright" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+<!--
+<CatalogADC6049Record select="{abbreviation~&#x0022;Vol&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="bottomleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+-->
+<CatalogADC6049Record select="{abbreviation~&#x0022;Vul&#x0022;}"><Annotation><AnnotationStraight reverse="false" anchor="topleft" radiant="false"><Script purpose="bodylettering0" value="{abbreviation}"/></AnnotationStraight></Annotation></CatalogADC6049Record>
+						</CatalogADC6049>
+					</Catalog>
+				</HorizonEquatorial>
+			</Horizon>
+		</ChartAzimuthal>
+	</Chart>
+</ChartaCaeli>

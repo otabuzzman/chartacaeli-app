@@ -42,10 +42,10 @@
 						<entry key="background" value="1:1:1"/>
 						<!--used by ImageOperator, ImageDiscrete-->
 						<!--RGB 0..1 each-->
-						<entry key="maskout" value="0:0:0,.0833:.0833:.0833"/>
+						<entry key="maskout" value=".9608:.9608:.9608,1:1:1"/>
 						<!--used by ImageOperator, ImageDiscrete-->
 						<!--RGB 0..1 each-->
-						<entry key="tonemap" value=".8157:.8157:.8157,.9569:.9569:.9569"/>
+						<entry key="tonemap" value="0:0:0,1:1:1"/>
 					</map>
 				</node>
 			</node>
@@ -635,9 +635,9 @@
 			</node>
 			<node name="Artwork">
 				<map>
-					<entry key="dpi" value="36"/>
+					<entry key="dpi" value="300"/>
 					<entry key="interval" value="16"/>
-					<entry key="imageop" value="false"/>
+					<entry key="imageop" value="true"/>
 					<!--percentage of minimum visible area of Artwork-->
 					<entry key="minvisible" value="25"/>
 					<!--chartacaeli.Artwork$PJ2TextureMapperNul-->

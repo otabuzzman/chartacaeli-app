@@ -789,11 +789,11 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 		uri = new URI( getUrl() ) ;
 		if ( uri.isAbsolute() ) {
-			file = new File( uri ) ;	
+			url = uri.toURL() ;
 		} else {
 			file = new File( uri.getPath() ) ;
+			url = file.toURI().toURL() ;
 		}
-		url = file.toURI().toURL() ;
 
 		try {
 			in = url.openStream() ;

@@ -13,14 +13,17 @@ endif
 .SUFFIXES: .xml .pdf
 
 .xml.pdf:
-	@( cd .. ; make $@ )
+	@( export _JAVA_OPTIONS=-Duser.language=en ; cd .. ; make $@ )
 	@test -f ../$@ && mv ../$@ .
 
 all: lib/jquery-1.10.2.min.js lib/xonomy lib/Justv2.ttf lib/Justv22.ttf
 
 general-features-selection.pdf: general-features-selection.preferences
 scientific-star-chart.pdf: scientific-star-chart.preferences
-artistic-star-chart.pdf: artistic-star-chart.preferences
+artistic-star-chart.pdf: artistic-star-chart--toppage.pdf artistic-star-chart--artwork.pdf
+	pdftk $< background artistic-star-chart--artwork.pdf output $@
+artistic-star-chart--toppage.pdf: artistic-star-chart--toppage.preferences
+artistic-star-chart--artwork.pdf: artistic-star-chart--artwork.preferences
 
 clean:
 	rm -f general-features-selection.pdf scientific-star-chart.pdf artistic-star-chart.pdf

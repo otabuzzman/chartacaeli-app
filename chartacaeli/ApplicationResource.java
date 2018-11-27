@@ -65,7 +65,7 @@ public class ApplicationResource {
 
 		val = recurseC( clazz, key ) ;
 		if ( val == null )
-			log.warn( ParameterNotValidError.errmsg( par4PNV( key ), null ) ) ;
+			log.info( ParameterNotValidError.errmsg( par4PNV( key ), null ) ) ;
 		mem.delete( 0, mem.length() ) ;
 
 		return val == null ? def : val ;

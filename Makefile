@@ -12,7 +12,7 @@ MOD		= $(APP).xsd
 # Java VM non-standard options
 JVMX_OPTS = \
 		-Xcheck:jni \
-		-Xmx1536m \
+		-Xmx3072m \
 
 pkgdir	= $(subst .,/,$(PKG))
 moddir	= $(pkgdir)/model
@@ -49,7 +49,7 @@ CLSTST	= $(shell find $(pkgdir) -name '*Test.java' -print)
 CLSEXC	= $(CLSTST)
 
 .PHONY: all classes clean mclean lclean rclean tidy
-.SUFFIXES: .xml .ps .pdf .java .class .map
+.SUFFIXES: .xml .ps .pdf .java .class .map .raw .png
 .SECONDARY: $(APP).ps
 
 empty =
@@ -160,3 +160,9 @@ $(libdir)/commons-math3-3.5.jar:
 	wget -q -O $@ http://central.maven.org/maven2/org/apache/commons/commons-math3/3.5/commons-math3-3.5.jar
 $(libdir)/commons-logging-1.2.jar:
 	wget -q -O $@ http://central.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar
+
+
+
+# utility targets
+.raw.png:
+	( n=$< p=$${n##*-} s=$${p%.*} ; magick convert -depth 8 -size $$s rgb:$< $@ )
