@@ -26,7 +26,7 @@
 						<entry key="distance" value="0"/>
 						<!--postscript value (0..1) of brightness to fade to from current-->
 						<entry key="fade" value="1"/>
-						<!--used by BodyAreal, BodyMoon, BodyPlanet, BodySun, CircleMeridian, CircleParallel, Scaleline, ListCutter, ShapeElliptical-->
+						<!--used by BodyAreal, BodyMoon, BodyPlanet, BodySun, CircleMeridian, CircleParallel, Scaleline, ListCutter, ShapeElliptical, Sign-->
 						<!--percent of linewidth-->
 						<entry key="halo" value="4"/>
 						<!--chartacaeli units-->

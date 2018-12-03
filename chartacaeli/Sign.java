@@ -12,7 +12,13 @@ public class Sign extends chartacaeli.model.Sign implements PostscriptEmitter {
 
 	// configuration key (CK_), node (CN_)
 	private final static String CK_SHORTENING		= "shortening" ;
+	private final static String CK_HALO				= "halo" ;
+	private final static String CK_HALOMIN			= "halomin" ;
+	private final static String CK_HALOMAX			= "halomax" ;
 
+	private final static double DEFAULT_HALO		= 4 ;
+	private final static double DEFAULT_HALOMIN		= .08 ;
+	private final static double DEFAULT_HALOMAX		= .4 ;
 	private final static double DEFAULT_SHORTENING	= 2.62 ;
 
 	private Projector projector ;
@@ -43,6 +49,7 @@ public class Sign extends chartacaeli.model.Sign implements PostscriptEmitter {
 		Geometry gov, ab, l ;
 		ChartPage page ;
 		Coordinate a, b ;
+		Configuration conf ;
 		chartacaeli.model.Annotation annotation ;
 		PostscriptEmitter emitter ;
 
@@ -86,6 +93,36 @@ public class Sign extends chartacaeli.model.Sign implements PostscriptEmitter {
 
 			ps.op( "newpath" ) ;
 			ps.op( "gdraw" ) ;
+
+			// halo stroke
+			ps.op( "currentlinewidth" ) ;
+
+			ps.op( "dup" ) ;
+			ps.push( 100 ) ;
+			ps.op( "div" ) ;
+			conf = new Configuration( this ) ;
+			ps.push( conf.getValue( CK_HALO, DEFAULT_HALO ) ) ;
+			ps.op( "mul" ) ;
+			ps.push( conf.getValue( CK_HALOMIN, DEFAULT_HALOMIN ) ) ;
+			ps.op( "max" ) ;
+			ps.push( conf.getValue( CK_HALOMAX, DEFAULT_HALOMAX ) ) ;
+			ps.op( "min" ) ;
+
+			ps.push( 2 ) ;
+			ps.op( "mul" ) ;
+			ps.op( "add" ) ;
+			ps.op( "gsave" ) ;
+			ps.op( "setlinewidth" ) ;
+			ps.push( 2 ) ;
+			ps.op( "setlinecap" ) ;
+			ps.array( true ) ;
+			ps.array( false ) ;
+			ps.push( 0 ) ;
+			ps.op( "setdash" ) ;
+			ps.push( 1 ) ;
+			ps.op( "setgray" ) ;
+			ps.op( "stroke" ) ;
+			ps.op( "grestore" ) ;
 
 			ps.op( "stroke" ) ;
 
