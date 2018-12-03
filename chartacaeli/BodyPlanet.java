@@ -47,12 +47,12 @@ public class BodyPlanet extends BodyOrbitalType {
 		try {
 			c = Class.forName( "chartacaeli.caa.CAA"+peer.getType().substring( 0, 1 ).toUpperCase()+peer.getType().substring( 1 ) ) ;
 
-			eclipticLongitude = c.getMethod( "EclipticLongitude", new Class[] { double.class } ) ;
-			eclipticLatitude = c.getMethod( "EclipticLatitude", new Class[] { double.class } ) ;
+			eclipticLongitude = c.getMethod( "EclipticLongitude", new Class[] { double.class, boolean.class } ) ;
+			eclipticLatitude = c.getMethod( "EclipticLatitude", new Class[] { double.class, boolean.class } ) ;
 
-			l = (Double) eclipticLongitude.invoke( null, new Object[] { new Double( jd ) } ) ;
-			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ) } )
-			+( jd-epoch )*stretch ;
+			l = (Double) eclipticLongitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } ) ;
+			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } )
+					+( jd-epoch )*stretch ;
 		} catch ( ClassNotFoundException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		} catch ( NoSuchMethodException e ) {
