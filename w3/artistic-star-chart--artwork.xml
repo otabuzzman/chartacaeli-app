@@ -89,41 +89,6 @@
 									<Cartesian x="210" y="47"/>
 								</Popper>
 							</Artwork>
-							<Artwork name="Cnc" url="../stellarium/0.12/skycultures/western/cancer.png">
-								<Popper>
-									<Position name="3572">
-										<Longitude>
-											<HMS neg="false" hrs="8" min="58" sec="29.20"/>
-										</Longitude>
-										<Latitude>
-											<DMS neg="false" deg="11" min="51" sec="28.00"/>
-										</Latitude>
-									</Position>
-									<Cartesian x="29" y="166"/>
-								</Popper>
-								<Popper>
-									<Position name="3249">
-										<Longitude>
-											<HMS neg="false" hrs="8" min="16" sec="30.95"/>
-										</Longitude>
-										<Latitude>
-											<DMS neg="false" deg="9" min="11" sec="8.40"/>
-										</Latitude>
-									</Position>
-									<Cartesian x="101" y="255"/>
-								</Popper>
-								<Popper>
-									<Position name="3262">
-										<Longitude>
-											<HMS neg="false" hrs="8" min="20" sec="3.87"/>
-										</Longitude>
-										<Latitude>
-											<DMS neg="false" deg="27" min="13" sec="7.00"/>
-										</Latitude>
-									</Position>
-									<Cartesian x="206" y="91"/>
-								</Popper>
-							</Artwork>
 							<Artwork name="Cap" url="../stellarium/0.12/skycultures/western/capricornus.png">
 								<Popper>
 									<Position name="8322">
@@ -157,6 +122,41 @@
 										</Latitude>
 									</Position>
 									<Cartesian x="460" y="438"/>
+								</Popper>
+							</Artwork>
+							<Artwork name="Cnc" url="../stellarium/0.12/skycultures/western/cancer.png">
+								<Popper>
+									<Position name="3572">
+										<Longitude>
+											<HMS neg="false" hrs="8" min="58" sec="29.20"/>
+										</Longitude>
+										<Latitude>
+											<DMS neg="false" deg="11" min="51" sec="28.00"/>
+										</Latitude>
+									</Position>
+									<Cartesian x="29" y="166"/>
+								</Popper>
+								<Popper>
+									<Position name="3249">
+										<Longitude>
+											<HMS neg="false" hrs="8" min="16" sec="30.95"/>
+										</Longitude>
+										<Latitude>
+											<DMS neg="false" deg="9" min="11" sec="8.40"/>
+										</Latitude>
+									</Position>
+									<Cartesian x="101" y="255"/>
+								</Popper>
+								<Popper>
+									<Position name="3262">
+										<Longitude>
+											<HMS neg="false" hrs="8" min="20" sec="3.87"/>
+										</Longitude>
+										<Latitude>
+											<DMS neg="false" deg="27" min="13" sec="7.00"/>
+										</Latitude>
+									</Position>
+									<Cartesian x="206" y="91"/>
 								</Popper>
 							</Artwork>
 							<Artwork name="Eri-ful" url="../stellarium/0.12/skycultures/western/eridanus.png">
