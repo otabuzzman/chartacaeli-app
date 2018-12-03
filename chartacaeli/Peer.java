@@ -93,6 +93,10 @@ public class Peer {
 	}
 
 	public void copyValues( Object companion ) {
+		copyValues( companion, true ) ;
+	}
+
+	public void copyValues( Object companion, boolean parse ) {
 		ParserAttribute parser ;
 		Method method[] , gm, sm ;
 		String gn, sn, vs ;
@@ -114,7 +118,7 @@ public class Peer {
 					sn = gn.replaceFirst( "g", "s" ) ;
 					sm = companion.getClass().getMethod( sn, pt ) ;
 					vp = gm.invoke( this, (Object[]) null ) ;
-					if ( vp instanceof String ) {
+					if ( parse && vp instanceof String ) {
 						vs = parser.parse( (String) vp ) ;
 						if ( vs != null ) {
 							validate( sm.getName().substring( 3 ).toLowerCase(), vs ) ;
