@@ -28,6 +28,11 @@ import chartacaeli.caa.CAAPrecession;
 @SuppressWarnings("serial")
 public class CatalogADC1239H extends chartacaeli.model.CatalogADC1239H implements PostscriptEmitter {
 
+	// configuration key (CK_)
+	private final static String CK_PROPROMOT		= "prepromot" ;
+
+	private final static boolean DEFAULT_PROPROMOT	= true ;
+
 	private final static int C_CHUNK = 450+1/*0x0a*/ ;
 
 	private final static Log log = LogFactory.getLog( CatalogADC1239H.class ) ;
@@ -170,19 +175,24 @@ public class CatalogADC1239H extends chartacaeli.model.CatalogADC1239H implement
 		Collections.sort( catalog, comparator ) ;
 
 		for ( CatalogADC1239HRecord record : catalog ) {
-			pmRA = 0 ;
-			if ( record.pmRA.length()>0 )
-				pmRA = new Double( record.pmRA ).doubleValue() ;
-			pmDE = 0 ;
-			if ( record.pmDE.length()>0 )
-				pmDE = new Double( record.pmDE ).doubleValue() ;
-			cpm = CAAPrecession.AdjustPositionUsingUniformProperMotion(
-					e-2451545., record.RA(), record.de(), pmRA/1000., pmDE/1000. ) ;
-			ceq = CAAPrecession.PrecessEquatorial( cpm.X(), cpm.Y(), 2451545./*J2000*/, e ) ;
-			ra = CAACoordinateTransformation.HoursToDegrees( ceq.X() ) ;
-			de = ceq.Y() ;
-			cpm.delete() ;
-			ceq.delete() ;
+			if ( Configuration.getValue( this, CK_PROPROMOT, DEFAULT_PROPROMOT ) ) {
+				pmRA = 0 ;
+				if ( record.pmRA.length()>0 )
+					pmRA = new Double( record.pmRA ).doubleValue() ;
+				pmDE = 0 ;
+				if ( record.pmDE.length()>0 )
+					pmDE = new Double( record.pmDE ).doubleValue() ;
+				cpm = CAAPrecession.AdjustPositionUsingUniformProperMotion(
+						e-2451545., record.RA(), record.de(), pmRA/1000., pmDE/1000. ) ;
+				ceq = CAAPrecession.PrecessEquatorial( cpm.X(), cpm.Y(), 2451545./*J2000*/, e ) ;
+				ra = CAACoordinateTransformation.HoursToDegrees( ceq.X() ) ;
+				de = ceq.Y() ;
+				cpm.delete() ;
+				ceq.delete() ;
+			} else {
+				ra = CAACoordinateTransformation.HoursToDegrees( record.RA() ) ;
+				de = record.de() ;
+			}
 
 			record.register() ;
 

@@ -46,6 +46,8 @@
 						<!--used by ImageOperator, ImageDiscrete-->
 						<!--RGB 0..1 each-->
 						<entry key="tonemap" value="0:0:0,1:1:1"/>
+						<!--used by CatalogADC1239H, CatalogADC1239T, CatalogADC5050, CatalogADC5109, CatalogADC6049, CatalogADC7118-->
+						<entry key="prepromot" value="true"/>
 					</map>
 				</node>
 			</node>

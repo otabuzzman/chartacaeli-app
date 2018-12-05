@@ -26,6 +26,11 @@ import chartacaeli.caa.CAAPrecession;
 @SuppressWarnings("serial")
 public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements PostscriptEmitter {
 
+	// configuration key (CK_)
+	private final static String CK_PROPROMOT		= "prepromot" ;
+
+	private final static boolean DEFAULT_PROPROMOT	= true ;
+
 	private final static int C_CHUNK18 = 25+1/*0x0a*/ ;
 	private final static int C_CHUNK20 = 29+1/*0x0a*/ ;
 
@@ -116,7 +121,7 @@ public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements 
 		BodyAreal bodyAreal ;
 		chartacaeli.model.Position pm ;
 		CAA2DCoordinate ceq ;
-		double e ;
+		double e, ra, de ;
 		Epoch epoch ;
 
 		epoch = (Epoch) Registry.retrieve( Epoch.class.getName() ) ;
@@ -139,19 +144,26 @@ public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements 
 			body.getBodyAreal().setBodyArealTypeChoice( new chartacaeli.model.BodyArealTypeChoice() ) ;
 
 			for ( Coordinate eq : record.list().getCoordinates() ) {
-				ceq = CAAPrecession.PrecessEquatorial( eq.x, eq.y, 2451545./*J2000*/, e ) ;
+				if ( Configuration.getValue( this, CK_PROPROMOT, DEFAULT_PROPROMOT ) ) {
+					ceq = CAAPrecession.PrecessEquatorial( eq.x, eq.y, 2451545./*J2000*/, e ) ;
+					ra = CAACoordinateTransformation.HoursToDegrees( ceq.X() ) ;
+					de = ceq.Y() ;
+					ceq.delete() ;
+				} else {
+					ra = CAACoordinateTransformation.HoursToDegrees( eq.x ) ;
+					de = eq.y ;
+				}
 				pm = new chartacaeli.model.Position() ;
 				// chartacaeli.model.AngleType
 				pm.setLongitude( new chartacaeli.model.Longitude() ) ;
 				pm.getLongitude().setRational( new chartacaeli.model.Rational() ) ;
-				pm.getLongitude().getRational().setValue( CAACoordinateTransformation.HoursToDegrees( ceq.X() ) ) ;  
+				pm.getLongitude().getRational().setValue( ra ) ;
 				// chartacaeli.model.AngleType
 				pm.setLatitude( new chartacaeli.model.Latitude() ) ;
 				pm.getLatitude().setRational( new chartacaeli.model.Rational() ) ;
-				pm.getLatitude().getRational().setValue( ceq.Y() ) ;  
+				pm.getLatitude().getRational().setValue( de ) ;
 
 				body.getBodyAreal().getBodyArealTypeChoice().addPosition( pm ) ;
-				ceq.delete() ;
 			}
 
 			try {

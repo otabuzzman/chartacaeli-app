@@ -31,6 +31,11 @@ import chartacaeli.caa.CAAPrecession;
 public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements PostscriptEmitter {
 
 	// configuration key (CK_)
+	private final static String CK_PROPROMOT		= "prepromot" ;
+
+	private final static boolean DEFAULT_PROPROMOT	= true ;
+
+	// configuration key (CK_)
 	private final static String CK_THRESHOLDSCALE		= "thresholdscale" ;
 
 	private final static double DEFAULT_THRESHOLDSCALE	= 5.2 ;
@@ -162,10 +167,15 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 		Collections.sort( catalog, comparator ) ;
 
 		for ( CatalogADC7118Record record : catalog ) {
-			ceq = CAAPrecession.PrecessEquatorial( record.RA(), record.de(), 2451545./*J2000*/, e ) ;
-			ra = CAACoordinateTransformation.HoursToDegrees( ceq.X() ) ;
-			de = ceq.Y() ;
-			ceq.delete() ;
+			if ( Configuration.getValue( this, CK_PROPROMOT, DEFAULT_PROPROMOT ) ) {
+				ceq = CAAPrecession.PrecessEquatorial( record.RA(), record.de(), 2451545./*J2000*/, e ) ;
+				ra = CAACoordinateTransformation.HoursToDegrees( ceq.X() ) ;
+				de = ceq.Y() ;
+				ceq.delete() ;
+			} else {
+				ra = CAACoordinateTransformation.HoursToDegrees( record.RA() ) ;
+				de = record.de() ;
+			}
 
 
 			record.register() ;
