@@ -38,3 +38,5 @@ g2.2xlarge.gpuinfo
 iorgb.*
 sf-*
 tf-*
+# temporary files
+_*

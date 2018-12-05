@@ -113,7 +113,7 @@ public class Sign extends chartacaeli.model.Sign implements PostscriptEmitter {
 			ps.op( "add" ) ;
 			ps.op( "gsave" ) ;
 			ps.op( "setlinewidth" ) ;
-			ps.push( 2 ) ;
+			ps.push( 1 ) ;
 			ps.op( "setlinecap" ) ;
 			ps.array( true ) ;
 			ps.array( false ) ;
