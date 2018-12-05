@@ -32,7 +32,7 @@ public class BodyParabolical extends BodyOrbitalType {
 		return null;
 	}
 
-	public Coordinate jdToEquatorial( double jd ) {
+	public Coordinate jdToEquatorial( double jd, Coordinate eq ) {
 		// TODO Auto-generated method stub
 		return null;
 	}

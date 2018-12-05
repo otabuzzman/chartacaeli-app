@@ -26,7 +26,7 @@ public class BodyPlanet extends BodyOrbitalType {
 		this.peer = peer ;
 	}
 
-	public Coordinate jdToEquatorial( double jd ) {
+	public Coordinate jdToEquatorial( double jd, Coordinate eq ) {
 		double l, b, o ;
 		Class<?> c ;
 		double epoch, stretch ;
@@ -51,8 +51,7 @@ public class BodyPlanet extends BodyOrbitalType {
 			eclipticLatitude = c.getMethod( "EclipticLatitude", new Class[] { double.class, boolean.class } ) ;
 
 			l = (Double) eclipticLongitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } ) ;
-			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } )
-					+( jd-epoch )*stretch ;
+			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } ) ;
 		} catch ( ClassNotFoundException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		} catch ( NoSuchMethodException e ) {
@@ -63,6 +62,14 @@ public class BodyPlanet extends BodyOrbitalType {
 			throw new RuntimeException( e.toString() ) ;
 		}
 
+		if ( eq != null ) {
+			o = CAANutation.MeanObliquityOfEcliptic( epoch ) ;
+			c2d = CAACoordinateTransformation.Ecliptic2Equatorial( l, b, o ) ;
+			eq.x = CAACoordinateTransformation.HoursToDegrees( c2d.X() ) ;
+			eq.y = c2d.Y() ;
+		}
+
+		b += ( jd-epoch )*stretch ;
 		o = CAANutation.MeanObliquityOfEcliptic( epoch ) ;
 		c2d = CAACoordinateTransformation.Ecliptic2Equatorial( l, b, o ) ;
 

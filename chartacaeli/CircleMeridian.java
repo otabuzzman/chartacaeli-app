@@ -255,11 +255,21 @@ public class CircleMeridian extends chartacaeli.model.CircleMeridian implements 
 	}
 
 	public Vector posVecOfScaleMarkVal( double al ) {
-		Coordinate xy ;
+		return posVecOfScaleMarkVal( al, null ) ;
+	}
+
+	public Vector posVecOfScaleMarkVal( double al, Coordinate eq ) {
+		Coordinate c, xy ;
 		double az ;
 
-		az = valueOf( getAngle() ) ;	
-		xy = projector.project( converter.convert( new Coordinate( az, al ), false ), false ) ;
+		az = valueOf( getAngle() ) ;
+		c = converter.convert( new Coordinate( az, al ), false ) ;
+		if ( eq != null ) {
+			eq.x = c.x ;
+			eq.y = c.y ;
+		}
+
+		xy = projector.project( c, false ) ;
 
 		return new Vector( xy ) ;
 	}

@@ -65,7 +65,11 @@ abstract public class BodyOrbitalType extends chartacaeli.model.BodyOrbitalType 
 	}
 
 	public Vector posVecOfScaleMarkVal( double jd ) {
-		return new Vector( projector.project( jdToEquatorial( jd ), false ) ) ;
+		return posVecOfScaleMarkVal( jd, null ) ;
+	}
+
+	public Vector posVecOfScaleMarkVal( double jd, Coordinate eq ) {
+		return new Vector( projector.project( jdToEquatorial( jd, eq ), false ) ) ;
 	}
 
 	public double valOfScaleMarkN( int mark, double span ) {
@@ -88,7 +92,7 @@ abstract public class BodyOrbitalType extends chartacaeli.model.BodyOrbitalType 
 		return list.toArray( new Coordinate[0] ) ;
 	}
 
-	abstract public Coordinate jdToEquatorial( double jd ) ;
+	abstract public Coordinate jdToEquatorial( double jd, Coordinate eq ) ;
 
 	public void headPS( ApplicationPostscriptStream ps ) {
 		String gstate ;

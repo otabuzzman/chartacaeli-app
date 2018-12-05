@@ -27,7 +27,7 @@ public class BodySun extends BodyOrbitalType {
 		this.peer = peer ;
 	}
 
-	public Coordinate jdToEquatorial( double jd ) {
+	public Coordinate jdToEquatorial( double jd, Coordinate eq ) {
 		double l, b, o ;
 		double epoch, stretch ;
 		CAA2DCoordinate c ;
@@ -49,8 +49,7 @@ public class BodySun extends BodyOrbitalType {
 			eclipticLatitude = getClass().getMethod( peer.getType()+"EclipticLatitude", new Class[] { double.class } ) ;
 
 			l = (Double) eclipticLongitude.invoke( null, new Object[] { new Double( jd ) } ) ;
-			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ) } )
-					+( jd-epoch )*stretch ;
+			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ) } ) ;
 		} catch ( NoSuchMethodException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		} catch ( InvocationTargetException e ) {
@@ -59,6 +58,14 @@ public class BodySun extends BodyOrbitalType {
 			throw new RuntimeException( e.toString() ) ;
 		}
 
+		if ( eq != null ) {
+			o = CAANutation.MeanObliquityOfEcliptic( epoch ) ;
+			c = CAACoordinateTransformation.Ecliptic2Equatorial( l, b, o ) ;
+			eq.x = CAACoordinateTransformation.HoursToDegrees( c.X() ) ;
+			eq.y = c.Y() ;
+		}
+
+		b += ( jd-epoch )*stretch ; ;
 		o = CAANutation.MeanObliquityOfEcliptic( epoch ) ;
 		c = CAACoordinateTransformation.Ecliptic2Equatorial( l, b, o ) ;
 

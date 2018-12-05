@@ -20,7 +20,7 @@ public class BodyMoon extends BodyOrbitalType {
 		super( converter, projector ) ;
 	}
 
-	public Coordinate jdToEquatorial( double jd ) {
+	public Coordinate jdToEquatorial( double jd, Coordinate eq ) {
 		double l, b, o ;
 		double epoch, stretch ;
 		CAA2DCoordinate c ;
@@ -33,9 +33,16 @@ public class BodyMoon extends BodyOrbitalType {
 			stretch = 0 ;
 
 		l = CAAMoon.EclipticLongitude( jd ) ;
-		b = CAAMoon.EclipticLatitude( jd )
-		+( jd-epoch )*stretch ;
+		b = CAAMoon.EclipticLatitude( jd ) ;
 
+		if ( eq != null ) {
+			o = CAANutation.MeanObliquityOfEcliptic( epoch ) ;
+			c = CAACoordinateTransformation.Ecliptic2Equatorial( l, b, o ) ;
+			eq.x = CAACoordinateTransformation.HoursToDegrees( c.X() ) ;
+			eq.y = c.Y() ;
+		}
+
+		b += ( jd-epoch )*stretch ;
 		o = CAANutation.MeanObliquityOfEcliptic( epoch ) ;
 		c = CAACoordinateTransformation.Ecliptic2Equatorial( l, b, o ) ;
 

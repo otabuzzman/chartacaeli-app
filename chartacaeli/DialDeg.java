@@ -31,6 +31,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 
 	// qualifier key (QK_)
 	private final static String QK_ANGLE		= "angle" ;
+	private final static String QK_MARK			= "mark" ;
 
 	private Baseline baseline ;
 
@@ -287,6 +288,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 		double shift, superscriptshift ;
 		double span, a, o, v ;
 		Vector pos, nrm, pt ;
+		Coordinate eq ;
 		boolean baseattr ;
 		chartacaeli.model.ScalebaseType peer ;
 		chartacaeli.model.Annotation annotation ;
@@ -363,11 +365,13 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 		ps.push( n++ ) ;
 		ps.op( "div" ) ;
 
+		eq = new Coordinate() ;
+
 		for ( int m=0 ; n>m ; m++ ) {
 			v = baseline.valOfScaleMarkN( m, span ) ;
-			pos = baseline.posVecOfScaleMarkVal( v ) ;
+			pos = baseline.posVecOfScaleMarkVal( v, eq ) ;
 
-			pt = baseline.posVecOfScaleMarkVal( v+1./getDivision() ) ;
+			pt = baseline.posVecOfScaleMarkVal( v+1./getDivision(), null ) ;
 
 			Vector t02 = new Vector( pt ).sub( pos ) ;
 			nrm = new Vector( t02 ).apply( m90 ).scale( 1 ) ;
@@ -382,6 +386,8 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 			pos.add( nrm ) ;
 
 			register( v ) ;
+			new DMS( eq.y ).register( this, QK_MARK ) ;
+
 			ps.op( "gsave" ) ;
 
 			ps.op( "currenthsbcolor" ) ;
@@ -408,7 +414,9 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 			}
 
 			ps.op( "grestore" ) ;
+
 			degister() ;
+			DMS.degister( this, QK_MARK ) ;
 		}
 
 		ps.op( "pop" ) ;

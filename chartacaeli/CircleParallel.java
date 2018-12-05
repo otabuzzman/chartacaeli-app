@@ -255,11 +255,21 @@ public class CircleParallel extends chartacaeli.model.CircleParallel implements 
 	}
 
 	public Vector posVecOfScaleMarkVal( double az ) {
-		Coordinate xy ;
+		return posVecOfScaleMarkVal( az, null ) ;
+	}
+
+	public Vector posVecOfScaleMarkVal( double az, Coordinate eq ) {
+		Coordinate c, xy ;
 		double al ;
 
-		al = valueOf( getAngle() ) ;	
-		xy = projector.project( converter.convert( new Coordinate( az, al ), false ), false ) ;
+		al = valueOf( getAngle() ) ;
+		c = converter.convert( new Coordinate( az, al ), false ) ;
+		if ( eq != null ) {
+			eq.x = c.x ;
+			eq.y = c.y ;
+		}
+
+		xy = projector.project( c, false ) ;
 
 		return new Vector( xy ) ;
 	}
