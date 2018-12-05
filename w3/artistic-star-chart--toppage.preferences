@@ -982,6 +982,27 @@
 					</map>
 				</node>
 			</node>
+			<node name="BodyMoon">
+				<map>
+					<entry key="stretch" value=".12"/>
+				</map>
+			</node>
+			<node name="Sign">
+				<map>
+					<entry key="halo" value="82"/>
+					<entry key="halomax" value="1"/>
+				</map>
+			</node>
+			<node name="CatalogADC6049">
+				<map>
+					<entry key="prepromot" value="false"/>
+				</map>
+			</node>
+			<node name="CatalogADC5050">
+				<map>
+					<entry key="prepromot" value="false"/>
+				</map>
+			</node>
 		</node>
 	</root>
 </preferences>
