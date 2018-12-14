@@ -826,7 +826,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	// calculate bounding box of texture projection, take FOV into account
 	private Coordinate[] calcBBT() {
 		Coordinate[] cBB ;
-		Geometry t0, gBB, fov ;
+		Geometry t0, gBB, eovG ;
 		double minsection ;
 
 		cOPT = projT() ;
@@ -835,13 +835,13 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 				.getCoordinates() ;
 		gBB = new GeometryFactory().createPolygon( cBB ) ;
 
-		fov = ChartType.findFieldOfView() ;
-		if ( fov != null && ! fov.intersects( gBB ) )
+		eovG = FieldOfView.createEOVGeometry() ;
+		if ( eovG != null && ! eovG.intersects( gBB ) )
 			return null ;
-		if ( fov == null || fov.contains( gBB ) )
+		if ( eovG == null || eovG.contains( gBB ) )
 			got = gBB ;
 		else {
-			got = fov.intersection( gBB ) ;
+			got = eovG.intersection( gBB ) ;
 
 			minsection = Configuration.getValue( this, CK_MINVISIBLE, DEFAULT_MINVISIBLE )/100 ;
 			t0 = new GeometryFactory().createPolygon( cOPT ) ;

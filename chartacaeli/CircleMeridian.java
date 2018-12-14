@@ -20,7 +20,8 @@ public class CircleMeridian extends chartacaeli.model.CircleMeridian implements 
 
 	// qualifier key (QK_)
 	private final static String QK_AZIMUTH			= "azimuth" ;
-	private final static String QK_TERMINUS			= "terminus" ;
+	private final static String QK_ALPHAXY			= "alphaxy" ;
+	private final static String QK_OMEGAXY			= "omegaxy" ;
 
 	private final static Log log = LogFactory.getLog( CircleMeridian.class ) ;
 
@@ -120,12 +121,14 @@ public class CircleMeridian extends chartacaeli.model.CircleMeridian implements 
 	}
 
 	public void register() {
-		chartacaeli.Coordinate currentpoint ;
+		chartacaeli.Coordinate alphaXY, omegaXY ;
 		double az ;
 		DMS dms ;
 
-		currentpoint = new chartacaeli.Coordinate( posVecOfScaleMarkVal( omega() ) ) ;
-		currentpoint.register( this, QK_TERMINUS ) ;
+		alphaXY = new chartacaeli.Coordinate( posVecOfScaleMarkVal( alpha() ) ) ;
+		alphaXY.register( this, QK_ALPHAXY ) ;
+		omegaXY = new chartacaeli.Coordinate( posVecOfScaleMarkVal( omega() ) ) ;
+		omegaXY.register( this, QK_OMEGAXY ) ;
 
 		az = valueOf( getAngle() ) ;
 		dms = new DMS( az/15 ) ;
@@ -133,7 +136,8 @@ public class CircleMeridian extends chartacaeli.model.CircleMeridian implements 
 	}
 
 	public void degister() {
-		chartacaeli.Coordinate.degister( this, QK_TERMINUS ) ;
+		chartacaeli.Coordinate.degister( this, QK_ALPHAXY ) ;
+		chartacaeli.Coordinate.degister( this, QK_OMEGAXY ) ;
 
 		DMS.degister( this, QK_AZIMUTH ) ;
 	}
@@ -147,10 +151,12 @@ public class CircleMeridian extends chartacaeli.model.CircleMeridian implements 
 	}
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
+		FieldOfView gov ;
+		String govRegistryKey ;
 		Configuration conf ;
 		int segmin ;
 		Coordinate[] ccrc, ccut ;
-		Geometry gov, cut, tmp ;
+		Geometry cut, crcG, govG ;
 		chartacaeli.model.Annotation annotation ;
 		PostscriptEmitter emitter ;
 
@@ -159,13 +165,12 @@ public class CircleMeridian extends chartacaeli.model.CircleMeridian implements 
 
 		ccrc = list( alpha(), omega() ) ;
 
-		gov = ChartType.findFieldOfView( true ) ;
-		if ( gov == null )
-			cut = new GeometryFactory().createLineString( ccrc ) ;
-		else {
-			tmp = new GeometryFactory().createLineString( ccrc ) ;
-			cut = gov.intersection( tmp ) ;
-		}
+		govRegistryKey = "G"+FieldOfView.class.getName() ;
+		gov = (FieldOfView) Registry.retrieve( govRegistryKey ) ;
+
+		govG = new GeometryFactory().createPolygon( gov.toCoordinateArray() ) ;
+		crcG = new GeometryFactory().createLineString( ccrc ) ;
+		cut = govG.intersection( crcG ) ;
 
 		for ( int i=0 ; cut.getNumGeometries()>i ; i++ ) {
 			ccut = cut.getGeometryN( i ).getCoordinates() ;

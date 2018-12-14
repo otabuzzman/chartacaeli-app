@@ -2,67 +2,43 @@
 package chartacaeli;
 
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
 
 @SuppressWarnings("serial")
 abstract public class ChartType extends chartacaeli.model.ChartType implements PostscriptEmitter, Projector {
 
+	public ChartType( chartacaeli.model.ChartType peer ) {
+		peer.copyValues( this ) ;
+	}
+
 	public double scale() {
 		ChartPage page ;
-		double x, view[] ;
+		Coordinate view ;
 
-		page = (ChartPage) Registry.retrieve( ChartPage.class.getName() ) ;
-		if ( page == null ) {
-			page = new ChartPage() ;
-			getChartPage().copyValues( page ) ;
-		}
-
+		page = new ChartPage() ;
+		getChartPage().copyValues( page ) ;
 		view = page.view() ;
-		x = view[0]/2 ;
 
-		return x*getScale()/100 ;
+		return view.x/2*getScale()/100 ;
 	}
 
 	public void register() {
 		ChartPage page ;
-		FieldOfView fov ;
+		FieldOfView gov ;
 
 		page = new ChartPage() ;
 		getChartPage().copyValues( page ) ;
 		Registry.register( ChartPage.class.getName(), page ) ;
+
 		try {
-			fov = new FieldOfView( new Coordinate[0] ) ;
-			Registry.register( FieldOfView.class.getName(), fov ) ;
-		} catch ( Exception e ) {}
+			gov = new FieldOfView( page.toViewCoordinateArray() ) ;
+			Registry.register( "G"+FieldOfView.class.getName(), gov ) ;
+		} catch ( ParameterNotValidException e ) {}
 	}
 
 	public void degister() {
 		Registry.degister( ChartPage.class.getName() ) ;
-		Registry.degister( FieldOfView.class.getName() ) ;
-	}
-
-	public static Geometry findFieldOfView() {
-		return findFieldOfView( false ) ;
-	}
-
-	public static Geometry findFieldOfView( boolean global ) {
-		FieldOfView fov ;
-		ChartPage page ;
-		Geometry gov ;
-
-		page = (ChartPage) Registry.retrieve( ChartPage.class.getName() ) ;
-		if ( page != null )
-			gov = FieldOfView.makeGeometry( page.getViewRectangle(), true ) ;
-		else
-			gov = null ;
-
-		if ( global )
-			return gov ;
-
-		fov = (FieldOfView) Registry.retrieve( FieldOfView.class.getName() ) ;
-		if ( fov != null && fov.isClosed() )
-			return fov.makeGeometry() ;	
-		return gov ;
+		Registry.degister( "G"+FieldOfView.class.getName() ) ;
+		Registry.degister( "C"+FieldOfView.class.getName() ) ;
 	}
 
 	public void headPS( ApplicationPostscriptStream ps ) {

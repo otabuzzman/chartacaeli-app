@@ -105,7 +105,7 @@ abstract public class BodyOrbitalType extends chartacaeli.model.BodyOrbitalType 
 	public void emitPS( ApplicationPostscriptStream ps ) {
 		Configuration conf ;
 		int segmin ;
-		Geometry fov, cut, tmp ;
+		Geometry eovG, cut, tmp ;
 		com.vividsolutions.jts.geom.Coordinate[] ccrc, ccut ;
 		chartacaeli.model.Annotation annotation ;
 		PostscriptEmitter emitter ;
@@ -115,16 +115,16 @@ abstract public class BodyOrbitalType extends chartacaeli.model.BodyOrbitalType 
 
 		ccrc = list( getEpochAlpha(), getEpochFinis() ) ;
 
-		fov = ChartType.findFieldOfView() ;
-		if ( fov == null )
+		eovG = FieldOfView.createEOVGeometry() ;
+		if ( eovG == null )
 			cut = new GeometryFactory().createLineString( ccrc ) ;
 		else {
 			tmp = new GeometryFactory().createLineString( ccrc ) ;
 			if ( ! tmp.isSimple() )
 				return ;
-			if ( ! fov.intersects( tmp ) )
+			if ( ! eovG.intersects( tmp ) )
 				return ;
-			cut = fov.intersection( tmp ) ;
+			cut = eovG.intersection( tmp ) ;
 		}
 
 		for ( int i=0 ; cut.getNumGeometries()>i ; i++ ) {

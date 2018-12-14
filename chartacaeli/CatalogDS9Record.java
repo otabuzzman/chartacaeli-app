@@ -7,6 +7,7 @@ import java.io.StringReader;
 import java.util.List;
 
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.CoordinateList;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
@@ -19,7 +20,7 @@ public class CatalogDS9Record extends chartacaeli.model.CatalogDS9Record impleme
 	private final static double DEFAULT_EPS	= 1.5 ;
 
 	private double eps ;
-	
+
 	// pragma
 	protected int combine = 0 ;
 
@@ -85,6 +86,7 @@ public class CatalogDS9Record extends chartacaeli.model.CatalogDS9Record impleme
 		List<Geometry> rec ;
 		Coordinate[] elm, act ;
 		Coordinate a, o ;
+		CoordinateList clist ;
 
 		eps = Configuration.getValue( this, CK_EPS, DEFAULT_EPS ) ;
 
@@ -92,6 +94,8 @@ public class CatalogDS9Record extends chartacaeli.model.CatalogDS9Record impleme
 		rec = new java.util.Vector<Geometry>() ;
 
 		elm = null ;
+
+		clist = new CoordinateList() ;
 
 		for ( int i=0 ; n>i ; i++ ) {
 			act = record.get( i ) ;
@@ -106,8 +110,11 @@ public class CatalogDS9Record extends chartacaeli.model.CatalogDS9Record impleme
 			}
 
 			if ( eps( a, o ) ) {
-				act = FieldOfView.close( act ) ;
-				rec.add( new GeometryFactory().createLineString( act ) ) ;
+				clist.clear() ;
+				clist.add( act, true ) ;
+				clist.closeRing() ;
+
+				rec.add( new GeometryFactory().createLineString( clist.toCoordinateArray() ) ) ;
 
 				// pragma
 				combine++ ;
@@ -119,14 +126,20 @@ public class CatalogDS9Record extends chartacaeli.model.CatalogDS9Record impleme
 				a = act[0] ;
 
 				if ( eps( o, a ) ) {
-					elm = FieldOfView.chain( elm, act ) ;
+					clist.clear() ;
+					clist.add( elm, true ) ;
+					clist.add( act, true ) ;
+					elm = clist.toCoordinateArray() ;
 
 					a = elm[0] ;
 					o = elm[elm.length-1] ;
 
 					if ( eps( a, o ) ) {
-						elm = FieldOfView.close( elm ) ;
-						rec.add( new GeometryFactory().createLineString( elm ) ) ;
+						clist.clear() ;
+						clist.add( elm, true ) ;
+						clist.closeRing() ;
+
+						rec.add( new GeometryFactory().createLineString( clist.toCoordinateArray() ) ) ;
 
 						elm = null ;
 					}
@@ -144,8 +157,13 @@ public class CatalogDS9Record extends chartacaeli.model.CatalogDS9Record impleme
 			a = elm[0] ;
 			o = elm[elm.length-1] ;
 
-			if ( eps( a, o ) )
-				elm = FieldOfView.close( elm ) ;
+			if ( eps( a, o ) ) {
+				clist.clear() ;
+				clist.add( elm, true ) ;
+				clist.closeRing() ;
+
+				elm = clist.toCoordinateArray() ;
+			}
 			rec.add( new GeometryFactory().createLineString( elm ) ) ;
 		}
 

@@ -35,7 +35,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 
 	private Baseline baseline ;
 
-	private Geometry fov ;
+	private Geometry eov ;
 	private Geometry bas ;
 	private Geometry seg ;
 
@@ -207,7 +207,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 				// remove when list() = Geometry
 				Geometry t00 = new GeometryFactory().createLineString( bot ) ;
 				Geometry t01 = new GeometryFactory().createLineString( top ) ;
-				if ( fov != null && ! fov.contains( t00.union( t01 ) ) )
+				if ( eov != null && ! eov.contains( t00.union( t01 ) ) )
 					continue ;
 
 				ps.array( true ) ;
@@ -301,9 +301,9 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 		halomax = conf.getValue( CK_HALOMAX, DEFAULT_HALOMAX ) ;
 
 		bas = seg = makeBaselineGeometry() ;
-		fov = ChartType.findFieldOfView() ;
-		if ( fov != null )
-			seg = fov.intersection( bas ) ;
+		eov = FieldOfView.createEOVGeometry() ;
+		if ( eov != null )
+			seg = eov.intersection( bas ) ;
 
 		if ( seg.getNumPoints() == 0 )
 			return ; // bas not covered by fov
@@ -403,7 +403,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 				scaleline = new Scaleline( pos, nrm ) ;
 				getScaleline()[j].copyValues( scaleline ) ;
 
-				if ( fov != null && ! fov.contains( scaleline.list() ) )
+				if ( eov != null && ! eov.contains( scaleline.list() ) )
 					break ;
 
 				scaleline.headPS( ps ) ;

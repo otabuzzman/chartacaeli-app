@@ -73,9 +73,7 @@ public class CatalogDS9 extends chartacaeli.model.CatalogDS9 implements Postscri
 		CatalogDS9Record record ;
 		chartacaeli.model.CatalogDS9Record select ;
 		boolean line, draw ;
-		FieldOfView fov ;
-		Geometry gov ;
-		ChartPage page ;
+		Geometry eovG ;
 		Geometry rec, cmb ;
 		LineString elm ;
 		Geometry tmp, mem ;
@@ -96,17 +94,6 @@ public class CatalogDS9 extends chartacaeli.model.CatalogDS9 implements Postscri
 					continue ;
 				line = record.getContour().equals( AV_LINE ) ;
 
-				fov = (FieldOfView) Registry.retrieve( FieldOfView.class.getName() ) ;
-				if ( fov != null && fov.isClosed() )
-					gov = fov.makeGeometry() ;
-				else {
-					page = (ChartPage) Registry.retrieve( ChartPage.class.getName() ) ;
-					if ( page != null )
-						gov = FieldOfView.makeGeometry( page.getViewRectangle(), true ) ;
-					else
-						gov = null ;
-				}
-
 				draw = false ;
 				cmb = null ;
 				mem = null ;
@@ -114,26 +101,27 @@ public class CatalogDS9 extends chartacaeli.model.CatalogDS9 implements Postscri
 				rec = record.list() ;
 				rec.apply( coordinateToCartesianFilter ) ;
 
+				eovG = FieldOfView.createEOVGeometry() ;
 				for ( int j=0 ; rec.getNumGeometries()>j ; j++ ) {
 					elm = (LineString) rec.getGeometryN( j ) ;
 
-					if ( gov == null ) {
+					if ( eovG == null ) {
 						draw = gdraw( ps, elm ) ;
 						continue ;
 					}
 
 					if ( ! elm.isClosed() )
 						continue ;
-					if ( ! elm.intersects( gov ) )
+					if ( ! elm.intersects( eovG ) )
 						continue ;
 
-					if ( gov.contains( elm ) ) {
+					if ( eovG.contains( elm ) ) {
 						draw = gdraw( ps, elm ) ;
 						continue ;
 					}
 
 					if ( line ) {
-						tmp = gov.intersection( elm ) ;
+						tmp = eovG.intersection( elm ) ;
 						draw = gdraw( ps, tmp ) ;
 						continue ;
 					}
@@ -141,17 +129,17 @@ public class CatalogDS9 extends chartacaeli.model.CatalogDS9 implements Postscri
 					// pragma
 					tmp = new GeometryFactory().createPolygon( elm.getCoordinates() ) ;
 					if ( record.combine == 0 ) {
-						draw = gdraw( ps, gov.intersection( tmp ) ) ;
+						draw = gdraw( ps, eovG.intersection( tmp ) ) ;
 						continue ;
 					}
 					if ( cmb == null ) {
-						cmb = gov.intersection( tmp ) ;
+						cmb = eovG.intersection( tmp ) ;
 						mem = tmp ;
 					} else {
 						if ( cmb.intersects( tmp ) )
 							cmb = cmb.difference( tmp ) ;
 						else {
-							cmb = gov.difference( mem ) ;
+							cmb = eovG.difference( mem ) ;
 							cmb = cmb.difference( tmp ) ;
 						}
 					}
@@ -160,7 +148,7 @@ public class CatalogDS9 extends chartacaeli.model.CatalogDS9 implements Postscri
 				if ( cmb != null )
 					draw = gdraw( ps, cmb ) ;
 
-				if ( draw && gov == null )
+				if ( draw && eovG == null )
 					ps.script( Configuration.getValue( record, AV_LINE, "" ) ) ;
 				else
 					ps.script( Configuration.getValue( record, record.getContour(), "" ) ) ;

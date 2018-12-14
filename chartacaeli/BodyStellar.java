@@ -45,7 +45,7 @@ public class BodyStellar extends chartacaeli.model.BodyStellar implements Postsc
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
 		chartacaeli.model.Script script ;
-		Geometry fov ;
+		Geometry eovG ;
 		double height ;
 		Coordinate lo, xy ;
 		double turn, spin ;
@@ -55,8 +55,8 @@ public class BodyStellar extends chartacaeli.model.BodyStellar implements Postsc
 		lo = valueOf( getPosition() ) ;
 		xy = projector.project( converter.convert( lo, false ), false ) ;
 
-		fov = ChartType.findFieldOfView() ;
-		if ( fov != null && ! fov.covers( new GeometryFactory().createPoint( xy ) ) )
+		eovG = FieldOfView.createEOVGeometry() ;
+		if ( eovG != null && ! eovG.covers( new GeometryFactory().createPoint( xy ) ) )
 			return ;
 
 		turn = -CAACoordinateTransformation.HoursToDegrees( getTurn() ) ;

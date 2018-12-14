@@ -1,0 +1,70 @@
+# FieldOfView test cases. log level INFO. mind quotes. min/ max x/ y -200/ 200.
+
+# case 0: update A0 with B0.
+"LINESTRING EMPTY" "LINESTRING EMPTY"
+
+# case 1: update A0 with Bo.
+"LINESTRING EMPTY" "LINESTRING (-200 64, 200 64)"
+
+# case 2: update A0 with Bc.
+"LINESTRING EMPTY" "LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)"
+
+# case 3: update A0 with Bci.
+"LINESTRING EMPTY" "LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140.005 130.005)"
+
+# case 4: update Ao with B0.
+"LINESTRING (-200 64, 200 64)" "LINESTRING EMPTY"
+
+# case 5: update Ao with Bo. 1 intersection point, longest path.
+"LINESTRING (-200 64, 200 64)" "LINESTRING (64 200, 64 -200)"
+
+# case 5 usealtfov: update Ao with Bo. 1 intersection point, shortest path.
+usealtfov "LINESTRING (-200 64, 200 64)" "LINESTRING (64 200, 64 -200)"
+
+# case 5: update Ao with Bo. 2 intersection points (yields area).
+"LINESTRING (-200 64, 200 64)" "LINESTRING (64 200, 64 -200, -200 200)"
+
+# case 6: update Ao with Bc.
+"LINESTRING (-200 64, 200 64)" "LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)"
+
+# case 6 usealtfov: update Ao with Bc.
+usealtfov "LINESTRING (-200 64, 200 64)" "LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)"
+
+# case 7: update Ao with Bci.
+"LINESTRING (-200 64, 200 64)" "LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140.005 130.005)"
+
+# case 8: update Ac with B0.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)" "LINESTRING EMPTY"
+
+# case 9: update Ac with Bo.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)" "LINESTRING (64 200, 64 -200)"
+
+# case 10: update Ac with Bc.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)" "LINESTRING (-80 160, 80 160, 80 -160, -80 -160, -80 160)"
+
+# case 10: update Ac with Bc. Bc outside Ac
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)" "LINESTRING (-200 -150, -100 -150, -100 -200, -200 -200, -200 -150)"
+
+# case 10: update Ac with Bc. Bc covers Ac partly.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)" "LINESTRING (-200 -100, -100 -100, -100 -150, -200 -150, -200 -100)"
+
+# case 10: update Ac with Bc. Bc inside Ac.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)" "LINESTRING (-100 50, 100 50, 100 -50, -100 -50, -100 50)"
+
+# case 10: update Ac with Bc. Bc contains Ac.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)" "LINESTRING (-154 145, 145 145, 145 -145, -154 -145, -154 145)"
+
+# case 11: update Ac with Bci.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140 130)" "LINESTRING (-80 160, 80 160, 80 -160, -80 -160, -80.005 160.005)"
+
+# case 12: update Aci with B0. fallback to case 8.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140.005 130.005)" "LINESTRING EMPTY"
+
+# case 13: update Aci with Bo. fallback to case 9.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140.005 130.005)" "LINESTRING (64 200, 64 -200)"
+
+# case 14: update Aci with Bc. fallback to case 10.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140.005 130.005)" "LINESTRING (-80 160, 80 160, 80 -160, -80 -160, -80 160)"
+
+# case 15: update Aci with Bci. fallback to case 11.
+"LINESTRING (-140 130, 130 130, 130 -130, -140 -130, -140.005 130.005)" "LINESTRING (-80 160, 80 160, 80 -160, -80 -160, -80.005 160.005)"

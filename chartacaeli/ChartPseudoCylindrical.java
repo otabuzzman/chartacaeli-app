@@ -23,9 +23,9 @@ public class ChartPseudoCylindrical extends ChartType {
 	private P4Projector projector ;
 
 	public ChartPseudoCylindrical( chartacaeli.model.ChartPseudoCylindrical peer ) {
-		double lam0, phi1, R ;
+		super( peer ) ;
 
-		peer.copyValues( this ) ;
+		double lam0, phi1, R ;
 
 		if ( getOblique() == null ) {
 			lam0 = Configuration.getValue( this, CK_DEFOBLIQUELON, DEFAULT_DEFOBLIQUELON ) ;
@@ -38,8 +38,6 @@ public class ChartPseudoCylindrical extends ChartType {
 
 		projector = projection.get( peer.getProjection() ) ;
 		projector.init( lam0, phi1, R, 1 ) ;
-
-		Registry.register( P4Projector.class.getName(), projector ) ;
 	}
 
 	public Coordinate project( Coordinate coordinate, boolean inverse ) {
@@ -62,6 +60,18 @@ public class ChartPseudoCylindrical extends ChartType {
 		clone.projector = (P4Projector) projector.clone() ;
 
 		return clone ;
+	}
+
+	public void register() {
+		super.register() ;
+
+		Registry.register( P4Projector.class.getName(), projector ) ;
+	}
+
+	public void degister() {
+		super.degister() ;
+
+		Registry.degister( P4Projector.class.getName() ) ;
 	}
 
 	static {

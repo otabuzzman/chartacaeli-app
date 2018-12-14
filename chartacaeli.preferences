@@ -16,7 +16,7 @@
 					<map>
 						<!--used by ChartaCaeli, FieldOfView-->
 						<entry key="viewer" value="gswin64c.exe -dBATCH -dNOPAUSE -q -"/>
-						<!--used by DMS, Rational, ProstscriptStream, HorizonType-->
+						<!--used by DMS, Rational, ProstscriptStream, HorizonType, FieldOfView-->
 						<entry key="precision" value="2"/>
 						<!--used by CircleMeridian, CircleParallel, BodyPlanet, BodyMoon, BodySun, ShapeElliptical, Artwork-->
 						<entry key="interval" value="1"/>
@@ -48,6 +48,8 @@
 						<entry key="tonemap" value="0:0:0,1:1:1"/>
 						<!--used by CatalogADC1239H, CatalogADC1239T, CatalogADC5050, CatalogADC5109, CatalogADC6049, CatalogADC7118-->
 						<entry key="prepromot" value="true"/>
+						<!--used for FOV construction by HorizonType-->
+						<entry key="usealtfov" value="false"/>
 					</map>
 				</node>
 			</node>

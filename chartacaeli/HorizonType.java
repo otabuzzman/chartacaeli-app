@@ -1,17 +1,22 @@
 
 package chartacaeli;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.vividsolutions.jts.geom.Coordinate;
 
 @SuppressWarnings("serial")
 abstract public class HorizonType extends chartacaeli.model.HorizonType implements PostscriptEmitter, Converter {
 
 	// configuration key (CK_)
-	private final static String CK_PRECISION	= "precision" ;
+	private final static String CK_USEALTFOV		= "usealtfov" ;
 
-	private final static int DEFAULT_PRECISION	= 2 ;
+	private final static boolean DEFAULT_USEALTFOV	= false ;
 
 	private Projector projector ;
+
+	private final static Log log = LogFactory.getLog( HorizonType.class ) ;
 
 	public HorizonType( Projector projector ) {
 		this.projector = projector ;
@@ -189,39 +194,24 @@ abstract public class HorizonType extends chartacaeli.model.HorizonType implemen
 			updateFieldOfView( circle.list( circle.alpha(), circle.omega() ) ) ;
 	}
 
-	private void updateFieldOfView( Coordinate[] line ) {
-		FieldOfView fov ;
-		Coordinate l[], a, o ;
-		double p ;
-		int e ;
+	private void updateFieldOfView( Coordinate[] c ) {
+		String covRegistryKey ;
+		FieldOfView cov ; // combined field of view
+		boolean usealtfov ;
 
-		l = line ;
-		a = new Coordinate( l[0] ) ;
-		o = new Coordinate( l[l.length-1] ) ;
+		usealtfov = Configuration.getValue( this, CK_USEALTFOV, DEFAULT_USEALTFOV ) ;
 
-		if ( ! a.equals2D( o ) ) {
-			e = Configuration.getValue( this, CK_PRECISION, DEFAULT_PRECISION ) ;
-			p = java.lang.Math.pow( 10, e ) ;
-
-			a.x = java.lang.Math.round( a.x*p )/p ;
-			a.y = java.lang.Math.round( a.y*p )/p ;
-			o.x = java.lang.Math.round( o.x*p )/p ;
-			o.y = java.lang.Math.round( o.y*p )/p ;
-
-			if ( a.equals2D( o ) ) {
-				l = new Coordinate[line.length+1] ;
-				l[l.length-1] = new Coordinate( line[0] ) ;
-				System.arraycopy( line, 0, l, 0, line.length ) ;
-			}
+		try {
+			covRegistryKey = "C"+FieldOfView.class.getName() ;
+			cov = (FieldOfView) Registry.retrieve( covRegistryKey ) ;
+			if ( cov == null ) { // 1st
+				cov = new FieldOfView( c ) ;
+				Registry.register( covRegistryKey, cov ) ;
+			} else // n-th
+				cov.update( c, usealtfov ) ;
+		} catch ( ParameterNotValidException e ) {
+			log.warn( e.getMessage() ) ;
 		}
-
-		fov = (FieldOfView) Registry.retrieve( FieldOfView.class.getName() ) ;
-		if ( fov == null )
-			return ;
-		fov.add( l ) ;
-
-		Registry.degister( FieldOfView.class.getName() ) ;
-		Registry.register( FieldOfView.class.getName(), fov ) ;
 	}
 
 	private void body( ApplicationPostscriptStream ps, chartacaeli.model.BodyStellar peer ) {

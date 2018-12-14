@@ -45,24 +45,11 @@ public class Sign extends chartacaeli.model.Sign implements PostscriptEmitter {
 	private void emitPS( ApplicationPostscriptStream ps, SignType limb ) {
 		double shortening ;
 		Vector va, vb, vc, vca, vco ;
-		FieldOfView fov ;
-		Geometry gov, ab, l ;
-		ChartPage page ;
+		Geometry eovG, ab, l ;
 		Coordinate a, b ;
 		Configuration conf ;
 		chartacaeli.model.Annotation annotation ;
 		PostscriptEmitter emitter ;
-
-		fov = (FieldOfView) Registry.retrieve( FieldOfView.class.getName() ) ;
-		if ( fov != null && fov.isClosed() )
-			gov = fov.makeGeometry() ;
-		else {
-			page = (ChartPage) Registry.retrieve( ChartPage.class.getName() ) ;
-			if ( page != null )
-				gov = FieldOfView.makeGeometry( page.getViewRectangle(), true ) ;
-			else
-				gov = null ;
-		}
 
 		shortening = Configuration.getValue( this, CK_SHORTENING, DEFAULT_SHORTENING ) ;
 
@@ -80,9 +67,10 @@ public class Sign extends chartacaeli.model.Sign implements PostscriptEmitter {
 		} else
 			ab = l = new GeometryFactory().createLineString( new Coordinate[] { a, b } ) ;
 
-		if ( gov != null && gov.intersects( ab ) ) {
-			if ( ! gov.contains( ab ) )
-				l = gov.intersection( ab ) ;
+		eovG = FieldOfView.createEOVGeometry() ;
+		if ( eovG != null && eovG.intersects( ab ) ) {
+			if ( ! eovG.contains( ab ) )
+				l = eovG.intersection( ab ) ;
 
 			ps.array( true ) ;
 			for ( Coordinate xy : l.getCoordinates() ) {

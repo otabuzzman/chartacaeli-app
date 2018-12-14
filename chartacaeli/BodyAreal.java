@@ -89,7 +89,7 @@ public class BodyAreal extends chartacaeli.model.BodyAreal implements Postscript
 						0 ;
 			}
 		} ;
-		Geometry fov, tmp, cut ;
+		Geometry eovG, tmp, cut ;
 		Coordinate xy ;
 		Vector z, p ;
 		double a ;
@@ -99,14 +99,14 @@ public class BodyAreal extends chartacaeli.model.BodyAreal implements Postscript
 		lst = list() ;
 		seg = new java.util.Vector<Coordinate[]>() ;
 
-		fov = ChartType.findFieldOfView() ;
-		if ( fov == null )
+		eovG = FieldOfView.createEOVGeometry() ;
+		if ( eovG == null )
 			seg.add( lst ) ;
 		else {
 			tmp = new GeometryFactory().createLineString( lst ) ;
-			if ( ! fov.intersects( tmp ) )
+			if ( ! eovG.intersects( tmp ) )
 				return ;
-			cut = fov.intersection( tmp ) ;
+			cut = eovG.intersection( tmp ) ;
 			for ( int i=0 ; cut.getNumGeometries()>i ; i++ )
 				seg.add( cut.getGeometryN( i ).getCoordinates() ) ;
 			if ( seg.size()>1 )

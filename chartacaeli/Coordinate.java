@@ -2,31 +2,31 @@
 package chartacaeli;
 
 import chartacaeli.caa.CAA2DCoordinate;
-import chartacaeli.caa.CAA3DCoordinate;
 
 @SuppressWarnings("serial")
 public class Coordinate extends com.vividsolutions.jts.geom.Coordinate {
 
+	// qualifier key (QK_)
 	private final static String QK_X = "x" ;
 	private final static String QK_Y = "y" ;
 	private final static String QK_Z = "z" ;
 
-	public Coordinate( com.vividsolutions.jts.geom.Coordinate coordinate ) {
-		super( coordinate ) ;
+	public Coordinate( double x, double y ) {
+		super( x, y, 0 ) ;
+	}
 
-		setCoordinate( coordinate ) ;
+	public Coordinate( double x, double y, double z ) {
+		super( x, y, z ) ;
 	}
 
 	public Coordinate( CAA2DCoordinate coordinate ) {
 		super( coordinate.X(), coordinate.Y(), 0 ) ;
 	}
 
-	public Coordinate( CAA3DCoordinate coordinate ) {
-		super( coordinate.X(), coordinate.Y(), coordinate.Z() ) ;
-	}
+	public Coordinate( com.vividsolutions.jts.geom.Coordinate coordinate ) {
+		super( coordinate ) ;
 
-	public Coordinate( double x, double y, double z ) {
-		super( x, y, z ) ;
+		setCoordinate( coordinate ) ;
 	}
 
 	public void setCoordinate( com.vividsolutions.jts.geom.Coordinate other ) {

@@ -95,7 +95,7 @@ all: classes
 
 .xml.ps:
 	# note that caa loads aaplus thus needs PATH set as well as java.library.path
-	@time java $(JFRX_OPTS) $(JVMX_OPTS) \
+	@time java $(JVMX_OPTS) \
 			-D$(PKG).app=$(APP) \
 			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
 			-Djava.util.logging.config.file=logging.properties \
@@ -160,6 +160,19 @@ $(libdir)/commons-math3-3.5.jar:
 	wget -q -O $@ http://central.maven.org/maven2/org/apache/commons/commons-math3/3.5/commons-math3-3.5.jar
 $(libdir)/commons-logging-1.2.jar:
 	wget -q -O $@ http://central.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar
+
+
+
+# test targets
+FieldOfView.ps: lab/FieldOfView.dat
+	@eval java $(JVMX_OPTS) \
+		-D$(PKG).app=$(APP) \
+		-Djava.library.path='"$(subst $(space),$(sep),$(jnilib))"' \
+		-Djava.util.logging.config.file=logging.properties \
+		-classpath '"$(subst $(space),$(sep), \
+		$(pkgdir) \
+		$(JAREXT))"' \
+		$(PKG).FieldOfView `egrep -v '^#|^$$' $<` >$@
 
 
 

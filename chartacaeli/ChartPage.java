@@ -20,29 +20,29 @@ public class ChartPage extends chartacaeli.model.ChartPage implements Postscript
 	private final static String DEFAULT_LAYOUT		= "100x100" ;
 	private final static String DEFAULT_BACKGROUND	= "1:1:1" ;
 
-	public double[] size() {
-		String sv, sd[] ;
+	public Coordinate size() {
+		String szraw, szdis[] ;
 
-		sv = Configuration.getValue( this, getSize(), null ) ;
-		if ( sv == null ) {
-			sd = getSize().split( "x" ) ;
+		szraw = Configuration.getValue( this, getSize(), null ) ;
+		if ( szraw == null ) {
+			szdis = getSize().split( "x" ) ;
 		} else {
-			sd = sv.split( "x" ) ;
+			szdis = szraw.split( "x" ) ;
 		}
 
-		return new double[] {
-				new Double( sd[0] ).doubleValue(),
-				new Double( sd[1] ).doubleValue() } ;
+		return new Coordinate( Double.parseDouble( szdis[0] ), Double.parseDouble( szdis[1] ) ) ;
 	}
 
-	public double[] view() {
-		double[] size ;
+	public Coordinate view() {
+		Coordinate size ;
+		double view, x, y ;
 
 		size = size() ;
+		view = getView() ;
+		x = size.x*view/100 ;
+		y = size.y*view/100 ;
 
-		return new double[] {
-				size[0]*getView()/100,
-				size[1]*getView()/100 } ;
+		return new Coordinate( x, y ) ;
 	}
 
 	public double[] frame( int num ) {
@@ -52,7 +52,7 @@ public class ChartPage extends chartacaeli.model.ChartPage implements Postscript
 		double colVal, rowVal ;
 		int numC, numR, numF ;
 		int i, col, row ;
-		double[] size ;
+		Coordinate size ;
 		double ox, oy, dx, dy ;
 
 		if ( layCLeftEdge == null ) {
@@ -96,11 +96,11 @@ public class ChartPage extends chartacaeli.model.ChartPage implements Postscript
 
 		size = size() ;
 
-		ox = -size[0]/2+size[0]*layCLeftEdge[col] ;
-		oy = -size[1]/2+size[1]*layRTopEdge[row+1] ;
+		ox = -size.x/2+size.x*layCLeftEdge[col] ;
+		oy = -size.y/2+size.y*layRTopEdge[row+1] ;
 
-		dx = size[0]*( layCLeftEdge[col+1]-layCLeftEdge[col] ) ;
-		dy = size[1]*( layRTopEdge[row]-layRTopEdge[row+1] ) ;
+		dx = size.x*( layCLeftEdge[col+1]-layCLeftEdge[col] ) ;
+		dy = size.x*( layRTopEdge[row]-layRTopEdge[row+1] ) ;
 
 		return new double[] { ox, oy, dx, dy } ;
 	}
@@ -109,23 +109,21 @@ public class ChartPage extends chartacaeli.model.ChartPage implements Postscript
 	}
 
 	public void emitPS( ApplicationPostscriptStream ps ) {
-		double[] size, view ;
+		Coordinate size, view[] ;
 		double psunit ;
 		long seed ;
 		String bgv[] ;
-
-		size = size() ;
-		view = view() ;
 
 		psunit = Configuration.getValue( this, CK_PSUNIT, DEFAULT_PSUNIT ) ;
 
 		ps.dc( "%BeginSetup", null ) ;
 
+		size = size() ;
 		ps.dict( true ) ;
 		ps.script( "/PageSize" ) ;
 		ps.array( true ) ;
-		ps.push( size[0]*psunit ) ;
-		ps.push( size[1]*psunit ) ;
+		ps.push( size.x*psunit ) ;
+		ps.push( size.y*psunit ) ;
 		ps.array( false ) ;
 		ps.dict( false ) ;
 		ps.op( "setpagedevice" ) ;
@@ -154,64 +152,43 @@ public class ChartPage extends chartacaeli.model.ChartPage implements Postscript
 
 		ps.dc( "%EndPageSetup", null ) ;
 
-		if ( size[0]>view[0] ) {
+		view = toViewCoordinateArray() ;
+		if ( 100>getView() ) {
 			ps.array( true ) ;
-			ps.push( -view[0]/2 ) ;
-			ps.push( view[1]/2 ) ;
-			ps.push( view[0]/2 ) ;
-			ps.push( view[1]/2 ) ;
-			ps.push( view[0]/2 ) ;
-			ps.push( -view[1]/2 ) ;
-			ps.push( -view[0]/2 ) ;
-			ps.push( -view[1]/2 ) ;
+			for ( Coordinate xy : view ) {
+				ps.push( xy.x ) ;
+				ps.push( xy.y ) ;
+			}
 			ps.array( false ) ;
 
 			ps.op( "newpath" ) ;
 			ps.op( "gdraw" ) ;
 
-			ps.op( "closepath" ) ;
 			ps.op( "stroke" ) ;
-
-			ps.push( -view[0]/2 ) ;
-			ps.push( view[1]/2 ) ;
-			ps.op( "moveto" ) ;
-		} else {
-			ps.push( -size[0]/2 ) ;
-			ps.push( size[1]/2 ) ;
-			ps.op( "moveto" ) ;
 		}
+
+		ps.push( view[0].x ) ;
+		ps.push( view[0].y ) ;
+		ps.op( "moveto" ) ;
 	}
 
 	public void tailPS( ApplicationPostscriptStream ps ) {
 	}
 
-	public Coordinate[] getSizeRectangle() {
-		double size[], x, y ;
-
-		size = size() ;
-		x = size[0]/2 ;
-		y = size[1]/2 ;
-
-		return new Coordinate[] {
-				new Coordinate( -x, y ),
-				new Coordinate( x, y ),
-				new Coordinate( x, -y ),
-				new Coordinate( -x, -y ),
-		} ;
-	}
-
-	public Coordinate[] getViewRectangle() {
-		double view[], x, y ;
+	public Coordinate[] toViewCoordinateArray() {
+		Coordinate view ;
+		double x, y ;
 
 		view = view() ;
-		x = view[0]/2 ;
-		y = view[1]/2 ;
+		x = view.x/2 ;
+		y = view.y/2 ;
 
 		return new Coordinate[] {
 				new Coordinate( -x, y ),
-				new Coordinate( x, y ),
-				new Coordinate( x, -y ),
 				new Coordinate( -x, -y ),
+				new Coordinate( x, -y ),
+				new Coordinate( x, y ),
+				new Coordinate( -x, y ),
 		} ;
 	}
 }
