@@ -56,7 +56,7 @@
 								</Scaleline>
 								<Scaleline name="full" value="15">
 									<AnnotationStraight anchor="middleleft" radiant="false" reverse="false">
-										<Script purpose="dialcardinal" value="{skalagrd/15}">
+										<Script purpose="dialcardinal" value="{scaledeg/15}">
 											<Superscript value="h"/>
 										</Script>
 									</AnnotationStraight>
@@ -390,7 +390,7 @@
 								<ScalebaseNone name="nospace"/>
 								<Scaleline name="noline" value="10">
 									<AnnotationStraight anchor="bottomright" radiant="false" reverse="false">
-										<Script purpose="dialfraction" value="{skalagrdneg==true?&#x22;-&#x22;:&#x22;&#x22;}{skalagrd}°"/>
+										<Script purpose="dialfraction" value="{scaledegneg==true?&#x22;-&#x22;:&#x22;&#x22;}{scaledeg}°"/>
 									</AnnotationStraight>
 								</Scaleline>
 								<Annotation>
@@ -493,7 +493,7 @@
 								<ScalebaseNone name="nospace"/>
 								<Scaleline name="noline" value="10">
 									<AnnotationStraight anchor="bottomright" radiant="false" reverse="true">
-										<Script purpose="dialfraction" value="{skalagrdneg==true?&#x22;-&#x22;:&#x22;&#x22;}{skalagrd}°"/>
+										<Script purpose="dialfraction" value="{scaledegneg==true?&#x22;-&#x22;:&#x22;&#x22;}{scaledeg}°"/>
 									</AnnotationStraight>
 								</Scaleline>
 							</DialDeg>
@@ -645,7 +645,7 @@
 								<ScalebaseNone/>
 								<Scaleline name="noline" value="15">
 									<AnnotationStraight anchor="bottomleft" radiant="false" reverse="false">
-										<Script purpose="dialfraction" value="{skalagrd}°"/>
+										<Script purpose="dialfraction" value="{scaledeg}°"/>
 									</AnnotationStraight>
 								</Scaleline>
 								<Annotation>
@@ -731,7 +731,7 @@
 								<ScalebaseNone/>
 								<Scaleline name="noline" value="15">
 									<AnnotationStraight anchor="bottomright" radiant="false" reverse="false">
-										<Script purpose="dialfraction" value="{skalagrdneg==true?&#x22;-&#x22;:&#x22;&#x22;}{skalagrd}°"/>
+										<Script purpose="dialfraction" value="{scaledegneg==true?&#x22;-&#x22;:&#x22;&#x22;}{scaledeg}°"/>
 									</AnnotationStraight>
 								</Scaleline>
 								<Annotation>
