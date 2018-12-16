@@ -226,16 +226,20 @@ public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements 
 	public CatalogADC6049Record record( java.io.Reader catalog ) {
 		CatalogADC6049Record r = null ;
 		char[] cl ;
-		int cn ;
+		int cn, co ;
 		String rl, rb ;
 		String rc, mc ;
 
 		try {
 			if ( _m.length()==0 ) {
 				cl = new char[C_CHUNK18] ;
-				cn = catalog.read( cl, 0, C_CHUNK18 ) ;
-				if ( cn == -1 )
-					return r ;
+
+				co = 0 ; while ( ( cn = catalog.read( cl, co, C_CHUNK18-co ) ) != C_CHUNK18-co ) {
+					if ( cn == -1 ) // issue #57
+						return r ;
+					co += cn ; if ( co>=C_CHUNK18 )
+						break ;
+				}
 
 				if ( cl[C_CHUNK18-1] == '\n' ) {
 					rb = new String( cl ) ;
@@ -246,7 +250,14 @@ public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements 
 				} else {
 					rb = new String( cl ) ;
 					cl = new char[C_CHUNK20-C_CHUNK18] ;
-					cn = catalog.read( cl, 0, C_CHUNK20-C_CHUNK18 ) ;
+
+					co = 0 ; while ( ( cn = catalog.read( cl, co, C_CHUNK20-C_CHUNK18-co ) ) != C_CHUNK20-C_CHUNK18-co ) {
+						if ( cn == -1 ) // issue #57
+							return r ;
+						co += cn ; if ( co>=C_CHUNK20-C_CHUNK18 )
+							break ;
+					}
+
 					rb = rb+new String( cl ) ;
 
 					_ch = C_CHUNK20 ;
@@ -261,7 +272,13 @@ public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements 
 
 			cl = new char[_ch] ;
 
-			while ( ( cn = catalog.read( cl, 0, _ch ) )>-1 ) {
+			co = 0 ; while ( ( cn = catalog.read( cl, co, _ch-co ) ) != -1 ) {
+				if ( cn == -1 ) // issue #57
+					break ;
+				co += cn ; if ( _ch>co )
+					continue ;
+				co = 0 ;
+
 				rl = new String( cl ) ;
 
 				rc = rl.substring( _ca, _co ).trim() ;
@@ -278,11 +295,6 @@ public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements 
 
 					rb = rl ;
 				}
-			}
-			if ( cn == -1 ){
-				r = record( rb ) ;
-
-				_m = new String() ;
 			}
 		} catch ( IOException e ) {
 			throw new RuntimeException( e.toString() ) ;

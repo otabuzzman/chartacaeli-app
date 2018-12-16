@@ -262,23 +262,28 @@ public class CatalogADC7237 extends chartacaeli.model.CatalogADC7237 implements 
 	public CatalogADC7237Record record( java.io.Reader catalog ) {
 		CatalogADC7237Record r = null ;
 		char[] cl ;
-		int o ;
+		int cn, co ;
 		String rl ;
 
 		cl = new char[C_CHUNK] ;
-		o = 0 ;
+		co = 0 ;
 
 		try {
-			while ( catalog.read( cl, o++, 1 ) == 1 ) {
-				if ( cl[o-1] == '\n' ) {
-					if ( o<C_CHUNK ) {
-						for ( o-- ; o<C_CHUNK ; o++ ) {
-							cl[o] = ' ' ;
+			while ( ( cn = catalog.read( cl, co++, 1 ) ) != -1 ) {
+				if ( cn == -1 ) // issue #57
+					break ;
+				if ( cn == 0 )
+					continue ;
+
+				if ( cl[co-1] == '\n' ) {
+					if ( co<C_CHUNK ) {
+						for ( co-- ; co<C_CHUNK ; co++ ) {
+							cl[co] = ' ' ;
 						}
-						cl[o-1] = '\n' ;
+						cl[co-1] = '\n' ;
 					}
 					rl = new String( cl ) ;
-					o = 0 ;
+					co = 0 ;
 					if ( ( r = record( rl ) ) != null )
 						break ;
 				}

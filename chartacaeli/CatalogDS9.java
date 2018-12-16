@@ -226,12 +226,16 @@ public class CatalogDS9 extends chartacaeli.model.CatalogDS9 implements Postscri
 	public CatalogDS9Record record( java.io.Reader catalog ) throws IOException {
 		StringBuilder b ;
 		char[] c ;
+		int cn ;
 
 		b = new StringBuilder() ;
 		c = new char[1] ;
 
-		while ( catalog.read( c, 0, 1 )>-1 )
+		while ( ( cn = catalog.read( c, 0, 1 ) )>-1 ) {
+			if ( cn == 0 )
+				continue ;
 			b.append( c ) ;
+		}
 
 		return record( b.substring( 0 ) ) ;
 	}

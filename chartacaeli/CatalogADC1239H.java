@@ -277,11 +277,18 @@ public class CatalogADC1239H extends chartacaeli.model.CatalogADC1239H implement
 		CatalogADC1239HRecord r = null ;
 		char[] cl ;
 		String rl ;
+		int cn, co = 0 ;
 
 		cl = new char[C_CHUNK] ;
 
 		try {
-			while ( catalog.read( cl, 0, C_CHUNK )>-1 ) {
+			while ( ( cn = catalog.read( cl, co, C_CHUNK-co ) ) != -1 ) {
+				if ( cn == -1 ) // issue #57
+					break ;
+				co += cn ; if ( C_CHUNK>co )
+					continue ;
+				co = 0 ;
+
 				rl = new String( cl ) ;
 				rl = rl.substring( 0, rl.length()-1 ) ;
 

@@ -288,24 +288,29 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 
 	public void index( java.io.Reader index ) {
 		char[] cl ;
-		int o ;
+		int cn, co ;
 		String rl ;
 		String k, n ;
 
 		cl = new char[I_CHUNK] ;
-		o = 0 ;
+		co = 0 ;
 
 		try {
-			while ( index.read( cl, o++, 1 ) == 1 ) {
-				if ( cl[o-1] == '\n' ) {
-					if ( o<I_CHUNK ) {
-						for ( o-- ; o<I_CHUNK ; o++ ) {
-							cl[o] = ' ' ;
+			while ( ( cn = index.read( cl, co++, 1 ) ) != -1 ) {
+				if ( cn == -1 ) // issue #57
+					break ;
+				if ( cn == 0 )
+					continue ;
+
+				if ( cl[co-1] == '\n' ) {
+					if ( co<I_CHUNK ) {
+						for ( co-- ; co<I_CHUNK ; co++ ) {
+							cl[co] = ' ' ;
 						}
-						cl[o-1] = '\n' ;
+						cl[co-1] = '\n' ;
 					}
 					rl = new String( cl ) ;
-					o = 0 ;
+					co = 0 ;
 					rl = rl.substring( 0, rl.length()-1 ) ;
 
 					k = rl.substring( 36, 41 ).replaceAll( " ", "" ) ;
@@ -323,11 +328,19 @@ public class CatalogADC7118 extends chartacaeli.model.CatalogADC7118 implements 
 		CatalogADC7118Record r = null ;
 		char[] cl ;
 		String rl ;
+		int cn, co ;
 
 		cl = new char[C_CHUNK] ;
+		co = 0 ;
 
 		try {
-			while ( catalog.read( cl, 0, C_CHUNK )>-1 ) {
+			while ( ( cn = catalog.read( cl, co, C_CHUNK-co ) ) != -1 ) {
+				if ( cn == -1 ) // issue #57
+					break ;
+				co += cn ; if ( C_CHUNK>co )
+					continue ;
+				co = 0 ;
+
 				rl = new String( cl ) ;
 				rl = rl.substring( 0, rl.length()-1 ) ;
 
