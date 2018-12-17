@@ -55,6 +55,7 @@ public class CircleParallel extends chartacaeli.model.CircleParallel implements 
 
 	// message key (MK_)
 	private final static String MK_EINTSEC			= "eintsec" ;
+	private final static String MK_ENOREG			= "enoreg" ;
 
 	private Converter converter ;
 	private Projector projector ;
@@ -69,54 +70,68 @@ public class CircleParallel extends chartacaeli.model.CircleParallel implements 
 	}
 
 	public double alpha() {
-		double a ;
+		double def, a ;
 		Object c ;
 		boolean l ;
 
+		def = Configuration.getValue( this, CK_DEFALPHA, DEFAULT_DEFALPHA ) ;
+
 		if ( getAlpha() == null )
-			return Configuration.getValue( this, CK_DEFALPHA, DEFAULT_DEFALPHA ) ;
+			return def ;
 
 		a = valueOf( getAlpha() ) ;
 		if ( getAlpha().getIndirect() == null )
 			return a ;
 
 		l = getAlpha().getIndirect().getNode().equals( AV_LEADING ) ;
-		try {
-			c = Registry.retrieve( getAlpha().getIndirect().getValue() ) ;
+		c = Registry.retrieve( getAlpha().getIndirect().getValue() ) ;
+		if ( c == null ) {
+			log.warn( ParameterNotValidError.errmsg( getAlpha().getIndirect().getValue(), MessageCatalog.compose( this, MK_ENOREG, null ) ) ) ;
 
+			return def ;
+		}
+
+		try {
 			return c instanceof CircleParallel?
 					intersect( (CircleParallel) c, l ):
 						intersect( (CircleMeridian) c, l ) ;
 		} catch ( ParameterNotValidException e ) {
 			log.warn( e.getMessage() ) ;
 
-			return Configuration.getValue( this, CK_DEFALPHA, DEFAULT_DEFALPHA ) ;
+			return def ;
 		}
 	}
 
 	public double omega() {
-		double a ;
+		double def, a ;
 		Object c ;
 		boolean l ;
 
+		def = Configuration.getValue( this, CK_DEFOMEGA, DEFAULT_DEFOMEGA ) ;
+
 		if ( getOmega() == null )
-			return Configuration.getValue( this, CK_DEFOMEGA, DEFAULT_DEFOMEGA ) ;
+			return def ;
 
 		a = valueOf( getOmega() ) ;
 		if ( getOmega().getIndirect() == null )
 			return a ;
 
 		l = getOmega().getIndirect().getNode().equals( AV_LEADING ) ;
-		try {
-			c = Registry.retrieve( getOmega().getIndirect().getValue() ) ;
+		c = Registry.retrieve( getOmega().getIndirect().getValue() ) ;
+		if ( c == null ) {
+			log.warn( ParameterNotValidError.errmsg( getOmega().getIndirect().getValue(), MessageCatalog.compose( this, MK_ENOREG, null ) ) ) ;
 
+			return def ;
+		}
+
+		try {
 			return c instanceof CircleParallel?
 					intersect( (CircleParallel) c, l ):
 						intersect( (CircleMeridian) c, l ) ;
 		} catch ( ParameterNotValidException e ) {
 			log.warn( e.getMessage() ) ;
 
-			return Configuration.getValue( this, CK_DEFOMEGA, DEFAULT_DEFOMEGA ) ;
+			return def ;
 		}
 	}
 
@@ -164,13 +179,18 @@ public class CircleParallel extends chartacaeli.model.CircleParallel implements 
 		segmin = conf.getValue( CK_SEGMIN, DEFAULT_SEGMIN ) ;
 
 		ccrc = list( alpha(), omega() ) ;
+		crcG = new GeometryFactory().createLineString( ccrc ) ;
 
 		govRegistryKey = "G"+FieldOfView.class.getName() ;
 		gov = (FieldOfView) Registry.retrieve( govRegistryKey ) ;
+		if ( gov == null ) {
+			log.warn( ParameterNotValidError.errmsg( govRegistryKey, MessageCatalog.compose( this, MK_ENOREG, null ) ) ) ;
 
-		govG = new GeometryFactory().createPolygon( gov.toCoordinateArray() ) ;
-		crcG = new GeometryFactory().createLineString( ccrc ) ;
-		cut = govG.intersection( crcG ) ;
+			cut = crcG ;
+		} else {
+			govG = new GeometryFactory().createPolygon( gov.toCoordinateArray() ) ;
+			cut = govG.intersection( crcG ) ;
+		}
 
 		for ( int i=0 ; cut.getNumGeometries()>i ; i++ ) {
 			ccut = cut.getGeometryN( i ).getCoordinates() ;

@@ -44,11 +44,8 @@ abstract public class ChartType extends chartacaeli.model.ChartType implements P
 	public void headPS( ApplicationPostscriptStream ps ) {
 		ChartPage page ;
 
-		page = (ChartPage) Registry.retrieve( ChartPage.class.getName() ) ;
-		if ( page == null ) {
-			page = new ChartPage() ;
-			getChartPage().copyValues( page ) ;
-		}
+		page = new ChartPage() ;
+		getChartPage().copyValues( page ) ;
 
 		page.headPS( ps ) ;
 		page.emitPS( ps ) ;

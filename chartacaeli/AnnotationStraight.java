@@ -39,6 +39,9 @@ public class AnnotationStraight extends chartacaeli.model.AnnotationStraight imp
 
 	private final static String DEFAULT_ANCHOR				= "0:0" ; // bottomleft
 
+	// message key (MK_)
+	private final static String MK_ENOREG					= "enoreg" ;
+
 	private final static Log log = LogFactory.getLog( AnnotationStraight.class ) ;
 
 	public void headPS( ApplicationPostscriptStream ps ) {
@@ -108,7 +111,8 @@ public class AnnotationStraight extends chartacaeli.model.AnnotationStraight imp
 
 					ps.op( "grestore" ) ;
 				}
-			}
+			} else
+				log.warn( ParameterNotValidError.errmsg( ChartPage.class.getName(), MessageCatalog.compose( this, MK_ENOREG, null ) ) ) ;
 		}
 
 		ps.array( true ) ;

@@ -67,6 +67,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String MK_CUDASTAT			= "cudastat" ;
 	private final static String MK_EWFILE			= "ewfile" ;
 	private final static String MK_EFLTFMT			= "efltfmt" ;
+	private final static String MK_ENOREG			= "enoreg" ;
 
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
 
@@ -437,6 +438,11 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 			// setup projector name
 			proj = (P4Projector) Registry.retrieve( P4Projector.class.getName() ) ;
+			if ( proj == null ) {
+				log.warn( ParameterNotValidError.errmsg( P4Projector.class.getName(), MessageCatalog.compose( this, MK_ENOREG, null ) ) ) ;
+
+				return ;
+			}
 			t0 = proj.getClass().getSimpleName().getBytes( StandardCharsets.US_ASCII ) ;
 			pnam = gpu.getByteArray( t0.length ) ;
 			for ( int i=0 ; t0.length>i ; i++ )

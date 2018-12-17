@@ -1,6 +1,9 @@
 
 package chartacaeli;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -32,6 +35,11 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 	// qualifier key (QK_)
 	private final static String QK_ANGLE		= "angle" ;
 	private final static String QK_MARK			= "mark" ;
+
+	// message key (MK_)
+	private final static String MK_ENOREG		= "enoreg" ;
+
+	private final static Log log = LogFactory.getLog( DialDeg.class ) ;
 
 	private Baseline baseline ;
 
@@ -480,10 +488,15 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 
 		circle = (Baseline) Registry.retrieve( name ) ;
 		if ( circle != null ) {
+			log.warn( ParameterNotValidError.errmsg( name, MessageCatalog.compose( this, MK_ENOREG, null ) ) ) ;
+
 			a = circle.valOfScaleMarkN( 0, s ) ;
 			o = circle.valOfScaleMarkN( -1, s ) ;
 			return new GeometryFactory().createLineString( circle.list( a, o ) ) ;
 		}
+
+		log.warn( ParameterNotValidError.errmsg( name, MessageCatalog.compose( this, MK_ENOREG, null ) ) ) ;
+
 		return null ;
 	}
 

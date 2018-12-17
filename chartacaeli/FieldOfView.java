@@ -341,9 +341,9 @@ public class FieldOfView implements PostscriptEmitter {
 	}
 
 	public static Geometry createEOVGeometry() {
-		FieldOfView gov, cov, eov ; // global, combined and effective field of view
+		FieldOfView gov, cov, eov = null ; // global, combined and effective field of view
 		String govRegistryKey, covRegistryKey ;
-		Geometry eovG ;
+		Geometry eovG = null ;
 
 		govRegistryKey = "G"+FieldOfView.class.getName() ;
 		gov = (FieldOfView) Registry.retrieve( govRegistryKey ) ;
@@ -352,15 +352,19 @@ public class FieldOfView implements PostscriptEmitter {
 		cov = (FieldOfView) Registry.retrieve( covRegistryKey ) ;
 
 		try {
-			eov = new FieldOfView( gov ) ;
-			if ( cov != null )
-				eov.update( cov ) ;
+			if ( gov != null ) {
+				eov = new FieldOfView( gov ) ;
+				if ( cov != null )
+					eov.update( cov ) ;
+			} else {
+				if ( cov != null )
+					eov = new FieldOfView( cov ) ;
+			}
 
-			eovG = new GeometryFactory().createPolygon( eov.toCoordinateArray() ) ;
+			if ( eov != null )
+				eovG = new GeometryFactory().createPolygon( eov.toCoordinateArray() ) ;
 		} catch ( ParameterNotValidException e ) {
 			log.warn( e.getMessage() ) ;
-
-			eovG = null ;
 		}
 
 		return eovG ;
