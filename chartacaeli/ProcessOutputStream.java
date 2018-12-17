@@ -33,7 +33,7 @@ public class ProcessOutputStream extends FilterOutputStream {
 
 	public void close() throws IOException {
 		try {
-			flti.close() ; 
+			flti.close() ;
 			flt.waitFor() ;
 		} catch ( InterruptedException e ) {
 		} catch ( IOException e ) {

@@ -18,7 +18,7 @@ public class BodyPlanet extends BodyOrbitalType {
 
 	private final static double DEFAULT_STRETCH		= 0 ;
 
-	private chartacaeli.model.BodyPlanet peer ;	
+	private chartacaeli.model.BodyPlanet peer ;
 
 	public BodyPlanet( chartacaeli.model.BodyPlanet peer, Converter converter, Projector projector ) {
 		super( converter, projector ) ;

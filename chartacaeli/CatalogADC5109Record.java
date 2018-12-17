@@ -134,7 +134,7 @@ public class CatalogADC5109Record extends chartacaeli.model.CatalogADC5109Record
 	public String SAO		; // ? SAO <I/131> number
 	public String m_SAO		; // SAO component
 	public String DM		; // Durchmusterung (BD <I/122>; SD <I/119>;
-	// CD <I/114>; CP <I/108>) 
+	// CD <I/114>; CP <I/108>)
 	public String m_DM		; // Durchmusterung supplement letter
 	public String u_DM		; // [: ] DM identification uncertain
 	public String HR		; // ?Harvard Revised <V/50> num. (=BS)
@@ -142,13 +142,13 @@ public class CatalogADC5109Record extends chartacaeli.model.CatalogADC5109Record
 	public String m_WDS		; // WDS components
 	public String u_WDS		; // [: ] WDS identification uncertain
 	public String PPM		; // ?Position and Proper Motion number
-	// (<I/146>, <I/193>, <I/208>) 
+	// (<I/146>, <I/193>, <I/208>)
 	public String u_PPM		; // [: ] PPM identification uncertain
 	public String ID_merg	; // ?Skymap num. of last skymap entry merged
-	// with this star 
+	// with this star
 	public String Name		; // Star name (or AGK3 number)
 	public String Vname		; // Variable star name (or
-	// doubtful variability) 
+	// doubtful variability)
 	public String RAh		; // Right ascension (J2000) hours
 	public String RAm		; // Right ascension (J2000) minutes
 	public String RAs		; // Right ascension (J2000) seconds
@@ -175,7 +175,7 @@ public class CatalogADC5109Record extends chartacaeli.model.CatalogADC5109Record
 	public String Vmag		; // ?Observed visual magnitude (V or v)
 	public String Vder		; // ?Derived visual magnitude
 	public String e_Vmag	; // ?Derived v or observed visual magnitude
-	// uncertainty 
+	// uncertainty
 	public String f_Vmag	; // [b] Blended visual magnitude flag
 	public String r_Vmag	; // *?Source of visual magnitude
 	public String n_Vmag	; // ?V magnitude derivation flag
@@ -198,18 +198,18 @@ public class CatalogADC5109Record extends chartacaeli.model.CatalogADC5109Record
 	public String Sp		; // *One dimensional spectral class
 	public String r_Sp		; // ?Source of one dimen. spectral class
 	public String sep		; // ?Separation of brightest and second
-	// brightest components 
+	// brightest components
 	public String Dmag		; // ?Magnitude difference of the brightest
-	// and second brightest components 
+	// and second brightest components
 	public String orbPer	; // *?Orbital period
 	public String PA		; // ?Position angle
 	public String date		; // ?Year of observation (AD)
 	public String r_Dup		; // ?Source of multiplicity data
 	public String n_Dmag	; // Passband of multiple star mag. dif.
 	public String dist1		; // ?Rad to nearest neighboring star in
-	// the master catalog 
+	// the master catalog
 	public String dist2		; // ?Dist. to nearest neighboring master
-	// cat. star no more than 2 mag. fainter 
+	// cat. star no more than 2 mag. fainter
 	public String ID_A		; // ?Skymap number of primary component
 	public String ID_B		; // ?Skymap number of second component
 	public String ID_C		; // ?Skymap number of third component

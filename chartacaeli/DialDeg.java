@@ -126,11 +126,11 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 			ps.op( "dup" ) ;
 			ps.push( 100 ) ;
 			ps.op( "div" ) ;
-			ps.push( halo ) ; 
+			ps.push( halo ) ;
 			ps.op( "mul" ) ;
-			ps.push( halomin ) ; 
+			ps.push( halomin ) ;
 			ps.op( "max" ) ;
-			ps.push( halomax ) ; 
+			ps.push( halomax ) ;
 			ps.op( "min" ) ;
 
 			ps.push( 2 ) ;
@@ -238,11 +238,11 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 				ps.op( "dup" ) ;
 				ps.push( 100 ) ;
 				ps.op( "div" ) ;
-				ps.push( halo ) ; 
+				ps.push( halo ) ;
 				ps.op( "mul" ) ;
-				ps.push( halomin ) ; 
+				ps.push( halomin ) ;
 				ps.op( "max" ) ;
-				ps.push( halomax ) ; 
+				ps.push( halomax ) ;
 				ps.op( "min" ) ;
 
 				ps.push( 2 ) ;
@@ -277,7 +277,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 	}
 
 	public DialDeg( Baseline baseline ) {
-		this.baseline = baseline ;	
+		this.baseline = baseline ;
 	}
 
 	protected void register( double angle ) {
@@ -327,7 +327,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 			scalebase.emitPS( ps ) ;
 			scalebase.tailPS( ps ) ;
 
-			shift = scalebase.space ;			
+			shift = scalebase.space ;
 		} else if ( ( peer = getDialTypeChoice().getScalebaseLine() ) != null ) {
 			ScalebaseLine scalebase ;
 
@@ -339,7 +339,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 			scalebase.emitPS( ps ) ;
 			scalebase.tailPS( ps ) ;
 
-			shift = scalebase.space+scalebase.thickness ;			
+			shift = scalebase.space+scalebase.thickness ;
 		} else { // getDialTypeChoice().getScalebaseRail() != null
 			ScalebaseRail scalebase ;
 
@@ -352,7 +352,7 @@ public class DialDeg extends chartacaeli.model.DialDeg implements PostscriptEmit
 			scalebase.emitPS( ps ) ;
 			scalebase.tailPS( ps ) ;
 
-			shift = scalebase.space+scalebase.thickness ;			
+			shift = scalebase.space+scalebase.thickness ;
 		}
 
 

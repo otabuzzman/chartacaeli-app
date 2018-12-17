@@ -9,7 +9,7 @@ class P4Orthographic : public P4Projector {
 
 public:
 	P4Orthographic() ;
-	
+
 	void init( double lam0, double phi1, double R, double k0 ) ;
 	Coordinate* forward( const Coordinate& lamphi ) ;
 	Coordinate* inverse( const Coordinate& xy ) ;

@@ -9,7 +9,7 @@ public class P4Orthographic implements P4Projector {
 	private double lam0 ;
 	private double phi1 ;
 	private double sinphi1 ;
-	private double cosphi1 ;	
+	private double cosphi1 ;
 	private double R ;
 
 	private final static int M_NORTH	= 0 ;
@@ -80,7 +80,7 @@ public class P4Orthographic implements P4Projector {
 			xy.y = R*sinphi ;
 
 			break ;
-		case M_OBLIQUE:			
+		case M_OBLIQUE:
 			xy.y = R*( cosphi1*sinphi-sinphi1*cosphi*coslamdif ) ;
 
 			break ;

@@ -22,7 +22,7 @@ public class CatalogADC5050Record extends chartacaeli.model.CatalogADC5050Record
 		private final static String QK_FLAMSTEED		= "flamsteed" ;
 		private final static String QK_BAYER			= "bayer" ;
 		private final static String QK_BAYERINDEX		= "bayerindex" ;
-		private final static String QK_CONSTELLATION	= "constellation" ;	
+		private final static String QK_CONSTELLATION	= "constellation" ;
 
 		private String flamsteed		;
 		private String bayer			;

@@ -207,7 +207,7 @@ public class BodyStellar extends chartacaeli.model.BodyStellar implements Postsc
 	}
 
 	public void tailPS( ApplicationPostscriptStream ps ) {
-	}	
+	}
 
 	private PostscriptEmitter annotation( chartacaeli.model.AnnotationStraight peer ) {
 		AnnotationStraight annotation ;

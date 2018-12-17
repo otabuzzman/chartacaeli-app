@@ -201,7 +201,7 @@ public class CatalogADC6049 extends chartacaeli.model.CatalogADC6049 implements 
 
 		uri = new URI( getUrl() ) ;
 		if ( uri.isAbsolute() ) {
-			url = uri.toURL() ;	
+			url = uri.toURL() ;
 		} else {
 			file = new File( uri.getPath() ) ;
 			url = file.toURI().toURL() ;

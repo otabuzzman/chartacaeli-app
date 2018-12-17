@@ -348,7 +348,7 @@ public class ParserSubstitute extends ReflectSemantic {
 		lexer.setDebug( false ) ;
 
 		parser = new Parser( prsTab ) ;
-		parser.setDebug( false ) ;		
+		parser.setDebug( false ) ;
 	}
 
 	public String parse( String string ) {

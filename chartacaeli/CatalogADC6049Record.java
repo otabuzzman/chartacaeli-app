@@ -224,11 +224,11 @@ public class CatalogADC6049Record extends chartacaeli.model.CatalogADC6049Record
 	}
 
 	public double RA() {
-		return Double.POSITIVE_INFINITY ;		
+		return Double.POSITIVE_INFINITY ;
 	}
 
 	public double de() {
-		return Double.POSITIVE_INFINITY ;		
+		return Double.POSITIVE_INFINITY ;
 	}
 
 	public Geometry list() {

@@ -74,11 +74,11 @@ public class CatalogDS9Record extends chartacaeli.model.CatalogDS9Record impleme
 	}
 
 	public double RA() {
-		return Double.POSITIVE_INFINITY ;		
+		return Double.POSITIVE_INFINITY ;
 	}
 
 	public double de() {
-		return Double.POSITIVE_INFINITY ;		
+		return Double.POSITIVE_INFINITY ;
 	}
 
 	public Geometry list() {

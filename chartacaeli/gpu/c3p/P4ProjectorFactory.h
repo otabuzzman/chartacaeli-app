@@ -26,7 +26,7 @@ protected:
 	static p4map_t* getP4Map() {
 		if ( ! p4map )
 			p4map = new p4map_t ;
-		return p4map ; 
+		return p4map ;
 	}
 
 private:
@@ -37,8 +37,8 @@ template<typename T>
 P4Projector* createT() { return new T ; }
 
 template<typename T>
-struct P4ProjectorDerived : P4ProjectorFactory { 
-	P4ProjectorDerived( const std::string& cnam ) { 
+struct P4ProjectorDerived : P4ProjectorFactory {
+	P4ProjectorDerived( const std::string& cnam ) {
 		getP4Map()->insert( std::make_pair( cnam, &createT<T>) ) ;
 	}
 } ;

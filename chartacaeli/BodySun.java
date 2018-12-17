@@ -19,7 +19,7 @@ public class BodySun extends BodyOrbitalType {
 
 	private final static double DEFAULT_STRETCH		= 0 ;
 
-	private chartacaeli.model.BodySun peer ;	
+	private chartacaeli.model.BodySun peer ;
 
 	public BodySun( chartacaeli.model.BodySun peer, Converter converter, Projector projector ) {
 		super( converter, projector ) ;

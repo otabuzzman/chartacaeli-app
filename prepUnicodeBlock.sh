@@ -65,7 +65,7 @@ $0~/^[0-9A-Fa-f]{4,6}\.\./ {
 	id = sv[2] ;
 	gsub( /[ _-]+/, "_", id ) ;
 	id = toupper( id ) ;
-	
+
 	print "	public static final UnicodeBlock " id " = "
 	print "		new UnicodeBlock( \"" id "\", \"" sv[2] "\", 0x" se[1] ", 0x" se[2] "-0x" se[1] "+1 ) ; "
 }' $1

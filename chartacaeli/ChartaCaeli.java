@@ -45,7 +45,7 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			getEpoch().copyValues( epoch ) ;
 		Registry.register( Epoch.class.getName(), epoch ) ;
 
-		for ( int ch=0 ; ch<getChartCount() ; ch++ ) {				
+		for ( int ch=0 ; ch<getChartCount() ; ch++ ) {
 			chart = getChart( ch ) ;
 
 			if ( chart.getChartAzimuthal() != null ) {
@@ -133,7 +133,7 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 		}
 
 		System.exit( 0 ) ;
-	} 
+	}
 
 	public static chartacaeli.model.ChartaCaeli readModel( Reader model ) {
 		try {

@@ -9,7 +9,7 @@ public class P4Stereographic implements P4Projector {
 	private double lam0 ;
 	private double phi1 ;
 	private double sinphi1 ;
-	private double cosphi1 ;	
+	private double cosphi1 ;
 	private double R ;
 	private double k0 ;
 
@@ -86,7 +86,7 @@ public class P4Stereographic implements P4Projector {
 			xy.y = R*k*sinphi ;
 
 			break ;
-		case M_OBLIQUE:			
+		case M_OBLIQUE:
 			k = 2*k0/( 1+sinphi1*sinphi+cosphi1*cosphi*coslamdif ) ;
 			xy.x = R*k*cosphi*sinlamdif ;
 			xy.y = R*k*( cosphi1*sinphi-sinphi1*cosphi*coslamdif ) ;
@@ -120,7 +120,7 @@ public class P4Stereographic implements P4Projector {
 
 			break ;
 		case M_EQUATOR:
-		case M_OBLIQUE:			
+		case M_OBLIQUE:
 			lamphi.x = lam0+Math.atan2( xy.x*sinc, p*cosphi1*cosc-xy.y*sinphi1*sinc ) ;
 
 			break ;

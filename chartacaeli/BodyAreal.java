@@ -133,11 +133,11 @@ public class BodyAreal extends chartacaeli.model.BodyAreal implements Postscript
 			ps.push( 100 ) ;
 			ps.op( "div" ) ;
 			conf = new Configuration( this ) ;
-			ps.push( conf.getValue( CK_HALO, DEFAULT_HALO ) ) ; 
+			ps.push( conf.getValue( CK_HALO, DEFAULT_HALO ) ) ;
 			ps.op( "mul" ) ;
-			ps.push( conf.getValue( CK_HALOMIN, DEFAULT_HALOMIN ) ) ; 
+			ps.push( conf.getValue( CK_HALOMIN, DEFAULT_HALOMIN ) ) ;
 			ps.op( "max" ) ;
-			ps.push( conf.getValue( CK_HALOMAX, DEFAULT_HALOMAX ) ) ; 
+			ps.push( conf.getValue( CK_HALOMAX, DEFAULT_HALOMAX ) ) ;
 			ps.op( "min" ) ;
 
 			ps.push( 2 ) ;

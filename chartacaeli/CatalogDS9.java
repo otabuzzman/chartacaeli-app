@@ -201,7 +201,7 @@ public class CatalogDS9 extends chartacaeli.model.CatalogDS9 implements Postscri
 
 		src = new URI( uri ) ;
 		if ( src.isAbsolute() ) {
-			url = src.toURL() ;	
+			url = src.toURL() ;
 		} else {
 			file = new File( src.getPath() ) ;
 			url = file.toURI().toURL() ;

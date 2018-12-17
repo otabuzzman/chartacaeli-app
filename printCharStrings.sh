@@ -26,7 +26,7 @@ $1 findfont
 	( ) print
 	(/) print
 	dup
-	length string 
+	length string
 	cvs print
 	(\n) print
 } forall

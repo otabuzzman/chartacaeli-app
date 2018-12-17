@@ -10,8 +10,8 @@ public final class Math {
 	// approximate value of golden section
 	public final static double goldensection = ( 1+java.lang.Math.sqrt( 5 ) )/2 ;
 
-	private Math() {        
-	} 
+	private Math() {
+	}
 
 	public static double lawOfSine( double a, double b, double al ) {
 		double sina, sinb ;		// edges
@@ -29,13 +29,13 @@ public final class Math {
 		r = asin( truncate ( sinbe ) ) ;
 
 		return r ;
-	} 
+	}
 
 	public static double lawOfSineSolveEdge( double a, double al, double be ) {
 		double r ;
 
 		// sin(a):sin(b) = sin(al):sin(be)
-		// sin(b) = sin(be)*sin(a):sin(al) 
+		// sin(b) = sin(be)*sin(a):sin(al)
 		r = lawOfSine( al, be, a ) ;
 
 		return r ;
@@ -96,7 +96,7 @@ public final class Math {
 		r = acos( truncate ( cosal ) ) ;
 
 		return r ;
-	} 
+	}
 
 	public static double lawOfAngleCosineSolveEdge( double al, double be, double ga ) {
 		double sinbe, singa, cosal, cosbe, cosga ;	// angles
@@ -139,7 +139,7 @@ public final class Math {
 		return r ;
 	}
 
-	public static double lawOfHalfEdges( double a, double b, double c ) {        
+	public static double lawOfHalfEdges( double a, double b, double c ) {
 		double sinsa, sinsb, sinsc ;
 		double s, sins, k ;
 		double r ;
@@ -234,9 +234,9 @@ public final class Math {
 
 		ga = atan2( cotal2*cosbmc2, cosbpc2 )*2-be ;
 
-		r[0] = c ; 
-		r[1] = be ; 
-		r[2] = ga ; 
+		r[0] = c ;
+		r[1] = be ;
+		r[2] = ga ;
 
 		return r ;
 	}
@@ -264,9 +264,9 @@ public final class Math {
 
 		ga = Math.atan2( cotal2*cosbmc2, cosbpc2 )*2-be ;
 
-		r[0] = b ; 
-		r[1] = c ; 
-		r[2] = ga ; 
+		r[0] = b ;
+		r[1] = c ;
+		r[2] = ga ;
 
 		return r ;
 	}

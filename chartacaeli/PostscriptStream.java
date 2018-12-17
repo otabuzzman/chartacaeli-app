@@ -34,7 +34,7 @@ public class PostscriptStream extends FilterOutputStream {
 
 		numberFormat.setMaximumFractionDigits( precision ) ;
 		numberFormat.setGroupingUsed( false ) ;
-	} 
+	}
 
 	public boolean op( String op ) {
 		boolean valid = PostscriptStream.op.contains( op ) ;
@@ -62,33 +62,33 @@ public class PostscriptStream extends FilterOutputStream {
 		return valid ;
 	}
 
-	public void array( boolean begin ) {        
+	public void array( boolean begin ) {
 		print( begin?"[\n":"]\n" ) ;
-	} 
+	}
 
-	public void proc( boolean begin ) {        
+	public void proc( boolean begin ) {
 		print( begin?"{\n":"}\n" ) ;
 	}
 
-	public void dict( boolean begin ) {        
+	public void dict( boolean begin ) {
 		print( begin?"<<\n":">>\n" ) ;
 	}
 
-	public void push( boolean bool ) {        
+	public void push( boolean bool ) {
 		print( ( bool?"true":"false" )+'\n' ) ;
 	}
 
-	public void push( int num ) {   
+	public void push( int num ) {
 		print( num+"\n" ) ;
-	} 
+	}
 
-	public void push( long num ) {   
+	public void push( long num ) {
 		print( num+"\n" ) ;
-	} 
+	}
 
-	public void push( double num ) {        
+	public void push( double num ) {
 		print( numberFormat.format( num )+'\n' ) ;
-	} 
+	}
 
 	public void comment( String def ) {
 		print( '%'+def+'\n' ) ;
@@ -101,7 +101,7 @@ public class PostscriptStream extends FilterOutputStream {
 			print( postscript+'\n' ) ;
 
 		return valid ;
-	} 
+	}
 
 	private void print( String def ) {
 		try {
@@ -114,7 +114,7 @@ public class PostscriptStream extends FilterOutputStream {
 	}
 
 	// todo
-	private boolean parse( String postscript ) {        
+	private boolean parse( String postscript ) {
 		return true ;
-	} 
+	}
 }

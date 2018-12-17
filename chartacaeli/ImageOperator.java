@@ -26,7 +26,7 @@ public class ImageOperator implements PostscriptEmitter {
 	public void emitPS( ApplicationPostscriptStream ps ) {
 		String[] mov, moav, moov ;
 		int moar, moag, moab, i ;
-		int moor, moog, moob ;		
+		int moor, moog, moob ;
 		String[] tmv, tmav, tmov ;
 		double tmar, tmag, tmab ;
 		double tmor, tmog, tmob ;

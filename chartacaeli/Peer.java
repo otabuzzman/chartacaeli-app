@@ -218,7 +218,7 @@ public class Peer {
 
 	public static double valueOf( RationalType rational ) {
 		return rational.getValue() ;
-	} 
+	}
 
 	public static Coordinate[] valueOf( SphericalType[] spherical ) {
 		Coordinate[] list = new Coordinate[ spherical.length ] ;
@@ -265,7 +265,7 @@ public class Peer {
 
 		x = cartesian.getX() ;
 		y = cartesian.getY() ;
-		if ( cartesian.hasZ() ) 
+		if ( cartesian.hasZ() )
 			z = cartesian.getZ() ;
 		else
 			z = 0 ;

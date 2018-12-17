@@ -153,11 +153,11 @@ public class CatalogADC7237 extends chartacaeli.model.CatalogADC7237 implements 
 			// chartacaeli.model.AngleType
 			position.setLongitude( new chartacaeli.model.Longitude() ) ;
 			position.getLongitude().setRational( new chartacaeli.model.Rational() ) ;
-			position.getLongitude().getRational().setValue( ra ) ;  
+			position.getLongitude().getRational().setValue( ra ) ;
 			// chartacaeli.model.AngleType
 			position.setLatitude( new chartacaeli.model.Latitude() ) ;
 			position.getLatitude().setRational( new chartacaeli.model.Rational() ) ;
-			position.getLatitude().getRational().setValue( de ) ;  
+			position.getLatitude().getRational().setValue( de ) ;
 
 			d = 0 ;
 			s = 0 ;
@@ -237,7 +237,7 @@ public class CatalogADC7237 extends chartacaeli.model.CatalogADC7237 implements 
 
 		uri = new URI( getUrl() ) ;
 		if ( uri.isAbsolute() ) {
-			url = uri.toURL() ;	
+			url = uri.toURL() ;
 		} else {
 			file = new File( uri.getPath() ) ;
 			url = file.toURI().toURL() ;

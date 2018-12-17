@@ -746,7 +746,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 		psimage.headPS( ps ) ;
 		psimage.emitPS( ps ) ;
-		psimage.tailPS( ps ) ;			
+		psimage.tailPS( ps ) ;
 
 		ps.op( "grestore" ) ;
 

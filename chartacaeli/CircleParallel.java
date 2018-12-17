@@ -216,11 +216,11 @@ public class CircleParallel extends chartacaeli.model.CircleParallel implements 
 			ps.op( "dup" ) ;
 			ps.push( 100 ) ;
 			ps.op( "div" ) ;
-			ps.push( conf.getValue( CK_HALO, DEFAULT_HALO ) ) ; 
+			ps.push( conf.getValue( CK_HALO, DEFAULT_HALO ) ) ;
 			ps.op( "mul" ) ;
-			ps.push( conf.getValue( CK_HALOMIN, DEFAULT_HALOMIN ) ) ; 
+			ps.push( conf.getValue( CK_HALOMIN, DEFAULT_HALOMIN ) ) ;
 			ps.op( "max" ) ;
-			ps.push( conf.getValue( CK_HALOMAX, DEFAULT_HALOMAX ) ) ; 
+			ps.push( conf.getValue( CK_HALOMAX, DEFAULT_HALOMAX ) ) ;
 			ps.op( "min" ) ;
 
 			ps.push( 2 ) ;
@@ -567,7 +567,7 @@ public class CircleParallel extends chartacaeli.model.CircleParallel implements 
 			rdDe = Math.lawOfEdgeCosineSolveAngle( gnB, rdB, blC) ;
 			gnDe = Math.lawOfEdgeCosineSolveAngle( rdB, blC, gnB) ;
 
-			if ( rdDe<( 180-blBe ) ) { // aph	
+			if ( rdDe<( 180-blBe ) ) { // aph
 				gnDe = 180-gnDe ;
 
 				if ( blGa<0 ) {

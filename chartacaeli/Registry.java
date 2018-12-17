@@ -19,7 +19,7 @@ public class Registry {
 		if ( value == null )
 			return retrieveGlobal( key ) ;
 		return value ;
-	} 
+	}
 
 	public static Object retrieveGlobal( String key ) {
 		return retrieve( global, key ) ;
@@ -110,7 +110,7 @@ public class Registry {
 		value = registry.get( key ) ;
 		object = value.lastElement() ;
 
-		value.pop() ;		
+		value.pop() ;
 		if ( value.size() == 0 )
 			registry.remove( key ) ;
 

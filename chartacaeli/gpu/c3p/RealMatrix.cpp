@@ -39,7 +39,7 @@ double* RealMatrix::operate( double vector[] ) {
 // CXXWRAP/ JUnit
 void RealMatrix::operate( /* arg(s) */ double vector[], /* return */ double retval[] ) {
 	double* t0 = operate( vector ) ;
-	
+
 	for ( int r=0 ; rows>r ; r++ )
 		retval[r] = t0[r] ;
 

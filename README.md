@@ -47,7 +47,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 - Copy [Arial Unicode MS](http://fontsgeek.com/fonts/Arial-Unicode-MS-Regular) font file into top-level directory of Charta Caeli (needed by unicode-and-fonts sample).
 - Read and run the samples:
 
-  ```  
+  ```
   for sample in \
 	layout-and-text \
 	unicode-and-fonts \

@@ -296,7 +296,7 @@ public final class Configuration {
 			buf.append( '/' ) ;
 			buf.append(
 					instance
-					.replaceAll( "\\.", "/" ) ) ;			
+					.replaceAll( "\\.", "/" ) ) ;
 		}
 		buf.append( '/' ) ;
 		buf.append( key ) ;

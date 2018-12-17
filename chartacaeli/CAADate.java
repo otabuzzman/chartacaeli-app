@@ -43,7 +43,7 @@ public class CAADate extends chartacaeli.caa.CAADate {
 		VK_WEDNESDAY,
 		VK_THURSDAY,
 		VK_FRIDAY,
-		VK_SATURDAY 
+		VK_SATURDAY
 	} ;
 	private final static String[] nameofmonth = {
 		VK_JANUARY,

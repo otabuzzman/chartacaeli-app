@@ -15,7 +15,7 @@ public class ParameterNotValidError {
 		String fmt ;
 
 		cat = new MessageCatalog( this ) ;
-		fmt = cat.message( MK_SUBJECT, null ) ;		
+		fmt = cat.message( MK_SUBJECT, null ) ;
 		if ( fmt != null )
 			msg.append( MessageFormat.format( fmt, new Object[] { param } ) ) ;
 		else

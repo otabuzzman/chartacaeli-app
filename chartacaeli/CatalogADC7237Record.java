@@ -46,11 +46,11 @@ public class CatalogADC7237Record extends chartacaeli.model.CatalogADC7237Record
 	public String DEs	; // Declination (J2000)
 	public String OType	; // [GM ] Object type (1)
 	public String MType	; // Provisional morphological type from LEDA
-	// according to the RC2 code. 
+	// according to the RC2 code.
 	public String logD25	; // ?=9.99 Apparent diameter (2)
 	public String e_logD25	; // ?=9.99 Actual error of logD25
 	public String logR25	; // ?=9.99 Axis ratio in log scale
-	// (log of major axis to minor axis) 
+	// (log of major axis to minor axis)
 	public String e_logR25	; // ?=9.99 Actual error on logR25
 	public String PA	; // ?=999. Adopted 1950-position angle (3)
 	public String e_PA	; // ?=999. rms uncertainty on PA

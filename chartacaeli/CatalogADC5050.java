@@ -208,11 +208,11 @@ public class CatalogADC5050 extends chartacaeli.model.CatalogADC5050 implements 
 			// chartacaeli.model.AngleType
 			pm.setLongitude( new chartacaeli.model.Longitude() ) ;
 			pm.getLongitude().setRational( new chartacaeli.model.Rational() ) ;
-			pm.getLongitude().getRational().setValue( ra ) ;  
+			pm.getLongitude().getRational().setValue( ra ) ;
 			// chartacaeli.model.AngleType
 			pm.setLatitude( new chartacaeli.model.Latitude() ) ;
 			pm.getLatitude().setRational( new chartacaeli.model.Rational() ) ;
-			pm.getLatitude().getRational().setValue( de ) ;  
+			pm.getLatitude().getRational().setValue( de ) ;
 
 			body.getBodyStellar().setPosition( pm ) ;
 
@@ -251,7 +251,7 @@ public class CatalogADC5050 extends chartacaeli.model.CatalogADC5050 implements 
 
 		uri = new URI( getUrl() ) ;
 		if ( uri.isAbsolute() ) {
-			url = uri.toURL() ;	
+			url = uri.toURL() ;
 		} else {
 			file = new File( uri.getPath() ) ;
 			url = file.toURI().toURL() ;

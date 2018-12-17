@@ -154,11 +154,11 @@ abstract public class BodyOrbitalType extends chartacaeli.model.BodyOrbitalType 
 			ps.op( "dup" ) ;
 			ps.push( 100 ) ;
 			ps.op( "div" ) ;
-			ps.push( conf.getValue( CK_HALO, DEFAULT_HALO ) ) ; 
+			ps.push( conf.getValue( CK_HALO, DEFAULT_HALO ) ) ;
 			ps.op( "mul" ) ;
-			ps.push( conf.getValue( CK_HALOMIN, DEFAULT_HALOMIN ) ) ; 
+			ps.push( conf.getValue( CK_HALOMIN, DEFAULT_HALOMIN ) ) ;
 			ps.op( "max" ) ;
-			ps.push( conf.getValue( CK_HALOMAX, DEFAULT_HALOMAX ) ) ; 
+			ps.push( conf.getValue( CK_HALOMAX, DEFAULT_HALOMAX ) ) ;
 			ps.op( "min" ) ;
 
 			ps.push( 2 ) ;
