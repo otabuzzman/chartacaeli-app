@@ -10,11 +10,14 @@ else
 sep := :
 endif
 
-.SUFFIXES: .xml .pdf
+.SUFFIXES: .xml .pdf .png
 
 .xml.pdf:
 	@( export _JAVA_OPTIONS=-Duser.language=en ; cd .. ; make $@ )
 	@test -f ../$@ && mv ../$@ .
+
+.pdf.png:
+	$${GS:-gs} -q -o $@ -sDEVICE=pngalpha -sPAPERSIZE=a2 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=1.4 $<
 
 all: lib/jquery-1.10.2.min.js lib/xonomy lib/Justv2.ttf lib/Justv22.ttf
 
@@ -25,8 +28,11 @@ artistic-star-chart.pdf: artistic-star-chart--toppage.pdf artistic-star-chart--a
 artistic-star-chart--toppage.pdf: artistic-star-chart--toppage.preferences
 artistic-star-chart--artwork.pdf: artistic-star-chart--artwork.preferences
 
+general-features-selection.png scientific-star-chart.png artistic-star-chart.png:
+
 clean:
 	rm -f general-features-selection.pdf scientific-star-chart.pdf artistic-star-chart.pdf
+	rm -f general-features-selection.png scientific-star-chart.png artistic-star-chart.png
 
 # local clean
 lclean: clean
