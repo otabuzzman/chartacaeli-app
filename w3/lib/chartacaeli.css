@@ -1,13 +1,66 @@
-* { margin: 0 ; padding: 0 ; }
-@font-face { font-family: Justv22 ; src: url('Justv22.ttf') ; }
-html { font-family: 'M PLUS Rounded 1c', Arial, Helvetica, sans-serif ; font-size: 16px ; }
-body { background-color: #000000 ; }
-/* golden ratio descent for font-size */
-h1 { font-family: Justv22 ; font-size: 6.8rem ; }
-h2 { font-size: 4.94rem ; }
-h3 { font-size: 3.05rem ; }
-h4, p { font-size: 1.89rem ; }
-.welcome { color: #cccccc ; margin: auto ; width: 1600px ; height: 1200px ; background-image: url('../starrysky.png') ; background-repeat: no-repeat ; }
-.content { color: #222222 ; margin: auto ; width: 1600px ; position: relative ; z-index: -2 ; background-color: #ffffff ; background-image: url('../starchart.png') ; background-repeat: no-repeat ; }
-.content-footer { margin: auto ; width: 1600px ; height: 1200px ; position: absolute ; bottom: 0 ; z-index: -2 ; background-image: url('../starchart.png') ; background-repeat: no-repeat ; transform: scale(-1, -1) ; }
-.skyline { margin: auto ; width: 1600px ; height: 360px ; background-image: url('../skyline.png') ; background-repeat: no-repeat ; background-position: bottom ; }
+/* general */
+body { font-family: 'M PLUS Rounded 1c', sans-serif ; color: #323232 ; }
+a:hover { text-decoration: none ; color: #0056b3!important ; }
+a:active { text-decoration: none ; color: #006adb!important ; }
+.container-fluid { padding-left: 4rem ; padding-right: 4rem ; }
+.ruler-top { border: 2px solid #007bff ; }
+.ruler-sep {  }
+
+/* navigation */
+.navbar { background: rgba(0, 0, 0, .75) ; font-size: 1.215rem ; font-weight: 500 ; letter-spacing: .125rem ; }
+.navbar-brand img { height: 2rem ; }
+.navbar-toggler .fa-bars { font-size: 1.2rem ; color: #e7e7e7 ; }
+.navbar-nav li { padding-right: .8rem ; }
+.navbar-nav .nav-link { color: #e7e7e7 ; }
+.navbar-nav .nav-link:hover { color: #0056b3 ; }
+.navbar-nav .nav-link:active, .navbar-nav .nav-link.active { color: #006adb ; }
+/* position sections below .navbar */
+.navbar-offset::before { height: 4rem ; margin-top: -4rem ; content: "" ; display: block ; }
+
+#ccHome { background-image: url("../starrysky.png") ; background-size: cover ; background-repeat: no-repeat ; background-position: center ; min-height: 100vh ; display: flex ; }
+.caption { color: #dadada ; }
+.caption h1 { font-size: 2.1rem ; font-weight: 400 ; } /*MQ*/
+.caption-intro { padding-top: 6rem ; }
+.caption-outro {  }
+
+/* gallery */
+.carousel-item img { max-width: 1191px ; margin: 0 auto ; }
+.carousel-caption { left: auto ; right: auto ; position: relative ; }
+.carousel-caption h3 { color: #323232 ; }
+#ccGallery .feature-txt {  }
+#ccGallery .feature-img { width: 360px ; }
+
+/* overview */
+#ccOverview figure { max-width: 768px ; }
+#ccFigWS {  }
+#ccFigArch {  }
+#ccFigCore {  }
+
+/* community */
+#ccCommunity { background-color: #000000 ; background-image: url("../skyline.png") ; background-repeat: no-repeat ; background-position: center bottom ; min-height: 38vh ; display: flex ; }
+#ccCommunity img { height: 4rem ; margin-top: 2rem ; margin-bottom: 2rem ; }
+#ccCommunity h3, #ccCommunity a { color: #e7e7e7 ; }
+#ccCommunity .fab { font-size: 2.25rem ; letter-spacing: 12px ; }
+#ccCommunity span { font-size: 1.2rem ; margin-left: -16px ; }
+
+@media (min-width: 576px) { .caption h1 { font-size: 2.8rem } }
+@media (min-width: 768px) { .caption h1 { font-size: 3.6rem } }
+
+
+
+/* Bootstrap 4 responsive breakpoint cheat sheet
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { ... }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... }
+*/

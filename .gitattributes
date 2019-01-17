@@ -1,6 +1,7 @@
 *		text=auto
 *.pdf	-text
 *.sh	eol=lf
-*.pptm	binary
+*.ico	binary
 *.png	binary
+*.pptm	binary
 *.xcf	binary

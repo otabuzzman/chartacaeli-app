@@ -1,73 +1,281 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="lib/xonomy/xonomy.js"></script>
-	<link type="text/css" rel="stylesheet" href="lib/xonomy/xonomy.css"/>
-	<script type="text/javascript" src="lib/chartacaeli.xsd.js"></script>
-	<link type="text/css" rel="stylesheet" href="lib/chartacaeli.css"/>
-	<script type="text/javascript">
-		function start() {
-			var composer=document.getElementById("composer");
-			Xonomy.setMode("laic");
-			Xonomy.render(xmlInit, composer, docSpec);
-		}
-	</script>
+	<title>CHARTA CAELI</title>
+	<link rel="shortcut icon" href="brandicon.ico">
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:300,400,500,700&amp;subset=greek" rel="stylesheet">
+
+	<link rel="stylesheet" href="lib/chartacaeli.css">
 </head>
-<body onload="start()">
-	<div class="welcome">
-        <h1>CHARTA<span> </span>CAELI</h1>
-        <h2>it's all about stars...</h2>
+<body data-spy="scroll" data-target="#ccNavbar">
+	<!-- begin home -->
+	<div id="ccHome">
+		<!-- begin navigation -->
+		<nav class="navbar navbar-expand-lg fixed-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#"><img src="brand.png" alt="Charta Caeli"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ccNavbar">
+				<span class="custom-toggler-icon"><i class="fas fa-bars"></i></span>
+			</button>
+			<div class="collapse navbar-collapse" id="ccNavbar">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#ccHome">home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#ccGallery">gallery</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#ccOverview">overview</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#ccComposer">composer</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#ccConcepts">concepts</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#ccCommunity">community</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		</nav>
+		<!-- end navigation -->
+		<!-- begin caption -->
+		<div class="caption container-fluid">
+			<div class="row h-100">
+				<div class="caption-intro col-12 h-50 ">
+					<h2>it's all about stars...</h2>
+				</div>
+				<div class="caption-outro col-12 align-self-end text-center">
+					<h2>...map 'em!</h2>
+				</div>
+			</div>
+		</div>
+		<!-- end caption -->
 	</div>
-	<div class="content">
-        <div class="content-footer"></div>
-        <h2>...map 'em!</h2>
-        <p>The charts in the gallery depict some of the core concepts of Charta Caeli and provides some almost full-featured samples as well. The latter might serve as a good start to get a quick idea of what the tool is about. Pick one and view the PDF. Load it into composer to study the definition. You finally may want to print it out to prepare for your next sky watching night out or just use it to wrap a gift for a friend.</p>
-        <h3>Composer</h3>
-        <p>This specialized XML editor is for instant creating chart definitions for Charta Caeli. It supports the whole chart schema definition as defined by XSD although UX/UI regarding hints on numerical ranges and syntaxes is poor. Composer is handy to create small or medium size chart definitions. Things get hard when it comes to large charts with hundreds of elements, especially on mobile devices. It serves well in case of smaller changes or enhancements even on large definitions as you might have already tried out with one of the charts from the gallery. However, if you plan to build a large chart from scratch you should use your favorite XML editor and upload the file when ready.</p>
-        <div id="composer"></div>
-        <h3>Overview</h3>
-        <p>Charta Caeli generates star chart images in PDF from definitions given in XML. A chart schema specification XSD describes the XML structure of those definitions. Preferences files control the somewhat technical settings as well as those considered obstructive while creating a chart definition. To set the display style of a chart element for instance one would typically prefer to give a value like bold instead of a numerical one or even program code. These mappings happen in the preferences file of the application. In addition, each chart definition can have its own preferences file and thus override the application default. There are some real-life examples of a default preferences file and a chart specific one in the repository. The Java program actually outputs Postscript converted to PDF by Ghostscript.</p>
-        <figure><img src="application-structure.svg" alt="The building blocks of Charta Caeli application architecture" title="The building blocks of Charta Caeli application architecture"/><figcaption>The building blocks of the Charta Caeli application architecture.</figcaption></figure>
-        <h3>Under the hood</h3>
-        <p>The core of the Charta Caeli application architecture is a Java program with a structure that is kind of puzzle made up of a number of quite good concepts and technologies harvested from others. Castor does the XML and XSD handling. PJ Naughter's AA+ implementation of Astronomical Algorithms from Jean Meeus' eponymous book serves wrapped by JNI the astronomical mathematics. The Java Topology Suite calculates common geometric functions. Fritz Ritzberger's RunCC parser generator based a simple attribute value interpreter. Alan Kaminsky's Java Parallel 2 Library does the CUDA stuff and last not least various libraries from Apache Commons are in place as well.</p>
-        <figure><img src="java-program-structure.svg" alt="The core of of Charta Caeli. A Java program ties the elements together." title="The core of of Charta Caeli. A Java program ties the elements together."/><figcaption>The core of of Charta Caeli. A Java program ties the elements together.</figcaption></figure>
-        <p>AWS hosts the web service offered by this site. It uses Beanstalk services to run the Charta Caeli Java program. The curious and brave ones might want to check out the repository on GitHub and get it all up and running on their local Windows or Linux boxes. Share your experiences in case you try.</p>
-        <h3>Concepts</h3>
-        <p>There are some major concepts that guided development of Charta Caeli. Some few had been there at the beginning but most of them arose while working on the project. One might call them requirements as well but the term concept implies weaker obliging. In fact, not every concept made it to a full implementation but only to a certain degree and few concepts even haven't been touched at all, yet.</p>
-        <p>The application shall produce star charts of high quality and precision that scale to arbitrary size. The charts must allow reflecting the aesthetical aspects of individual users. This idea kicked off the project and it is therefore as well the core concept of Charta Caeli. Other concepts are important as well but none of them more than this simple thing, namely to have a tool that can do huge star charts, which are fun to look at and to work with - in order specified.</p>
-        <p>The tool has to be self-contained. That is once setup properly the system puts out the respective star chart according to the definition a user fed into it. The tool has to be self-contained. That is, once setup properly the system puts out the respective star chart according to the definition a user fed into it. No post processing is required. The chart is ready for intended use. A subtopic of this concept is completeness of chart definitions in a single XML file. To put it in other words, a single file capsules one or more chart definitions. Not a big thing but eases sharing.</p>
-        <p>Star chart definition syntax shall focus on the topic and provide a common terminology. Configurations necessary to support this terminology as well as technical settings are stored elsewhere. To accomplish this there is a preferences file with all the nifty things not belonging directly to star chart definitions. This concept seems to contradict the previous one especially because each chart definition file may have its own preferences as well. Indeed, it does but fortunately, we have the concept of a weak concept...</p>
-        <p>Definitions of star charts shall support any international language. Sounds easy but this is a hard one. Postscript has no I18N built-in. It just renders fonts with a maximum of 256 different characters which is sufficient for many languages but not for all as the concept demands. Next thing is fonts are part of the operating system or retrieved from web services. This concept therefore foresees fonts to be part of chart definitions. The application in turn provides a mechanism to define and output any Unicode character as long as there is a font containing these characters.</p>
-        <h4>Layout and Text</h4>
-        <p>There is a feature to treat a star chart like a normal piece of paper to write upon. The feature divides the chart into so-called frames. Each frame has several anchor points associated, just like a text element. The position of a text relative to its frame depends on the values of their anchor points. A lab in the repository clarifies the details, hopefully.</p>
-        <h4>Unicode and Fonts</h4>
-        <p>To define a particular character set in the preferences file several data is required. First comes the font file that contains the characters one wishes to access from a chart definition. Furthermore, the font file contains glyph names and associated Unicode Code Points. The Unicode Block numbers the character set belongs to are required as well. One last thing is the font name.</p>
-        <p>The principle to configure a character set is to setup a node whose name is a numerical encoding of the Unicode Block the character set belongs to. Inside that node two values are required, namely the font name and an encoding vector with the glyph names retrieved from the font file and placed at relative positions according to the Unicode Code Points they represent. Each such font definition node must not contain more than 256 glyphs. Therefore, font definitions may contain multiple nodes to address large font files in terms of glyphs therein.</p>
-        <p>Quite complicated, right? Having a look into the preferences file in the repository will probably make things clearer. Scroll down to node name 0000..007F-0. It defines the first Unicode Block named C0 Controls and Basic Latin. Though the block doesn't exceed 256 different characters the name refers to the first chunk anyway. The font name is Times-Roman and the encoding vector contains the glyph names as defined by the font file. The following nodes define further character sets. In fact, the definitions squeezes out every character found in a standard Ghostscript distribution to make it available for Charta Caeli. There are two more character set configurations in the repository. One for the LucidaSansUnicode font, which contains many more Unicode characters and one for the ArialUnicodeMS font with an even larger bulk of characters.</p>
-        <h4>Field of View</h4>
-        <p>As the name might reveal the feature determines the visible area of a star chart. There is a so-called global field of view defined by the @view attribute. Another type is the effective field of view defined by the intersection of global field of view and one or more circle elements. Global and effective field of view apply to any element of a chart definition except frames. View a sample from the repository to find out how this feature works.</p>
-        <h4>Variables and Expressions</h4>
-        <p>Variables in the context of this feature name a concept to let a chart definition reference runtime values. For a list of available variables have a look at the properties files in the repository. They allow for names in arbitrary languages. Only few attributes of the chart specification support variables. The feature is especially useful for dynamic text and in conjunction with a syntax, which evaluates simple expressions. One of the samples from the gallery applies expressions and restricts output to stars with a given magnitude.</p>
-        <h3>Soap and Credits</h3>
-        <p>The spark for Charta Caeli had been an artist's impression of an azimuthal projection of the northern and southern skies pinned to an office wall. The question was if a tool could generate that kind of poster and combine the aspect of being large and beautiful with scientific precision.</p>
-        <p>Gnuplot by chance became the tool of choice and Windows the development platform. Working on drafts evolved rapidly and soon there was a first chart showing a grid without stars. Astrolabe was the working title of the project. It was inspired by one of the first known astronomical tools used by ancient astronomers to find out what's going on in the sky. As features grew, the development environment grew as well until it finally was too complex to handle. Numerous scripts based on Cygwin had come into place to fill the growing gap of missing functionality in Gnuplot. At the end, Gnuplot was buried and the project migrated to Java. Eclipse became the IDE. Two concepts however survived the Gnuplot epoch, namely Postscript as the output format and some Postscript code borrowed from Gnuplot that allows typesetting subscript and superscript.</p>
-        <p>Moving to a proper programming environment with virtually infinite possibilities resulted quickly in a large number of spontaneous ideas for features. Defining and following some core concepts helped to keep the project on track. Collecting new ideas in a spreadsheet for later review helped focusing on current tasks without fear to forget valuable things.</p>
-        <p>From that point on more and more concepts, technologies and tools came to use during development. Some needed only once for special purposes but many became part of the environment which finally grew more complex than it was before it switched from Gnuplot to Java. One remarkable one is an implementation of an application-wide stack-oriented registry inspired by US Patent <a href="https://patents.google.com/patent/US6785691B1/">US6785691B1</a>.</p>
-        <p>Java moved development efforts from wondering how to coding. Of course, that would had been the same with any other object oriented programming language but Java was there when the project reached for it. It seemed that XML was the markup language for everything and thus would meet the needs of chart definitions as well. Castor tied the chart specification XSD to the application and Altova's new XMLSpy Home Edition pushed to the top of the project's most popular and free XML editors. There it still is although Altova stopped the edition. XMLStarlet and its XPath query features exposed to be the tool for any kind of XML access from scripts.</p>
-        <p>Poseidon from Gentleware was in use for a while to support application design with UML principles and to document the software at the same time. The approach dropped when JNI came into play and Poseidon’s code generator reached to his limits. PJ Harvey's AA+ library pushed the project towards JNI. He actually transcribed the whole mathematics from Jean Meeus' book Astronomical Algorithms to C++ code. The JNI wrapping of AA+ handled CXXWRAP a nifty tool from Dave Daeven that generates Java classes and C++ stubs automatically.</p>
-        <p>One of the bread and butter jobs in Charta Caeli is to convert Postscript output into PDF. Therefore, a robust tool was searched and it was Ghostscript, which got the job. Various JAR files from Apache Commons made it into the project to fulfill other common tasks. The most persistent ones are those from Lang, Logging and Math because they remained until now. The latter however got reinforcement through the Java Topology Suite, which greatly simplifies the calculation of areal intersections as needed by the field of view feature.</p>
-        <p>The Unicode thing was underestimated. Turning the Gnuplot Postscript code excerpt into a more general print procedure and specifying preferences to configure the application to use fonts containing Unicode characters were the easy parts. Things got hard when it came to really define a Unicode font based on a given font file, say for Arial Unicode MS which contains thousands of glyphs. It was Cygwin the Swiss knife for Linux developers who went to Windows that once more managed to get the job done by orchestrating a couple of scripts and Tor Anderson's TTFDUMP tool. The scripts are in the repository. They are for ad-hoc usage and therefore poorly documented. They extract CMAP and character strings from TrueType font files and finally merge these three data items into well-formed preferences node entries.</p>
-        <p>Though not regularly reported by the evening news there are some repositories for star catalogues. The Strasbourg astronomical Data Center for instance hosts a bulk of carefully maintained catalogue files for public access. Almost all of them are ASCII encoded thus human readable files with each line representing a record, which in turn has fixed width fields or defines a special field separation character. These catalogues were easy to implement and the project decided to support several of them right away, namely the The Hipparcos and Tycho Catalogues, the Bright Star Catalogue, the SKY2000 Catalog, the NGC 2000.0 and the HYPERLEDA. I. Catalog of galaxies. A special one but nevertheless supported is the Constellation Boundary Data catalogue which contains area information as the name might imply. However, the most special one because exclusively designed for Charta Caeli is the so-called DS9 catalogue. It contains area information as well but these are from the Milky Way our home galaxy. A bundle of contour files comprises the catalogue. Each file defines an area of approximately equal brightness. The file format is from a popular astronomical tool called SAOImage DS9 and utilized by the project to compile the catalogue. Raw data is from Axel Mellinger's beautiful Milky Way panorama photography. SExtractor is the somewhat ambiguous name of another tool from the astronomical community used to extract the relevant data from Axel's image. Implementing a simple inline interpreter for attribute values in XML files accompanied catalogue development to have an option to select special catalogue records. Fritz Ritzberger's Java Runtime Compiler Compiler RunCC made a solid impression and it was therefore an easy decision to make it join the tool zoo.</p>
-        <p>The incredible Gimp and hours of watching YT videos on how to use it, many watched more than once, led to a first website design. The artworks on the site you are just visiting are remnants of this project phase. The Justinian font from Dan Zadorozny and its modern adaption of ancient typesetting situated somewhere between Greek and Roman was found to be a good representation of the projects aims. This impression is contrary to the assumption that the Roman emperor and name founder Justinian I. was a rather backward-looking ruler, but this does not detract from the impression of the font. With the introduction of the font, also the name got a change from Astrolabe to Charta Caeli. The Latin term still refers ancient astronomical science but according to Google, it doesn't appear in the terminology of the astronomical Internet community and was therefore considered unique in this context.</p>
-        <p>Providing a clickable sky atlas using mapper.js from We Work We Play was another feature temporarily followed by the project. Inspiration came from sample charts of the Interstellarum Deep Sky Atlas and the Millennium Star Atlas. Especially the first served the project as wonderful examples of lovingly crafted star charts. Another feature provoked by the sample charts was an application specific Type 3 font with some glyphs to differentiate special kinds of deep sky objects like galaxies, clusters and nebulae in an iconic manner.</p>
-        <p>The project moved to the cloud. GitHub took over the management of the sources, and the numerous copies of the project files saved on USB sticks, external hard disks and DVDs became obsolete. Astrolabe and Charta Caeli each got its own repository whereas Astrolabe intentionally doesn’t build, but just holds a chronological archive of project states back to beginnings with Gnuplot.</p>
-        <p>The five-star open source planetarium program Stellarium provided the idea for an extension to draw artistic representations of the ancient constellations. It provided important parts of the mapping algorithm as well as beautiful drawings both cribbed and referenced by Charta Caeli, respectively. The derived algorithm turned out quite slow but luckily GPGPU had its birthday at the same time and the most challenging phase of the project began. A belly decision brought CUDA from NVIDIA into play. A belly decision brought CUDA from NVIDIA into play and coincidentally Alan Kaminsky's Parallel Java 2 Library as well, which promised to minimize parallelization efforts. However, things got complicated anyway due to the lack of a CUDA capable device. AWS filled the gap with a G2 instance but wanted to charge a fee for it. Furthermore, Visual Studio Community had to join the toolset because the CUDA SDK won't run the compilers supplied by Cygwin. Moreover, to make things complete the CUDA SDK won't compile as well if there's no CUDA device. Therefore, the approach was to develop, compile and test as much as possible on local environment and to utilize AWS as a final step, ideally just to confirm everything's ok. To accomplish this every piece of CUDA code, that is code executing on a CUDA capable device, got a local peer bound to the application via JNI and tested with JUnit. Even the so-called kernels at the very heart of any CUDA program, had been developed and tested this way before compiled for CUDA and deployed to the AWS instance. Fortunately, with some manual interventions the SDK compiled for CUDA even without an appropriate device. The details to this are in another repository on GitHub. Finally, CUDA came to work and the algorithm boosted as expected. The German computer magazine c't published the approach and there is an English infographic as well which furthermore is free of charge. This is as well the time to mention the community on Stackoverflow and their priceless efforts for providing valuable answers to seemingly any problem or question a software developer might ever have.</p>
-        <p>Current work focuses on website development and integration with social media. Part of this was suspended earlier, mainly because there was no UI concept to create chart definitions in a browser. Now there is Xonomy from Michal Boleslav Měchura and work continues...</p>
-        <h3>Community</h3>
-        <p>Stay tuned and share.</p>
-   </div>
-	<div class="skyline"></div>
+	<!-- end home -->
+	<!-- begin gallery -->
+	<div id="ccGallery" class="navbar-offset">
+		<div class="container">
+			<!-- gallery caption -->
+			<h2>gallery</h2>
+			<hr class="ruler-top">
+			<p class="lead">See what Charta Caeli can do. View full size gallery items in PDF and read about their features or load chart definitions from gallery into composer as templates for your own beautiful star charts.
+			</p>
+			<!-- gallery items carousel -->
+			<div id="ccGalleryCarousel" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner">
+					<div class="carousel-item">
+						<img class="d-block w-100" src="general-features-selection-c.png" alt="General features selection">
+						<div class="carousel-caption d-none d-md-block">
+							<h3>General features selection</h3>
+						</div>
+					</div>
+					<div class="carousel-item active">
+						<img class="d-block w-100" src="scientific-star-chart-c.png" alt="Scientific star chart">
+						<div class="carousel-caption d-none d-md-block">
+							<h3>Scientific star chart</h3>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<img class="d-block w-100" src="artistic-star-chart-c.png" alt="Artistic star chart">
+						<div class="carousel-caption d-none d-md-block">
+							<h3>Artistic star chart</h3>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<img class="d-block w-100" src="artistic-star-chart-c--toppage.png" alt="Only the chart from artistic star chart">
+						<div class="carousel-caption d-none d-md-block">
+							<h3>Chart extracted from Artistic star chart</h3>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<img class="d-block w-100" src="artistic-star-chart-c--artwork.png" alt="Background graphics from artistic star chart">
+						<div class="carousel-caption d-none d-md-block">
+							<h3>Artwork extracted from Artistic star chart</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- gallery item actions -->
+			<p class="text-center">
+				<a class="btn btn-lg btn-outline-primary" role="button" href="#">VIEW</a>
+				<a class="btn btn-lg btn-outline-primary" role="button" href="#">INFO</a>
+				<a class="btn btn-lg btn-outline-primary" role="button" href="#">EDIT</a>
+			</p>
+		</div>
+		<!-- gallery item features -->
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-7">
+					<div class="feature-txt lead">
+						<h3>Scientific star chart features</h3>
+						<p>This is a pretty common star chart. It shows an azimuthal projection of objects from the NGC 2000.0 catalog as one probably can see on the northern hemisphere. Object selection criterion is brightness, which restricts this chart to objects with a mag value of 10 and below. Another criterion derives from the fact of the presence of multiple objects with identical common names in the supplementary file of the catalog. The select expression restricts those to the first object.</p>
+						<p>An application specific font provides the glyphs representing the different types of sky objects contained in the NGC 2000.0 catalog (for instance star, nebula, galaxy).</p>
+						<p>The focus of this chart is on the subject matter of giving precise information about the position of sky objects and their orientations with respect to different reference systems. A somewhat inaccurate element is the suggestion of the Milky Way, which nevertheless helps to orientate oneself in the night sky and not least is worth a mapping because of its mere extent.</p>
+						<p>The example applies the major elements that make up a chart definition, namely charts, horizons, circles, dials, annotations and catalogs. Grid and comments are faint and small but not too much to make sure they're useful and readable.</p>
+						<hr class="ruler-sep">
+						<h5>The Chart element</h5>
+						<p>This outermost piece of XML data starts a chart definition. Actually, there is one more element above Chart but that’s essentially to group multiple chart definitions in a single file. Chart is of XSD type choice and serves to define the projection type, which in turn is a child of Chart. Furthermore, Chart defines page dimensions and a viewport, which is a kind of passe-partout.</p>
+						<h5>The Horizon element</h5>
+						<p>Similar to Chart this element serves to define a horizon type, which is sort of a synonym for coordinate system. Interpretation of object coordinates depends on their horizon type. Three of these are almost fix coordinate systems as they change due to sky mechanics: the equatorial, the ecliptical and the galactical one. The local horizon is a variable one because it’s defined by earth coordinates.</p>
+						<h5>The Circle element</h5>
+						<p>These serve to define grids. Not surprisingly, Circe as well is a choice to pick a type. Meridian and parallel draw lines of height and length, respectively. They are horizon dependent and correspond if for instance defined for a local horizon with its latitudes and longitudes. There are four special Circle elements of type parallel to define the northern and southern tropic and polar circles.</p>
+						<h5>The Dial element</h5>
+						<p>Attached to a circle a Dial provide a means of scale. The two types of dials are day and degree with the day type being a special one. The other one is fairly universal and suitable for appending a scale to any circle in a chart definition.</p>
+						<h5>The Annotation element</h5>
+						<p>The specification foresees straight and curved annotations. The latter are useful to add comments that follow the paths of circles. Straight annotations happen to appear at the point where drawing stops. They refer to the page coordinate system. Many elements support annotations and thus a way to provide further explanations on them. A special case is the Frame element defined by the Layout element, which allows a more flexible positioning of straight annotations.</p>
+						<h5>The Catalog element</h5>
+						<p>Charta Caeli supports some of the more popular star catalogs for instance The Bright Star Catalogue. The Catalog element supplies a choice to pick a catalog type, which applied with an URL fetches the catalog data from Internet or local file. An expression supplied to the attribute value interpreter might restrict the output of catalog content.</p>
+					</div>
+				</div>
+				<div class="col-lg-5 text-center d-none d-lg-block">
+					<img class="feature-img mx-auto" src="scientific-star-chart.png" alt="Scientific star chart">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-7 order-lg-2">
+					<div class="feature-txt lead">
+						<h3>Artistic star chart features</h3>
+						<p>The chart concentrates on styles and aims for a good-looking appearance. Despite there is no need for images of ancient constellations on a star chart, it’s nice to see an artist’s impression of those constellations. Nor is it useful to stretch the orbits of the moon outward, to make it clear that it’s turning around earth several times a year. In addition, changes of the font style do not contribute to chart readability, nor does the fragmented and irregular grid. Overall, these somewhat mannered features make this star chart quite interesting looking which might be an aim on its own.</p>
+						<p>The chart utilizes different shades of gray in combination with field of view to highlight meanings of constellations: the pale Eridianus seems to flow out of the chart in the topright section, constellations that make up the Zodiac are dark and leave the chart at the bottom, while finally the other constellations in medium gray end at the chart border.</p>
+						<p>The chart definition uses the elements Artwork, Sign and Body besides the standard elements (for example Chart, Horizon, Circle). Of these three, only the latter is as well suitable for scientific star charts. The other two are for illustration purposes only, as their names reveal.</p>
+						<hr class="ruler-sep">
+						<p><span class="h5">The Artwork element</span> defines an image to be mapped at the skies or simply to put somewhere at the page. The example uses images provided by the Stellarium project by reference, which are rather easy to replace by others. The equatorial coordinates of three stars, which are part of a constellation and three corresponding coordinates of an image that depicts that constellation comprise the definition.</p>
+						<p><span class="h5">The Sign element</span> provides a pretty abstract method to show constellations by connecting sky objects with straight lines.</p>
+						<p><span class="h5">The Body element</span> represents any type of sky object supported by Charta Caeli. It provides a choice among various types: sun, planets and stars of course, but objects that are more general are foreseen as well, namely those following elliptical and parabolical paths like man-made satellites and comets. The Catalog element actually uses the star type Body element to draw objects.</p>
+					</div>
+				</div>
+				<div class="col-lg-5 order-lg-1 text-center d-none d-lg-block">
+					<img class="feature-img mx-auto" src="artistic-star-chart.png" alt="Artistic star chart">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-7">
+					<div class="feature-txt lead">
+						<h3>General features selection</h3>
+						<p>Although not really a star chart and not even good-looking the definition gives practical insights on how to use some of Charta Caeli's concepts in practice. Having the chart definition from the repository at hands will further help understanding what’s going on.</p>
+						<hr class="ruler-sep">
+						<h5>Layout and text</h5>
+						<p>The layout feature uses a debug entry in the chart specific preferences file to make the layout grid visible to the frames in use. One wouldn’t use this in a real star chart, but it it is useful during development.</p>
+						<p>Position of text happens by combination of two anchor points from the text element and the frame in question. They sum up to nine for each: four for the corners, four for the middles of the edges and one for the center. The text anchor points actually refer to the bounding box of the text. Combining the anchor point values topleft and center of a text and a frame element yields a text starting in the top-left corner of the bottom-right frame quarter. The frame rectangles along the axes each show the frame number and the number of logical units these frames span.</p>
+						<h5>Unicode and fonts</h5>
+						<p>The example uses the Arial Unicode MS font, which contains a large subset of glyphs defined by Unicode 2.1. The font is licensed and therefore not available in the Charta Caeli web service. Despite of this the example gives a good impression of what’s possible in terms of I18N if a respective font is available. Note multiple text elements for each language section in the chart definition, which is due to a lack of newline.</p>
+						<h5>Field of view</h5>
+						<p>The inner circle in the middle shows an azimuthal projection of the stars in The Bright Star Catalogue. The circle is tagged as Field of View (FOV) thus restricting catalog output to the circle area. This is the so-called effective FOV, which affects catalog output as well as outputs from Artwork, Sign and Body elements. The outer circle has slightly flattened sections at the left and right side. These result from a combination with the passe-partout that restricts output of every element. This one is called global FOV.</p>
+						<h5>Attribute value interpreter</h5>
+						<p>This one enables to define values for some attributes at runtime during chart generation. The sample utilizes the feature to restrict stars output by the Catalog element on those with mag values of 3 and below. The interpreter provides access to certain runtime variables, simple arithmetic and string matching as well as conditions cribbed from C’s ternary conditional operator. Complex expressions tend to be difficult to read because of escapes for reserved characters and use of XML character entity references. Luckily, there are online services for XML encoding/ decoding available to ease the task.</p>
+					</div>
+				</div>
+				<div class="col-lg-5 text-center d-none d-lg-block">
+					<img class="feature-img mx-auto" src="general-features-selection.png" alt="General features selection">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end gallery -->
+	<!-- begin overview -->
+	<div id="ccOverview" class="navbar-offset">
+		<div class="container lead">
+			<!-- overview caption -->
+			<h2>overview<small class="text-muted"> and a look under the hood</small></h2>
+			<hr class="ruler-top">
+			<p>Charta Caeli generates PDF star charts from XML chart definitions according to a XSD chart specification. The overall architecture is similar to a three-piece Russian doll: a web service contains the application, which in turn contains the core program.</p>
+			<p>AWS hosts the web service. There are quite a number of cloud services in place. EC2 for instance runs the application, S3 buckets store PDF output as objects and the NAT service enables the application to retrieve data from Internet.</p>
+			<figure id="ccFigWS" class="figure d-block mx-auto">
+				<img class="figure-img img-fluid" src="web-service-structure.svg" alt="The Charta Caeli web service">
+				<figcaption class="figure-caption">The Charta Caeli web service provides public access to the star chart application (Icons by <a href="https://iconmonstr.com/"><span>iconmonstr</span></a>).</figcaption>
+			</figure>
+			<p>The application is a compilation of several programs and configuration files that all together perform the task of generating PDF star charts from XML definitions.</p>
+			<figure id="ccFigArch" class="figure d-block mx-auto">
+				<img class="figure-img img-fluid" src="application-structure.svg" alt="The building blocks of the Charta Caeli application architecture">
+				<figcaption class="figure-caption">The building blocks of the Charta Caeli application architecture (Icons by <a href="https://iconmonstr.com/"><span>iconmonstr</span></a>).</figcaption>
+			</figure>
+			<p>The core is a Java program that actually generates Postscript code and makes use of Ghostscript for PDF conversion. Java preferences files control execution providing technical settings as well as mappings of abstract values in chart definitions to numbers or even Postscript code. Java properties files provide multi-language support.</p>
+			<p>The Java program at the core of the Charta Caeli application architecture is a kind of puzzle made up of a number of rather good concepts and technologies picked from others. Castor does the XML and XSD handling. PJ Naughter's implementation of Astronomical Algorithms from Jean Meeus' eponymous book serves the astronomical mathematics. Charta Caeli uses the Java Topology Suite to calculate common geometric functions and the application’s attribute value interpreter bases on Fritz Ritzberger’s RunCC parser generator. Alan Kaminsky's Java Parallel 2 Library does the CUDA stuff and last not least various libraries from Apache Commons are in place as well.</p>
+			<figure id="ccFigCore" class="figure d-block mx-auto">
+				<img class="figure-img img-fluid" src="java-program-structure.svg" alt="The core of of Charta Caeli">
+				<figcaption class="figure-caption">The core of of Charta Caeli. A Java program realizes concepts and ties external components together.</figcaption>
+			</figure>
+			<p>The curious and brave ones might want to check out the chartacaeli repository on GitHub and get it up and running on their local Windows or Linux boxes. Share your experiences in case you try...</p>
+		</div>
+	</div>
+	<!-- end overview -->
+	<!-- begin composer -->
+	<div id="ccComposer" class="navbar-offset">
+	</div>
+	<!-- end composer -->
+	<!-- begin concepts -->
+	<div id="ccConcepts" class="navbar-offset">
+		<div class="container lead">
+			<!-- concepts caption -->
+			<h2>concepts<small class="text-muted"> soap and credits</small></h2>
+			<hr class="ruler-top">
+			<p>There are some major concepts that guided development of Charta Caeli. Some few had been there at the beginning of the project but most of them came up while working proceeds. One might call them requirements as well but the term concept implies weaker obliging. In fact, not every concept made it to a full implementation but only to a certain degree and few concepts even haven't been touched at all, yet.</p>
+			<p>The application shall produce star charts of high quality and precision that scale to arbitrary size. The charts should reflect the aesthetical claims of individual users. This idea kicked off the project and it can therefore considered the core concept of Charta Caeli. Others are important as well but none of them more than this simple thing, namely to have a tool to create huge star charts, which are fun to look at and maybe to work with - in order specified.</p>
+			<p>The tool has to be self-contained. That is, once setup properly the system puts out a star chart according to the definition a user fed into it without any post processing. A subtopic of this concept is to capsule chart definitions in a single XML file optionally supplemented by definition specific preferences and properties files. Not a big thing indeed, but helpful to ease sharing.</p>
+			<p>Star chart definition syntax shall focus on the topic and provide a common terminology. Preferences and properties files store configurations necessary to support terminology as well as technical settings.</p>
+			<p>Charta Caeli shall support any international language. Although sounding easy this is a hard one because Postscript has no I18N built-in. Any Postscript font encoding cannot exceed a maximum of 256 different characters regardless how many characters a particular font contains. The concept however demands a mechanism to define and output any Unicode character as long as there is a font containing these characters.</p>
+			<p>The spark for Charta Caeli had been an artist's impression of an azimuthal projection of the northern and southern skies pinned to an office wall. The question was if a tool could generate that kind of poster and combine the aspect of being large and beautiful with scientific precision.</p>
+			<p>Gnuplot by chance became the tool of choice and Windows the development platform. Working on drafts evolved rapidly and soon there was a first chart showing a grid without stars. Astrolabe was the working title of the project. It was inspired by one of the first known astronomical tools used by ancient astronomers to find out what's going on in the sky. As features grew, the development environment grew as well until it finally was too complex to handle. Numerous scripts based on Cygwin had come into place to fill the growing gap of missing functionality in Gnuplot. At the end, a bulk of additional tools buried Gnuplot and the project migrated to Java. Eclipse became the IDE. Two concepts however survived the Gnuplot epoch, namely Postscript as the output format and some Postscript code borrowed from Gnuplot that allows typesetting subscript and superscript.</p>
+			<p>Moving to a proper programming environment with virtually infinite possibilities resulted quickly in a large number of spontaneous ideas for features. Defining and following some core concepts helped to keep the project on track. Collecting new ideas in a spreadsheet for later review helped focusing on current tasks without fear to forget valuable things.</p>
+			<p>From that point on more and more concepts, technologies and tools came to use during development. Some needed only once for special purposes but many became part of the environment which finally grew more complex than it was before it switched from Gnuplot to Java. One remarkable one is an implementation of an application-wide stack-oriented registry inspired by US Patent <a href="https://patents.google.com/patent/US6785691B1/"><span>US6785691B1</span></a>.</p>
+			<p>Java moved development efforts from wondering how to coding. Of course, that would had been the same with any other object oriented programming language but Java was there when the project reached for it. It seemed that XML was the markup language for everything and thus would meet the needs of chart definitions as well. Castor tied the chart specification XSD to the application and Altova's new XMLSpy Home Edition pushed to the top of the project's most popular and free XML editors. There it still is although Altova stopped the edition. XMLStarlet and its XPath query features exposed to be the tools for any kind of XML access from scripts.</p>
+			<p>Poseidon from Gentleware was in use for a while to support application design with UML principles and to document the software at the same time. The approach dropped when JNI came into play and Poseidon’s code generator reached to his limits. PJ Harvey's AA+ library pushed the project towards JNI. He actually transcribed the whole mathematics from Jean Meeus' book Astronomical Algorithms to C++ code. The JNI wrapping of AA+ handled CXXWRAP a nifty tool from Dave Daeven that generates Java classes and C++ stubs automatically.</p>
+			<p>One of the bread and butter tasks in Charta Caeli is to convert Postscript output to PDF. The search for a robust tool easily led to Ghostscript, which got the job due to its fame and versatility. Various JAR files from Apache Commons made it into the project to fulfill other common tasks. The most persistent ones are those from Lang, Logging and Math because they remained until now. The latter however got reinforcement through the Java Topology Suite, which greatly simplifies the calculation of areal intersections as needed by the field of view feature.</p>
+			<p>The Unicode thing was underestimated. Turning the Gnuplot Postscript code excerpt into a more general print procedure and specifying preferences to configure the application to use fonts containing Unicode characters were the easy parts. Things got hard when it came to really define a Unicode font based on a given font file, say for Arial Unicode MS which contains thousands of glyphs. It was Cygwin the Swiss knife for Linux developers who went to Windows that once more managed to get the job done by orchestrating a couple of scripts and Tor Anderson's TTFDUMP tool. The scripts are in the repository. They are for ad-hoc usage and therefore poorly documented. They extract CMAP data and character strings from TrueType font files and finally merge these three data items into well-formed preferences file entries.</p>
+			<p>Though not regularly reported by the evening news there are some repositories for star catalogs. The Strasbourg astronomical Data Center for instance hosts a bulk of carefully maintained catalog files for public access. Almost all of them are ASCII encoded thus human readable files with each line representing a record, which in turn has fixed width fields or defines a special field separation character.</p>
+			<p>These catalogs were easy to implement and the project decided to support several of them right away, namely the The Hipparcos and Tycho Catalogues, the Bright Star Catalogue, the SKY2000 Catalog, the NGC 2000.0 and the HYPERLEDA. I. Catalog of galaxies.</p>
+			<p>A special one but nevertheless supported is the Constellation Boundary Data catalog which contains area information as the name might imply. However, the most special one because exclusively designed for Charta Caeli is the so-called DS9 catalog. It contains area information as well but these are from the Milky Way our home galaxy. A bundle of contour files comprises the catalog. Each file defines an area of approximately equal brightness. The file format is from a popular astronomical tool called SAOImage DS9 and utilized by the project to compile the catalog. Raw data is from Axel Mellinger's beautiful Milky Way panorama photography. SExtractor is the somewhat ambiguous name of another tool from the astronomical community used to extract the relevant data from Axel's image.</p>
+			<p>Implementing a simple inline interpreter for attribute values in XML files accompanied catalog development to have an option to select special catalog records. Fritz Ritzberger's Java Runtime Compiler Compiler RunCC made a solid impression and it was therefore an easy decision to make it join the tool zoo.</p>
+			<p>The incredible Gimp and hours of watching YT videos on how to use it, many watched more than once, led to a first website design. The artworks on the site you are just visiting are remnants of this project phase.</p>
+			<p>The Justinian font from Dan Zadorozny and its modern adaption of ancient typesetting situated somewhere between Greek and Roman was found to be a good representation of the projects aims. This impression is contrary to the assumption that the Roman emperor and name founder Justinian I. was a rather backward-looking ruler, but this does not detract from the impression of the font. With the introduction of the font, also the name got a change from Astrolabe to Charta Caeli. The Latin term still refers ancient astronomical science but according to Google, it doesn't appear in the terminology of the astronomical Internet community and was therefore considered unique in this context.</p>
+			<p>Providing a clickable sky atlas using mapper.js from We Work We Play was another feature temporarily followed by the project. Inspiration came from sample charts of the Interstellarum Deep Sky Atlas and the Millennium Star Atlas. Especially the first served the project as wonderful examples of lovingly crafted star charts.</p>
+			<p>Another feature inspired by the sample charts was an application specific font containing glyphs to differentiate special kinds of deep sky objects like galaxies, clusters and nebulae in an iconic manner. Implementing this resulted in a handcrafted Type 3 font and was a project on its own...</p>
+			<p>The project moved to the cloud. GitHub took over source code management, and the numerous copies of project files saved on USB sticks, external hard disks and DVDs became obsolete. Astrolabe and Charta Caeli each got its own repository whereas Astrolabe intentionally doesn’t build, but just holds a chronological archive of project states back to beginnings with Gnuplot.</p>
+			<p>The five-star open source planetarium program Stellarium provided the idea for an extension to draw artistic representations of the ancient constellations. It provided important parts of the mapping algorithm as well as beautiful drawings both cribbed and referenced by Charta Caeli, respectively. The derived algorithm turned out quite slow but luckily GPGPU came around the corner these days and the most challenging phase of the project began. A belly decision brought CUDA from NVIDIA into play and coincidentally Alan Kaminsky's Parallel Java 2 Library as well, which promised to minimize parallelization efforts.</p>
+			<p>However, things got complicated anyway due to the lack of a CUDA capable device. AWS filled the gap with a G2 instance but claimed a charge for it. Furthermore, Visual Studio Community had to join the toolset because the CUDA SDK won't run the compilers supplied by Cygwin. Moreover, to make things complete the CUDA SDK won't compile as well if there's no CUDA device. Therefore, the approach was to develop, compile and test as much as possible on local environment and to utilize AWS as a final step, ideally just to confirm everything's ok.</p>
+			<p>To accomplish this every piece of CUDA code, that is code executing on a CUDA capable device, got a local peer bound to the application via JNI and tested with JUnit. Even the so-called kernels at the very heart of any CUDA program, had been developed and tested this way before compiled for CUDA and deployed to the AWS instance. Fortunately, with some manual interventions the SDK compiled for CUDA even without an appropriate device. The details to this are in another repository on GitHub.</p>
+			<p>Finally, CUDA came to work and the algorithm boosted as expected. The German computer magazine c't published the approach and there is an English infographic as well which furthermore is free of charge.</p>
+			<p>This is a good time to mention the community on Stackoverflow and their priceless efforts for providing valuable answers to seemingly any problem or question a software developer might ever have.</p>
+			<p>Current work focuses on website development and integration with social media. Part of this was in focus earlier but suspended, mainly because there was no UI concept to create chart definitions in a browser. Now there is Xonomy from Michal Boleslav Měchura and work continues...</p>
+		</div>
+	</div>
+	<!-- end concepts -->
+	<!-- begin community -->
+	<div id="ccCommunity" class="navbar-offset">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col text-center">
+					<img src="brand.png" als="Charta Caeli">
+					<h3>Stay tuned and share...</h3>
+					<p>
+					<br>
+						<a href="#"><i class="fab fa-facebook"></i></a>
+						<a href="#"><i class="fab fa-twitter"></i></a>
+						<a href="#"><i class="fab fa-instagram"></i></a>
+						<a href="#"><i class="fab fa-pinterest"></i></a>
+						<br>
+						<a href="#"><span>info@chartacaeli.net</span></a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end community -->
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+	<script src="lib/chartacaeli.js"></script>
 </body>
 </html>

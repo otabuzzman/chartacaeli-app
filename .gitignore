@@ -20,6 +20,8 @@ chartacaeli/gpu/tst/**
 !chartacaeli/gpu/tst/P4Projector.java
 !chartacaeli/gpu/tst/RandomDataset.java
 chartacaeli/model/
+w3/artistic-star-chart--toppage.png
+w3/artistic-star-chart--artwork.png
 *.class
 *.cubin
 *.d

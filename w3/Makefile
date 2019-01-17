@@ -12,6 +12,9 @@ endif
 
 .SUFFIXES: .xml .pdf .png
 
+vpath %.xml lab
+vpath %.preferences lab
+
 .xml.pdf:
 	@( export _JAVA_OPTIONS=-Duser.language=en ; cd .. ; make $@ )
 	@test -f ../$@ && mv ../$@ .
@@ -28,9 +31,11 @@ artistic-star-chart.pdf: artistic-star-chart--toppage.pdf artistic-star-chart--a
 artistic-star-chart--toppage.pdf: artistic-star-chart--toppage.preferences
 artistic-star-chart--artwork.pdf: artistic-star-chart--artwork.preferences
 
-general-features-selection.png scientific-star-chart.png artistic-star-chart.png:
+general-features-selection.png scientific-star-chart.png artistic-star-chart.png artistic-star-chart--toppage.png artistic-star-chart--artwork.png:
 
 clean:
+	rm -f artistic-star-chart--toppage.pdf artistic-star-chart--artwork.pdf
+	rm -f artistic-star-chart--toppage.png artistic-star-chart--artwork.png
 	rm -f general-features-selection.pdf scientific-star-chart.pdf artistic-star-chart.pdf
 	rm -f general-features-selection.png scientific-star-chart.png artistic-star-chart.png
 

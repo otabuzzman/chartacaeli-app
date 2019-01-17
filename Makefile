@@ -55,7 +55,7 @@ CLSEXC	= $(CLSTST)
 empty =
 space = $(empty) $(empty)
 
-vpath %.xml lab w3
+vpath %.xml lab w3/lab
 
 ifdef winos
 sep := ;
