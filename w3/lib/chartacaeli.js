@@ -24,3 +24,10 @@ $(document).ready(function() {
 		}
 	}) ;
 }) ;
+
+/* fade element on scroll */
+$(document).ready(function() {
+	$(window).scroll(function() {
+		$(".caption-outro").css("opacity", 1-$(window).scrollTop()/480) ;
+	}) ;
+}) ;

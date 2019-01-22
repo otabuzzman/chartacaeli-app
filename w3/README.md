@@ -52,6 +52,17 @@ Basic color palette and usage. Click on hex value to get derived palettes.
 
 Subordinate styles of buttons and links.
 
+#### Thoughts on links
+Purposes of links in running text is provision of background information or to give credit to the efforts of individual projects used by the site. Another reason is to ease access to sites which might somewhat tricky to find with Google even if propper keywords are given.
+
+*Rules of thumb*
+- No reference of sites everbody knows (e.g. Amazon, Google, Micosoft).
+- Only one reference at first occurence.
+- URLs should be limited to the host part as site structures are subject to changes.
+- Preference of Wikipedia entries because site structure of Wikipedia is considered stable (based on the assumption that entries are kept up-to-date).
+- References of books on Amazon with unambiguous search queries because direct links tend to be very long.
+- Unsecure sites referenced with unambiguous Google search queries resulting (ideally) in a top-ranked result.
+
 |Type|Comment|
 |----|-------|
 |Navigation menu entry|Primary color 10% darkened for `:hover` and 15% for `:active`.|

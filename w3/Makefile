@@ -10,7 +10,32 @@ else
 sep := :
 endif
 
+PDF = general-features-selection.pdf \
+	scientific-star-chart.pdf \
+	artistic-star-chart.pdf \
+	artistic-star-chart--toppage.pdf \
+	artistic-star-chart--artwork.pdf
+
+PNG = general-features-selection.png \
+	scientific-star-chart.png \
+	artistic-star-chart.png \
+	artistic-star-chart--toppage.png \
+	artistic-star-chart--artwork.png
+
+PNGCRP = general-features-selectionCRP.png \
+	scientific-star-chartCRP.png \
+	artistic-star-chartCRP.png \
+	artistic-star-chart--toppageCRP.png \
+	artistic-star-chart--artworkCRP.png
+
+PNGCOL = general-features-selectionCOL.png \
+	scientific-star-chartCOL.png \
+	artistic-star-chartCOL.png
+
+
 .SUFFIXES: .xml .pdf .png
+
+.PHONY: all clean lclean rclean tidy pdf png pngcrp pngcol
 
 vpath %.xml lab
 vpath %.preferences lab
@@ -22,22 +47,28 @@ vpath %.preferences lab
 .pdf.png:
 	$${GS:-gs} -q -o $@ -sDEVICE=pngalpha -sPAPERSIZE=a2 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=1.4 $<
 
-all: lib/jquery-1.10.2.min.js lib/xonomy lib/Justv2.ttf lib/Justv22.ttf
+all: lib/xonomy pdf png pngcrp pngcol
 
-general-features-selection.pdf: general-features-selection.preferences
-scientific-star-chart.pdf: scientific-star-chart.preferences
+pdf: $(PDF)
+
+png: $(PNG)
+
+pngcrp: $(PNGCRP)
+pngcol: $(PNGCOL)
+
+%.pdf: %.preferences lib/Justv2.ttf lib/Justv22.ttf
 artistic-star-chart.pdf: artistic-star-chart--toppage.pdf artistic-star-chart--artwork.pdf
 	pdftk $< background artistic-star-chart--artwork.pdf output $@
-artistic-star-chart--toppage.pdf: artistic-star-chart--toppage.preferences
-artistic-star-chart--artwork.pdf: artistic-star-chart--artwork.preferences
 
-general-features-selection.png scientific-star-chart.png artistic-star-chart.png artistic-star-chart--toppage.png artistic-star-chart--artwork.png:
+$(PNG):
+
+$(PNGCRP): %CRP.png : %.png
+	magick convert $< -crop 1191x670+0+100 $@
+$(PNGCOL): %COL.png : %.png
+	magick convert $< -background "rgb(255,255,255)" -flatten $@
 
 clean:
-	rm -f artistic-star-chart--toppage.pdf artistic-star-chart--artwork.pdf
-	rm -f artistic-star-chart--toppage.png artistic-star-chart--artwork.png
-	rm -f general-features-selection.pdf scientific-star-chart.pdf artistic-star-chart.pdf
-	rm -f general-features-selection.png scientific-star-chart.png artistic-star-chart.png
+	rm -f $(PDF) $(PNG) $(PNGCRP) $(PNGCOL)
 
 # local clean
 lclean: clean
@@ -53,7 +84,7 @@ tidy: rclean
 
 lib/jquery-1.10.2.min.js:
 	wget -q -O $@ https://code.jquery.com/$(@F)
-lib/xonomy:
+lib/xonomy: lib/jquery-1.10.2.min.js
 	(cd lib ; git clone https://github.com/michmech/xonomy.git)
 	(cd $@ ; git checkout 810057e13c671728d236f85579296188e93a9fb3)
 just.zip:
