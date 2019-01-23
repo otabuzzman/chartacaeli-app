@@ -24,7 +24,7 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 .caption-outro {  }
 
 /* gallery */
-.carousel-item img { max-width: 1191px ; margin: 0 auto ; }
+.carousel { max-height: 50vh ; overflow-y: hidden ; }
 .carousel-caption { left: auto ; right: auto ; position: relative ; }
 .carousel-caption h3 { color: #323232 ; }
 .info-txt {  }
