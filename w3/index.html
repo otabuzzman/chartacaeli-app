@@ -73,31 +73,31 @@
 			<!-- gallery items carousel -->
 			<div id="ccGalleryCarousel" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner">
-					<div class="carousel-item">
+					<div class="carousel-item" data-view="general-features-selection.pdf" data-info="ccInfoGen" data-edit="general-features-selection.xml, general-features-selection.preferences">
 						<img class="d-block w-100" src="general-features-selectionCRP.png" alt="General features selection">
 						<div class="carousel-caption d-none d-md-block">
 							<h3>General features selection</h3>
 						</div>
 					</div>
-					<div class="carousel-item active">
+					<div class="carousel-item active" data-view="scientific-star-chart.pdf" data-info="ccInfoSci" data-edit="scientific-star-chart.xml, scientific-star-chart.preferences">
 						<img class="d-block w-100" src="scientific-star-chartCRP.png" alt="Scientific star chart">
 						<div class="carousel-caption d-none d-md-block">
 							<h3>Scientific star chart</h3>
 						</div>
 					</div>
-					<div class="carousel-item">
+					<div class="carousel-item" data-view="artistic-star-chart.pdf" data-info="ccInfoArt" data-edit="artistic-star-chart.xml, artistic-star-chart.preferences">
 						<img class="d-block w-100" src="artistic-star-chartCRP.png" alt="Artistic star chart">
 						<div class="carousel-caption d-none d-md-block">
 							<h3>Artistic star chart</h3>
 						</div>
 					</div>
-					<div class="carousel-item">
+					<div class="carousel-item" data-view="artistic-star-chart--toppage.pdf" data-info="ccInfoArt" data-edit="artistic-star-chart--toppage.xml, artistic-star-chart--toppage.preferences">
 						<img class="d-block w-100" src="artistic-star-chart--toppageCRP.png" alt="Only the chart from artistic star chart">
 						<div class="carousel-caption d-none d-md-block">
 							<h3>Chart extracted from Artistic star chart</h3>
 						</div>
 					</div>
-					<div class="carousel-item">
+					<div class="carousel-item" data-view="artistic-star-chart--artwork.pdf" data-info="ccInfoArt" data-edit="artistic-star-chart--artwork.xml, artistic-star-chart--artwork.preferences">
 						<img class="d-block w-100" src="artistic-star-chart--artworkCRP.png" alt="Background graphics from artistic star chart">
 						<div class="carousel-caption d-none d-md-block">
 							<h3>Artwork extracted from Artistic star chart</h3>
@@ -107,16 +107,19 @@
 			</div>
 			<!-- gallery item actions -->
 			<p class="text-center">
-				<a class="btn btn-lg btn-outline-primary" role="button" href="#">VIEW</a>
-				<a class="btn btn-lg btn-outline-primary" role="button" href="#">INFO</a>
-				<a class="btn btn-lg btn-outline-primary" role="button" href="#">EDIT</a>
+				<a id="ccBtnView" class="btn btn-lg btn-outline-primary" role="button" href="scientific-star-chart.pdf" target="_blank">VIEW</a>
+				<a id="ccBtnInfo" class="btn btn-lg btn-outline-primary" role="button" href="#ccInfoSci">INFO</a>
+				<a id="ccBtnEdit" class="btn btn-lg btn-outline-primary" role="button" href="#ccComposer">EDIT</a>
 			</p>
 		</div>
-		<!-- gallery item features -->
+	</div>
+	<!-- end gallery -->
+	<!-- begin gallery info -->
+	<div id="ccInfoSci" class="navbar-offset">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-7">
-					<div class="feature-txt lead">
+					<div class="info-txt lead">
 						<h3>Scientific star chart features</h3>
 						<p>This is a pretty common star chart. It shows an azimuthal projection of objects from the NGC 2000.0 catalog as one probably can see on the northern hemisphere. Object selection criterion is brightness, which restricts this chart to objects with a mag value of 10 and below. Another criterion derives from the fact of the presence of multiple objects with identical common names in the supplementary file of the catalog. The select expression restricts those to the first object.</p>
 						<p>An application specific font provides the glyphs representing the different types of sky objects contained in the NGC 2000.0 catalog (for instance star, nebula, galaxy).</p>
@@ -139,14 +142,18 @@
 				</div>
 				<div class="col-lg-5 text-center d-none d-lg-block">
 					<figure>
-						<a href="scientific-star-chartCOL.png"><img class="feature-img mx-auto" src="scientific-star-chartCOL.png" alt="Scientific star chart"></a>
+						<a href="scientific-star-chartCOL.png"><img class="info-img mx-auto" src="scientific-star-chartCOL.png" alt="Scientific star chart"></a>
 						<figcaption class="figure-caption">Scientific star chart image (click to enlarge)</figcaption>
 					</figure>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div id="ccInfoArt" class="navbar-offset">
+		<div class="container">
 			<div class="row">
 				<div class="col-lg-7 order-lg-2">
-					<div class="feature-txt lead">
+					<div class="info-txt lead">
 						<h3>Artistic star chart features</h3>
 						<p>The chart concentrates on styles and aims for a good-looking appearance. Despite there is no need for images of ancient constellations on a star chart, it’s nice to see an artist’s impression of those constellations. Nor is it useful to stretch the orbits of the moon outward, to make it clear that it’s turning around earth several times a year. In addition, changes of the font style do not contribute to chart readability, nor does the fragmented and irregular grid. Overall, these somewhat mannered features make this star chart quite interesting looking which might be an aim on its own.</p>
 						<p>The chart utilizes different shades of gray in combination with field of view to highlight meanings of constellations: the pale Eridianus seems to flow out of the chart in the top-right section, constellations that make up the Zodiac are dark and leave the chart at the bottom, while finally the other constellations in medium gray end at the chart border.</p>
@@ -159,14 +166,18 @@
 				</div>
 				<div class="col-lg-5 order-lg-1 text-center d-none d-lg-block">
 					<figure>
-						<a href="artistic-star-chartCOL.png"><img class="feature-img mx-auto" src="artistic-star-chartCOL.png" alt="Artistic star chart"></a>
+						<a href="artistic-star-chartCOL.png"><img class="info-img mx-auto" src="artistic-star-chartCOL.png" alt="Artistic star chart"></a>
 						<figcaption class="figure-caption">Artistic star chart image (click to enlarge)</figcaption>
 					</figure>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div id="ccInfoGen" class="navbar-offset">
+		<div class="container">
 			<div class="row">
 				<div class="col-lg-7">
-					<div class="feature-txt lead">
+					<div class="info-txt lead">
 						<h3>General features selection</h3>
 						<p>Although not really a star chart and not even good-looking the definition gives practical insights on how to use some of Charta Caeli's concepts in practice. Having the chart definition from the repository at hands will further help understanding what’s going on.</p>
 						<hr class="ruler-sep">
@@ -183,14 +194,14 @@
 				</div>
 				<div class="col-lg-5 text-center d-none d-lg-block">
 					<figure>
-						<a href="general-features-selectionCOL.png"><img class="feature-img mx-auto" src="general-features-selectionCOL.png" alt="General features selection"></a>
+						<a href="general-features-selectionCOL.png"><img class="info-img mx-auto" src="general-features-selectionCOL.png" alt="General features selection"></a>
 						<figcaption class="figure-caption">General features selection image (click to enlarge)</figcaption>
 					</figure>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end gallery -->
+	<!-- end gallery info -->
 	<!-- begin overview -->
 	<div id="ccOverview" class="navbar-offset">
 		<div class="container lead">

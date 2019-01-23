@@ -27,8 +27,8 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 .carousel-item img { max-width: 1191px ; margin: 0 auto ; }
 .carousel-caption { left: auto ; right: auto ; position: relative ; }
 .carousel-caption h3 { color: #323232 ; }
-#ccGallery .feature-txt {  }
-#ccGallery .feature-img { width: 360px ; }
+.info-txt {  }
+.info-img { width: 360px ; }
 
 /* overview */
 #ccOverview figure { max-width: 768px ; }
