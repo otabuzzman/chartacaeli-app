@@ -17,8 +17,8 @@
 	<!-- begin home -->
 	<div id="ccHome">
 		<!-- begin navigation -->
-		<nav class="navbar navbar-expand-lg fixed-top">
-		<div class="container-fluid">
+		<nav class="navbar navbar-expand-xl fixed-top">
+		<div class="container">
 			<a class="navbar-brand" href="#ccHome"><img src="brand.png" alt="Charta Caeli"></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ccNavbar">
 				<span class="custom-toggler-icon"><i class="fas fa-bars"></i></span>
@@ -66,7 +66,7 @@
 	<div id="ccGallery" class="navbar-offset">
 		<div class="container">
 			<!-- gallery caption -->
-			<h2>gallery</h2>
+			<h2 class="headline">gallery</h2>
 			<hr class="ruler-top">
 			<p class="lead">See what Charta Caeli can do. View full size gallery items in PDF and read about their features or load chart definitions from gallery into composer as templates for your own beautiful star charts.
 			</p>
@@ -74,34 +74,34 @@
 			<div id="ccGalleryCarousel" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner">
 					<div class="carousel-item" data-view="general-features-selection.pdf" data-info="ccInfoGen" data-edit="general-features-selection.xml, general-features-selection.preferences">
+						<img class="d-block w-100" src="general-features-selection.png" alt="General features selection">
 						<div class="carousel-caption d-none d-md-block">
 							<h3>General features selection</h3>
 						</div>
-						<img class="d-block w-100" src="general-features-selection.png" alt="General features selection">
 					</div>
 					<div class="carousel-item active" data-view="scientific-star-chart.pdf" data-info="ccInfoSci" data-edit="scientific-star-chart.xml, scientific-star-chart.preferences">
+						<img class="d-block w-100" src="scientific-star-chart.png" alt="Scientific star chart">
 						<div class="carousel-caption d-none d-md-block">
 							<h3>Scientific star chart</h3>
 						</div>
-						<img class="d-block w-100" src="scientific-star-chart.png" alt="Scientific star chart">
 					</div>
 					<div class="carousel-item" data-view="artistic-star-chart.pdf" data-info="ccInfoArt" data-edit="artistic-star-chart.xml, artistic-star-chart.preferences">
+						<img class="d-block w-100" src="artistic-star-chart.png" alt="Artistic star chart">
 						<div class="carousel-caption d-none d-md-block">
 							<h3>Artistic star chart</h3>
 						</div>
-						<img class="d-block w-100" src="artistic-star-chart.png" alt="Artistic star chart">
 					</div>
 					<div class="carousel-item" data-view="artistic-star-chart--toppage.pdf" data-info="ccInfoArt" data-edit="artistic-star-chart--toppage.xml, artistic-star-chart--toppage.preferences">
-						<div class="carousel-caption d-none d-md-block">
-							<h3>Chart extracted from Artistic star chart</h3>
-						</div>
 						<img class="d-block w-100" src="artistic-star-chart--toppage.png" alt="Only the chart from artistic star chart">
+						<div class="carousel-caption d-none d-md-block">
+							<h3>Artistic star chart overlay</h3>
+						</div>
 					</div>
 					<div class="carousel-item" data-view="artistic-star-chart--artwork.pdf" data-info="ccInfoArt" data-edit="artistic-star-chart--artwork.xml, artistic-star-chart--artwork.preferences">
-						<div class="carousel-caption d-none d-md-block">
-							<h3>Artwork extracted from Artistic star chart</h3>
-						</div>
 						<img class="d-block w-100" src="artistic-star-chart--artwork.png" alt="Background graphics from artistic star chart">
+						<div class="carousel-caption d-none d-md-block">
+							<h3>Artistic star chart artwork</h3>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -120,7 +120,8 @@
 			<div class="row">
 				<div class="col-lg-7">
 					<div class="info-txt lead">
-						<h3>Scientific star chart features</h3>
+						<h3 class="headline">Scientific<span class="d-none d-md-inline"> star</span> chart features</h3>
+						<hr class="ruler-top">
 						<p>This is a pretty common star chart. It shows an azimuthal projection of objects from the NGC 2000.0 catalog as one probably can see on the northern hemisphere. Object selection criterion is brightness, which restricts this chart to objects with a mag value of 10 and below. Another criterion derives from the fact of the presence of multiple objects with identical common names in the supplementary file of the catalog. The select expression restricts those to the first object.</p>
 						<p>An application specific font provides the glyphs representing the different types of sky objects contained in the NGC 2000.0 catalog (for instance star, nebula, galaxy).</p>
 						<p>The focus of this chart is on the subject matter of giving precise information about the position of sky objects and their orientations with respect to different reference systems. A somewhat inaccurate element is the suggestion of the Milky Way, which nevertheless helps to orientate oneself in the night sky and not least is worth a mapping because of its mere extent.</p>
@@ -154,7 +155,8 @@
 			<div class="row">
 				<div class="col-lg-7 order-lg-2">
 					<div class="info-txt lead">
-						<h3>Artistic star chart features</h3>
+						<h3 class="headline">Artistic<span class="d-none d-md-inline"> star</span> chart features</h3>
+						<hr class="ruler-top">
 						<p>The chart concentrates on styles and aims for a good-looking appearance. Despite there is no need for images of ancient constellations on a star chart, it’s nice to see an artist’s impression of those constellations. Nor is it useful to stretch the orbits of the moon outward, to make it clear that it’s turning around earth several times a year. In addition, changes of the font style do not contribute to chart readability, nor does the fragmented and irregular grid. Overall, these somewhat mannered features make this star chart quite interesting looking which might be an aim on its own.</p>
 						<p>The chart utilizes different shades of gray in combination with field of view to highlight meanings of constellations: the pale Eridianus seems to flow out of the chart in the top-right section, constellations that make up the Zodiac are dark and leave the chart at the bottom, while finally the other constellations in medium gray end at the chart border.</p>
 						<p>The chart definition uses the elements Artwork, Sign and Body besides the standard elements (for example Chart, Horizon, Circle). Of these three, only the latter is as well suitable for scientific star charts. The other two are for illustration purposes only, as their names reveal.</p>
@@ -178,7 +180,8 @@
 			<div class="row">
 				<div class="col-lg-7">
 					<div class="info-txt lead">
-						<h3>General features selection</h3>
+						<h3 class="headline">General features<span class="d-none d-md-inline"> selection</span></h3>
+						<hr class="ruler-top">
 						<p>Although not really a star chart and not even good-looking the definition gives practical insights on how to use some of Charta Caeli's concepts in practice. Having the chart definition from the repository at hands will further help understanding what’s going on.</p>
 						<hr class="ruler-sep">
 						<h5>Layout and text</h5>
@@ -206,7 +209,7 @@
 	<div id="ccOverview" class="navbar-offset">
 		<div class="container lead">
 			<!-- overview caption -->
-			<h2>overview<small class="text-muted"> and a look under the hood</small></h2>
+			<h2 class="headline">overview<small class="text-muted d-none d-md-inline"> and a look under the hood</small></h2>
 			<hr class="ruler-top">
 			<p>Charta Caeli generates PDF star charts from XML chart definitions according to a XSD chart specification. The overall architecture is similar to a three-piece Russian doll: a web service contains the application, which in turn contains the core program.</p>
 			<p>AWS hosts the web service. There are quite a number of cloud services in place. EC2 for instance runs the application, S3 buckets store PDF output as objects and the NAT service enables the application to retrieve data from Internet.</p>
@@ -240,7 +243,7 @@
 		<div class="pragma-bg-opacity">
 		<div class="container lead">
 			<!-- concepts caption -->
-			<h2>concepts<small class="text-muted"> soap and credits</small></h2>
+			<h2 class="headline">concepts<small class="text-muted d-none d-md-inline"> soap and credits</small></h2>
 			<hr class="ruler-top">
 			<p>There are some major concepts that guided development of Charta Caeli. Some few had been there at the beginning of the project but most of them came up while working proceeds. One might call them requirements as well but the term concept implies weaker obliging. In fact, not every concept made it to a full implementation but only to a certain degree and few concepts even haven't been touched at all, yet.</p>
 			<p>The application shall produce star charts of high quality and precision that scale to arbitrary size. The charts should reflect the aesthetical claims of individual users. This idea kicked off the project and it can therefore considered the core concept of Charta Caeli. Others are important as well but none of them more than this simple thing, namely to have a tool to create huge star charts, which are fun to look at and maybe to work with - in order specified.</p>
@@ -278,10 +281,10 @@
 	<!-- end concepts -->
 	<!-- begin community -->
 	<div id="ccCommunity" class="navbar-offset">
-		<div class="container-fluid">
+		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<img src="brand.png" als="Charta Caeli">
+					<img class="img-fluid d-none d-md-inline" src="brand.png" als="Charta Caeli">
 					<h3>Stay tuned and share...</h3>
 					<p>
 					<br><span class="contact-social">

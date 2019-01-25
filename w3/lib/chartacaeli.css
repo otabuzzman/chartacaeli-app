@@ -1,3 +1,7 @@
+/* debug pragma (SO #32301675)
+ * { border: 1px solid red ; }
+ */
+
 /* general */
 body { font-family: 'M PLUS Rounded 1c', sans-serif ; color: #323232 ; }
 a:hover { text-decoration: none ; color: #0056b3!important ; }
@@ -5,36 +9,43 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 .container-fluid { padding-left: 4rem ; padding-right: 4rem ; }
 .ruler-top { border: 2px solid #007bff ; }
 .ruler-sep { border-color: #007bff ; }
+* { -webkit-border-radius: 0!important ; -moz-border-radius: 0!important ; border-radius: 0!important ; } /* SO #9742166 */
+.btn { border-width: 2px ; }
+.headline { padding-top: .8rem ; } /*-md*/
 
 /* navigation */
-.navbar { background: rgba(0, 0, 0, .75) ; font-size: 1.215rem ; font-weight: 500 ; letter-spacing: .125rem ; }
-.navbar-brand img { height: 2rem ; }
-.navbar-toggler .fa-bars { font-size: 1.2rem ; color: #e7e7e7 ; }
+.navbar { background: rgba(0, 0, 0, .75) ; font-size: 1.4rem ; font-weight: 500 ; letter-spacing: .125rem ; } /*-md, -lg, -xl*/
+.navbar-brand img { height: 2.8rem ; } /*-md, -lg, -xl*/
+.navbar-toggler { color: #e7e7e7 ; }
+.navbar-toggler .fa-bars { font-size: 1.6rem ; } /*-md, -lg, -xl*/
 .navbar-nav li { padding-right: .8rem ; }
 .navbar-nav .nav-link { color: #e7e7e7 ; }
 .navbar-nav .nav-link:hover { color: #0056b3 ; }
 .navbar-nav .nav-link:active, .navbar-nav .nav-link.active { color: #006adb ; }
 /* position sections below .navbar */
-.navbar-offset::before { height: 4rem ; margin-top: -4rem ; content: "" ; display: block ; }
+.navbar-offset::before { height: 4.4rem ; margin-top: -4.4rem ; content: "" ; display: block ; } /*-md, -lg, -xl*/
 
 #ccHome { background-image: url("../starrysky.png") ; background-size: cover ; background-repeat: no-repeat ; background-position: center ; min-height: 100vh ; display: flex ; }
 .caption { color: #dadada ; }
-.caption h1 { font-size: 2.1rem ; font-weight: 400 ; } /*MQ*/
-.caption-intro { padding-top: 6rem ; }
+.caption h2 { font-size: 2.2rem ; font-weight: 500 ; } /*-md*/
+.caption-intro { padding-top: 6rem ; } /*-md*/
 .caption-outro {  }
+#ccHome .btn { margin-bottom: 2rem ; }
 
 /* gallery */
 .carousel { max-height: 50vh ; overflow-y: hidden ; }
-.carousel-caption { left: auto ; right: auto ; position: relative ; }
-.carousel-caption h3 { color: #323232 ; }
+.carousel-caption { top: 4.8rem ; } /*-lg, -xl*/
+.carousel-caption h3 { color: #007bff ; font-weight: 400 ; }
 .info-txt {  }
 .info-img { width: 360px ; }
+#ccGallery .btn { margin-top: 1.2rem ; font-weight: 500 ; }
 
 /* overview */
 #ccOverview figure { max-width: 768px ; }
 #ccFigWS {  }
 #ccFigArch {  }
 #ccFigCore {  }
+.figure-caption { padding-left: 1.2rem ; padding-right: 1.2rem ; }
 
 /* concepts */
 .pragma-bg-headimg { background-image: url("../starchart.png") ; background-size: contain ; background-repeat: no-repeat ; background-position: left top ; transform: scale(-1, -1) ; min-height: 100vh ; display: flex ; }
@@ -42,13 +53,47 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 .pragma-bg-opacity { left: 0 ; top: 0 ; width: 100% ; height: 100% ; margin: 0 ; background: rgba(255, 255, 255, .64) ; }
 
 /* community */
-#ccCommunity { background-color: #000000 ; background-image: url("../skyline.png") ; background-repeat: no-repeat ; background-position: left bottom ; min-height: 38vh ; display: flex ; }
+#ccCommunity { background-color: #000000 ; background-image: url("../skyline.png") ; background-repeat: no-repeat ; background-position: left bottom ; min-height: 38vh ; display: flex ; padding-top: 2rem ; }
 #ccCommunity img { height: 4rem ; margin-top: 2rem ; margin-bottom: 2rem ; }
-#ccCommunity h3, #ccCommunity a { color: #e7e7e7 ; }
+#ccCommunity h3, #ccCommunity a { color: #dadada ; }
 #ccCommunity .fab, #ccCommunity .fas { font-size: 2.25rem ; letter-spacing: 12px ; }
 
-@media (min-width: 576px) { .caption h1 { font-size: 2.8rem } }
-@media (min-width: 768px) { .caption h1 { font-size: 3.6rem } }
+@media (min-width: 576px) {
+	/* general */
+	.headline { font-size: 2.8rem ; }
+
+	/* navigation */
+	.navbar { font-size: 2rem ; }
+	.navbar-brand img { height: 3.8rem ; }
+	.navbar-toggler .fa-bars { font-size: 1.8rem ; }
+	.navbar-offset::before { height: 5.6rem ; margin-top: -5.6rem ; }
+
+	/* home */
+	.caption h2 { font-size: 3.2rem ; }
+	.caption-intro { padding-top: 9rem ; }
+}
+
+@media (min-width: 992px) {
+	/* navigation */
+	.navbar { font-size: 2.6rem ; }
+	.navbar-brand img { height: 4.8rem ; }
+	.navbar-toggler .fa-bars { font-size: 2.4rem ; }
+	.navbar-offset::before { height: 6.8rem ; margin-top: -6.8rem ; }
+
+	/* gallery */
+	.carousel-caption { top: 6.9rem ; }
+}
+
+@media (min-width: 1200px) {
+	/* navigation */
+	.navbar { font-size: 1.6rem ; }
+	.navbar-brand img { height: 3.8rem ; }
+	.navbar-toggler .fa-bars { font-size: 2.4rem ; }
+	.navbar-offset::before { height: 5.4rem ; margin-top: -5.4rem ; }
+
+	/* gallery */
+	.carousel-caption { top: 8.9rem ; }
+}
 
 
 

@@ -76,5 +76,6 @@ Purposes of links in running text is provision of background information or to g
 - Thoughts on [using style tags outside CSS stylesheets](https://www.elegantthemes.com/blog/resources/when-and-why-to-use-the-style-tag-outside-of-css-stylesheets)
 - [Blog post](https://icons8.com/articles/choosing-the-right-size-and-format-for-icons/) on how to choose right icon sizes
 - SO article on [best practices for where to add event listeners](https://stackoverflow.com/questions/26104525/best-practices-for-where-to-add-event-listeners)
+- SO article on an [animated hamburger icon](https://stackoverflow.com/questions/37758887/animated-x-icon-for-bootstrap-toggle) and an [update for Bootstrap 4](http://kylegoslan.co.uk/bootstrap-4-hamburger-menu-animation/)
 
 #### Questions
