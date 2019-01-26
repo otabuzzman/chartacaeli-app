@@ -64,7 +64,7 @@
 	<!-- end home -->
 	<!-- begin gallery -->
 	<div id="ccGallery" class="navbar-offset">
-		<div class="container">
+		<div class="container section">
 			<!-- gallery caption -->
 			<h2 class="headline">gallery</h2>
 			<hr class="ruler-top">
@@ -116,7 +116,7 @@
 	<!-- end gallery -->
 	<!-- begin gallery info -->
 	<div id="ccInfoSci" class="navbar-offset">
-		<div class="container">
+		<div class="container section">
 			<div class="row">
 				<div class="col-lg-7">
 					<div class="info-txt lead">
@@ -127,17 +127,17 @@
 						<p>The focus of this chart is on the subject matter of giving precise information about the position of sky objects and their orientations with respect to different reference systems. A somewhat inaccurate element is the suggestion of the Milky Way, which nevertheless helps to orientate oneself in the night sky and not least is worth a mapping because of its mere extent.</p>
 						<p>The example applies the major elements that make up a chart definition, namely charts, horizons, circles, dials, annotations and catalogs. Grid and comments are faint and small but not too much to make sure they're useful and readable.</p>
 						<hr class="ruler-sep">
-						<h5>The Chart element</h5>
+						<h4>The Chart element</h4>
 						<p>This outermost piece of XML data starts a chart definition. Actually, there is one more element above Chart but that’s essentially to group multiple chart definitions in a single file. Chart is of XSD type choice and serves to define the projection type, which in turn is a child of Chart. Furthermore, Chart defines page dimensions and a viewport, which is a kind of passe-partout.</p>
-						<h5>The Horizon element</h5>
+						<h4>The Horizon element</h4>
 						<p>Similar to Chart this element serves to define a horizon type, which is sort of a synonym for coordinate system. Interpretation of object coordinates depends on their horizon type. Three of these are almost fix coordinate systems as they change due to sky mechanics: the equatorial, the ecliptical and the galactical one. The local horizon is a variable one because it’s defined by earth coordinates.</p>
-						<h5>The Circle element</h5>
+						<h4>The Circle element</h4>
 						<p>These serve to define grids. Not surprisingly, Circle as well is a choice to pick a type. Meridian and parallel circles draw lines of height and length, respectively. They are horizon dependent and correspond if for instance defined for a local horizon with its latitudes and longitudes. There are four special Circle elements of type parallel to define the northern and southern tropic and polar circles.</p>
-						<h5>The Dial element</h5>
+						<h4>The Dial element</h4>
 						<p>Attached to a circle a Dial provide a means of scale. The two types of dials are day and degree with the day type being a special one. The other one is fairly universal and suitable for appending a scale to any circle in a chart definition.</p>
-						<h5>The Annotation element</h5>
+						<h4>The Annotation element</h4>
 						<p>The specification foresees straight and curved annotations. The latter are useful to add comments that follow the paths of circles. Straight annotations happen to appear at the point where drawing stops. They refer to the page coordinate system. Many elements support annotations and thus a way to provide further explanations on them. A special case is the Frame element defined by the Layout element, which allows a more flexible positioning of straight annotations.</p>
-						<h5>The Catalog element</h5>
+						<h4>The Catalog element</h4>
 						<p>Charta Caeli supports some of the more popular star catalogs for instance The Bright Star Catalogue. The Catalog element supplies a choice to pick a catalog type, which applied with an URL fetches the catalog data from Internet or local file. An expression supplied to the attribute value interpreter might restrict the output of catalog content.</p>
 					</div>
 				</div>
@@ -151,7 +151,7 @@
 		</div>
 	</div>
 	<div id="ccInfoArt" class="navbar-offset">
-		<div class="container">
+		<div class="container section">
 			<div class="row">
 				<div class="col-lg-7 order-lg-2">
 					<div class="info-txt lead">
@@ -161,9 +161,9 @@
 						<p>The chart utilizes different shades of gray in combination with field of view to highlight meanings of constellations: the pale Eridianus seems to flow out of the chart in the top-right section, constellations that make up the Zodiac are dark and leave the chart at the bottom, while finally the other constellations in medium gray end at the chart border.</p>
 						<p>The chart definition uses the elements Artwork, Sign and Body besides the standard elements (for example Chart, Horizon, Circle). Of these three, only the latter is as well suitable for scientific star charts. The other two are for illustration purposes only, as their names reveal.</p>
 						<hr class="ruler-sep">
-						<p><span class="h5">The Artwork element</span> defines an image to be mapped at the skies or simply to put somewhere at the page. The example uses images provided by the Stellarium project by reference, which are rather easy to replace by others. The equatorial coordinates of three stars, which are part of a constellation and three corresponding coordinates of an image that depicts that constellation comprise the definition.</p>
-						<p><span class="h5">The Sign element</span> provides a pretty abstract method to show constellations by connecting sky objects with straight lines.</p>
-						<p><span class="h5">The Body element</span> represents any type of sky object supported by Charta Caeli. It provides a choice among various types: sun, planets and stars of course, but objects that are more general are foreseen as well, namely those following elliptical and parabolical paths like man-made satellites and comets. The Catalog element actually uses the star type Body element to draw objects.</p>
+						<p><span class="font-weight-bold">The Artwork element</span> defines an image to be mapped at the skies or simply to put somewhere at the page. The example uses images provided by the Stellarium project by reference, which are rather easy to replace by others. The equatorial coordinates of three stars, which are part of a constellation and three corresponding coordinates of an image that depicts that constellation comprise the definition.</p>
+						<p><span class="font-weight-bold">The Sign element</span> provides a pretty abstract method to show constellations by connecting sky objects with straight lines.</p>
+						<p><span class="font-weight-bold">The Body element</span> represents any type of sky object supported by Charta Caeli. It provides a choice among various types: sun, planets and stars of course, but objects that are more general are foreseen as well, namely those following elliptical and parabolical paths like man-made satellites and comets. The Catalog element actually uses the star type Body element to draw objects.</p>
 					</div>
 				</div>
 				<div class="col-lg-5 order-lg-1 text-center d-none d-lg-block">
@@ -176,7 +176,7 @@
 		</div>
 	</div>
 	<div id="ccInfoGen" class="navbar-offset">
-		<div class="container">
+		<div class="container section">
 			<div class="row">
 				<div class="col-lg-7">
 					<div class="info-txt lead">
@@ -184,14 +184,14 @@
 						<hr class="ruler-top">
 						<p>Although not really a star chart and not even good-looking the definition gives practical insights on how to use some of Charta Caeli's concepts in practice. Having the chart definition from the repository at hands will further help understanding what’s going on.</p>
 						<hr class="ruler-sep">
-						<h5>Layout and text</h5>
+						<h4>Layout and text</h4>
 						<p>The layout feature uses a debug entry in the chart specific preferences file to make the layout grid visible to the frames in use. One wouldn’t use this in a real star chart, but it it is useful during development.</p>
 						<p>Position of text happens by combination of two anchor points from the text element and the frame in question. They sum up to nine for each: four for the corners, four for the middles of the edges and one for the center. The text anchor points actually refer to the bounding box of the text. Combining the anchor point values <span class="text-monospace">topleft</span> and <span class="text-monospace">center</span> of a text and a frame element yields a text starting in the top-left corner of the bottom-right frame quarter. The frame rectangles along the axes each show the frame number and the number of logical units these frames span.</p>
-						<h5>Unicode and fonts</h5>
+						<h4>Unicode and fonts</h4>
 						<p>The example uses the Arial Unicode MS font, which contains a large subset of glyphs defined by Unicode 2.1. The font is licensed and therefore not available in the Charta Caeli web service. Despite of this the example gives a good impression of what’s possible in terms of I18N if a respective font is available. Note multiple text elements for each language section in the chart definition, which is due to a lack of newline.</p>
-						<h5>Field of view</h5>
+						<h4>Field of view</h4>
 						<p>The inner circle in the middle shows an azimuthal projection of the stars in The Bright Star Catalogue. The circle is tagged as Field of View (FOV) thus restricting catalog output to the circle area. This is the so-called effective FOV, which affects catalog output as well as outputs from Artwork, Sign and Body elements. The outer circle has slightly flattened sections at the left and right side. These result from a combination with the passe-partout that restricts output of every element. This one is called global FOV.</p>
-						<h5>Attribute value interpreter</h5>
+						<h4>Attribute value interpreter</h4>
 						<p>This one enables to define values for some attributes at runtime during chart generation. The sample utilizes the feature to restrict stars output by the Catalog element on those with mag values of 3 and below. The interpreter provides access to certain runtime variables, simple arithmetic and string matching as well as conditions cribbed from C’s ternary conditional operator. Complex expressions tend to be difficult to read because of escapes for reserved characters and use of XML character entity references. Luckily, there are online services for XML encoding/ decoding available to ease the task.</p>
 					</div>
 				</div>
@@ -207,7 +207,7 @@
 	<!-- end gallery info -->
 	<!-- begin overview -->
 	<div id="ccOverview" class="navbar-offset">
-		<div class="container lead">
+		<div class="container section lead">
 			<!-- overview caption -->
 			<h2 class="headline">overview<small class="text-muted d-none d-md-inline"> and a look under the hood</small></h2>
 			<hr class="ruler-top">
@@ -234,6 +234,11 @@
 	<!-- end overview -->
 	<!-- begin composer -->
 	<div id="ccComposer" class="navbar-offset">
+		<div class="container section lead">
+			<h2 class="headline">composer</h2>
+			<hr class="ruler-top">
+			<p>Here is the place to jump-start your Charta Caeli experience. This specialized XML editor is for instant creating simple chart definitions from scratch. It supports the whole chart specification as defined by XSD although UX/UI regarding hints on syntax or numerical ranges is poor. The editor even serves well in playing around with values of larger definitions as provided by the gallery. Things get hard however when it comes to chart definitions with hundreds of elements and in particular on mobile devices. Due to this, if you plan to define a large chart from scratch consider using your favorite XML editor locally and upload the file when ready.</p>
+		</div>
 	</div>
 	<!-- end composer -->
 	<!-- begin concepts -->
@@ -241,7 +246,7 @@
 		<div class="pragma-bg-headimg">
 		<div class="pragma-bg-footimg">
 		<div class="pragma-bg-opacity">
-		<div class="container lead">
+		<div class="container section lead">
 			<!-- concepts caption -->
 			<h2 class="headline">concepts<small class="text-muted d-none d-md-inline"> soap and credits</small></h2>
 			<hr class="ruler-top">

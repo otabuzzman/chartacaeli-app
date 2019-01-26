@@ -9,12 +9,14 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 .ruler-top { border: 2px solid #007bff ; }
 .ruler-sep { border-color: #007bff ; }
 .btn { border-width: 2px ; }
+.section { margin-bottom: 4rem ; }
 .headline { padding-top: .8rem ; }
 
 /* navigation */
 .navbar { background: rgba(0, 0, 0, .75) ; font-size: 1.4rem ; font-weight: 500 ; letter-spacing: .125rem ; }
 .navbar-brand img { height: 2.8rem ; }
 .navbar-toggler { color: #e7e7e7 ; }
+.navbar-toggler:focus { outline: none ; }
 .navbar-toggler .fa-bars { font-size: 1.6rem ; }
 .navbar-nav li { padding-right: .8rem ; }
 .navbar-nav .nav-link { color: #e7e7e7 ; }
@@ -34,7 +36,6 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 .carousel-caption h3 { color: #007bff ; font-weight: 400 ; }
 .info-txt {  }
 .info-img { width: 360px ; }
-#ccGallery .container { margin-bottom: 4rem ; }
 #ccGallery .btn { margin-top: 1.2rem ; font-weight: 500 ; }
 
 /* overview */
@@ -76,7 +77,6 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 @media (min-width: 992px) {
 	/* general */
 	h2 { font-size: 3.8rem ; }
-	h3 { font-size: 2.2rem ; }
 
 	/* navigation */
 	.navbar { font-size: 2.6rem ; }
