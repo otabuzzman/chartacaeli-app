@@ -17,7 +17,7 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 .navbar-brand img { height: 2.8rem ; }
 .navbar-toggler { color: #e7e7e7 ; }
 .navbar-toggler:focus { outline: none ; }
-.navbar-toggler .fa-bars { font-size: 1.6rem ; }
+.navbar-toggler .fa-bars, .navbar-toggler .fa-times { font-size: 1.6rem ; }
 .navbar-nav li { padding-right: .8rem ; }
 .navbar-nav .nav-link { color: #e7e7e7 ; }
 .navbar-nav .nav-link:hover { color: #0056b3 ; }
@@ -52,9 +52,10 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 
 /* community */
 #ccCommunity { background-color: #000000 ; background-image: url("../skyline.png") ; background-repeat: no-repeat ; background-position: left bottom ; min-height: 38vh ; display: flex ; padding-top: 2rem ; }
-#ccCommunity img { height: 4rem ; margin-top: 2rem ; margin-bottom: 1.2rem ; }
-#ccCommunity p, #ccCommunity a { font-size: 1.85rem ; color: #dadada ; }
-#ccCommunity .fab, #ccCommunity .fas { font-size: 2.25rem ; letter-spacing: 12px ; }
+#ccCommunity img.d-sm-inline { height: 4rem ; }
+#ccCommunity img.d-md-inline { height: 4rem ; margin-top: 2rem ; margin-bottom: 1.2rem ; }
+#ccCommunity p, #ccCommunity a { font-size: 1.6rem ; color: #dadada ; }
+#ccCommunity .fab, #ccCommunity .fas { font-size: 1.85rem ; letter-spacing: 12px ; }
 
 @media (min-width: 576px) {
 	/* general */
@@ -66,6 +67,7 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 	.navbar-brand img { height: 3.8rem ; }
 	.navbar-toggler .fa-bars { font-size: 1.8rem ; }
 	.navbar-offset::before { height: 5.6rem ; margin-top: -5.6rem ; }
+	.navbar-toggler .fa-times { font-size: 2.1rem ; }
 
 	/* home */
 	.caption-intro { padding-top: 9rem ; }
@@ -83,6 +85,7 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 	.navbar-brand img { height: 4.8rem ; }
 	.navbar-toggler .fa-bars { font-size: 2.4rem ; }
 	.navbar-offset::before { height: 6.8rem ; margin-top: -6.8rem ; }
+	.navbar-toggler .fa-times { font-size: 2.8rem ; }
 
 	/* home */
 	.caption-intro { padding-left: 4rem ; }
@@ -94,7 +97,7 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 	.carousel-caption { top: 6.9rem ; }
 
 	/* community */
-	#ccCommunity img { height: 5.4rem ; }
+	#ccCommunity img.d-md-inline { height: 5.4rem ; }
 	#ccCommunity p { font-size: 2.3rem ; }
 	#ccCommunity .fab, #ccCommunity .fas { font-size: 3rem ; letter-spacing: 12px ; }
 }
@@ -116,7 +119,7 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 	.carousel-caption { top: 8.9rem ; }
 
 	/* community */
-	#ccCommunity img { margin-top: 0 ; }
+	#ccCommunity img.d-md-inline { margin-top: 0 ; }
 }
 
 

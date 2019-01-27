@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	var a = document.querySelectorAll('a') ;
 	for (var i=0 ; a.length>i ; i++ ) { a[i].addEventListener('click', smoothScrollToAnchor) ; }
 	document.querySelector('#ccBtnEdit').addEventListener('click', cbBtnEdit) ;
+	document.querySelector('.navbar-toggler').addEventListener('click', cbBtnMenu) ;
 
 	/* update href of VIEW and INFO buttons from data- attributes of active carousel item */
 	function updBtnAttr(event) {
@@ -44,5 +45,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		var edit = $('.carousel .active').attr('data-edit').split(",") ;
 		var chart = edit[0].trim() ;
 		var prefs = edit[1].trim() ;
+	}
+	/* toggle burger and cross icons */
+	function cbBtnMenu(event) {
+		$(this).find('i').toggleClass('fa-bars fa-times');
 	}
 }) ;
