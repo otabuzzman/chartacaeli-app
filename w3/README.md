@@ -34,6 +34,7 @@ Favicon creation
 - Icon sketched with Google Slides but defined with Microsoft Powerpoint because Slides lacks some GUI features (e.g. setting arbitrary linewidths, capstyles and numerical rotation angles).
 - Icon text in Justinian font made with Powerpoint. Set background transparent. Save text element as graphic via context menu.
 - Combine icon and text images with Slides.
+- Use the [IcoMoon](https://icomoon.io/) Chrome extension to generate custom fonts from SVG icons. Avoid using strokes. If not possible use [INKSCAPE](https://inkscape.org/) to [convert strokes to fills](https://inkscape.org/doc/tutorials/advanced/tutorial-advanced.html) ([tooltip](inkscape-tooltip-stroke-to-fill.png)).
 
 #### Style guide
 Basic color palette and usage. Click on hex value to get derived palettes.
@@ -77,5 +78,6 @@ Purposes of links in running text is provision of background information or to g
 - [Blog post](https://icons8.com/articles/choosing-the-right-size-and-format-for-icons/) on how to choose right icon sizes
 - SO article on [best practices for where to add event listeners](https://stackoverflow.com/questions/26104525/best-practices-for-where-to-add-event-listeners)
 - SO article on an [animated hamburger icon](https://stackoverflow.com/questions/37758887/animated-x-icon-for-bootstrap-toggle) and an [update for Bootstrap 4](http://kylegoslan.co.uk/bootstrap-4-hamburger-menu-animation/)
+- List of [media queries](https://css-tricks.com/snippets/css/media-queries-for-standard-devices/) grouped by device type
 
 #### Questions

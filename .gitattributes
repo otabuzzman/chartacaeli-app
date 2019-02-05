@@ -4,4 +4,6 @@
 *.ico	binary
 *.png	binary
 *.pptm	binary
+*.ttf	binary
 *.xcf	binary
+*.zip	binary

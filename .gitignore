@@ -8,7 +8,9 @@ xonomy
 *.jar
 *.tar
 *.ttf
+!w3/lib/chartacaeli-webfont.ttf
 *.zip
+!w3/lab/chartacaeli-webfont.zip
 # artefacts
 chartacaeli/UnicodeBlock.java
 chartacaeli/caa/**
