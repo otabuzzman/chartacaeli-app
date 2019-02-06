@@ -34,8 +34,8 @@ vpath %.preferences lab
 	@test -f ../$@ && mv ../$@ .
 
 .pdf.png:
-	$${GS:-gs} -q -o - -sDEVICE=pngalpha -sPAPERSIZE=a2 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=1.4 $< |\
-	magick convert $< -background "rgb(255,255,255)" -flatten $@
+	$${GS:-gs} -q -o - -r150 -sDEVICE=pngalpha -sPAPERSIZE=a2 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=1.4 $< |\
+	magick convert png:- -background "rgb(255,255,255)" -flatten $@
 
 all: lib/xonomy pdf png
 
@@ -60,7 +60,7 @@ lclean: clean
 rclean: lclean
 	rm -f lib/jquery-1.10.2.min.js
 	rm -rf lib/xonomy
-	rm -f just.zip
+	rm -f lab/just.zip
 
 tidy: rclean
 
@@ -69,7 +69,7 @@ lib/jquery-1.10.2.min.js:
 lib/xonomy: lib/jquery-1.10.2.min.js
 	(cd lib ; git clone https://github.com/michmech/xonomy.git)
 	(cd $@ ; git checkout 810057e13c671728d236f85579296188e93a9fb3)
-just.zip:
-	wget -q http://www.iconian.com/fonts/just.zip
-lib/Justv2.ttf lib/Justv22.ttf: just.zip
+lab/just.zip:
+	wget -P lab -q http://www.iconian.com/fonts/just.zip
+lib/Justv2.ttf lib/Justv22.ttf: lab/just.zip
 	unzip -qod $(@D) $< $(@F)

@@ -34,7 +34,7 @@ Favicon creation
 - Icon sketched with Google Slides but defined with Microsoft Powerpoint because Slides lacks some GUI features (e.g. setting arbitrary linewidths, capstyles and numerical rotation angles).
 - Icon text in Justinian font made with Powerpoint. Set background transparent. Save text element as graphic via context menu.
 - Combine icon and text images with Slides.
-- Use the [IcoMoon](https://icomoon.io/) Chrome extension to generate custom fonts from SVG icons. Avoid using strokes. If not possible use [INKSCAPE](https://inkscape.org/) to [convert strokes to fills](https://inkscape.org/doc/tutorials/advanced/tutorial-advanced.html) ([tooltip](inkscape-tooltip-stroke-to-fill.png)).
+- Use the [IcoMoon](https://icomoon.io/) Chrome extension to generate custom fonts from SVG icons. Avoid using strokes. If not possible use [INKSCAPE](https://inkscape.org/) to [convert strokes to fills](https://inkscape.org/doc/tutorials/advanced/tutorial-advanced.html) ([tooltip](lab/inkscape-tooltip-stroke-to-fill.png)).
 
 #### Style guide
 Basic color palette and usage. Click on hex value to get derived palettes.
@@ -68,6 +68,9 @@ Purposes of links in running text is provision of background information or to g
 |----|-------|
 |Navigation menu entry|Primary color 10% darkened for `:hover` and 15% for `:active`.|
 |URL in text (inline)|Same as for navigation menu entries. No text decorations.|
+
+#### Tomcat setup
+Installation and configuration performed according to these [practice notes](http://www.ntu.edu.sg/home/ehchua/programming/howto/tomcat_howto.html) from [Nanyang Technological University](https://www.ntu.edu.sg/Pages/home.aspx) (Singapore). Page provides useful newbie information on TC setup including first *Hello World* servlet. Create `${CATALINA_HOME}/conf/Catalina/localhost/ROOT.xml` with content `<Context docBase="<appbase>" path="" reloadable="true"/>` and `<appbase>` set appropriately (e.g. `c:\users\<user>\src\chartacaeli\w3`) to make Charta Caeli default (start on domain URL).
 
 #### Helpful links
 - [CSS reference]( https://www.w3schools.com/cssref/default.asp) on [w3schools.com](https://www.w3schools.com/)
