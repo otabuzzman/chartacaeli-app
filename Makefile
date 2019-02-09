@@ -11,8 +11,7 @@ MOD		= $(APP).xsd
 
 # Java VM non-standard options
 JVMX_OPTS = \
-		-Xcheck:jni \
-		-Xmx3072m \
+		-Xmx3072m
 
 pkgdir	= $(subst .,/,$(PKG))
 moddir	= $(pkgdir)/model

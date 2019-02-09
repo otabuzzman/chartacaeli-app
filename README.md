@@ -27,11 +27,11 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ```
   export CXX=x86_64-w64-mingw32-c++.exe
   export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
-  export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.7.0_80
+  export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
   export GS_FONTPATH=c:/users/$USERNAME/src/chartacaeli
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
-  export PATH=/cygdrive/c/program\ files/java/jdk1.7.0_80/bin:$PATH
+  export PATH=/cygdrive/c/program\ files/java/jdk1.8.0_151/bin:$PATH
   # Makefile uses java.library.path but caa loads aaplus thus needs PATH set as well
   export PATH=.:chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$PATH
   ```
@@ -45,7 +45,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   make all
   ```
 - Copy [Arial Unicode MS](http://fontsgeek.com/fonts/Arial-Unicode-MS-Regular) font file into top-level directory of Charta Caeli (needed by unicode-and-fonts sample).
-- Read and run the samples:
+- Clear user preferences, read and run the samples:
 
   ```
   for sample in \
