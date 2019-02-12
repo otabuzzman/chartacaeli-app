@@ -70,10 +70,10 @@ $(CAADLL): $(AADLL) $(CAADLLOBJ)
 	-L. -l$(DST)
 else
 .cpp.o:
-	$(CXX) -Wall -shared -fPIC -c $< -o $@
+	$(CXX) -std=gnu++11 -Wall -shared -fPIC -c $< -o $@
 
 .cxx.o:
-	$(CXX) -Wall -shared -fPIC \
+	$(CXX) -std=gnu++11 -Wall -shared -fPIC \
 	-I$(JAVA_HOME)/include \
 	-I$(JAVA_HOME)/include/linux \
 	-I. -I$(srcdir) \

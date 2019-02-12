@@ -71,25 +71,26 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ```
   export CXX=g++
   export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
-  export JAVA_HOME=/usr/lib/jvm/java
+  export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+  export PATH=$JAVA_HOME/bin:$PATH
   export GS_FONTPATH=~/src/chartacaeli
   export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
   export CUDA_HOME=/usr/local/cuda
+  export PATH=$CUDA_HOME/bin:$PATH
   export CUDA_SAMP=~/cuda-7.5/samples
   export LD_LIBRARY_PATH=.:chartacaeli/caa:$CUDA_HOME/lib64:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
-  export PATH=$CUDA_HOME/bin:$PATH
 
   # Install CXXWRAP
   ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )
   ( cd ~/lab ; tar -zxf cxxwrap-20061217.tar.gz )
   ( cd ~/lab/cxxwrap-20061217 ; ./configure ; make )
   # Install JDK (if missing)
-  sudo yum install java-1.7.0-openjdk-devel.x86_64
+  sudo yum install java-1.8.0-openjdk-devel.x86_64
   # Install Ghostscript
   sudo yum install ghostscript
   # Install ImageMagick
-  sudo yum install imagemagick
+  sudo yum install ImageMagick
 
   # Install Git shell (if missing)
   sudo yum install git
