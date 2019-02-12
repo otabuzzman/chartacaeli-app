@@ -750,7 +750,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 		ps.op( "grestore" ) ;
 
-		if ( log.isInfoEnabled() ) {
+		if ( log.isTraceEnabled() ) {
 			// mapped texture projection...
 			mapraw( rgb ) ; // ...RGB
 			mapout( ps ) ; // ...outline

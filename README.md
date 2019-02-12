@@ -34,6 +34,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export PATH=/cygdrive/c/program\ files/java/jdk1.8.0_151/bin:$PATH
   # Makefile uses java.library.path but caa loads aaplus thus needs PATH set as well
   export PATH=.:chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$PATH
+  export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
   ```
 - Clone Charta Caeli from GitHub to local computer.
 - Change directory (bash) to top-level directory of Charta Caeli.
@@ -87,6 +88,8 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   sudo yum install java-1.7.0-openjdk-devel.x86_64
   # Install Ghostscript
   sudo yum install ghostscript
+  # Install ImageMagick
+  sudo yum install imagemagick
 
   # Install Git shell (if missing)
   sudo yum install git

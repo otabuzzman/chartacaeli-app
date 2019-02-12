@@ -11,6 +11,6 @@ public:
 	static double atan( double a ) ;
 	static double atan2( double y, double x ) ;
 
-	static const double PI = 3.141592653589793 ;
+	constexpr static const double PI = 3.141592653589793 ;
 } ;
 #endif // __MATH_H__

@@ -93,7 +93,6 @@ $(AADLL): $(AADLLOBJ)
 	-o $@ $^
 
 $(AAEXE): AATest.o $(AADLL)
-	# export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$$PATH
 	$(CXX) -o $@ $< -L. -l$(DST)
 
 all: $(CAADLL)
