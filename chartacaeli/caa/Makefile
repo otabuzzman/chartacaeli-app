@@ -32,9 +32,10 @@ endif
 $(srcdir): $(AAZIP)
 	unzip -o `basename $(AAURL)` -d $@
 	# pre-process and rename header files to avoid no classes found errors of CXXWRAP
-	( cd $(srcdir) ; for h in AA[!+]*.h ; do $(CXX) -E $$h -o ../C$$h ; done )
+	( cd $(srcdir) ; for h in AA[!+]*.h ; do $(CXX) -E $$h |\
+		sed -e s,constexpr,, -e s,noexcept,, -e s,class.*DAY_OF_WEEK,DAY_OF_WEEK, > ../C$$h ; done )
 	for h in C*.h ; do \
-		$(CXXWRAP) \
+		$(CXXWRAP) --verbose \
 			--jni --jni-attributes \
 			--classpath=$(topdir) \
 			--package-prefix=$(PKG) $$h ; done
@@ -66,9 +67,7 @@ ifdef winos
 $(CAADLL): $(AADLL) $(CAADLLOBJ)
 	$(CXX) -Wall -shared \
 	-o $@ $(CAADLLOBJ) \
-	-L. -l$(DST) \
-	-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic
-	
+	-L. -l$(DST)
 else
 .cpp.o:
 	$(CXX) -Wall -shared -fPIC -c $< -o $@
@@ -82,7 +81,7 @@ else
 
 $(CAADLL): $(AADLL) $(CAADLLOBJ)
 	$(CXX) -Wall -shared \
-	-o $@ $^ \
+	-o $@ $(CAADLLOBJ) \
 	-L. -l$(DST)
 endif
 
@@ -94,6 +93,7 @@ $(AADLL): $(AADLLOBJ)
 	-o $@ $^
 
 $(AAEXE): AATest.o $(AADLL)
+	# export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$$PATH
 	$(CXX) -o $@ $< -L. -l$(DST)
 
 all: $(CAADLL)
