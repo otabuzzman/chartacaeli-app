@@ -31,9 +31,14 @@ endif
 # default goal
 $(srcdir): $(AAZIP)
 	unzip -o `basename $(AAURL)` -d $@
-	# pre-process and rename header files to avoid no classes found errors of CXXWRAP
-	( cd $(srcdir) ; for h in AA[!+]*.h ; do $(CXX) -E $$h |\
-		sed -e s,constexpr,, -e s,noexcept,, -e s,class.*DAY_OF_WEEK,DAY_OF_WEEK, > ../C$$h ; done )
+	# apply available patches to AA+
+	( for p in *.diff ; do patch -b -p0 < $$p ; done )
+	# pre-process and rename header files to make CXXWRAP happy
+	# remove C++11 features as these are not supported by CXXWRAP
+	( cd $(srcdir) ; for h in AA[!+]*.h ; do $(CXX) -E $$h | sed \
+		-e s,constexpr,, \
+		-e s,noexcept,, \
+		-e s,enum..*class,enum, > ../C$$h ; done )
 	for h in C*.h ; do \
 		$(CXXWRAP) --verbose \
 			--jni --jni-attributes \
@@ -55,7 +60,7 @@ vpath %.cpp $(srcdir)
 
 ifdef winos
 .cpp.o:
-	$(CXX) -Wall -shared -c $< -o $@
+	$(CXX) -DCC_NO_CXX11 -std=c++11 -Wall -shared -c $< -o $@
 
 .cxx.o:
 	$(CXX) -Wall -shared \
@@ -70,10 +75,10 @@ $(CAADLL): $(AADLL) $(CAADLLOBJ)
 	-L. -l$(DST)
 else
 .cpp.o:
-	$(CXX) -std=gnu++11 -Wall -shared -fPIC -c $< -o $@
+	$(CXX) -DCC_NO_CXX11 -std=c++11 -Wall -shared -fPIC -c $< -o $@
 
 .cxx.o:
-	$(CXX) -std=gnu++11 -Wall -shared -fPIC \
+	$(CXX) -Wall -shared -fPIC \
 	-I$(JAVA_HOME)/include \
 	-I$(JAVA_HOME)/include/linux \
 	-I. -I$(srcdir) \

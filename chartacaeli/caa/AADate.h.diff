@@ -1,0 +1,14 @@
+--- src/AADate.h	2019-01-03 16:12:32.000000000 +0100
++++ src/AADate.h.cc	2019-02-13 19:53:42.664598100 +0100
+@@ -55,7 +55,11 @@
+ {
+ public:
+ //Enums
++#ifdef CC_NO_CXX11
+   enum class DAY_OF_WEEK
++#else
++  enum DAY_OF_WEEK
++#endif
+   {
+     SUNDAY	  = 0,
+     MONDAY	  = 1,

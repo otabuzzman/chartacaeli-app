@@ -14,6 +14,7 @@ xonomy
 # artefacts
 chartacaeli/UnicodeBlock.java
 chartacaeli/caa/**
+!chartacaeli/caa/*.diff
 !chartacaeli/caa/Makefile
 !chartacaeli/caa/README.md
 chartacaeli/gpu/tst/**
