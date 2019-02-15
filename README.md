@@ -9,7 +9,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 - Download and install [Cygwin](http://cygwin.com/). Consider a full install to avoid problems due to missing packages. Make sure that gcc, g++, mingw, flex, bison and make are installed as well as bzip, gzip, unzip and wget.
 - Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/).
 - Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7).
-- Download and install [Ghostscript](http://ghostscript.com/download/) and [ImageMagick](https://www.imagemagick.org/script/download.php). Use the Windows installers for both tools. ImageMagick's Cygwin package may cause ambiguity issues due to name of the convert command which moreover cannot be started as an external process by the Java VM.
+- Download and install [Ghostscript](http://ghostscript.com/download/) and [ImageMagick](https://www.imagemagick.org/script/download.php) 7. Use the Windows installers for both tools. ImageMagick's Cygwin convert command cannot be started as an external process by the Java VM.
 - [XMLStarlet](http://xmlstar.sourceforge.net/) and [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) are useful CLI tools to manipulate XML or PDF files, although not necessarily needed to build the application.
 - Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub.
 - Run a bash (Cygwin) and set shell variables:
@@ -89,8 +89,15 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   sudo yum install java-1.8.0-openjdk-devel.x86_64
   # Install Ghostscript
   sudo yum install ghostscript
-  # Install ImageMagick
-  sudo yum install ImageMagick
+
+  # Remove ImageMagick <7
+  identify -version
+  sudo remove ImageMagick
+
+  # Install ImageMagick 7
+  wget https://www.imagemagick.org/download/ImageMagick-7.0.8-27.tar.gz
+  tar xf ImageMagick-7.0.8-27.tar.gz ; cd ImageMagick-7.0.8-27
+  ./configure ; make ; make check ; sudo make install
 
   # Install Git shell (if missing)
   sudo yum install git

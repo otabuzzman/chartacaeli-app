@@ -429,8 +429,13 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			long t10, t11, tk, tm ;
 
 			// setup GPU
-			gpu = Gpu.gpu() ;
-			gpu.ensureComputeCapability (3, 0);
+			gpu = (Gpu) Registry.retrieve( Gpu.class.getName() ) ;
+			if ( gpu == null ) {
+				gpu = Gpu.gpu() ;
+				gpu.ensureComputeCapability (3, 0) ;
+
+				Registry.register( Gpu.class.getName(), gpu ) ;
+			}
 
 			// load kernel module
 			modnam = Configuration.getValue( this, CK_PJ2MODULE, DEFAULT_PJ2MODULE ) ;
@@ -509,6 +514,10 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 					String.valueOf( tm ),
 					String.valueOf( dims*dimt ),
 					String.valueOf( tk ), } ) ) ;
+
+			d_mapping.free() ;
+			d_texture.free() ;
+			pnam.free() ;
 		}
 	}
 

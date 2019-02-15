@@ -32,7 +32,7 @@ endif
 $(srcdir): $(AAZIP)
 	unzip -o `basename $(AAURL)` -d $@
 	# apply available patches to AA+
-	( for p in *.diff ; do patch -b -p0 < $$p ; done )
+	( for p in *.diff ; do patch --binary -b -p0 < $$p ; done )
 	# pre-process and rename header files to make CXXWRAP happy
 	# remove C++11 features as these are not supported by CXXWRAP
 	( cd $(srcdir) ; for h in AA[!+]*.h ; do $(CXX) -E $$h | sed \
@@ -78,7 +78,7 @@ else
 	$(CXX) -DCC_NO_CXX11 -std=c++11 -Wall -shared -fPIC -c $< -o $@
 
 .cxx.o:
-	$(CXX) -Wall -shared -fPIC \
+	$(CXX) -std=c++11 -Wall -shared -fPIC \
 	-I$(JAVA_HOME)/include \
 	-I$(JAVA_HOME)/include/linux \
 	-I. -I$(srcdir) \

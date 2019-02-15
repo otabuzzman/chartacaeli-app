@@ -40,6 +40,10 @@ public class ProcessOutputStream extends FilterOutputStream {
 		}
 	}
 
+	public void flush() throws IOException {
+		flti.flush() ;
+	}
+
 	private void pipe() {
 		int b ;
 
@@ -47,8 +51,8 @@ public class ProcessOutputStream extends FilterOutputStream {
 			while ( ( b = flto.read() )>-1 ) {
 				super.write( b ) ;
 
-				flush() ;
-				flush() ;
+				super.flush() ;
+				super.flush() ;
 			}
 
 			super.close();
