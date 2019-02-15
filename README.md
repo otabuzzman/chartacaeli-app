@@ -85,22 +85,18 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )
   ( cd ~/lab ; tar -zxf cxxwrap-20061217.tar.gz )
   ( cd ~/lab/cxxwrap-20061217 ; ./configure ; make )
+
   # Install JDK (if missing)
   sudo yum install java-1.8.0-openjdk-devel.x86_64
-  # Install Ghostscript
+  # Install Ghostscript (if missing)
   sudo yum install ghostscript
-
-  # Remove ImageMagick <7
-  identify -version
-  sudo remove ImageMagick
-
-  # Install ImageMagick 7
+  # Install ImageMagick 7 (if missing)
   wget https://www.imagemagick.org/download/ImageMagick-7.0.8-27.tar.gz
   tar xf ImageMagick-7.0.8-27.tar.gz ; cd ImageMagick-7.0.8-27
   ./configure ; make ; make check ; sudo make install
-
   # Install Git shell (if missing)
   sudo yum install git
+
   # Clone PJ2AWS
   ( cd ~/lab ; git clone https://github.com/otabuzzman/pj2aws.git )
   # Build PJ2AWS (see README in repository)
