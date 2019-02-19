@@ -697,12 +697,10 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			try {
 				flt = new ProcessOutputStream( buf, cmd ) ;
 				cnv = new RGBOutputStream( flt ) ;
-				for ( int p : mapping ) {
+				for ( int p : mapping )
 					cnv.write( p ) ;
 
-					cnv.flush() ;
-					cnv.flush() ;
-				}
+				cnv.flush() ;
 				cnv.close() ;
 			} catch (IOException e) {
 				throw new RuntimeException( e.toString() ) ;
@@ -1031,7 +1029,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 
 			f.write( rgb ) ;
 
-			f.flush() ;
 			f.flush() ;
 			f.close() ;
 		} catch (IOException e) {

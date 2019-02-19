@@ -1,6 +1,8 @@
 
 package chartacaeli;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,8 +19,8 @@ public class ProcessInputStream extends FilterInputStream {
 		super( in ) ;
 
 		flt = Runtime.getRuntime().exec( cmd.trim().split( "\\p{Space}+" ) ) ;
-		flti = flt.getOutputStream() ;
-		flto = flt.getInputStream() ;
+		flti = new BufferedOutputStream( flt.getOutputStream() ) ;
+		flto = new BufferedInputStream( flt.getInputStream() ) ;
 
 		new InputReaderMonitor( new InputStreamReader( flt.getErrorStream(), "UTF-8" ) )
 		.start() ;
@@ -52,13 +54,10 @@ public class ProcessInputStream extends FilterInputStream {
 		int b ;
 
 		try {
-			while ( ( b = super.read() )>-1 ) {
+			while ( ( b = super.read() )>-1 )
 				flti.write( b ) ;
 
-				flti.flush() ;
-				flti.flush() ;
-			}
-
+			flti.flush() ;
 			flti.close() ;
 		} catch ( IOException e ) {
 			throw new RuntimeException( e.toString() ) ;

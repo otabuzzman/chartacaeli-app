@@ -69,7 +69,6 @@ public class ASCII85OutputStream extends FilterOutputStream {
 
 		write( '\n' ) ;
 		flush() ;
-		flush() ;
 
 		if ( out instanceof ASCII85OutputStream )
 			( (ASCII85OutputStream) out ).finish() ;

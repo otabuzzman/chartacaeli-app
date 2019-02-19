@@ -107,7 +107,6 @@ public class PostscriptStream extends FilterOutputStream {
 		try {
 			write( def.getBytes() ) ;
 			flush() ;
-			flush() ;
 		} catch ( IOException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		}

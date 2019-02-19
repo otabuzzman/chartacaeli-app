@@ -580,7 +580,6 @@ public class FieldOfView implements PostscriptEmitter {
 			ps.emitDSCTrailer() ;
 
 			ps.flush() ;
-			ps.flush() ;
 			ps.close() ;
 
 			if ( viewerDecl != null )

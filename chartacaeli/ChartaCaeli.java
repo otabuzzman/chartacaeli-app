@@ -116,7 +116,6 @@ public class ChartaCaeli extends chartacaeli.model.ChartaCaeli implements Postsc
 			chartacaeli.tailPS( ps ) ;
 
 			ps.flush() ;
-			ps.flush() ;
 			ps.close() ;
 
 			if ( viewerDecl != null )
