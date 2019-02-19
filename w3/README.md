@@ -1,5 +1,5 @@
-# Charta Caeli Website
-A mobile first web frontend to the Charta Caeli star chart creation web service.
+# Charta Caeli web site
+A mobile first frontend to the Charta Caeli star chart creation web service.
 
 #### Xonomy web XML editor
 Install XMLStarlet
@@ -69,8 +69,10 @@ Purposes of links in running text is provision of background information or to g
 |Navigation menu entry|Primary color 10% darkened for `:hover` and 15% for `:active`.|
 |URL in text (inline)|Same as for navigation menu entries. No text decorations.|
 
-#### Tomcat setup
-Installation and configuration performed according to these [practice notes](http://www.ntu.edu.sg/home/ehchua/programming/howto/tomcat_howto.html) from [Nanyang Technological University](https://www.ntu.edu.sg/Pages/home.aspx) (Singapore). Page provides useful newbie information on TC setup including first *Hello World* servlet. Create `${CATALINA_HOME}/conf/Catalina/localhost/ROOT.xml` with content `<Context docBase="<appbase>" path="" reloadable="true"/>` and `<appbase>` set appropriately (e.g. `c:\users\<user>\src\chartacaeli\w3`) to make Charta Caeli default (start on domain URL).
+#### REST setup
+Installation and configuration of Tomcat performed according to these [practice notes](http://www.ntu.edu.sg/home/ehchua/programming/howto/tomcat_howto.html) from [Nanyang Technological University](https://www.ntu.edu.sg/Pages/home.aspx) (Singapore). Page provides useful newbie information on TC setup including first *Hello World* servlet. Create `${CATALINA_HOME}/conf/Catalina/localhost/ROOT.xml` with content `<Context docBase="<appbase>" path="" reloadable="true"/>` and `<appbase>` set appropriately (e.g. `c:\users\<user>\src\chartacaeli\w3`) to make Charta Caeli default (start on domain URL).
+
+Charta Caeli web service REST API implementaion uses [Jersey](https://jersey.github.io/) RESTful Web Service framework.
 
 #### Helpful links
 - [CSS reference]( https://www.w3schools.com/cssref/default.asp) on [w3schools.com](https://www.w3schools.com/)
