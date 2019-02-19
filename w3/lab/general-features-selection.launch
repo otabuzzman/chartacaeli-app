@@ -8,12 +8,12 @@
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="GS_FONTPATH" value="c:/users/%USERNAME%/src/chartacaeli"/>
-<mapEntry key="PATH" value="chartacaeli\caa;chartacaeli\gpu;..\pj2aws\pj2\lib;c:\program files\gs\gs9.25\bin;c:\program files\imagemagick-7.0.8-q16"/>
+<mapEntry key="PATH" value="chartacaeli\caa;chartacaeli\gpu;..\pj2aws\pj2\lib;c:\program files\cygwin\usr\x86_64-w64-mingw32\sys-root\mingw\bin;c:\program files\gs\gs9.25\bin;c:\program files\imagemagick-7.0.8-q16"/>
 </mapAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="chartacaeli.ChartaCaeli"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="w3/general-features-selection.xml"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="chartacaeli"/>
 <booleanAttribute key="org.eclipse.jdt.launching.STOP_IN_MAIN" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dchartacaeli.app=chartacaeli&#13;&#10;-Djava.util.logging.config.file=logging.properties&#13;&#10;-Xcheck:jni&#13;&#10;-Xmx1024m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dchartacaeli.app=chartacaeli&#13;&#10;-Djava.util.logging.config.file=logging.properties&#13;&#10;-Xmx3072m"/>
 </launchConfiguration>
