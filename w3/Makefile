@@ -43,7 +43,7 @@ vpath %.preferences lab
 	$${GS:-gs} -q -o - -r150 -sDEVICE=pngalpha -sPAPERSIZE=a2 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=1.4 $< |\
 	magick convert png:- -background "rgb(255,255,255)" -flatten $@
 
-all: lib/xonomy pdf png gng
+all: lib/xonomy lib/Justv2.ttf lib/Justv22.ttf pdf png gng
 
 pdf: $(PDF)
 
@@ -54,7 +54,10 @@ gng: $(GNG)
 ccGallery_%.png: %.png
 	magick convert $< -crop x1395+0+512 $@
 
-%.pdf: %.preferences lib/Justv2.ttf lib/Justv22.ttf
+general-features-selection.pdf: general-features-selection.xml general-features-selection.preferences
+scientific-star-chart.pdf: scientific-star-chart.xml scientific-star-chart.preferences
+artistic-star-chart--toppage.pdf: artistic-star-chart--toppage.xml artistic-star-chart--toppage.preferences
+artistic-star-chart--artwork.pdf: artistic-star-chart--artwork.xml artistic-star-chart--artwork.preferences
 artistic-star-chart.pdf: artistic-star-chart--toppage.pdf artistic-star-chart--artwork.pdf
 	pdftk $< background artistic-star-chart--artwork.pdf output $@
 
