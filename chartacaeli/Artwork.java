@@ -66,7 +66,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 	private final static String MK_TASKTIME			= "tasktime" ;
 	private final static String MK_CUDASTAT			= "cudastat" ;
 	private final static String MK_EWFILE			= "ewfile" ;
-	private final static String MK_EFLTFMT			= "efltfmt" ;
 	private final static String MK_ENOREG			= "enoreg" ;
 
 	private final static Log log = LogFactory.getLog( Artwork.class ) ;
@@ -680,8 +679,7 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 			throw new RuntimeException( e.toString() ) ;
 		}
 
-		buf = new ByteArrayOutputStream() ;
-
+		buf = new ByteArrayOutputStream( dims*dimt ) ;
 		cmd = Configuration.getValue( this, CK_MAPFILTER, null ) ;
 		if ( cmd == null || cmd.length() == 0 ) {
 			cnv = new RGBOutputStream( buf ) ;
@@ -704,12 +702,6 @@ public class Artwork extends chartacaeli.model.Artwork implements PostscriptEmit
 				cnv.close() ;
 			} catch (IOException e) {
 				throw new RuntimeException( e.toString() ) ;
-			}
-
-			if ( buf.size() != mapping.length*3  ) {
-				log.info( MessageCatalog.compose( this, MK_EFLTFMT, null ) ) ;
-
-				return ;
 			}
 		}
 		rgb = buf.toByteArray() ;

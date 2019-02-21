@@ -15,6 +15,8 @@ public class ProcessOutputStream extends FilterOutputStream {
 	private OutputStream flti ;
 	private InputStream flto ;
 
+	private Thread pipe ;
+
 	public ProcessOutputStream( OutputStream out, String cmd ) throws IOException {
 		super( out ) ;
 
@@ -25,25 +27,27 @@ public class ProcessOutputStream extends FilterOutputStream {
 		new InputReaderMonitor( new InputStreamReader( flt.getErrorStream(), "UTF-8" ) )
 		.start() ;
 
-		new Thread() { public void run() { pipe() ; } }
-		.start() ;
+		pipe = new Thread() { public void run() { pipe() ; } } ;
+		pipe.start() ;
 	}
 
 	public void write( int b ) throws IOException {
 		flti.write( b ) ;
 	}
 
+	public void flush() throws IOException {
+		flti.flush() ;
+	}
+
 	public void close() throws IOException {
 		try {
 			flti.close() ;
 			flt.waitFor() ;
+
+			pipe.join() ;
 		} catch ( InterruptedException e ) {
 		} catch ( IOException e ) {
 		}
-	}
-
-	public void flush() throws IOException {
-		flti.flush() ;
 	}
 
 	private void pipe() {
@@ -54,7 +58,7 @@ public class ProcessOutputStream extends FilterOutputStream {
 				super.write( b ) ;
 
 			super.flush() ;
-			super.close();
+			super.close() ;
 		} catch ( IOException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		}

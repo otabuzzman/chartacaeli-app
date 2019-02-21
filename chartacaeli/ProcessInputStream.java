@@ -44,9 +44,7 @@ public class ProcessInputStream extends FilterInputStream {
 	public void close() {
 		try {
 			flt.waitFor() ;
-			super.close() ;
 		} catch ( InterruptedException e ) {
-		} catch ( IOException e ) {
 		}
 	}
 
