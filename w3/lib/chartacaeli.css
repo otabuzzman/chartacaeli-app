@@ -54,8 +54,8 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 #ccBtnExec .ccwf-brandicon::before { font-size: 34px ; }
 #ccBtnExec:hover .ccwf-brandicon::before { color: #ffffff ; }
 #ccBtnExec:disabled .ccwf-brandicon::before { color: #007bff ; }
-#ccXonDiv { padding: 12px 12px 12px 24px ; }
-xonomy.laic .element > .tag.opening > .attributes > .attribute > .valueContainer { font-size: 1rem ; word-break: break-all ; }
+#ccXonDiv { padding: 12px 12px 12px 24px ; font-size: 1rem ; word-break: break-all ; }
+.xonomy.laic .element > .tag.opening > .attributes > .attribute > .valueContainer { font-size: 1.25rem ; }
 .xonomy.laic .element > .connector > .plusminus { background-image: url(../xon-minus-primary.svg) ; background-color: #ffffff ; left: -24px }
 .xonomy.laic .element.collapsed > .connector > .plusminus { background-image: url(../xon-plus-primary.svg) ; background-color: #ffffff ; }
 .xonomy.laic .element.collapsed > .childrenCollapsed { font-size: 1.5rem ; color: #007bff ; }
