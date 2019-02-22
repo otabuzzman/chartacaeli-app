@@ -109,9 +109,9 @@
 			<!-- gallery item actions -->
 			<div class="text-center">
 				<div class="d-inline-block">
-					<a id="ccBtnView" class="btn btn-lg btn-outline-primary" role="button" href="scientific-star-chart.pdf" target="_blank"><i class="far fa-file-pdf"></i></a>
-					<a id="ccBtnInfo" class="btn btn-lg btn-outline-primary" role="button" href="#ccInfoSci"><i class="fas fa-info"></i></a>
-					<a id="ccBtnEdit" class="btn btn-lg btn-outline-primary" role="button" href="#ccComposer"><i class="fas fa-pen"></i></a>
+					<a id="ccBtnView" class="btn btn-lg btn-outline-primary" role="button" href="scientific-star-chart.pdf" target="_blank" title="Open PDF"><i class="far fa-file-pdf"></i></a>
+					<a id="ccBtnInfo" class="btn btn-lg btn-outline-primary" role="button" href="#ccInfoSci" title="Show details"><i class="fas fa-info"></i></a>
+					<a id="ccBtnEdit" class="btn btn-lg btn-outline-primary" role="button" href="#ccComposer" title="Load into composer"><i class="fas fa-pen"></i></a>
 				</div>
 			</div>
 		</div>
@@ -242,20 +242,20 @@
 			<hr class="ruler-top">
 			<p>Here is the place to jump-start your Charta Caeli experience. This specialized XML editor is for instant creating simple chart definitions from scratch. It supports the whole chart specification as defined by XSD although UX/UI regarding hints on syntax or numerical ranges is poor. The editor even serves well in playing around with values of larger definitions as provided by the gallery. Things get hard however when it comes to chart definitions with hundreds of elements and in particular on mobile devices. Due to this, if you plan to define a large chart from scratch consider using your favorite XML editor locally and upload the file when ready.</p>
 			<div class="alert alert-primary d-sm-block d-md-none">
-				<p>Crap, display too small. Please try Composer on a tablet or PC. If you already have chart definitions locally or in the cloud, you can at least upload them and see the results on your device.</p>
+				<p>Crap! Display too small to edit but loaded anyway. Try composer on tablet or PC.</p>
 			</div>
 			<hr class="ruler-sep">
 			<div id="ccXonDiv" class="d-none d-md-block"></div>
 			<div class="text-center">
 				<div class="d-inline-block">
-					<button type="button" class="ccBtnNew btn btn-outline-secondary d-sm-inline d-md-none" disabled><i class="far fa-file"></i></button>
-					<button id="ccBtnNew" type="button" class="btn btn-outline-primary d-none d-md-inline"><i class="far fa-file"></i></button>
-					<button id="ccBtnLoad" type="button" class="btn btn-outline-primary"><i class="far fa-folder-open"></i></button>
-					<button id="ccBtnExec" type="button" class="btn btn-outline-primary" disabled><i class="ccwf-brandicon"></i></button>
-					<button type="button" class="ccBtnSave btn btn-outline-secondary d-sm-inline d-md-none" disabled><i class="far fa-save"></i></button>
-					<button id="ccBtnSave" type="button" class="btn btn-outline-primary d-none d-md-inline" disabled><i class="far fa-save"></i></button>
-					<button type="button" class="ccBtnLast btn btn-outline-secondary d-sm-inline d-md-none" disabled><i class="fas fa-undo"></i></button>
-					<button id="ccBtnLast" type="button" class="btn btn-outline-primary d-none d-md-inline" disabled><i class="fas fa-undo"></i></button>
+					<button type="button" class="ccBtnNew btn btn-outline-secondary d-sm-inline d-md-none" disabled title="New"><i class="far fa-file"></i></button>
+					<button id="ccBtnNew" type="button" class="btn btn-outline-primary d-none d-md-inline" title="New"><i class="far fa-file"></i></button>
+					<button id="ccBtnLoad" type="button" class="btn btn-outline-primary" title="Load"><i class="far fa-folder-open"></i></button>
+					<button id="ccBtnExec" type="button" class="btn btn-outline-primary" disabled title="Execute"><i class="ccwf-brandicon"></i></button>
+					<button type="button" class="ccBtnSave btn btn-outline-secondary d-sm-inline d-md-none" disabled title="Save"><i class="far fa-save"></i></button>
+					<button id="ccBtnSave" type="button" class="btn btn-outline-primary d-none d-md-inline" disabled title="Save"><i class="far fa-save"></i></button>
+					<button type="button" class="ccBtnLast btn btn-outline-secondary d-sm-inline d-md-none" disabled title="Undo all"><i class="fas fa-undo"></i></button>
+					<button id="ccBtnLast" type="button" class="btn btn-outline-primary d-none d-md-inline" disabled title="Undo all"><i class="fas fa-undo"></i></button>
 				</div>
 			</div>
 		</div>
