@@ -54,6 +54,7 @@ a:active { text-decoration: none ; color: #006adb!important ; }
 #ccBtnExec .ccwf-brandicon::before { font-size: 34px ; }
 #ccBtnExec:hover .ccwf-brandicon::before { color: #ffffff ; }
 #ccBtnExec:disabled .ccwf-brandicon::before { color: #007bff ; }
+#ccBtnTglP, .ccBtnTglP, #ccBtnTglD, .ccBtnTglD { width: 100% ; margin-bottom: 5px ; }
 #ccXonDiv { padding: 12px 12px 12px 24px ; font-size: 1rem ; word-break: break-all ; }
 .xonomy.laic .element > .tag.opening > .attributes > .attribute > .valueContainer { font-size: 1.25rem ; }
 .xonomy.laic .element > .connector > .plusminus { background-image: url(../xon-minus-primary.svg) ; background-color: #ffffff ; left: -24px }

@@ -11,12 +11,6 @@ another restriction regarding delete applies to mandatory elements when their
 minimum occurrences (minOcc) are reached.
  */
 
-// chart definition status object
-var chartStat = {
-	fresh: null,
-	dirty: null
-};
-
 // chart specification object
 var chartS11N = {
 	// default chart definition
@@ -4413,16 +4407,7 @@ var chartS11N = {
 			}
 		},
 		onchange: function() {
-			if (chartStat.dirty) {
-				return ;
-			} else {
-				if (chartStat.fresh) {
-					chartStat.fresh = false ;
-				}
-				chartStat.dirty = true ;
-				$('#ccBtnExec').prop('disabled', false) ;
-				$('#ccBtnSave').prop('disabled', false) ;
-			}
+			console.log("document changed");
 		},
 		validate: function() {
 			console.log("validating...done");

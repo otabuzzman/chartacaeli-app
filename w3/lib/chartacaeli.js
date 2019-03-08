@@ -9,9 +9,6 @@ function initXonDiv(id) {
 	var xonDiv = document.getElementById(id) ;
 	Xonomy.setMode("laic") ;
 	Xonomy.render(chartS11N.defdef, xonDiv, chartS11N.Xonomy) ;
-
-	chartStat.fresh = true ;
-	chartStat.dirty = false ;
 }
 
 /* register events */
@@ -27,14 +24,28 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	for (var i=0 ; a.length>i ; i++ ) {
 		a[i].addEventListener('click', smoothScrollToAnchor) ;
 	}
-	document.querySelector('#ccBtnEdit').addEventListener('click', btnEdit) ;
-	document.querySelector('.navbar-toggler').addEventListener('click', btnMenu) ;
-	document.querySelector('#ccBtnNew').addEventListener('click', btnNew) ;
 	document.querySelector('#ccBtnLoad').addEventListener('click', btnLoad) ;
+	document.querySelector('.navbar-toggler').addEventListener('click', btnToggleMenu) ;
+	document.querySelector('#ccBtnNew').addEventListener('click', btnNew) ;
+	document.querySelector('#ccBtnOpen').addEventListener('click', btnOpen) ;
 	document.querySelector('#ccBtnExec').addEventListener('click', btnExec) ;
 	document.querySelector('#ccBtnSave').addEventListener('click', btnSave) ;
 	document.querySelector('#ccBtnLast').addEventListener('click', btnLast) ;
+	document.querySelector('#ccBtnTglP').addEventListener('click', btnTglP) ;
+	document.querySelector('#ccBtnTglD').addEventListener('click', btnTglD) ;
 }) ;
+
+/* toggle to definition button */
+function btnTglD(event) {
+	$(this).toggleClass('d-md-block') ;
+	$('#ccBtnTglP').toggleClass('d-md-block') ;
+}
+
+/* toggle to preferences button */
+function btnTglP(event) {
+	$(this).toggleClass('d-md-block') ;
+	$('#ccBtnTglD').toggleClass('d-md-block') ;
+}
 
 function btnLast(event) {
 }
@@ -46,24 +57,22 @@ function btnSave(event) {
 function btnExec(event) {
 }
 
-function btnLoad(event) {
+function btnOpen(event) {
 }
 
 function btnNew(event) {
-	if (!chartStat.fresh) {
-		initXonDiv('ccXonDiv') ;
-		$('#ccBtnExec').prop('disabled', true) ;
-		$('#ccBtnSave').prop('disabled', true) ;
-	}
+	initXonDiv('ccXonDiv') ;
+	$('#ccBtnExec').prop('disabled', true) ;
+	$('#ccBtnSave').prop('disabled', true) ;
 }
 
 /* toggle burger and cross icons */
-function btnMenu(event) {
-	$(this).find('i').toggleClass('fa-bars fa-times');
+function btnToggleMenu(event) {
+	$(this).find('i').toggleClass('fa-bars fa-times') ;
 }
 
 /* load composer with files from data-edit- attributes of active carosuel item */
-function btnEdit(event) {
+function btnLoad(event) {
 	var chart = $('.carousel .active').attr('data-edit-chart') ;
 	var prefs = $('.carousel .active').attr('data-edit-prefs') ;
 }

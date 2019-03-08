@@ -24,7 +24,7 @@
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ccNavbar">
 				<span class="custom-toggler-icon"><i class="fas fa-bars"></i></span>
 			</button>
-			<div class="collapse navbar-collapse" id="ccNavbar">
+			<div id="ccNavbar" class="collapse navbar-collapse">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 						<a class="nav-link" href="#ccHome">home</a>
@@ -111,7 +111,7 @@
 				<div class="d-inline-block">
 					<a id="ccBtnView" class="btn btn-lg btn-outline-primary" role="button" href="scientific-star-chart.pdf" target="_blank" title="Open PDF"><i class="far fa-file-pdf"></i></a>
 					<a id="ccBtnInfo" class="btn btn-lg btn-outline-primary" role="button" href="#ccInfoSci" title="Show details"><i class="fas fa-info"></i></a>
-					<a id="ccBtnEdit" class="btn btn-lg btn-outline-primary" role="button" href="#ccComposer" title="Load into composer"><i class="fas fa-pen"></i></a>
+					<a id="ccBtnLoad" class="btn btn-lg btn-outline-primary" role="button" href="#ccComposer" title="Load into composer"><i class="fas fa-pen"></i></a>
 				</div>
 			</div>
 		</div>
@@ -248,14 +248,19 @@
 			<div id="ccXonDiv" class="d-none d-md-block"></div>
 			<div class="text-center">
 				<div class="d-inline-block">
-					<button type="button" class="ccBtnNew btn btn-outline-secondary d-sm-inline d-md-none" disabled title="New"><i class="far fa-file"></i></button>
-					<button id="ccBtnNew" type="button" class="btn btn-outline-primary d-none d-md-inline" title="New"><i class="far fa-file"></i></button>
-					<button id="ccBtnLoad" type="button" class="btn btn-outline-primary" title="Load"><i class="far fa-folder-open"></i></button>
-					<button id="ccBtnExec" type="button" class="btn btn-outline-primary" disabled title="Execute"><i class="ccwf-brandicon"></i></button>
-					<button type="button" class="ccBtnSave btn btn-outline-secondary d-sm-inline d-md-none" disabled title="Save"><i class="far fa-save"></i></button>
-					<button id="ccBtnSave" type="button" class="btn btn-outline-primary d-none d-md-inline" disabled title="Save"><i class="far fa-save"></i></button>
-					<button type="button" class="ccBtnLast btn btn-outline-secondary d-sm-inline d-md-none" disabled title="Undo all"><i class="fas fa-undo"></i></button>
-					<button id="ccBtnLast" type="button" class="btn btn-outline-primary d-none d-md-inline" disabled title="Undo all"><i class="fas fa-undo"></i></button>
+					<div>
+						<button class="ccBtnTglP btn btn-outline-secondary d-sm-block d-md-none" type="button" title="Toggle to preferences" disabled>toggle to <strong>preferences</strong></button>
+						<button id="ccBtnTglP" class="btn btn-outline-primary d-none d-md-block" type="button" title="Toggle to preferences" disabled>toggle to <strong>preferences</strong></button>
+						<button id="ccBtnTglD" class="btn btn-outline-primary d-none" type="button" title="Toggle to preferences" disabled>toggle to <strong>definition</strong></button>
+					</div>
+					<button class="ccBtnNew btn btn-outline-secondary d-sm-inline d-md-none" type="button" title="New" disabled><i class="far fa-file"></i></button>
+					<button id="ccBtnNew" class="btn btn-outline-primary d-none d-md-inline" type="button" title="New"><i class="far fa-file"></i></button>
+					<button id="ccBtnOpen" class="btn btn-outline-primary" type="button" title="Open"><i class="far fa-folder-open"></i></button>
+					<button id="ccBtnExec" class="btn btn-outline-primary" type="button" title="Execute" disabled><i class="ccwf-brandicon"></i></button>
+					<button class="ccBtnSave btn btn-outline-secondary d-sm-inline d-md-none" type="button" title="Save" disabled><i class="far fa-save"></i></button>
+					<button id="ccBtnSave" class="btn btn-outline-primary d-none d-md-inline" type="button" title="Save" disabled><i class="far fa-save"></i></button>
+					<button class="ccBtnLast btn btn-outline-secondary d-sm-inline d-md-none" type="button" title="Undo all" disabled><i class="fas fa-undo"></i></button>
+					<button id="ccBtnLast" class="btn btn-outline-primary d-none d-md-inline" type="button" title="Undo all" disabled><i class="fas fa-undo"></i></button>
 				</div>
 			</div>
 		</div>

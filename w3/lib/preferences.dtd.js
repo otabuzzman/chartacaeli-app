@@ -1,9 +1,3 @@
-// preferences definition status object
-var prefsStat = {
-	fresh: null,
-	dirty: null
-};
-
 // preferences specification object
 var prefsS11N = {
 	// default preferences definition

@@ -1,4 +1,4 @@
-# Charta Caeli web site
+# Charta Caeli website
 A mobile first frontend to the Charta Caeli star chart creation web service.
 
 #### Xonomy web XML editor
@@ -84,5 +84,6 @@ Charta Caeli web service REST API implementaion uses [Jersey](https://jersey.git
 - SO article on [best practices for where to add event listeners](https://stackoverflow.com/questions/26104525/best-practices-for-where-to-add-event-listeners)
 - SO article on an [animated hamburger icon](https://stackoverflow.com/questions/37758887/animated-x-icon-for-bootstrap-toggle) and an [update for Bootstrap 4](http://kylegoslan.co.uk/bootstrap-4-hamburger-menu-animation/)
 - List of [media queries](https://css-tricks.com/snippets/css/media-queries-for-standard-devices/) grouped by device type
+- The [Harel statechart definition](http://www.inf.ed.ac.uk/teaching/courses/seoc/2005_2006/resources/statecharts.pdf). A handy [variation of the statechart notation](http://dec.bournemouth.ac.uk/staff/kphalp/statecharts.pdf) as proposed by Harel. A [theoretical application example](https://de.slideshare.net/lmatteis/are-statecharts-the-next-big-ui-paradigm) (mind the links on 2nd last slide) and finally [bureaucrathy](https://github.com/samroberton/bureaucracy), the practical implementation in Clojure on GitHub.
 
 #### Questions
