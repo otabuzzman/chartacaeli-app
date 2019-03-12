@@ -2,15 +2,11 @@
 .settings/
 # downloads
 Blocks-4.1.0.txt
-jquery-*
-xonomy
 *.gz
 *.jar
 *.tar
 *.ttf
-!w3/lib/chartacaeli-webfont.ttf
 *.zip
-!w3/lab/chartacaeli-webfont.zip
 # artefacts
 chartacaeli/UnicodeBlock.java
 chartacaeli/caa/**
@@ -23,8 +19,6 @@ chartacaeli/gpu/tst/**
 !chartacaeli/gpu/tst/P4Projector.java
 !chartacaeli/gpu/tst/RandomDataset.java
 chartacaeli/model/
-w3/artistic-star-chart--toppage.png
-w3/artistic-star-chart--artwork.png
 *.class
 *.cubin
 *.d
@@ -37,11 +31,5 @@ w3/artistic-star-chart--artwork.png
 *.out
 *.raw
 *.so
-# artefacts from Artwork development
-andromeda.*
-g2.2xlarge.gpuinfo
-iorgb.*
-sf-*
-tf-*
 # temporary files
 _*

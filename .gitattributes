@@ -1,10 +1,8 @@
 *		text=auto
 *.pdf	-text
 *.sh	eol=lf
-*.ico	binary
 *.png	binary
 *.pptm	binary
 *.ttf	binary
-*.xcf	binary
 *.zip	binary
 chartacaeli/caa/AADate.h.diff	eol=crlf
