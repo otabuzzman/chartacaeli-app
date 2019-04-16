@@ -5,7 +5,7 @@ else
 endif
 
 APP		= chartacaeli
-PKG		= chartacaeli
+PKG		= org.chartacaeli
 
 MOD		= $(APP).xsd
 

@@ -33,7 +33,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
   export PATH=/cygdrive/c/program\ files/java/jdk1.8.0_151/bin:$PATH
   # Makefile uses java.library.path but caa loads aaplus thus needs PATH set as well
-  export PATH=.:chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$PATH
+  export PATH=.:org/chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$PATH
   export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
   ```
 - Clone Charta Caeli from GitHub to local computer.
@@ -41,7 +41,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 - Run build commands:
 
   ```
-  ( cd chartacaeli/caa ; make ; make all )
+  ( cd org/chartacaeli/caa ; make ; make all )
   make
   make all
   ```
@@ -56,6 +56,14 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
 	azimuthal-projection ; do ( make ${sample}.pdf ) ; done
+  # check new against repository
+  for sample in \
+	layout-and-text \
+	unicode-and-fonts \
+	field-of-view \
+	variables-and-expressions \
+	milkyway-with-catalogds9 \
+	azimuthal-projection ; do ( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
   ```
 
   Registry errors might occur during the first run without administrator privileges. In that case run the tool once in a bash with admin rights. Further executions can be done with user rights.
@@ -79,7 +87,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CUDA_HOME=/usr/local/cuda
   export PATH=$CUDA_HOME/bin:$PATH
   export CUDA_SAMP=~/cuda-7.5/samples
-  export LD_LIBRARY_PATH=.:chartacaeli/caa:$CUDA_HOME/lib64:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
+  export LD_LIBRARY_PATH=.:org/chartacaeli/caa:$CUDA_HOME/lib64:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
 
   # Install CXXWRAP
   ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )
@@ -108,8 +116,8 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   # Clone Charta Caeli
   cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli.git ; cd chartacaeli
 
-  ( cd chartacaeli/caa ; make ; make all )
-  ( cd chartacaeli/gpu ; make )
+  ( cd org/chartacaeli/caa ; make ; make all )
+  ( cd org/chartacaeli/gpu ; make )
   make
   make all
   ```

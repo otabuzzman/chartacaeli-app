@@ -1,5 +1,5 @@
 echo "
-package chartacaeli;
+package org.chartacaeli;
 
 import java.util.HashMap;
 import java.util.Map;

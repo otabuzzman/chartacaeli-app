@@ -2,116 +2,119 @@
 <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
 <preferences>
 	<!--Windows 7, system node storage-->
-	<!--HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Prefs\chartacaeli-->
-	<!--HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\JavaSoft\Prefs\chartacaeli-->
+	<!--HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Prefs\org\chartacaeli-->
+	<!--HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\JavaSoft\Prefs\org\chartacaeli-->
 	<!--Windows 7, user node storage-->
-	<!--HKEY_CURRENT_USER\SOFTWARE\JavaSoft\Prefs\chartacaeli-->
+	<!--HKEY_CURRENT_USER\SOFTWARE\JavaSoft\Prefs\org\chartacaeli-->
 	<root type="user">
 		<map/>
-		<node name="chartacaeli">
+		<node name="org">
 			<map/>
-			<node name="ChartPage">
+			<node name="chartacaeli">
 				<map/>
-				<node name="useful">
-					<map>
-						<entry key="layout" value="2:1:5:3:3:2x2:2:2:9:5:5:5:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:6:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:2:2:2"/>
-					</map>
+				<node name="ChartPage">
+					<map/>
+					<node name="useful">
+						<map>
+							<entry key="layout" value="2:1:5:3:3:2x2:2:2:9:5:5:5:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:3:6:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:2:2:2"/>
+						</map>
+					</node>
 				</node>
-			</node>
-			<node name="DialDeg">
-				<map/>
-				<node name="nosuperscriptshift">
-					<map>
-						<entry key="superscriptshift" value=".01"/>
-					</map>
+				<node name="DialDeg">
+					<map/>
+					<node name="nosuperscriptshift">
+						<map>
+							<entry key="superscriptshift" value=".01"/>
+						</map>
+					</node>
+					<node name="subscriptshift">
+						<map>
+							<entry key="superscriptshift" value="-3.2"/>
+						</map>
+					</node>
 				</node>
-				<node name="subscriptshift">
-					<map>
-						<entry key="superscriptshift" value="-3.2"/>
-					</map>
+				<node name="DialDeg$ScalebaseNone">
+					<map/>
+					<node name="nospace">
+						<map>
+							<entry key="space" value=".01"/>
+						</map>
+					</node>
 				</node>
-			</node>
-			<node name="DialDeg$ScalebaseNone">
-				<map/>
-				<node name="nospace">
-					<map>
-						<entry key="space" value=".01"/>
-					</map>
+				<node name="Scaleline">
+					<map/>
+					<node name="noline">
+						<map>
+							<entry key="space" value=".01"/>
+							<entry key="linelength" value=".01"/>
+							<entry key="linewidth" value=".01"/>
+						</map>
+					</node>
 				</node>
-			</node>
-			<node name="Scaleline">
-				<map/>
-				<node name="noline">
+				<node name="CatalogDS9Record">
 					<map>
-						<entry key="space" value=".01"/>
-						<entry key="linelength" value=".01"/>
-						<entry key="linewidth" value=".01"/>
+						<entry key="eps" value="1.9"/>
 					</map>
-				</node>
-			</node>
-			<node name="CatalogDS9Record">
-				<map>
-					<entry key="eps" value="1.9"/>
-				</map>
-				<node name="cat_0011.con">
-					<map>
-						<entry key="fill" value="0.88 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0010.con">
-					<map>
-						<entry key="fill" value="0.8891 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0009.con">
-					<map>
-						<entry key="fill" value="0.8981 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0008.con">
-					<map>
-						<entry key="fill" value="0.9073 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0007.con">
-					<map>
-						<entry key="fill" value="0.9164 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0006.con">
-					<map>
-						<entry key="fill" value="0.9255 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0005.con">
-					<map>
-						<entry key="fill" value="0.9345 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0004.con">
-					<map>
-						<entry key="fill" value="0.9436 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0003.con">
-					<map>
-						<entry key="fill" value="0.9527 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0002.con">
-					<map>
-						<entry key="fill" value="0.9618 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0001.con">
-					<map>
-						<entry key="fill" value="0.9709 setgray eofill"/>
-					</map>
-				</node>
-				<node name="cat_0000.con">
-					<map>
-						<entry key="fill" value="0.98 setgray eofill"/>
-					</map>
+					<node name="cat_0011.con">
+						<map>
+							<entry key="fill" value="0.88 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0010.con">
+						<map>
+							<entry key="fill" value="0.8891 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0009.con">
+						<map>
+							<entry key="fill" value="0.8981 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0008.con">
+						<map>
+							<entry key="fill" value="0.9073 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0007.con">
+						<map>
+							<entry key="fill" value="0.9164 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0006.con">
+						<map>
+							<entry key="fill" value="0.9255 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0005.con">
+						<map>
+							<entry key="fill" value="0.9345 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0004.con">
+						<map>
+							<entry key="fill" value="0.9436 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0003.con">
+						<map>
+							<entry key="fill" value="0.9527 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0002.con">
+						<map>
+							<entry key="fill" value="0.9618 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0001.con">
+						<map>
+							<entry key="fill" value="0.9709 setgray eofill"/>
+						</map>
+					</node>
+					<node name="cat_0000.con">
+						<map>
+							<entry key="fill" value="0.98 setgray eofill"/>
+						</map>
+					</node>
 				</node>
 			</node>
 		</node>

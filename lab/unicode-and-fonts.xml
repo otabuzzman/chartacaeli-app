@@ -4,8 +4,7 @@ Charta Caeli supports Unicode. The preferences file allows to define characters 
 
 Configuration for Unicode happens in chunks of 256 characters. Chunks are named by a combination of the Unicode Block range and the chunk position inside that block. For instance a chunk name of "4E00..9FFF-1" designates the 2nd chunk in a Block that ranges from 0x4E00 to 0x9FFF which is the Coded Character Set for "CJK Unified Ideographs". To calculate a Code Point of any character inside a chunk sum character index plus number of chunk times 256 plus start of Block range. The 22th character (e.g.) of the chunk in the example above is Code Point 0x4F16 (20246).
 -->
-<ChartaCaeli xmlns="http://www.chartacaeli.eu/chartacaeli/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.eu/chartacaeli/model
-../chartacaeli.xsd">
+<ChartaCaeli xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model ../chartacaeli.xsd">
 	<Chart>
 		<ChartAzimuthal scale="100" projection="stereographic">
 			<ChartPage name="useful" view="100" size="a4"/>

@@ -3,4 +3,4 @@
 
 join $2 $3 |\
 java -cp $USERPROFILE/src/chartacaeli\;$USERPROFILE/src/chartacaeli/lib/commons-logging-1.2.jar \
-	chartacaeli/UnicodePostscriptStream $1
+	org/chartacaeli/UnicodePostscriptStream $1
