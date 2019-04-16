@@ -56,14 +56,15 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
 	azimuthal-projection ; do ( make ${sample}.pdf ) ; done
-  # check new against repository
+  # Check new against repository
   for sample in \
 	layout-and-text \
 	unicode-and-fonts \
 	field-of-view \
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
-	azimuthal-projection ; do ( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
+	azimuthal-projection ; do \
+		( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
   ```
 
   Registry errors might occur during the first run without administrator privileges. In that case run the tool once in a bash with admin rights. Further executions can be done with user rights.
