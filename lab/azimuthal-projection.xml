@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ChartaCaeli xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model ../chartacaeli.xsd">
+<ChartaCaeli xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model https://raw.githubusercontent.com/otabuzzman/chartacaeli/master/chartacaeli.xsd">
 	<Chart>
 		<ChartAzimuthal scale="32" projection="stereographic">
 			<ChartPage name="useful" view="100" size="a0"/>

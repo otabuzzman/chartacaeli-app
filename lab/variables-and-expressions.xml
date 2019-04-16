@@ -2,7 +2,7 @@
 <!--
 Some of the model's attributes allow for implicit value definitions. In order to do this a couple of values calculated at run-time can be accessed via variables. The variable syntax is {<variable name>}. There is support for simple expressions inside angle brackets. For instance {Vmag &#x003e; 4 ? 0.9 : 1.2} substitutes to 1.2 if the value of the variable Vmag is greater than 4 and 0.9 otherwise. Syntax definition is in ParserSubstitute.java. Variable names are language specific defined in properties files.
 -->
-<ChartaCaeli xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model ../chartacaeli.xsd">
+<ChartaCaeli xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model https://raw.githubusercontent.com/otabuzzman/chartacaeli/master/chartacaeli.xsd">
 	<Chart>
 		<ChartAzimuthal scale="100" projection="stereographic">
 			<ChartPage name="useful" view="100" size="a4"/>

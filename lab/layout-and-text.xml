@@ -8,7 +8,7 @@ The prefeferences file stores layout definitions in //node[@name='ChartPage']/ma
 
 Use //ChartPage@name to select a particular layout and //Frame@number for a particular frame.
 -->
-<ChartaCaeli xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model ../chartacaeli.xsd">
+<ChartaCaeli xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model https://raw.githubusercontent.com/otabuzzman/chartacaeli/master/chartacaeli.xsd">
 	<Chart>
 		<ChartAzimuthal scale="100" projection="stereographic">
 			<ChartPage view="100" size="a4"/>
