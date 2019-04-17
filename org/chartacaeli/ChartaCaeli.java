@@ -61,7 +61,7 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 	}
 
 	public static void main( String[] argv ) {
-		String prop, path ;
+		String prop, name, path ;
 		File preferences ;
 		FileInputStream s ;
 		InputStreamReader r ;
@@ -72,18 +72,34 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 		ApplicationPostscriptStream ps ;
 
 		try {
+			// read chart definition
+			if ( argv.length>0 ) {
+				s = new FileInputStream( argv[0] ) ;
+				r = new InputStreamReader( s, "UTF-8" ) ;
+			} else
+				r = new InputStreamReader( System.in, "UTF-8" ) ;
+			chartacaeli = new ChartaCaeli() ;
+			readModel( r ).copyValues( chartacaeli ) ;
+
+			// load system preferences
 			prop = ChartaCaeli.class.getPackage().getName()+".app" ;
 			path = System.getProperty( prop )+".preferences" ;
 			preferences = new File( path ) ;
 			Configuration.importPreferences( preferences ) ;
 
-			path = new String( argv[0] ).replaceAll( "\\.[^\\.]*$", "" )+".preferences" ;
+			// load user preferences
+			name = chartacaeli.getName() ;
+			if ( name == null || name.length() == 0 )
+				if ( argv.length>0 )
+					name = argv[0] ;
+			if ( name != null )
+				path = new String( name )
+				.replaceAll( "\\.[^\\.]*$", "" )+".preferences" ;
+
 			preferences = new File( path ) ;
 			Configuration.importPreferences( preferences ) ;
 
 			viewerDecl = Configuration.getValue( ChartaCaeli.class, CK_VIEWER, null ) ;
-			out =  new TeeOutputStream( System.out ) ;
-
 			if ( viewerDecl == null || viewerDecl.length() == 0 ) {
 				viewerProc = null ;
 			} else {
@@ -94,8 +110,6 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 					.start() ;
 					new InputReaderMonitor( new InputStreamReader( viewerProc.getErrorStream(), "UTF-8" ) )
 					.start() ;
-
-					out.add( viewerProc.getOutputStream() ) ;
 				} catch ( Exception e ) {
 					log.info( MessageCatalog.compose( ChartaCaeli.class, MK_ERUNEXT, new Object[] { viewerDecl } ) ) ;
 
@@ -104,10 +118,9 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 				}
 			}
 
-			s = new FileInputStream( argv[0] ) ;
-			r = new InputStreamReader( s, "UTF-8" ) ;
-			chartacaeli = new ChartaCaeli() ;
-			readModel( r ).copyValues( chartacaeli ) ;
+			out = new TeeOutputStream( System.out ) ;
+			if ( viewerProc != null )
+				out.add( viewerProc.getOutputStream() ) ;
 
 			ps = new ApplicationPostscriptStream( out ) ;
 
