@@ -1,11 +1,17 @@
 
 package org.chartacaeli;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,8 +67,11 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 	}
 
 	public static void main( String[] argv ) {
-		String prop, name, path ;
-		File preferences ;
+		String subarg, d8n = null ;
+		Preferences user ;
+		String app, name, p9s ;
+		ByteArrayOutputStream backup = null ;
+		ByteArrayInputStream imp0rt ;
 		FileInputStream s ;
 		InputStreamReader r ;
 		ChartaCaeli chartacaeli ;
@@ -72,9 +81,27 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 		ApplicationPostscriptStream ps ;
 
 		try {
+			// parse command line
+			for ( int i=0 ; argv.length>i ; i++ ) {
+				if ( argv[i].startsWith( "preferences=" ) ) {
+					subarg = argv[i].substring( 12 ) ;
+					if ( subarg.equals( "backup" ) ) {
+						backup = new ByteArrayOutputStream() ;
+						user = Preferences.userRoot() ;
+						user.exportSubtree( backup ) ;
+
+						deleteUserPreferences() ;
+					} else if ( subarg.equals( "delete" ) )
+						deleteUserPreferences() ;
+					else if ( ! subarg.equals( "update" ) )
+						throw new ParameterNotValidException( ParameterNotValidError.errmsg( argv[i], null ) ) ;
+				} else
+					d8n = argv[i] ;
+			}
+
 			// read chart definition
-			if ( argv.length>0 ) {
-				s = new FileInputStream( argv[0] ) ;
+			if ( d8n != null ) {
+				s = new FileInputStream( d8n ) ;
 				r = new InputStreamReader( s, "UTF-8" ) ;
 			} else
 				r = new InputStreamReader( System.in, "UTF-8" ) ;
@@ -82,22 +109,19 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 			readModel( r ).copyValues( chartacaeli ) ;
 
 			// load system preferences
-			prop = ChartaCaeli.class.getPackage().getName()+".app" ;
-			path = System.getProperty( prop )+".preferences" ;
-			preferences = new File( path ) ;
-			Configuration.importPreferences( preferences ) ;
+			app = ChartaCaeli.class.getPackage().getName()+".app" ;
+			p9s = System.getProperty( app )+".preferences" ;
+			Configuration.importPreferences( new File( p9s ) ) ;
 
 			// load user preferences
 			name = chartacaeli.getName() ;
 			if ( name == null || name.length() == 0 )
-				if ( argv.length>0 )
-					name = argv[0] ;
+				if ( d8n != null )
+					name = d8n ;
 			if ( name != null )
-				path = new String( name )
+				p9s = new String( name )
 				.replaceAll( "\\.[^\\.]*$", "" )+".preferences" ;
-
-			preferences = new File( path ) ;
-			Configuration.importPreferences( preferences ) ;
+			Configuration.importPreferences( new File( p9s ) ) ;
 
 			viewerDecl = Configuration.getValue( ChartaCaeli.class, CK_VIEWER, null ) ;
 			if ( viewerDecl == null || viewerDecl.length() == 0 ) {
@@ -124,15 +148,22 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 
 			ps = new ApplicationPostscriptStream( out ) ;
 
-			chartacaeli.headPS( ps ) ;
-			chartacaeli.emitPS( ps ) ;
-			chartacaeli.tailPS( ps ) ;
+//			chartacaeli.headPS( ps ) ;
+//			chartacaeli.emitPS( ps ) ;
+//			chartacaeli.tailPS( ps ) ;
 
 			ps.flush() ;
 			ps.close() ;
 
 			if ( viewerDecl != null )
 				viewerProc.waitFor() ;
+
+			if ( backup != null ) {
+				deleteUserPreferences() ;
+
+				imp0rt = new ByteArrayInputStream( backup.toByteArray() ) ;
+				Preferences.importPreferences( imp0rt ) ;
+			}
 
 			Registry.degister( ParserAttribute.class.getName() ) ;
 			Registry.degister( Epoch.class.getName() ) ;
@@ -147,9 +178,9 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 		System.exit( 0 ) ;
 	}
 
-	public static org.chartacaeli.model.ChartaCaeli readModel( Reader model ) {
+	public static org.chartacaeli.model.ChartaCaeli readModel( Reader d8n ) {
 		try {
-			return (org.chartacaeli.model.ChartaCaeli) org.chartacaeli.model.ChartaCaeli.unmarshal( model ) ;
+			return (org.chartacaeli.model.ChartaCaeli) org.chartacaeli.model.ChartaCaeli.unmarshal( d8n ) ;
 		} catch ( MarshalException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		} catch ( ValidationException e ) {
@@ -157,11 +188,11 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 		}
 	}
 
-	public static org.chartacaeli.model.ChartaCaeli readModel( String model ) {
+	public static org.chartacaeli.model.ChartaCaeli readModel( String d8n ) {
 		StringReader r ;
 		org.chartacaeli.model.ChartaCaeli c ;
 
-		r = new StringReader( model ) ;
+		r = new StringReader( d8n ) ;
 
 		try {
 			c = readModel( r ) ;
@@ -200,6 +231,17 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 		emitter.tailPS( ps ) ;
 
 		ps.op( "grestore" ) ;
+	}
+
+	private static void deleteUserPreferences() throws BackingStoreException {
+		Preferences user, node ;
+
+		user = Preferences.userRoot() ;
+		for ( String name : user.childrenNames() ) {
+			node = user.node( name ) ;
+			node.removeNode() ;
+		}
+		user.flush() ;
 	}
 
 	static {
