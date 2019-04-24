@@ -53,11 +53,11 @@ public class ApplicationResource {
 	}
 
 	public ApplicationResource( Class<?> clazz ) {
-		this( System.getProperty( ChartaCaeli.class.getPackage().getName()+".app" ), clazz ) ;
+		this( "chartacaeli", clazz ) ;
 	}
 
 	public ApplicationResource() {
-		this( System.getProperty( ChartaCaeli.class.getPackage().getName()+".app" ), ApplicationResource.class ) ;
+		this( "chartacaeli", ApplicationResource.class ) ;
 	}
 
 	public String getString( String key, String def  ) {

@@ -1,18 +1,15 @@
 
 package org.chartacaeli;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
@@ -22,14 +19,12 @@ import org.exolab.castor.xml.ValidationException;
 public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements PostscriptEmitter {
 
 	// configuration key (CK_)
-	private final static String CK_VIEWER		= "viewer" ;
 	private final static String CK_LIBCAA		= "libcaa" ;
 
 	private final static String DEFAULT_LIBCAA	= "caa" ;
 
 	// message key (MK_)
 	private final static String MK_EUNREC		= "eunrec" ;
-	private final static String MK_ERUNEXT		= "erunext" ;
 
 	private final static Log log = LogFactory.getLog( ChartaCaeli.class ) ;
 
@@ -60,6 +55,11 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 				chart( ps, chart.getChartPseudoCylindrical() ) ;
 			}
 		}
+
+		Registry.degister( Epoch.class.getName() ) ;
+		Registry.degister( ParserAttribute.class.getName() ) ;
+
+		Registry.remove() ;
 	}
 
 	public void tailPS( ApplicationPostscriptStream ps ) {
@@ -67,107 +67,83 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 	}
 
 	public static void main( String[] argv ) {
-		String subarg, d8n = null ;
-		Preferences user ;
-		String app, name, p9s ;
-		ByteArrayOutputStream backup = null ;
-		ByteArrayInputStream imp0rt ;
-		FileInputStream s ;
-		InputStreamReader r ;
-		ChartaCaeli chartacaeli ;
-		String viewerDecl ;
-		Process viewerProc ;
-		TeeOutputStream out ;
+		String chart, prefs, viewerOpt ;
+		InputStreamReader d8n ;
+		InputStream p9s ;
+		File file ;
+		Process viewerRun ;
+		TeeOutputStream tee ;
 		ApplicationPostscriptStream ps ;
+		ChartaCaeli chartacaeli ;
+
+		chart = StringUtils.EMPTY ;
+		prefs = StringUtils.EMPTY ;
+		viewerOpt = StringUtils.EMPTY ;
+
+		for ( int i=0 ; argv.length>i ; i++ ) {
+			if ( argv[i].endsWith( ".xml" ) ) {
+				chart = argv[i] ;
+			} else if ( argv[i].endsWith( ".preferences" ) ) {
+				prefs = argv[i] ;
+			} else if ( argv[i].startsWith( "viewer=" ) ) {
+				viewerOpt = argv[i].substring( 7 ) ;
+			}
+		}
 
 		try {
-			// parse command line
-			for ( int i=0 ; argv.length>i ; i++ ) {
-				if ( argv[i].startsWith( "preferences=" ) ) {
-					subarg = argv[i].substring( 12 ) ;
-					if ( subarg.equals( "backup" ) ) {
-						backup = new ByteArrayOutputStream() ;
-						user = Preferences.userRoot() ;
-						user.exportSubtree( backup ) ;
+			if ( chart.length() == 0 )
+				d8n = new InputStreamReader( System.in, "UTF-8" ) ;
+			else
+				d8n = new InputStreamReader( new FileInputStream( chart ), "UTF-8" ) ;
 
-						deleteUserPreferences() ;
-					} else if ( subarg.equals( "delete" ) )
-						deleteUserPreferences() ;
-					else if ( ! subarg.equals( "update" ) )
-						throw new ParameterNotValidException( ParameterNotValidError.errmsg( argv[i], null ) ) ;
-				} else
-					d8n = argv[i] ;
-			}
-
-			// read chart definition
-			if ( d8n != null ) {
-				s = new FileInputStream( d8n ) ;
-				r = new InputStreamReader( s, "UTF-8" ) ;
-			} else
-				r = new InputStreamReader( System.in, "UTF-8" ) ;
 			chartacaeli = new ChartaCaeli() ;
-			readModel( r ).copyValues( chartacaeli ) ;
+			readModel( d8n ).copyValues( chartacaeli ) ;
 
-			// load system preferences
-			app = ChartaCaeli.class.getPackage().getName()+".app" ;
-			p9s = System.getProperty( app )+".preferences" ;
-			Configuration.importPreferences( new File( p9s ) ) ;
-
-			// load user preferences
-			name = chartacaeli.getName() ;
-			if ( name == null || name.length() == 0 )
-				if ( d8n != null )
-					name = d8n ;
-			if ( name != null )
-				p9s = new String( name )
-				.replaceAll( "\\.[^\\.]*$", "" )+".preferences" ;
-			Configuration.importPreferences( new File( p9s ) ) ;
-
-			viewerDecl = Configuration.getValue( ChartaCaeli.class, CK_VIEWER, null ) ;
-			if ( viewerDecl == null || viewerDecl.length() == 0 ) {
-				viewerProc = null ;
-			} else {
-				try {
-					viewerProc = Runtime.getRuntime().exec( viewerDecl.trim().split( "\\p{Space}+" ) ) ;
-
-					new InputReaderMonitor( new InputStreamReader( viewerProc.getInputStream(), "UTF-8" ) )
-					.start() ;
-					new InputReaderMonitor( new InputStreamReader( viewerProc.getErrorStream(), "UTF-8" ) )
-					.start() ;
-				} catch ( Exception e ) {
-					log.info( MessageCatalog.compose( ChartaCaeli.class, MK_ERUNEXT, new Object[] { viewerDecl } ) ) ;
-
-					viewerDecl = null ;
-					viewerProc = null ;
+			if ( prefs.length() == 0 ) {
+				if ( chart.length()>0 ) {
+					file = new File( chart.substring( 0, chart.length()-4 )+".preferences" ) ;
+					if ( file.exists() ) {
+						p9s = new FileInputStream( file ) ;
+						Preferences.importPreferences( p9s ) ;
+					}
 				}
+			} else {
+				p9s =  new FileInputStream( prefs ) ;
+				Preferences.importPreferences( p9s ) ;
 			}
 
-			out = new TeeOutputStream( System.out ) ;
-			if ( viewerProc != null )
-				out.add( viewerProc.getOutputStream() ) ;
 
-			ps = new ApplicationPostscriptStream( out ) ;
+			if ( viewerOpt.length()>0 ) {
+				viewerRun = Runtime.getRuntime().exec( viewerOpt.trim().split( "\\p{Space}+" ) ) ;
 
-//			chartacaeli.headPS( ps ) ;
-//			chartacaeli.emitPS( ps ) ;
-//			chartacaeli.tailPS( ps ) ;
+				new InputReaderMonitor( new InputStreamReader( viewerRun.getInputStream(), "UTF-8" ) )
+				.start() ;
+				new InputReaderMonitor( new InputStreamReader( viewerRun.getErrorStream(), "UTF-8" ) )
+				.start() ;
 
-			ps.flush() ;
-			ps.close() ;
+				tee = new TeeOutputStream( System.out ) ;
+				tee.add( viewerRun.getOutputStream() ) ;
 
-			if ( viewerDecl != null )
-				viewerProc.waitFor() ;
+				ps = new ApplicationPostscriptStream( tee ) ;
 
-			if ( backup != null ) {
-				deleteUserPreferences() ;
+				chartacaeli.headPS( ps ) ;
+				chartacaeli.emitPS( ps ) ;
+				chartacaeli.tailPS( ps ) ;
 
-				imp0rt = new ByteArrayInputStream( backup.toByteArray() ) ;
-				Preferences.importPreferences( imp0rt ) ;
+				ps.flush() ;
+				ps.close() ;
+
+				viewerRun.waitFor() ;
+			} else {
+				ps = new ApplicationPostscriptStream( System.out ) ;
+
+				chartacaeli.headPS( ps ) ;
+				chartacaeli.emitPS( ps ) ;
+				chartacaeli.tailPS( ps ) ;
+
+				ps.flush() ;
+				ps.close() ;
 			}
-
-			Registry.degister( ParserAttribute.class.getName() ) ;
-			Registry.degister( Epoch.class.getName() ) ;
-			Registry.remove() ;
 		} catch ( Exception e ) {
 			log.error( MessageCatalog.compose( ChartaCaeli.class, MK_EUNREC, null ) ) ;
 
@@ -231,17 +207,6 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 		emitter.tailPS( ps ) ;
 
 		ps.op( "grestore" ) ;
-	}
-
-	private static void deleteUserPreferences() throws BackingStoreException {
-		Preferences user, node ;
-
-		user = Preferences.userRoot() ;
-		for ( String name : user.childrenNames() ) {
-			node = user.node( name ) ;
-			node.removeNode() ;
-		}
-		user.flush() ;
 	}
 
 	static {

@@ -19,6 +19,8 @@ org/chartacaeli/gpu/tst/**
 !org/chartacaeli/gpu/tst/P4Projector.java
 !org/chartacaeli/gpu/tst/RandomDataset.java
 org/chartacaeli/model/
+/FieldOfView.pdf
+/FieldOfView.ps
 /azimuthal-projection.pdf
 /azimuthal-projection.png
 /field-of-view.pdf

@@ -12,8 +12,8 @@
 </mapAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.chartacaeli.ChartaCaeli"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="lab/unicode-and-fonts.xml"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;viewer=gswin64c.exe -dBATCH -dNOPAUSE -q -&quot; lab/unicode-and-fonts.xml"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="chartacaeli"/>
 <booleanAttribute key="org.eclipse.jdt.launching.STOP_IN_MAIN" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Duser.language=en&#13;&#10;-Dorg.chartacaeli.app=chartacaeli&#13;&#10;-Djava.util.logging.config.file=logging.properties&#13;&#10;-Xmx3072m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Duser.language=en&#13;&#10;-Djava.util.logging.config.file=logging.properties&#13;&#10;-Xmx3072m"/>
 </launchConfiguration>

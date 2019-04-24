@@ -95,14 +95,13 @@ all: classes
 .xml.ps:
 	# note that caa loads aaplus thus needs PATH set as well as java.library.path
 	@time java $$JFRX_OPTS $(JVMX_OPTS) \
-			-D$(PKG).app=$(APP) \
 			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
 			-Djava.util.logging.config.file=logging.properties \
 			-classpath "$(subst $(space),$(sep), \
 			$(pkgdir) \
 			$$PJ2_GENERAL_PATHJAR \
 			$(JAREXT))" \
-			$(PKG).ChartaCaeli $< >$@
+			$(PKG).ChartaCaeli viewer="$$GS_VIEWER" $< >$@
 
 .ps.pdf:
 	@time $${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
@@ -165,13 +164,12 @@ $(libdir)/commons-logging-1.2.jar:
 # test targets
 FieldOfView.ps: lab/FieldOfView.dat
 	@eval java $(JVMX_OPTS) \
-		-D$(PKG).app=$(APP) \
 		-Djava.library.path='"$(subst $(space),$(sep),$(jnilib))"' \
 		-Djava.util.logging.config.file=logging.properties \
 		-classpath '"$(subst $(space),$(sep), \
 		$(pkgdir) \
 		$(JAREXT))"' \
-		$(PKG).FieldOfView `egrep -v '^#|^$$' $<` >$@
+		$(PKG).FieldOfView '"viewer=$$GS_VIEWER"' `egrep -v '^#|^$$' $<` >$@
 
 
 

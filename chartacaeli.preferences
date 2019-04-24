@@ -14,8 +14,6 @@
 				<map/>
 				<node name="Object">
 					<map>
-						<!--used by ChartaCaeli, FieldOfView-->
-						<entry key="viewer" value="gswin64c.exe -dBATCH -dNOPAUSE -q -"/>
 						<!--used by DMS, Rational, ProstscriptStream, HorizonType, FieldOfView-->
 						<entry key="precision" value="2"/>
 						<!--used by CircleMeridian, CircleParallel, BodyPlanet, BodyMoon, BodySun, ShapeElliptical, Artwork-->

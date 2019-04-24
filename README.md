@@ -29,6 +29,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
   export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
   export GS_FONTPATH=c:/users/$USERNAME/src/chartacaeli
+  export GS_VIEWER=gswin64c.exe\ -dBATCH\ -dNOPAUSE\ -q\ -
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
   export PATH=/cygdrive/c/program\ files/java/jdk1.8.0_151/bin:$PATH
@@ -46,7 +47,10 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   make all
   ```
 - Copy [Arial Unicode MS](http://fontsgeek.com/fonts/Arial-Unicode-MS-Regular) font file into top-level directory of Charta Caeli (needed by unicode-and-fonts sample).
-- Clear user preferences, read and run the samples:
+- In case of 1st time after build run following command with admin privileges:
+  ```
+  java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
+  ```
 
   ```
   for sample in \
@@ -66,8 +70,6 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 	azimuthal-projection ; do \
 		( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
   ```
-
-  Registry errors might occur during the first run without administrator privileges. In that case run the tool once in a bash with admin rights. Further executions can be done with user rights.
 
 ### Build on Linux
 - Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/). Set shell variable `CXX` to point at C++ compiler.

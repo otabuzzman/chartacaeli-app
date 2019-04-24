@@ -1,7 +1,7 @@
 
 package org.chartacaeli;
 
-import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
@@ -16,7 +16,6 @@ import com.vividsolutions.jts.io.WKTReader;
 public class FieldOfView implements PostscriptEmitter {
 
 	// configuration key (CK_)
-	private final static String CK_VIEWER		= "viewer" ;
 	private final static String CK_PRECISION	= "precision" ;
 
 	private final static int DEFAULT_PRECISION	= 2 ;
@@ -373,9 +372,8 @@ public class FieldOfView implements PostscriptEmitter {
 	public static void main( String[] argv ) {
 		ApplicationPostscriptStream ps ;
 		Configuration conf ;
-		String viewerDecl ;
-		Process viewerProc ;
-		TeeOutputStream out ;
+		Process viewerRun ;
+		TeeOutputStream tee ;
 		boolean usealtfov ;
 		WKTReader reader ;
 		Geometry A, B ;
@@ -383,36 +381,32 @@ public class FieldOfView implements PostscriptEmitter {
 		String typeA, typeB, msg ;
 		Coordinate[] cA, cB ;
 		CoordinateList clistA, clistB ;
-		int numint, precision ;
+		int i, numint, precision ;
 
 		conf = new Configuration( FieldOfView.class ) ;
-		viewerDecl = conf.getValue( CK_VIEWER, null ) ;
-		out =  new TeeOutputStream( System.out ) ;
-
-		if ( viewerDecl == null ) {
-			viewerProc = null ;
-		} else {
-			try {
-				viewerProc = Runtime.getRuntime().exec( viewerDecl.trim().split( "\\p{Space}+" ) ) ;
-
-				viewerProc.getInputStream().close() ;
-				viewerProc.getErrorStream().close() ;
-
-				out.add( viewerProc.getOutputStream() ) ;
-			} catch ( IOException e ) {
-				viewerDecl = null ;
-				viewerProc = null ;
-			}
-		}
-
-		ps = new ApplicationPostscriptStream( out ) ;
-		ps.emitDSCHeader() ;
-		ps.emitDSCProlog() ;
 
 		try {
+			if ( argv[i=0].startsWith( "viewer=" ) ) {
+				viewerRun = Runtime.getRuntime().exec( argv[i++].substring( 7 ).trim().split( "\\p{Space}+" ) ) ;
+
+				new InputReaderMonitor( new InputStreamReader( viewerRun.getInputStream(), "UTF-8" ) )
+				.start() ;
+				new InputReaderMonitor( new InputStreamReader( viewerRun.getErrorStream(), "UTF-8" ) )
+				.start() ;
+
+				tee = new TeeOutputStream( System.out ) ;
+				tee.add( viewerRun.getOutputStream() ) ;
+
+				ps = new ApplicationPostscriptStream( tee ) ;
+			} else
+				ps = new ApplicationPostscriptStream( System.out ) ;
+
+			ps.emitDSCHeader() ;
+			ps.emitDSCProlog() ;
+
 			reader = new WKTReader() ;
 
-			for ( int i=0 ; argv.length>i ; i++ ) {
+			for ( ; argv.length>i ; i++ ) {
 				usealtfov = argv[i].equals( "usealtfov" ) ;
 
 				if ( usealtfov ) {
@@ -581,9 +575,6 @@ public class FieldOfView implements PostscriptEmitter {
 
 			ps.flush() ;
 			ps.close() ;
-
-			if ( viewerDecl != null )
-				viewerProc.waitFor() ;
 		} catch ( Exception e ) {
 			e.printStackTrace() ;
 			System.exit( 1 ) ;
