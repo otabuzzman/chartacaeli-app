@@ -404,7 +404,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 		// configuration key (CK_)
 		private final static String CK_PJ2MODULE		= "pj2module" ;
 
-		private final static String DEFAULT_PJ2MODULE	= "org/chartacaeli/gpu/PJ2TextureMapperGpu_f.cubin" ;
+		private final static String DEFAULT_PJ2MODULE	= "PJ2TextureMapperGpu_f.cubin" ;
 
 		// number of threads per GPU kernel block = NT * NT
 		private final static int NT = 32 ;

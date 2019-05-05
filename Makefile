@@ -101,7 +101,7 @@ all: classes
 			$(pkgdir) \
 			$$PJ2_GENERAL_PATHJAR \
 			$(JAREXT))" \
-			$(PKG).ChartaCaeli viewer="$$GS_VIEWER" $< >$@
+			$(PKG).ChartaCaeli viewer="$$VIEWER" $< >$@
 
 .ps.pdf:
 	@time $${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
@@ -169,7 +169,7 @@ FieldOfView.ps: lab/FieldOfView.dat
 		-classpath '"$(subst $(space),$(sep), \
 		$(pkgdir) \
 		$(JAREXT))"' \
-		$(PKG).FieldOfView '"viewer=$$GS_VIEWER"' `egrep -v '^#|^$$' $<` >$@
+		$(PKG).FieldOfView '"viewer=$$VIEWER"' `egrep -v '^#|^$$' $<` >$@
 
 
 

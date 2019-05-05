@@ -29,7 +29,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
   export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
   export GS_FONTPATH=c:/users/$USERNAME/src/chartacaeli
-  export GS_VIEWER=gswin64c.exe\ -dBATCH\ -dNOPAUSE\ -q\ -
+  export VIEWER=gswin64c.exe\ -dBATCH\ -dNOPAUSE\ -q\ -
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
   export PATH=/cygdrive/c/program\ files/java/jdk1.8.0_151/bin:$PATH
@@ -51,8 +51,10 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ```
   java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
   ```
-
+- Clear user preferences and run samples:
   ```
+  java org.chartacaeli.PreferencesTool tree=user command=delete
+
   for sample in \
 	layout-and-text \
 	unicode-and-fonts \
@@ -60,7 +62,9 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
 	azimuthal-projection ; do ( make ${sample}.pdf ) ; done
-  # Check new against repository
+```
+- Compare new against repository and check PNG files for differences
+```
   for sample in \
 	layout-and-text \
 	unicode-and-fonts \
