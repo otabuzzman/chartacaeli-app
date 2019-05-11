@@ -48,10 +48,12 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ```
 - Copy [Arial Unicode MS](http://fontsgeek.com/fonts/Arial-Unicode-MS-Regular) font file into top-level directory of Charta Caeli (needed by unicode-and-fonts sample).
 - In case of 1st time after build run following command with admin privileges:
+
   ```
   java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
   ```
 - Clear user preferences and run samples:
+
   ```
   java org.chartacaeli.PreferencesTool tree=user command=delete
 
@@ -62,9 +64,10 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
 	azimuthal-projection ; do ( make ${sample}.pdf ) ; done
-```
+  ```
 - Compare new against repository and check PNG files for differences
-```
+
+  ```
   for sample in \
 	layout-and-text \
 	unicode-and-fonts \

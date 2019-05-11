@@ -1,7 +1,8 @@
-export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
-export PATH=/cygdrive/c/program\ files/java/jdk1.8.0_151/bin:$PATH
-export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
-export PATH=lib:$PATH
+# Charta Caeli launch utility. Store and exec in WEB-INF directory.
+#
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export PATH=$JAVA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=lib:$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 export VIEWER=gs\ -dBATCH\ -dNOPAUSE\ -q\ -
 export GS_FONTPATH=`pwd`
 

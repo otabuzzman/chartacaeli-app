@@ -1,3 +1,5 @@
+rem Charta Caeli launch utility. Store and exec in WEB-INF directory.
+rem
 set JAVA_HOME=c:/program files/java/jdk1.8.0_151
 set PATH=c:/program files/java/jdk1.8.0_151/bin;%PATH%
 set PATH=c:/program files/cygwin/usr/x86_64-w64-mingw32/sys-root/mingw/bin;%PATH%
