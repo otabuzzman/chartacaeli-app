@@ -5,7 +5,7 @@
 			<xs:element ref="Epoch" minOccurs="0"/>
 			<xs:element ref="Chart" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="ChartaCaeli" type="ChartaCaeliType"/>
 	<xs:element name="Epoch">

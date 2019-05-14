@@ -2,7 +2,7 @@
 <!--
 The area to draw a star chart is limited by a field of view. Each //Chart has a global and an effective field of view. The global one is defined by //ChartPage@view. The effective field of view is composed of one or more circles with their fieldofview attributes set to true (e.g. //CircleParallel[@fieldofview=true]). These //Circle elements are linked at their intersection points. Processing happens according to the sequence of element occurence. The circle elements must form a closed chain which means that the last element intersects a predecessor. Set //Omega in case of a single circle element to a value of 359.9999 to form a closed circle. Notice that layouts are not limited by fields of view.
 -->
-<ChartaCaeli xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model https://raw.githubusercontent.com/otabuzzman/chartacaeli/master/chartacaeli.xsd">
+<ChartaCaeli name="field-of-view" xmlns="http://www.chartacaeli.org/model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chartacaeli.org/model https://raw.githubusercontent.com/otabuzzman/chartacaeli/master/chartacaeli.xsd">
 	<Chart>
 		<ChartAzimuthal scale="100" projection="stereographic">
 			<ChartPage name="useful" view="100" size="a4"/>
