@@ -2,19 +2,18 @@
 package org.chartacaeli;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 
 import org.apache.commons.lang.StringUtils;
 
-public class PreferencesTool {
+public class PreferencesTool
+{
 
 	final static int CMD_NONE	= 0 ;
 	final static int CMD_BACKUP	= 1 ;
@@ -25,12 +24,12 @@ public class PreferencesTool {
 	( String[] argv )
 	{
 		String subarg, file ;
-		Preferences tree, node ;
+		Preferences root ;
 		int cmd ;
 		OutputStream backup ;
 		InputStream update ;
 
-		tree = Preferences.userRoot() ;
+		root = Preferences.userRoot() ;
 		file = StringUtils.EMPTY ;
 		cmd = CMD_BACKUP ;
 
@@ -41,11 +40,11 @@ public class PreferencesTool {
 				subarg = argv[i].substring( 5 ) ;
 				if ( subarg.equals( "system" ) )
 				{
-					tree = Preferences.systemRoot() ;
+					root = Preferences.systemRoot() ;
 				}
 				else if ( subarg.equals( "user" ) )
 				{
-					tree = Preferences.userRoot() ;
+					root = Preferences.userRoot() ;
 				}
 				else
 					usage( String.format ( "%s invalid", argv[i]) ) ;
@@ -74,23 +73,26 @@ public class PreferencesTool {
 			}
 		}
 
-		try {
+		try
+		{
 			switch ( cmd )
 			{
 			case CMD_BACKUP:
 				if ( file.length()>0 )
 				{
 					backup = new FileOutputStream( file ) ;
-					tree.exportSubtree( backup ) ;
+					root.exportSubtree( backup ) ;
 				}
 				else
-					tree.exportSubtree( System.out ) ;
+					root.exportSubtree( System.out ) ;
 
 				break ;
 			case CMD_DELETE:
-				for ( String name : tree.childrenNames() )
+				Preferences node ;
+
+				for ( String name : root.childrenNames() )
 				{
-					node = tree.node( name ) ;
+					node = root.node( name ) ;
 					node.removeNode() ;
 				}
 
@@ -111,21 +113,12 @@ public class PreferencesTool {
 
 				break ;
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (BackingStoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidPreferencesFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch ( IOException
+				| BackingStoreException
+				| InvalidPreferencesFormatException e )
+		{
+			e.printStackTrace() ;
+			System.exit( 1 ) ;
 		}
 	}
 

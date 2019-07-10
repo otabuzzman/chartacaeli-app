@@ -75,7 +75,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
 	azimuthal-projection ; do \
-		( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
+	( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
   ```
 
 ### Build on Linux
@@ -83,7 +83,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 - Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7). Set `JAVA_HOME` as described in Windows section.
 - Download and install [Ghostscript](http://ghostscript.com/download/) and [ImageMagick](https://www.imagemagick.org/script/download.php).
 - Consider installations of optional CLI tools [XMLStarlet](http://xmlstar.sourceforge.net/) and [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) to ease XML or PDF file manipulations.
-- Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub. Set shell variables according to sction on Windows.
+- Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub. Set shell variables according to section on Windows.
 - Download and install [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) and samples as described in PJ2AWS repository. Set `CUDA_HOME` to point at installation directory. Set `CUDA_SAMP` to properly resolve `$CUDA_SAMP/common/inc` directory in CUDA Samples.
 - Set up the environment:
   ```

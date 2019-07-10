@@ -1,8 +1,6 @@
 
 package org.chartacaeli;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
@@ -49,20 +47,6 @@ public final class Configuration {
 
 	public Configuration() {
 		this( Configuration.class ) ;
-	}
-
-	public static boolean importPreferences( File preferences ) {
-		FileInputStream file ;
-
-		try {
-			file = new FileInputStream( preferences ) ;
-
-			Preferences.importPreferences( file ) ;
-		} catch ( Exception e ) {
-			return false ;
-		}
-
-		return true ;
 	}
 
 	public Preferences getNode( String node ) {
