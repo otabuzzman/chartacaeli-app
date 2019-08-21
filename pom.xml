@@ -3,12 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.chartacaeli</groupId>
 	<artifactId>chartacaeli</artifactId>
-	<version>${git-commit}</version>
+	<!-- ${git-commit} -->
+	<version>0209</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<git-commit>202</git-commit>
+		<git-commit>0209</git-commit>
 	</properties>
 	<build>
 		<defaultGoal>compile</defaultGoal>
@@ -103,7 +104,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/mvn/web/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}</directory>
 				<includes>
