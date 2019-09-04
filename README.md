@@ -8,7 +8,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 ###  Build on Windows
 - Download and install [Cygwin](http://cygwin.com/). Consider a full install to avoid problems due to missing packages. Make sure that gcc, g++, mingw, flex, bison and make are installed as well as bzip, gzip, unzip and wget.
 - Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/).
-- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7).
+- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 8).
 - Download and install [Ghostscript](http://ghostscript.com/download/) and [ImageMagick](https://www.imagemagick.org/script/download.php) 7. Use the Windows installers for both tools. ImageMagick's Cygwin convert command cannot be started as an external process by the Java VM.
 - [XMLStarlet](http://xmlstar.sourceforge.net/) and [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) are useful CLI tools to manipulate XML or PDF files, although not necessarily needed to build the application.
 - Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub.
@@ -80,7 +80,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 
 ### Build on Linux
 - Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/). Set shell variable `CXX` to point at C++ compiler.
-- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 7). Set `JAVA_HOME` as described in Windows section.
+- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 8). Set `JAVA_HOME` as described in Windows section.
 - Download and install [Ghostscript](http://ghostscript.com/download/) and [ImageMagick](https://www.imagemagick.org/script/download.php).
 - Consider installations of optional CLI tools [XMLStarlet](http://xmlstar.sourceforge.net/) and [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) to ease XML or PDF file manipulations.
 - Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub. Set shell variables according to section on Windows.
@@ -91,13 +91,13 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
   export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
   export PATH=$JAVA_HOME/bin:$PATH
-  export GS_FONTPATH=~/src/chartacaeli
+  export GS_FONTPATH=~/lab/chartacaeli
   export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
   export CUDA_HOME=/usr/local/cuda
   export PATH=$CUDA_HOME/bin:$PATH
   export CUDA_SAMP=~/cuda-7.5/samples
-  export LD_LIBRARY_PATH=.:org/chartacaeli/caa:$CUDA_HOME/lib64:$PJ2_GENERAL_PATHLIB:$LD_LIBRARY_PATH
+  export LD_LIBRARY_PATH=.:org/chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 
   # Install CXXWRAP
   ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )
