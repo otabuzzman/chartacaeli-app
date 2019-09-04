@@ -50,7 +50,7 @@ $(srcdir): $(AAZIP)
 AADLLSRC = $(filter-out $(srcdir)/AATest.cpp $(srcdir)/stdafx.cpp,$(wildcard $(srcdir)/*.cpp))
 AADLLOBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(AADLLSRC))
 
-CAADLLOBJ = $(subst .cxx,.o,$(wildcard *_jni.cxx))
+CAADLLOBJ = $(subst .cxx,.o,$(wildcard [A-Z]*_jni.cxx))
 CAADLLOBJ := $(filter-out _%,$(CAADLLOBJ))
 
 .PHONY: all clean lclean rclean tidy

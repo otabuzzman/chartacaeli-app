@@ -5,4 +5,8 @@
 *.pptm	binary
 *.ttf	binary
 *.zip	binary
-org/chartacaeli/caa/AADate.h.diff	eol=crlf
+org/chartacaeli/caa/AADate.h.diff				eol=crlf
+org/chartacaeli/caa/AAELPMPP02.h.diff			eol=crlf
+org/chartacaeli/caa/AAElliptical.h.diff			eol=crlf
+org/chartacaeli/caa/AAPlanetaryPhenomena.h.diff	eol=crlf
+org/chartacaeli/caa/AARiseTransitSet2.h.diff	eol=crlf

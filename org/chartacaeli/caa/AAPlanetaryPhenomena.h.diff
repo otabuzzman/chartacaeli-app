@@ -1,0 +1,26 @@
+--- src/AAPlanetaryPhenomena.h	2019-08-18 19:21:28.000000000 +0200
++++ src/AAPlanetaryPhenomena.h.cc	2019-09-04 15:05:28.438651900 +0200
+@@ -38,7 +38,11 @@
+ {
+ public:
+ //Enums
++#ifdef CC_NO_CXX11
+   enum class PlanetaryObject
++#else
++  enum PlanetaryObject
++#endif
+   {
+     MERCURY,
+     VENUS,
+@@ -49,7 +53,11 @@
+     NEPTUNE
+   };
+ 
++#ifdef CC_NO_CXX11
+   enum class EventType
++#else
++  enum EventType
++#endif
+   {
+     INFERIOR_CONJUNCTION,
+     SUPERIOR_CONJUNCTION,

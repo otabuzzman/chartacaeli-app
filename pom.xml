@@ -4,12 +4,12 @@
 	<groupId>org.chartacaeli</groupId>
 	<artifactId>chartacaeli</artifactId>
 	<!-- ${git-commit} -->
-	<version>0209</version>
+	<version>0211</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<git-commit>0209</git-commit>
+		<git-commit>0211</git-commit>
 	</properties>
 	<build>
 		<defaultGoal>compile</defaultGoal>
@@ -68,7 +68,7 @@
 				<filtering>false</filtering>
 				<directory>${basedir}/../pj2aws/pj2/lib</directory>
 				<includes>
-					<include>${culib}</include>
+					<include>${soprf}EduRitGpuCuda${soext}</include>
 				</includes>
 			</resource>
 			<resource>
@@ -91,8 +91,8 @@
 				<filtering>false</filtering>
 				<directory>${basedir}/org/chartacaeli/caa</directory>
 				<includes>
-					<include>aaplus${soext}</include>
-					<include>caa${soext}</include>
+					<include>${soprf}aaplus${soext}</include>
+					<include>${soprf}caa${soext}</include>
 				</includes>
 			</resource>
 			<resource>
@@ -104,7 +104,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/lib</targetPath>
+				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}</directory>
 				<includes>
@@ -187,9 +187,9 @@
 				</os>
 			</activation>
 			<properties>
+				<soprf/>
 				<soext>.dll</soext>
 				<shext>.bat</shext>
-				<culib>EduRitGpuCuda${soext}</culib>
 			</properties>
 		</profile>
 		<profile>
@@ -200,9 +200,9 @@
 				</os>
 			</activation>
 			<properties>
+				<soprf>lib</soprf>
 				<soext>.so</soext>
 				<shext>.sh</shext>
-				<culib>libEduRitGpuCuda${soext}</culib>
 			</properties>
 		</profile>
 	</profiles>

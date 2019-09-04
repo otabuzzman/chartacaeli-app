@@ -1,0 +1,14 @@
+--- src/AAELPMPP02.h	2019-08-18 18:33:46.000000000 +0200
++++ src/AAELPMPP02.h.cc	2019-09-04 15:04:42.394706300 +0200
+@@ -45,7 +45,11 @@
+ {
+ public:
+ //Enums
++#ifdef CC_NO_CXX11
+   enum class Correction
++#else
++  enum Correction
++#endif
+   {
+     Nominal = 0,
+     LLR,

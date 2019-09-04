@@ -1,0 +1,14 @@
+--- src/AAElliptical.h	2019-08-18 19:38:48.000000000 +0200
++++ src/AAElliptical.h.cc	2019-09-04 15:06:46.239031900 +0200
+@@ -125,7 +125,11 @@
+ {
+ public:
+ //Enums
++#ifdef CC_NO_CXX11
+   enum class EllipticalObject
++#else
++  enum EllipticalObject
++#endif
+   {
+     SUN,
+     MERCURY,
