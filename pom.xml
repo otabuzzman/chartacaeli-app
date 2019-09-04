@@ -4,12 +4,12 @@
 	<groupId>org.chartacaeli</groupId>
 	<artifactId>chartacaeli</artifactId>
 	<!-- ${git-commit} -->
-	<version>0211</version>
+	<version>0212</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<git-commit>0211</git-commit>
+		<git-commit>0212</git-commit>
 	</properties>
 	<build>
 		<defaultGoal>compile</defaultGoal>
