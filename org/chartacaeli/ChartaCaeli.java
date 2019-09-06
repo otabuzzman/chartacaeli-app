@@ -99,17 +99,23 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 			chartacaeli = new ChartaCaeli() ;
 			readModel( d8n ).copyValues( chartacaeli ) ;
 
+			d8n.close() ;
+
 			if ( prefs.length() == 0 ) {
 				if ( chart.length()>0 ) {
 					file = new File( chart.substring( 0, chart.length()-4 )+".preferences" ) ;
 					if ( file.exists() ) {
 						p9s = new FileInputStream( file ) ;
 						Preferences.importPreferences( p9s ) ;
+
+						p9s.close() ;
 					}
 				}
 			} else {
 				p9s =  new FileInputStream( prefs ) ;
 				Preferences.importPreferences( p9s ) ;
+
+				p9s.close() ;
 			}
 
 
