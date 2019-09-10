@@ -4,12 +4,12 @@
 	<groupId>org.chartacaeli</groupId>
 	<artifactId>chartacaeli</artifactId>
 	<!-- ${git-commit} -->
-	<version>0212</version>
+	<version>0214</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<git-commit>0212</git-commit>
+		<git-commit>0214</git-commit>
 	</properties>
 	<build>
 		<defaultGoal>compile</defaultGoal>
@@ -110,6 +110,25 @@
 				<includes>
 					<include>ARIALUNI.TTF</include>
 					<include>l_10646.ttf</include>
+				</includes>
+			</resource>
+			<resource>
+				<targetPath>${basedir}/mvn/web/WEB-INF/lib/cat/MCCM</targetPath>
+				<filtering>false</filtering>
+				<directory>${basedir}/lib/cat/MCCM</directory>
+				<includes>
+					<include>cat_0000.con</include>
+					<include>cat_0001.con</include>
+					<include>cat_0002.con</include>
+					<include>cat_0003.con</include>
+					<include>cat_0004.con</include>
+					<include>cat_0005.con</include>
+					<include>cat_0006.con</include>
+					<include>cat_0007.con</include>
+					<include>cat_0008.con</include>
+					<include>cat_0009.con</include>
+					<include>cat_0010.con</include>
+					<include>cat_0011.con</include>
 				</includes>
 			</resource>
 		</resources>
