@@ -96,6 +96,8 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 			else
 				d8n = new InputStreamReader( new FileInputStream( chart ), "UTF-8" ) ;
 
+			// watch and periodically output statistics
+			PeerWatcher.launch( 5 ) ;
 			chartacaeli = new ChartaCaeli() ;
 			readModel( d8n ).copyValues( chartacaeli ) ;
 
@@ -156,6 +158,8 @@ public class ChartaCaeli extends org.chartacaeli.model.ChartaCaeli implements Po
 			e.printStackTrace() ;
 			System.exit( 1 ) ;
 		}
+
+		PeerWatcher.finish() ;
 
 		System.exit( 0 ) ;
 	}

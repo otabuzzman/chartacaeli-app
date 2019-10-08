@@ -38,6 +38,15 @@ public class Peer {
 	// configuration node (CN_)
 	private final static String CN_DEFAULT	= "default" ;
 
+	// PeerWatcher statisics
+	private static int total = 0 ;
+	private static int count = 0 ;
+
+	public Peer() {
+		// update PeerWatcher statisics
+		total++ ;
+	}
+
 	public void initValues() {
 		Preferences node ;
 		String keyDis[], keyVal ;
@@ -102,6 +111,9 @@ public class Peer {
 		String gn, sn, vs ;
 		Class<?>[] pt ;
 		Object vp ;
+
+		// update PeerWatcher statisics
+		count++ ;
 
 		parser = (ParserAttribute) Registry.retrieve( ParserAttribute.class.getName() ) ;
 		if ( parser == null )
@@ -271,5 +283,13 @@ public class Peer {
 			z = 0 ;
 
 		return new Coordinate( x, y, z ) ;
+	}
+
+	public static int getTotal() {
+		return total ;
+	}
+
+	public static int getCount() {
+		return count ;
 	}
 }
