@@ -8,7 +8,9 @@ Blocks-4.1.0.txt
 *.ttf
 *.zip
 # artefacts
-/mvn
+/app
+/generated-sources
+/maven-status
 org/chartacaeli/UnicodeBlock.java
 org/chartacaeli/caa/**
 !org/chartacaeli/caa/*.diff

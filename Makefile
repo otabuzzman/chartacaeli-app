@@ -16,6 +16,7 @@ JVMX_OPTS = \
 pkgdir	= $(subst .,/,$(PKG))
 moddir	= $(pkgdir)/model
 libdir	= lib
+appdir	= /opt/$(APP)
 
 jnilib	= \
 		$(pkgdir)/caa \
@@ -111,6 +112,13 @@ all: classes
 		-classpath "$(subst $(space),$(sep), \
 		$(JAREXT))" \
 		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
+
+$(appdir):
+	mkdir -p $@
+
+install: $(appdir)
+	mvn compile
+	mv app $<
 
 # compiler objects
 clean:

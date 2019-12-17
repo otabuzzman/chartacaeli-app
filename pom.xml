@@ -4,7 +4,7 @@
 	<groupId>org.chartacaeli</groupId>
 	<artifactId>chartacaeli</artifactId>
 	<!-- ${git-commit} -->
-	<version>0214</version>
+	<version>0217</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -14,12 +14,12 @@
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<sourceDirectory>${basedir}/org/chartacaeli</sourceDirectory>
-		<outputDirectory>${basedir}/mvn/web/WEB-INF/classes</outputDirectory>
-		<directory>${basedir}/mvn</directory>
+		<outputDirectory>${basedir}/app/WEB-INF/classes</outputDirectory>
+		<directory>${basedir}</directory>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 		<resources>
 			<resource>
-				<targetPath>${basedir}/mvn/web/lib</targetPath>
+				<targetPath>${basedir}/app/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}</directory>
 				<includes>
@@ -28,7 +28,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF</targetPath>
+				<targetPath>${basedir}/app/WEB-INF</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/lab</directory>
 				<includes>
@@ -36,7 +36,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}</directory>
 				<includes>
@@ -47,7 +47,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/lib</directory>
 				<includes>
@@ -56,7 +56,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/../pj2aws</directory>
 				<includes>
@@ -64,7 +64,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/../pj2aws/pj2/lib</directory>
 				<includes>
@@ -72,7 +72,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/lib</directory>
 				<includes>
@@ -87,7 +87,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/org/chartacaeli/caa</directory>
 				<includes>
@@ -96,7 +96,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/org/chartacaeli/gpu</directory>
 				<includes>
@@ -104,7 +104,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}</directory>
 				<includes>
@@ -113,7 +113,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/mvn/web/WEB-INF/lib/cat/MCCM</targetPath>
+				<targetPath>${basedir}/app/WEB-INF/lib/cat/MCCM</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/lib/cat/MCCM</directory>
 				<includes>
