@@ -28,7 +28,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   export CXX=x86_64-w64-mingw32-c++.exe
   export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
   export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
-  export GS_FONTPATH=c:/users/$USERNAME/src/chartacaeli
+  export GS_FONTPATH=$(cygpath -m ~/src/chartacaeli)
   export VIEWER=gswin64c.exe\ -dBATCH\ -dNOPAUSE\ -q\ -
   export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
   export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
@@ -133,6 +133,14 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
   ```
 
 - Run samples as described in section on Windows above.
+
+### Install
+Installation is the same for Linux and Windows although the latter is only intended for testing.
+- Change directory (bash) to top-level directory of Charta Caeli.
+- Run install commands:
+```bash
+make install
+```
 
 ### Helpful links
 
