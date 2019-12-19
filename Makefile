@@ -119,6 +119,9 @@ $(appdir):
 install: $(appdir)
 	mvn compile
 	mv app $<
+ifdef winos
+	install -m 0755 lab/chartacaeli.sh $</app/WEB-INF
+endif
 
 # compiler objects
 clean:
