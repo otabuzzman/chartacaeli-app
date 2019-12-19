@@ -1,0 +1,14 @@
+--- src/AAMoonNodes2.h	2019-11-16 17:17:08.000000000 +0100
++++ src/AAMoonNodes2.h.cc	2019-12-19 11:39:29.110443800 +0100
+@@ -43,7 +43,11 @@
+ {
+ public:
+ //Enums
++#ifdef CC_NO_CXX11
+   enum class Type
++#else
++  enum Type
++#endif
+   {
+     NotDefined = 0,
+     Ascending = 1,
