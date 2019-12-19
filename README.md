@@ -43,6 +43,7 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 
   ```
   ( cd org/chartacaeli/caa ; make ; make all )
+  ( cd org/chartacaeli/gpu ; make testbuild )
   make
   make all
   ```
