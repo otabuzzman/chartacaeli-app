@@ -59,6 +59,9 @@ CAADLLOBJ := $(filter-out _%,$(CAADLLOBJ))
 vpath %.cpp $(srcdir)
 
 ifdef winos
+AATest.o: AATest.cpp
+	$(CXX) -DAAPLUS_ELP2000_NO_HIGH_PRECISION -DAAPLUS_NO_ELPMPP02 -std=c++11 -Wall -shared -c $< -o $@
+
 .cpp.o:
 	$(CXX) -DCC_NO_CXX11 -std=c++11 -Wall -shared -c $< -o $@
 
@@ -74,6 +77,9 @@ $(CAADLL): $(AADLL) $(CAADLLOBJ)
 	-o $@ $(CAADLLOBJ) \
 	-L. -l$(DST)
 else
+AATest.o: AATest.cpp
+	$(CXX) -DAAPLUS_ELP2000_NO_HIGH_PRECISION -DAAPLUS_NO_ELPMPP02 -std=c++11 -Wall -shared -fPIC -c $< -o $@
+
 .cpp.o:
 	$(CXX) -DCC_NO_CXX11 -std=c++11 -Wall -shared -fPIC -c $< -o $@
 
