@@ -43,12 +43,14 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 
   ```
   ( cd org/chartacaeli/caa ; make ; make all )
-  ( cd org/chartacaeli/gpu ; make testbuild )
   make
   make all
+
+  # No GPU support on Windows but Maven don't cares
+  ( cd org/chartacaeli/gpu ; make testbuild )
   ```
 - Copy [Arial Unicode MS](https://en.wikipedia.org/wiki/Arial_Unicode_MS) font file `ARIALUNI.TTF` into top-level directory of Charta Caeli (needed by unicode-and-fonts sample).
-- In case of 1st time after build run following command with admin privileges:
+- Set system preferences after 1st build (root privileges needed):
 
   ```
   java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences

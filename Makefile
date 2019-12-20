@@ -120,6 +120,7 @@ install: $(appdir)
 	mvn compile
 	mv app $<
 ifdef winos
+	# Linux script needed to test Charta Caeli web service on Windows
 	install -m 0755 lab/chartacaeli.sh $</app/WEB-INF
 endif
 
