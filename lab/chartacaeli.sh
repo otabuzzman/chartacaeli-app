@@ -16,17 +16,39 @@ case $(uname -s) in
 	;;
 esac
 
-case $1 in
-	-v|--view)
-	args="viewer=$VIEWER"
-	shift
-	;;
-	*)
-	args=""
-	;;
-esac
+usage() {
+	echo "chartacaeli.sh [ -kv ] <cdefs> [ <prefs> ]"
+	echo "  -k keep user preferences"
+	echo "  -v spawn viewer process"
+	exit 1
+}
+
+keep=0
+args=""
+
+while getopts "kv" opt ; do
+	case $opt in
+		k)
+		keep=1
+		;;
+		v)
+		args="viewer=$VIEWER"
+		;;
+		*)
+		usage
+		;;
+	esac
+done
+shift $((OPTIND-1))
+
+test $keep -eq 0 && {
+	java -classpath $CLASSPATH \
+		org.chartacaeli.PreferencesTool tree=user command=delete || exit $?
+}
 
 java -classpath $CLASSPATH \
 	-Djava.library.path=lib \
 	-Djava.util.logging.config.file=lib/logging.properties \
-	org.chartacaeli.ChartaCaeli $args $1 $2 ;
+	org.chartacaeli.ChartaCaeli $args $1 $2
+
+exit $?
