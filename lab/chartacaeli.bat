@@ -1,13 +1,14 @@
 @echo off
 rem Charta Caeli launch utility. Store and exec in WEB-INF directory.
 rem
+
 set JAVA_HOME=c:/program files/java/jdk1.8.0_151
-set CLASSPATH=classes;lib;lib/*
 set PATH=c:/program files/java/jdk1.8.0_151/bin;%PATH%
 set PATH=c:/program files/cygwin/usr/x86_64-w64-mingw32/sys-root/mingw/bin;%PATH%
 set PATH=lib;%PATH%
 set VIEWER=gswin64c.exe -dBATCH -dNOPAUSE -q -
-for /f "tokens=*" %%x in ('cd') do (set GS_FONTPATH=%%x)
+if not defined GS_FONTPATH ( for /f "tokens=*" %%x in ( 'cd' ) do (set GS_FONTPATH=%%x ) )
+if not defined CLASSPATH ( set CLASSPATH=classes;lib;lib/* )
 
 set keep=0
 set args=

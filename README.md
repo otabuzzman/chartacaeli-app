@@ -142,7 +142,7 @@ Installation is the same for Linux and Windows although the latter is only inten
 - Change directory (bash) to top-level directory of Charta Caeli.
 - Run install commands:
 ```bash
-make install
+make instapp
 ```
 
 ### Helpful links

@@ -7,6 +7,8 @@ endif
 APP		= chartacaeli
 PKG		= org.chartacaeli
 
+instdir	= /opt/$(APP)
+
 MOD		= $(APP).xsd
 
 # Java VM non-standard options
@@ -16,7 +18,6 @@ JVMX_OPTS = \
 pkgdir	= $(subst .,/,$(PKG))
 moddir	= $(pkgdir)/model
 libdir	= lib
-appdir	= /opt/$(APP)
 
 jnilib	= \
 		$(pkgdir)/caa \
@@ -113,10 +114,10 @@ all: classes
 		$(JAREXT))" \
 		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
 
-$(appdir):
+$(instdir):
 	mkdir -p $@
 
-install: $(appdir)
+instapp: $(instdir)
 	mvn compile
 	mv app $<
 ifdef winos
