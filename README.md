@@ -1,77 +1,197 @@
 # CHARTA CAELI
 A tool to make star charts. Just define your star chart in XML and run the tool. If all goes well you end up with a PDF of your chart. The main purpose of Charta Caeli was to practise Java and related concepts. There are a couple of samples in the lab directory. Read them run them and take a look at the results. Questions? Question!
 
-### Concept
+## Concept
 
-Charta Caeli reads definitions of star charts from XML files. These definition files must match a model given in XSD. The model is designed to allow chart definitions in common terms. Almost every metrics and other more technical information provides a preferences file. Finally there is a properties file to support different languages. Processing these files the tool generates Postscript code on stdout. Pipe it to Ghostscript (e.g.) to get PDF.
+Charta Caeli reads definitions of star charts from XML files. These definition files must match a model given in XSD. The model is designed to allow chart definitions in common terms. Any metrics and other more technical information is in a preferences file. Finally there are property files to support different languages. Putting these files together the tool generates Postscript code on its stdout. Pipe it to Ghostscript (e.g.) to get PDF.
 
-###  Build on Windows
-- Download and install [Cygwin](http://cygwin.com/). Consider a full install to avoid problems due to missing packages. Make sure that gcc, g++, mingw, flex, bison and make are installed as well as bzip, gzip, unzip and wget.
-- Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/).
-- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 8).
-- Download and install [Ghostscript](http://ghostscript.com/download/) and [ImageMagick](https://www.imagemagick.org/script/download.php) 7. Use the Windows installers for both tools. ImageMagick's Cygwin convert command cannot be started as an external process by the Java VM.
-- [XMLStarlet](http://xmlstar.sourceforge.net/) and [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) are useful CLI tools to manipulate XML or PDF files, although not necessarily needed to build the application.
-- Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub.
-- Run a bash (Cygwin) and set shell variables:
+## Build
 
-  `CXX` to mingw C++ compiler.<br>
-  `CXXWRAP` to cxxwrap.exe.<br>
-  `JAVA_HOME` to JDK installation directory.<br>
-  `GS_FONTPATH` to directory for extra font files.<br>
-  `PJ2_GENERAL_PATHJAR` to PJ2 jar file or directory.<br>
-  `PJ2_GENERAL_PATHLIB` to PJ2 native library directory.<br>
-  Extend `PATH` appropriately.<br>
+Charta Caeli is a Java application with some C/C++ and [CUDA](https://en.wikipedia.org/wiki/CUDA) (Compute Unified Device Architecture) modules accessed via [JNI](https://www.google.de/search?q=oracle+java+native+interface+jni) (Java Native Interface). The build process is entirely controlled from the command line and requires a Linux environment or [Cygwin](https://www.cygwin.com/) in case of Windows. To run the build commands a couple of tools are expected to be installed:
 
-  Commands for setting variables with common values:
+- C/C++ development tools (GCC, make, flex, bison etc. and MinGW if on Windows/ Cygwin)
+- Various shell tools (gawk, diff, patch, bzip, gzip, unzip, curl, wget etc.)
+- [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive) 8 to build CUDA programs
+- [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (JDK) 8
+- [Apache Maven](https://maven.apache.org/) build tool for Java
+- [Ghostscript](http://ghostscript.com/download/) PDF generation program (if on Windows do not use Cygwin package but MSI)
+- [ImageMagick](https://www.imagemagick.org/script/download.php) 7 image processing CLI (if on Windows do not use Cygwin package but MSI)
 
-  ```
-  export CXX=x86_64-w64-mingw32-c++.exe
-  export CXXWRAP=/usr/src/cxxwrap-20061217/cxxwrap.exe
-  export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
-  export GS_FONTPATH=$(cygpath -m ~/src/chartacaeli)
-  export VIEWER=gswin64c.exe\ -dBATCH\ -dNOPAUSE\ -q\ -
-  export PJ2_GENERAL_PATHJAR=../pj2aws/pj2/lib
-  export PJ2_GENERAL_PATHLIB=../pj2aws/pj2/lib
-  export PATH=/cygdrive/c/program\ files/java/jdk1.8.0_151/bin:$PATH
-  # Makefile uses java.library.path but caa loads aaplus thus needs PATH set as well
-  export PATH=.:org/chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$PATH
-  export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
-  ```
-- Clone Charta Caeli from GitHub to local computer.
-- Change directory (bash) to top-level directory of Charta Caeli.
-- Run build commands:
+Not required to build but handy anyway:
+- [XMLStarlet](http://xmlstar.sourceforge.net/) for CLI based XML manipulation
+- [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/)for CLI based PDF processing
 
-  ```
-  ( cd org/chartacaeli/caa ; make ; make all )
-  make
-  make all
+**Linux build commands**
 
-  # No GPU support on Windows but Maven don't cares
-  ( cd org/chartacaeli/gpu ; make testbuild )
-  ```
-- Copy [Arial Unicode MS](https://en.wikipedia.org/wiki/Arial_Unicode_MS) font file `ARIALUNI.TTF` into top-level directory of Charta Caeli (needed by unicode-and-fonts sample).
-- Set system preferences after 1st build (root privileges needed):
+```bash
+# setup environment (sample values)
+export CXX=g++
+export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export PATH=$JAVA_HOME/bin:$PATH
+export CUDA_HOME=/usr/local/cuda
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=.:lib:org/chartacaeli/caa:$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 
-  ```
-  java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
-  ```
-- Clear user preferences and run samples:
+# ##################################
+# # install prerequisites if missing
+# ##################################
 
-  ```
-  java org.chartacaeli.PreferencesTool tree=user command=delete
+# install C/C++ development tools
+sudo yum groupinstall "Development Tools"
 
-  for sample in \
+# install CXXWRAP
+( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz \
+&& tar -zxf cxxwrap-20061217.tar.gz \
+|| echo failed to download or unpack CXXWRAP. )
+( cd ~/lab/cxxwrap-20061217 ; ./configure ; make )
+
+# install JDK 8
+sudo yum install java-1.8.0-openjdk-devel.x86_64
+
+# install Ghostscript
+sudo yum install ghostscript
+
+# install ImageMagick 7
+( cd ~/lab ; wget -q https://www.imagemagick.org/download/ImageMagick-7.0.8-27.tar.gz \
+&& tar xf ImageMagick-7.0.8-27.tar.gz \
+|| echo failed to download or unpack ImageMagick. )
+( cd ~/lab/ImageMagick-7.0.8-27 ; ./configure ; make ; make check ; sudo make install )
+
+# install Git shell
+sudo yum install git
+
+# ######################
+# # end of prerequisites
+# ######################
+
+# Clone Charta Caeli
+cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli-app.git ; cd chartacaeli-app
+
+( cd org/chartacaeli/caa ; make ; make all )
+( cd org/chartacaeli/gpu ; make )
+make
+make classes
+```
+
+**Windows build commands**
+
+```bash
+# setup environment (sample values)
+export CXX=x86_64-w64-mingw32-c++.exe
+export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
+export CXXWRAP=~/src/cxxwrap-20061217/cxxwrap.exe
+export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
+export PATH=$JAVA_HOME/bin:$PATH
+export PATH=.:lib:org/chartacaeli/caa:$PATH
+
+# install CXXWRAP
+( cd ~/src ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz \
+&& tar -zxf cxxwrap-20061217.tar.gz \
+|| echo failed to download or unpack CXXWRAP. )
+( cd ~/src/cxxwrap-20061217 ; ./configure ; make )
+
+# Clone Charta Caeli
+cd ~/src ; git clone https://github.com/otabuzzman/chartacaeli-app.git ; cd chartacaeli-app
+
+( cd org/chartacaeli/caa ; make ; make all )
+( cd org/chartacaeli/gpu ; make PJ2TextureMapperGpu.cubin )
+make
+make classes
+```
+
+### PJ2 and CUDA
+
+Charta Caeli utilizes the Parallel Java 2 Library (PJ2) to enable Java code for parallel execution on multiple cores and GPU devices. To achieve the latter PJ2 provides a JNI implementation for CUDA. The bad news is you have to build it yourself but it's quite simple: just download the PJ2 source, run the compiler and put the JNI somewhere your JVM can pick it up.
+
+**Build PJ2 CUDA JNI on Windows**
+
+```bash
+# setup environment (sample values)
+export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
+export CUDA_HOME=/usr/lab/cudacons/cuda_8.0.44_windows/compiler
+export PATH=$JAVA_HOME/bin:$PATH
+
+# download an unpack PJ2 source
+( cd ~/src ; wget -q \
+	-O pj2src.jar https://www.cs.rit.edu/~ark/pj2src_20190611.jar \
+	&& jar xf pj2src.jar \
+	|| echo download PJ2 source failed. )
+
+# build and install JNI
+( cd pj2/lib ; x86_64-w64-mingw32-gcc -Wall -shared \
+	-I"$JAVA_HOME/include" \
+	-I"$JAVA_HOME/include/win32" \
+	-I$CUDA_HOME/include \
+	-o EduRitGpuCuda.dll edu_rit_gpu_Cuda.c \
+	-L$CUDA_HOME/lib/x64 -lcuda \
+	&& install -m 755 EduRitGpuCuda.dll ~/src/chartacaeli-app/lib \
+	|| echo failed to compile EduRitGpuCuda.dll )
+```
+
+**Build PJ2 CUDA JNI on Linux**
+
+```bash
+# setup environment (sample values)
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export CUDA_HOME=/usr/local/cuda
+export PATH=$JAVA_HOME/bin:$PATH
+
+# download an unpack PJ2 source
+( cd ~/src ; wget -q \
+	-O pj2src.jar https://www.cs.rit.edu/~ark/pj2src_20190611.jar \
+	&& jar xf pj2src.jar \
+	|| echo failed to download or unpack PJ2 source. )
+
+# build and install JNI
+( cd pj2/lib ; gcc -Wall -shared -fPIC \
+	-I$JAVA_HOME/include \
+	-I$JAVA_HOME/include/linux \
+	-I$CUDA_HOME/include \
+	-o libEduRitGpuCuda.so edu_rit_gpu_Cuda.c \
+	-L$CUDA_HOME/lib64 -lcuda \
+	&& install -m 755 libEduRitGpuCuda.so ~/src/chartacaeli-app/lib \
+	|| echo failed to compile or install libEduRitGpuCuda.so )
+```
+
+Things get tricky however if there is no CUDA capable device. Apart from the fact that a CUDA program cannot execute without a device, there might still be the wish to build a CUDA kernel anyway, for example to carry it to a different environment. In that case you have to install the CUDA Toolkit manually because the installer expects a device. There is a potentially helpful [repository](https://github.com/otabuzzman/cudacons) dealing with this in a certain way.
+
+Charta Caeli best supports building kernels on Linux. Windows requires more manual steps. Have a look at the `README.md` file and the code in package `org.chartacaeli.gpu` of this repository to find out more about building a CUDA kernel for Charta Caeli to boost image processing of class `org.chartacaeli.Artwork`.
+
+## Check
+
+For a rough check if a build works as expected just run the samples and compare the resulting PDF files with those contained in the repository. The samples - especially `unicode-and-fonts` - make use of the [Arial Unicode MS](https://en.wikipedia.org/wiki/Arial_Unicode_MS) font which contains a quite comprehensive collection of Unicode glyphs. Formerly the font was part of the Microsoft Office distribution. Find and get a copy of the font file `ARIALUNI.TTF` from somewhere and save it in the top-level directory.
+
+Charta Caeli makes use of the [Java Preferences API](https://docs.oracle.com/javase/8/docs/technotes/guides/preferences/overview.html). It stores default values of any variable in the `system` tree. To set it up you need to initialize it as a superuser once before the first run on a computer.
+
+```bash
+# init system prefs after 1st build as superuser
+
+# simulate sudo on Windows/ Cygwin
+alias sudo='cygstart --action=runas'
+
+sudo java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
+```
+
+```bash
+# clear user prefs
+java org.chartacaeli.PreferencesTool tree=user command=delete
+
+# run the samples
+for sample in \
 	layout-and-text \
 	unicode-and-fonts \
 	field-of-view \
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
 	azimuthal-projection ; do ( make ${sample}.pdf ) ; done
-  ```
-- Compare new against repository and check PNG files for differences
+```
 
-  ```
-  for sample in \
+Compare and save results to PNG files. These should be gray if equal. Deviating pixels are marked by color.
+
+```bash
+# run the samples
+for sample in \
 	layout-and-text \
 	unicode-and-fonts \
 	field-of-view \
@@ -79,70 +199,6 @@ Charta Caeli reads definitions of star charts from XML files. These definition f
 	milkyway-with-catalogds9 \
 	azimuthal-projection ; do \
 	( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
-  ```
-
-### Build on Linux
-- Download and compile [CXXWRAP](http://sourceforge.net/projects/cxxwrap/). Set shell variable `CXX` to point at C++ compiler.
-- Download and install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 8). Set `JAVA_HOME` as described in Windows section.
-- Download and install [Ghostscript](http://ghostscript.com/download/) and [ImageMagick](https://www.imagemagick.org/script/download.php).
-- Consider installations of optional CLI tools [XMLStarlet](http://xmlstar.sourceforge.net/) and [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) to ease XML or PDF file manipulations.
-- Clone and build [PJ2AWS repository](https://github.com/otabuzzman/pj2aws.git) from GitHub. Set shell variables according to section on Windows.
-- Download and install [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) and samples as described in PJ2AWS repository. Set `CUDA_HOME` to point at installation directory. Set `CUDA_SAMP` to properly resolve `$CUDA_SAMP/common/inc` directory in CUDA Samples.
-- Set up the environment:
-  ```
-  export CXX=g++
-  export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
-  export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
-  export PATH=$JAVA_HOME/bin:$PATH
-  export GS_FONTPATH=~/lab/chartacaeli
-  export PJ2_GENERAL_PATHJAR=~/lab/pj2aws/pj2/lib
-  export PJ2_GENERAL_PATHLIB=~/lab/pj2aws/pj2/lib
-  export CUDA_HOME=/usr/local/cuda
-  export PATH=$CUDA_HOME/bin:$PATH
-  export CUDA_SAMP=~/cuda-7.5/samples
-  export LD_LIBRARY_PATH=.:org/chartacaeli/caa:$PJ2_GENERAL_PATHLIB:$CUDA_HOME/lib64:$LD_LIBRARY_PATH
-
-  # Install CXXWRAP
-  ( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz )
-  ( cd ~/lab ; tar -zxf cxxwrap-20061217.tar.gz )
-  ( cd ~/lab/cxxwrap-20061217 ; ./configure ; make )
-
-  # Install JDK (if missing)
-  sudo yum install java-1.8.0-openjdk-devel.x86_64
-  # Install Ghostscript (if missing)
-  sudo yum install ghostscript
-  # Install ImageMagick 7 (if missing)
-  wget https://www.imagemagick.org/download/ImageMagick-7.0.8-27.tar.gz
-  tar xf ImageMagick-7.0.8-27.tar.gz ; cd ImageMagick-7.0.8-27
-  ./configure ; make ; make check ; sudo make install
-  # Install Git shell (if missing)
-  sudo yum install git
-
-  # Clone PJ2AWS
-  ( cd ~/lab ; git clone https://github.com/otabuzzman/pj2aws.git )
-  # Build PJ2AWS (see README in repository)
-  ( cd ~/lab/pj2aws ; make pj2 jclean ; make S1build )
-  ```
-
-- Clone Charta Caeli from GitHub and build.
-  ```
-  # Clone Charta Caeli
-  cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli.git ; cd chartacaeli
-
-  ( cd org/chartacaeli/caa ; make ; make all )
-  ( cd org/chartacaeli/gpu ; make )
-  make
-  make all
-  ```
-
-- Run samples as described in section on Windows above.
-
-### Install
-Installation is the same for Linux and Windows although the latter is only intended for testing.
-- Change directory (bash) to top-level directory of Charta Caeli.
-- Run install commands:
-```bash
-make instapp
 ```
 
 ### Helpful links

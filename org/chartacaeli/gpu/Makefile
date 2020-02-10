@@ -198,6 +198,11 @@ $(C3PEXE):
 	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 
 .cu.o:
+	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
+	@echo .\$(subst .o,,$(subst /,\,$@)).cmd
 
 # double precision DCP test programs (dcp/%.exe)
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
@@ -219,18 +224,25 @@ $(dcpsrc)/P4Orthographic_f: $(dcpsrc)/P4Orthographic_f.o $(dcpsrc)/Coordinate_f.
 $(dcpsrc)/P4Stereographic_f: $(dcpsrc)/P4Stereographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
 
 $(DCPEXE) $(DCPEXE_F):
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
-	@echo $(subst /,\\,$@).cmd
+	@echo .\$(subst /,\,$@).cmd
 
 PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
-	@echo "*** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 	@echo cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
-	@echo $(basename $@).cmd
+	@echo .\$(basename $@).cmd
 
 PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
+	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
+	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
+	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
+	@echo cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
+	@echo .\$(basename $@).cmd
 else
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \

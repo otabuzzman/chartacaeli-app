@@ -1,5 +1,4 @@
 rem test compilation on Windows without CUDA capable device
-set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
 cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
 rem compile object files
 for %%n in ( dcp\P4Stereographic dcp\P4Orthographic dcp\P4Mollweide dcp\Math dcp\Coordinate dcp\Vector3D dcp\Vector4D dcp\Plane PJ2TextureMapperGpu ) do (

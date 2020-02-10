@@ -1,12 +1,9 @@
 # Charta Caeli launch utility. Store and exec in WEB-INF directory.
 #
 
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
-export PATH=$JAVA_HOME/bin:lib:$PATH
-export LD_LIBRARY_PATH=lib:$CUDA_HOME/lib64:$LD_LIBRARY_PATH
-VIEWER=${GS:-gs}\ -dBATCH\ -dNOPAUSE\ -q\ -
-export ${GS_FONTPATH:=$(pwd)}
+JAVA_LIBRARY_PATH=${JAVA_LIBRARY_PATH:=lib}
 export ${CLASSPATH:=classes:lib:lib/*}
+VIEWER=${GS:-gs}\ -dBATCH\ -dNOPAUSE\ -q\ -
 
 usage() {
 	echo "chartacaeli.sh [ -kv ] <cdefs> [ <prefs> ]"
@@ -39,7 +36,7 @@ test $keep -eq 0 && {
 }
 
 java -classpath $CLASSPATH \
-	-Djava.library.path=lib \
+	-Djava.library.path=$JAVA_LIBRARY_PATH \
 	-Djava.util.logging.config.file=lib/logging.properties \
 	org.chartacaeli.ChartaCaeli $args $1 $2
 

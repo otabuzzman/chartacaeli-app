@@ -7,8 +7,6 @@ endif
 APP		= chartacaeli
 PKG		= org.chartacaeli
 
-instdir	= /opt/$(APP)
-
 MOD		= $(APP).xsd
 
 # Java VM non-standard options
@@ -19,16 +17,19 @@ pkgdir	= $(subst .,/,$(PKG))
 moddir	= $(pkgdir)/model
 libdir	= lib
 
+instdir	= /opt/$(APP)
+
 jnilib	= \
 		$(pkgdir)/caa \
 		$(pkgdir)/gpu \
-		$$PJ2_GENERAL_PATHLIB \
+		$(libdir) \
 
 JARMOD = \
 		castor-codegen-1.3.3.jar \
 		castor-xml-schema-1.3.3.jar \
 
 JAREXT = \
+		$(libdir)/pj2.jar \
 		$(libdir)/castor-core-1.3.3.jar \
 		$(libdir)/castor-xml-1.3.3.jar \
 		$(libdir)/jts-1.14.jar \
@@ -88,25 +89,28 @@ classes: $(CLSUCB)
 	javac \
 			-classpath "$(subst $(space),$(sep), \
 			$(pkgdir) \
-			$$PJ2_GENERAL_PATHJAR \
 			$(JAREXT))" \
 			-d . $^ $(CLSAPP)
 
-all: classes
-
 .xml.ps:
 	# note that caa loads aaplus thus needs PATH set as well as java.library.path
-	@time java $$JFRX_OPTS $(JVMX_OPTS) \
-			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
-			-Djava.util.logging.config.file=logging.properties \
-			-classpath "$(subst $(space),$(sep), \
+	@time CLASSPATH="$(subst $(space),$(sep), \
+			$(libdir) \
 			$(pkgdir) \
-			$$PJ2_GENERAL_PATHJAR \
 			$(JAREXT))" \
-			$(PKG).ChartaCaeli viewer="$$VIEWER" $< >$@
+			JAVA_LIBRARY_PATH=.:org/chartacaeli/caa:$(libdir) \
+			LD_LIBRARY_PATH=.:org/chartacaeli/caa:$(libdir):$LD_LIBRARY_PATH \
+ifdef winos
+			$${GS:=gswin64c.exe} GS_FONTPATH=$(cygpath -m $(pwd)) \
+endif
+			./chartacaeli.sh -kv $< >$@
 
 .ps.pdf:
+ifdef winos
+	@time $${GS:-gswin64c.exe} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
+else
 	@time $${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
+endif
 
 .class.map:
 	java $(JVMX_OPTS) \
@@ -117,12 +121,12 @@ all: classes
 $(instdir):
 	mkdir -p $@
 
-instapp: $(instdir)
+install: $(instdir)
 	mvn compile
-	mv app $<
+	tar cf - web | ( cd $< ; tar xf - )
 ifdef winos
 	# Linux script needed to test Charta Caeli web service on Windows
-	install -m 0755 lab/chartacaeli.sh $</app/WEB-INF
+	install -m 0755 chartacaeli.sh $</web/WEB-INF
 endif
 
 # compiler objects
@@ -171,6 +175,8 @@ $(libdir)/commons-math3-3.5.jar:
 	wget -q -O $@ http://central.maven.org/maven2/org/apache/commons/commons-math3/3.5/commons-math3-3.5.jar
 $(libdir)/commons-logging-1.2.jar:
 	wget -q -O $@ http://central.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar
+$(libdir)/pj2.jar:
+	wget -q -O $@ https://www.cs.rit.edu/~ark/pj2_20190611.jar
 
 
 
@@ -178,7 +184,7 @@ $(libdir)/commons-logging-1.2.jar:
 FieldOfView.ps: lab/FieldOfView.dat
 	@eval java $(JVMX_OPTS) \
 		-Djava.library.path='"$(subst $(space),$(sep),$(jnilib))"' \
-		-Djava.util.logging.config.file=logging.properties \
+		-Djava.util.logging.config.file=lib/logging.properties \
 		-classpath '"$(subst $(space),$(sep), \
 		$(pkgdir) \
 		$(JAREXT))"' \

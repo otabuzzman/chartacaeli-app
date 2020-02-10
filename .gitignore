@@ -8,7 +8,6 @@ Blocks-4.1.0.txt
 *.ttf
 *.zip
 # artefacts
-/app
 /generated-sources
 /maven-status
 org/chartacaeli/UnicodeBlock.java
@@ -22,6 +21,7 @@ org/chartacaeli/gpu/tst/**
 !org/chartacaeli/gpu/tst/P4Projector.java
 !org/chartacaeli/gpu/tst/RandomDataset.java
 org/chartacaeli/model/
+/web
 /FieldOfView.pdf
 /FieldOfView.ps
 /azimuthal-projection.pdf

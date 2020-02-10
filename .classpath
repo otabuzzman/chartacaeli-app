@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry excluding="lab/|lib/|org/chartacaeli/caa/src/|org/chartacaeli/gpu/tst/" including="org/chartacaeli/" kind="src" path="">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="org/chartacaeli/caa"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="chartacaeli/org/chartacaeli/caa"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -23,6 +23,10 @@
 			<attribute name="javadoc_location" value="file:/C:/Users/jschuck/src/jts-1.14/doc/javadoc/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/pj2aws/pj2/lib"/>
+	<classpathentry kind="lib" path="lib/pj2.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="chartacaeli/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path=""/>
 </classpath>
