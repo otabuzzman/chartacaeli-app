@@ -2,10 +2,13 @@
 rem Charta Caeli launch utility. Store and exec in WEB-INF directory.
 rem
 
-if "%JAVA_LIBRARY_PATH%"=="" ( set JAVA_LIBRARY_PATH=lib )
-if not defined CLASSPATH ( set CLASSPATH=classes;lib;lib/* )
-if not defined GS ( set GS=gswin64c.exe )
-set VIEWER=%GS% -dBATCH -dNOPAUSE -q -
+set PATH=%ProgramFiles%\Cygwin\usr\x86_64-w64-mingw32\sys-root\mingw\bin;%PATH%
+
+rem if CLASSPATH is set assume propper values for JAVA_LIBRARY_PATH and PATH as well
+if not defined CLASSPATH set JAVA_LIBRARY_PATH=lib
+if not defined CLASSPATH set PATH=lib;%PATH%
+if not defined CLASSPATH set CLASSPATH=classes;lib;lib/*
+set VIEWER=gswin64c.exe -dBATCH -dNOPAUSE -q -
 
 set keep=0
 set args=

@@ -1,8 +1,8 @@
 # Charta Caeli launch utility. Store and exec in WEB-INF directory.
 #
 
-JAVA_LIBRARY_PATH=${JAVA_LIBRARY_PATH:=lib}
-export ${CLASSPATH:=classes:lib:lib/*}
+# if CLASSPATH is set assume propper values for JAVA_LIBRARY_PATH and LD_LIBRARY_PATH as well
+test -z "$CLASSPATH" && { JAVA_LIBRARY_PATH=lib ; export LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ; export CLASSPATH=classes:lib:lib/* ; }
 VIEWER=${GS:-gs}\ -dBATCH\ -dNOPAUSE\ -q\ -
 
 usage() {
