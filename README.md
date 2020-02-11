@@ -85,7 +85,7 @@ export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=.:lib:org/chartacaeli/caa:$PATH
 
-# install CXXWRAP
+# install CXXWRAP if missing
 ( cd ~/src ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz \
 && tar -zxf cxxwrap-20061217.tar.gz \
 || echo failed to download or unpack CXXWRAP. )
@@ -95,39 +95,14 @@ export PATH=.:lib:org/chartacaeli/caa:$PATH
 cd ~/src ; git clone https://github.com/otabuzzman/chartacaeli-app.git ; cd chartacaeli-app
 
 ( cd org/chartacaeli/caa ; make ; make all )
-( cd org/chartacaeli/gpu ; make PJ2TextureMapperGpu.cubin )
+( cd org/chartacaeli/gpu ; make )
 make
 make classes
 ```
 
 ### PJ2 and CUDA
 
-Charta Caeli utilizes the Parallel Java 2 Library (PJ2) to enable Java code for parallel execution on multiple cores and GPU devices. To achieve the latter PJ2 provides a JNI implementation for CUDA. The bad news is you have to build it yourself but it's quite simple: just download the PJ2 source, run the compiler and put the JNI somewhere your JVM can pick it up.
-
-**Build PJ2 CUDA JNI on Windows**
-
-```bash
-# setup environment (sample values)
-export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
-export CUDA_HOME=/usr/lab/cudacons/cuda_8.0.44_windows/compiler
-export PATH=$JAVA_HOME/bin:$PATH
-
-# download an unpack PJ2 source
-( cd ~/src ; wget -q \
-	-O pj2src.jar https://www.cs.rit.edu/~ark/pj2src_20190611.jar \
-	&& jar xf pj2src.jar \
-	|| echo download PJ2 source failed. )
-
-# build and install JNI
-( cd pj2/lib ; x86_64-w64-mingw32-gcc -Wall -shared \
-	-I"$JAVA_HOME/include" \
-	-I"$JAVA_HOME/include/win32" \
-	-I$CUDA_HOME/include \
-	-o EduRitGpuCuda.dll edu_rit_gpu_Cuda.c \
-	-L$CUDA_HOME/lib/x64 -lcuda \
-	&& install -m 755 EduRitGpuCuda.dll ~/src/chartacaeli-app/lib \
-	|| echo failed to compile EduRitGpuCuda.dll )
-```
+Charta Caeli utilizes the [Parallel Java 2 Library](https://www.cs.rit.edu/~ark/pj2.shtml) (PJ2) to enable Java code for parallel execution on multiple cores and GPU devices. To achieve the latter PJ2 provides a JNI implementation for CUDA. The bad news is you have to build it yourself but it's quite simple: just download the PJ2 source, run the compiler and put the JNI somewhere your JVM can pick it up.
 
 **Build PJ2 CUDA JNI on Linux**
 
@@ -152,6 +127,31 @@ export PATH=$JAVA_HOME/bin:$PATH
 	-L$CUDA_HOME/lib64 -lcuda \
 	&& install -m 755 libEduRitGpuCuda.so ~/src/chartacaeli-app/lib \
 	|| echo failed to compile or install libEduRitGpuCuda.so )
+```
+
+**Build PJ2 CUDA JNI on Windows**
+
+```bash
+# setup environment (sample values)
+export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
+export CUDA_HOME=/usr/lab/cudacons/cuda_8.0.44_windows/compiler
+export PATH=$JAVA_HOME/bin:$PATH
+
+# download an unpack PJ2 source
+( cd ~/src ; wget -q \
+	-O pj2src.jar https://www.cs.rit.edu/~ark/pj2src_20190611.jar \
+	&& jar xf pj2src.jar \
+	|| echo download PJ2 source failed. )
+
+# build and install JNI
+( cd ~/src/pj2/lib ; x86_64-w64-mingw32-gcc -Wall -shared \
+	-I"$JAVA_HOME/include" \
+	-I"$JAVA_HOME/include/win32" \
+	-I$CUDA_HOME/include \
+	-o EduRitGpuCuda.dll edu_rit_gpu_Cuda.c \
+	-L$CUDA_HOME/lib/x64 -lcuda \
+	&& install -m 755 EduRitGpuCuda.dll ~/src/chartacaeli-app/lib \
+	|| echo failed to compile EduRitGpuCuda.dll )
 ```
 
 Things get tricky however if there is no CUDA capable device. Apart from the fact that a CUDA program cannot execute without a device, there might still be the wish to build a CUDA kernel anyway, for example to carry it to a different environment. In that case you have to install the CUDA Toolkit manually because the installer expects a device. There is a potentially helpful [repository](https://github.com/otabuzzman/cudacons) dealing with this in a certain way.
@@ -190,7 +190,7 @@ for sample in \
 Compare and save results to PNG files. These should be gray if equal. Deviating pixels are marked by color.
 
 ```bash
-# run the samples
+# compare samples
 for sample in \
 	layout-and-text \
 	unicode-and-fonts \
@@ -201,7 +201,59 @@ for sample in \
 	( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
 ```
 
-### Helpful links
+## Run
+
+There are two scripts to ease running Charta Caeli on Linux and Windows. Both scripts, `chatacaeli.sh` and `chartacaeli.bat`, are intended to exec in the `web/WEB-INF` folder by default. However, with proper configuration, any other folder will do. When on Windows/ Cygwin the Linux script can be used as well, again with proper setup. Below are examples for the various cases, namely Linux, Windows and Windows/ Cygwin with each respective script to be executed in web/WEB-INF as well as the repo's top-level folder. A special font is assumed to live in the top-level folder.
+
+Run the unicode-and-fonts sample on **Linux** in web/WEB-INF
+```bash
+GS_FONTPATH=~/src/chartacaeli-app \
+./chartacaeli.sh -kv ~/src/chartacaeli-app/lab/unicode-and-fonts.xml
+```
+
+Run the unicode-and-fonts sample on **Linux** from the repo's top-level folder
+```bash
+JAVA_LIBRARY_PATH=lib:org/chartacaeli/caa \
+LD_LIBRARY_PATH=lib:org/chartacaeli/caa:$LD_LIBRARY_PATH \
+CLASSPATH=:lib:lib/* \
+GS_FONTPATH=~/src/chartacaeli-app \
+./chartacaeli.sh -kv lab/unicode-and-fonts.xml
+```
+
+Run the unicode-and-fonts sample on **Windows** in web\WEB-INF
+```cmd
+set GS_FONTPATH=%USERPROFILE%\src\chartacaeli-app
+.\chartacaeli.bat /k /v %USERPROFILE%\src\chartacaeli-app\lab\unicode-and-fonts.xml
+```
+
+Run the unicode-and-fonts sample on **Windows** from the repo's top-level folder
+```cmd
+set JAVA_LIBRARY_PATH=lib;org\chartacaeli\caa
+set PATH= lib;org\chartacaeli\caa;%PATH%
+set CLASSPATH=;lib;lib\*
+set GS_FONTPATH=%USERPROFILE%\src\chartacaeli-app
+.\chartacaeli.bat /k /v %USERPROFILE%\src\chartacaeli-app\lab\unicode-and-fonts.xml
+```
+
+Run the unicode-and-fonts sample on **Windwos/ Cygwin** in web/WEB-INF
+```bash
+JAVA_LIBRARY_PATH=$(cygpath -m lib) \
+PATH=lib:$PATH \
+CLASSPATH=$(cygpath -mp classes:lib:lib/*) \
+GS_FONTPATH=$(cygpath -m ~/src/chartacaeli-app) \
+./chartacaeli.sh -kv $(cygpath -m ~/src/chartacaeli-app/lab/unicode-and-fonts.xml)
+```
+
+Run the unicode-and-fonts sample on **Windwos/ Cygwin** from the repo's top-level folder
+```bash
+JAVA_LIBRARY_PATH=$(cygpath -mp lib:org/chartacaeli/caa) \
+PATH=lib:org/chartacaeli/caa:$PATH \
+CLASSPATH=$(cygpath -mp :lib:lib/*) \
+GS_FONTPATH=$(cygpath -m ~/src/chartacaeli-app) \
+./chartacaeli.sh -kv $(cygpath -m lab/unicode-and-fonts.xml)
+```
+
+## Helpful links
 
 - [Sample Pages](http://www.skymaps.com/store/samples/Millennium%20Star%20Atlas.pdf) from The Millenium Star Atlas
 - [Making Your Own Color Astronomical Images](http://www.kellysky.net/DSScolor.ppt) is a hands-on guide utilizing the [Digitized Sky Survey](https://archive.stsci.edu/cgi-bin/dss_form)
