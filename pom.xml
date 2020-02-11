@@ -109,15 +109,6 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>${basedir}/web/WEB-INF/lib</targetPath>
-				<filtering>false</filtering>
-				<directory>${basedir}</directory>
-				<includes>
-					<include>ARIALUNI.TTF</include>
-					<include>l_10646.ttf</include>
-				</includes>
-			</resource>
-			<resource>
 				<targetPath>${basedir}/web/WEB-INF/lib/cat/MCCM</targetPath>
 				<filtering>false</filtering>
 				<directory>${basedir}/lib/cat/MCCM</directory>
