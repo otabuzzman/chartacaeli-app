@@ -198,11 +198,7 @@ $(C3PEXE):
 	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 
 .cu.o:
-	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
-	@echo .\$(subst .o,,$(subst /,\,$@)).cmd
+	@:
 
 # double precision DCP test programs (dcp/%.exe)
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
@@ -227,21 +223,21 @@ $(DCPEXE) $(DCPEXE_F):
 	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
+	@echo cd %userprofile%\src\chartacaeli-app\org\chartacaeli\gpu
 	@echo .\$(subst /,\,$@).cmd
 
 PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
 	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
+	@echo cd %userprofile%\src\chartacaeli-app\org\chartacaeli\gpu
 	@echo .\$(basename $@).cmd
 
 PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
 	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
 	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
 	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
+	@echo cd %userprofile%\src\chartacaeli-app\org\chartacaeli\gpu
 	@echo .\$(basename $@).cmd
 else
 .cpp.o:

@@ -1,7 +1,7 @@
 rem test compilation on Windows without CUDA capable device
-cd %userprofile%\src\chartacaeli\org\chartacaeli\gpu
+
 rem compile object files
-for %%n in ( dcp\P4Stereographic_f dcp\P4Orthographic_f dcp\P4Mollweide_f dcp\Math dcp\Coordinate_f dcp\Vector3D_f dcp\Vector4D_f dcp\Plane_f PJ2TextureMapperGpu_f ) do (
+for %%n in ( dcp\P4Stereographic_f dcp\P4Orthographic_f dcp\P4Mollweide_f dcp\Math_f dcp\Coordinate_f dcp\Vector3D_f dcp\Vector4D_f dcp\Plane_f PJ2TextureMapperGpu_f ) do (
 	if not exist %%n.o (
 		%CUDA_HOME%\bin\nvcc -DPJ2TEXTUREMAPPERGPU_MAIN -Wno-deprecated-gpu-targets -I%CUDA_HOME%\..\CUDASamples\common\inc -o %%n.o -dc %%n.cu ) )
 rem link cubin file (https://devtalk.nvidia.com/default/topic/914699/create-single-ptx-or-cubin-file-from-multiple-cu-sources/)
