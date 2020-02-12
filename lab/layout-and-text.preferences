@@ -8,6 +8,18 @@
 	<!--HKEY_CURRENT_USER\SOFTWARE\JavaSoft\Prefs\org\chartacaeli-->
 	<root type="user">
 		<map/>
+		<node name="java">
+			<map/>
+			<node name="lang">
+				<map/>
+				<node name="Object">
+					<map>
+						<!--used by CatalogADC1239H, CatalogADC1239T, CatalogADC5050, CatalogADC5109, CatalogADC6049, CatalogADC7118-->
+						<entry key="prepromot" value="false"/>
+					</map>
+				</node>
+			</node>
+		</node>
 		<node name="org">
 			<map/>
 			<node name="chartacaeli">
