@@ -104,8 +104,8 @@
 				<filtering>false</filtering>
 				<directory>${basedir}/org/chartacaeli/gpu</directory>
 				<includes>
-					<include>PJ2TextureMweberGpu.cubin</include>
-					<include>PJ2TextureMweberGpu_f.cubin</include>
+					<include>PJ2TextureMapperGpu.cubin</include>
+					<include>PJ2TextureMapperGpu_f.cubin</include>
 				</includes>
 			</resource>
 			<resource>
