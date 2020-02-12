@@ -24,7 +24,7 @@ usage() {
 	echo "                      shared objects."
 	echo "  JAVA_LOGPROP_FILE - path and file name of logging.properties."
 	echo "  LD_LIBRARY_PATH   - list of folders the dynamic link loader searches"
-	echo "                      for nested objects (e.g. caa.dll -> aaplus.dll)."
+	echo "                      for nested objects (e.g. caa.so -> aaplus.so)."
 	echo "  CLASSPATH         - list of directories the JVM looks up class files"
 	echo "                      and JARs."
 	exit 1

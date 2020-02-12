@@ -113,7 +113,7 @@ export CUDA_HOME=/usr/local/cuda
 export PATH=$JAVA_HOME/bin:$PATH
 
 # download an unpack PJ2 source
-( cd ~/src ; wget -q \
+( cd ~/lab ; wget -q \
 	-O pj2src.jar https://www.cs.rit.edu/~ark/pj2src_20190611.jar \
 	&& jar xf pj2src.jar \
 	|| echo failed to download or unpack PJ2 source. )
@@ -125,7 +125,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 	-I$CUDA_HOME/include \
 	-o libEduRitGpuCuda.so edu_rit_gpu_Cuda.c \
 	-L$CUDA_HOME/lib64 -lcuda \
-	&& install -m 755 libEduRitGpuCuda.so ~/src/chartacaeli-app/lib \
+	&& install -m 755 libEduRitGpuCuda.so ~/lab/chartacaeli-app/lib \
 	|| echo failed to compile or install libEduRitGpuCuda.so )
 ```
 
@@ -210,11 +210,11 @@ Run the unicode-and-fonts sample on **Linux** in web/WEB-INF
 # if CUDA available
 CUDA_HOME=/usr/local/cuda \
 LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH \
-GS_FONTPATH=~/src/chartacaeli-app \
-./chartacaeli.sh -kv ~/src/chartacaeli-app/lab/unicode-and-fonts.xml
+GS_FONTPATH=~/lab/chartacaeli-app \
+./chartacaeli.sh -kv ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml
 # without CUDA
-GS_FONTPATH=~/src/chartacaeli-app \
-./chartacaeli.sh -kv ~/src/chartacaeli-app/lab/unicode-and-fonts.xml
+GS_FONTPATH=~/lab/chartacaeli-app \
+./chartacaeli.sh -kv ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml
 ```
 
 Run the unicode-and-fonts sample on **Linux** from the repo's top-level folder
@@ -224,13 +224,13 @@ CUDA_HOME=/usr/local/cuda \
 JAVA_LIBRARY_PATH=lib:org/chartacaeli/caa \
 LD_LIBRARY_PATH=lib:org/chartacaeli/caa:$CUDA_HOME/lib64:$LD_LIBRARY_PATH \
 CLASSPATH=:lib:lib/* \
-GS_FONTPATH=~/src/chartacaeli-app \
+GS_FONTPATH=~/lab/chartacaeli-app \
 ./chartacaeli.sh -kv lab/unicode-and-fonts.xml
 # without CUDA
 JAVA_LIBRARY_PATH=lib:org/chartacaeli/caa \
 LD_LIBRARY_PATH=lib:org/chartacaeli/caa:$LD_LIBRARY_PATH \
 CLASSPATH=:lib:lib/* \
-GS_FONTPATH=~/src/chartacaeli-app \
+GS_FONTPATH=~/lab/chartacaeli-app \
 ./chartacaeli.sh -kv lab/unicode-and-fonts.xml
 ```
 
