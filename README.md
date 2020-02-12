@@ -207,12 +207,26 @@ There are two scripts to ease running Charta Caeli on Linux and Windows. Both sc
 
 Run the unicode-and-fonts sample on **Linux** in web/WEB-INF
 ```bash
+# if CUDA available
+CUDA_HOME=/usr/local/cuda \
+LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH \
+GS_FONTPATH=~/src/chartacaeli-app \
+./chartacaeli.sh -kv ~/src/chartacaeli-app/lab/unicode-and-fonts.xml
+# without CUDA
 GS_FONTPATH=~/src/chartacaeli-app \
 ./chartacaeli.sh -kv ~/src/chartacaeli-app/lab/unicode-and-fonts.xml
 ```
 
 Run the unicode-and-fonts sample on **Linux** from the repo's top-level folder
 ```bash
+# if CUDA available
+CUDA_HOME=/usr/local/cuda \
+JAVA_LIBRARY_PATH=lib:org/chartacaeli/caa \
+LD_LIBRARY_PATH=lib:org/chartacaeli/caa:$CUDA_HOME/lib64:$LD_LIBRARY_PATH \
+CLASSPATH=:lib:lib/* \
+GS_FONTPATH=~/src/chartacaeli-app \
+./chartacaeli.sh -kv lab/unicode-and-fonts.xml
+# without CUDA
 JAVA_LIBRARY_PATH=lib:org/chartacaeli/caa \
 LD_LIBRARY_PATH=lib:org/chartacaeli/caa:$LD_LIBRARY_PATH \
 CLASSPATH=:lib:lib/* \
