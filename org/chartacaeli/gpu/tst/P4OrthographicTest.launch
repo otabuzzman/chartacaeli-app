@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.junit.launchconfig">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/chartacaeli/org/chartacaeli/gpu/tst/P4OrthographicTest.java"/>
+<listEntry value="/chartacaeli-app/org/chartacaeli/gpu/tst/P4OrthographicTest.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -15,5 +15,5 @@
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.chartacaeli.gpu.tst.P4OrthographicTest"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="chartacaeli"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="chartacaeli-app"/>
 </launchConfiguration>

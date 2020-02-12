@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/chartacaeli-app"/>
+<listEntry value="/chartacaeli/org/chartacaeli/PreferencesTool.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
-<listEntry value="4"/>
+<listEntry value="1"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.chartacaeli.RandomDataset"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="4 2 0 90 0 360"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="chartacaeli-app"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.chartacaeli.PreferencesTool"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="tree=system command=backup"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="chartacaeli"/>
 <booleanAttribute key="org.eclipse.jdt.launching.STOP_IN_MAIN" value="true"/>
 </launchConfiguration>

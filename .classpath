@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry excluding="lab/|lib/|org/chartacaeli/caa/src/|org/chartacaeli/gpu/tst/" including="org/chartacaeli/" kind="src" path="">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="chartacaeli/org/chartacaeli/caa"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="chartacaeli-app/org/chartacaeli/caa"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -25,7 +25,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/pj2.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="chartacaeli/lib"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="chartacaeli-app/lib"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path=""/>
