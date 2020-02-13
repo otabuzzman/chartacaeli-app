@@ -4,12 +4,12 @@
 	<groupId>org.chartacaeli</groupId>
 	<artifactId>chartacaeli</artifactId>
 	<!-- ${git-commit} -->
-	<version>0217</version>
+	<version>0242</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<git-commit>0214</git-commit>
+		<git-commit>0242</git-commit>
 	</properties>
 	<build>
 		<defaultGoal>compile</defaultGoal>
@@ -190,7 +190,7 @@
 			<artifactId>pj2</artifactId>
 			<version>${git-commit}</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/../pj2aws/pj2.jar</systemPath>
+			<systemPath>${basedir}/lib/pj2.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<profiles>
