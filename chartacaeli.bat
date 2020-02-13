@@ -6,13 +6,7 @@ set PATH=%ProgramFiles%\Cygwin\usr\x86_64-w64-mingw32\sys-root\mingw\bin;%PATH%
 
 rem if CLASSPATH is set assume propper values for JAVA_LIBRARY_PATH, JAVA_LOGPROP_FILE and PATH as well
 if not defined CLASSPATH set JAVA_LIBRARY_PATH=lib
-if not defined CLASSPATH (
-	if exist lib\logging.properties (
-		set JAVA_LOGPROP_FILE=lib\logging.properties
-	) else (
-		set JAVA_LOGPROP_FILE=classes\logging.properties
-	)
-)
+if not defined CLASSPATH set JAVA_LOGPROP_FILE=lib\logging.properties
 if not defined CLASSPATH set PATH=lib;%PATH%
 if not defined CLASSPATH set CLASSPATH=classes;lib;lib/*
 set VIEWER=gswin64c.exe -dBATCH -dNOPAUSE -q -
@@ -46,19 +40,22 @@ java -classpath %CLASSPATH% ^
 exit /b %errorlevel%
 
 :usage
-echo chartacaeli.bat [ /k /v ] ^<cdefs^> [ ^<prefs^> ]
+echo chartacaeli.bat [ /h /k /v ] ^<cdefs^> [ ^<prefs^> ]
 echo.
 echo   /k keep user preferences
 echo   /v spawn viewer process
+echo   /h show this message and exit
 echo.
 echo The script assumes to be executed in web/WEB-INF if CLASSPATH is unset.
 echo To run the script from another folder several variable are required:
 echo.
 echo   JAVA_LIBRARY_PATH - list (PATH format) of folders the JVM searches for
-echo                       shared objects.
+echo                       shared objects. (default lib)
 echo   JAVA_LOGPROP_FILE - path and file name of logging.properties.
+echo                       (default lib^\logging.properties)
 echo   PATH              - list of folders the dynamic link loader searches
 echo                       for nested objects (e.g. caa.dll -^> aaplus.dll).
+echo                       (default lib:%%PATH%%)
 echo   CLASSPATH         - list of directories the JVM looks up class files
-echo                       and JARs.
+echo                       and JARs. (default classes;lib;lib/*)
 exit /b 1

@@ -4,10 +4,8 @@
 # if CLASSPATH is set assume propper values for JAVA_LIBRARY_PATH, JAVA_LOGPROP_FILE and LD_LIBRARY_PATH as well
 test -z "$CLASSPATH" && {
 	JAVA_LIBRARY_PATH=lib
-	test -s lib/logging.properties \
-	&& JAVA_LOGPROP_FILE=lib/logging.properties \
-	|| JAVA_LOGPROP_FILE=classes/logging.properties
-	export LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH
+	JAVA_LOGPROP_FILE=lib/logging.properties
+	export LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH 
 	export CLASSPATH=classes:lib:lib/* ; }
 VIEWER=${GS:-gs}\ -dBATCH\ -dNOPAUSE\ -q\ -
 
@@ -16,17 +14,20 @@ usage() {
 	echo ""
 	echo "  -k keep user preferences"
 	echo "  -v spawn viewer process"
+	echo "  -h show this message and exit"
 	echo ""
 	echo "The script assumes to be executed in web/WEB-INF if CLASSPATH is unset."
 	echo "To run the script from another folder several variable are required:"
 	echo ""
 	echo "  JAVA_LIBRARY_PATH - list (PATH format) of folders the JVM searches for"
-	echo "                      shared objects."
+	echo "                      shared objects. (default lib)"
 	echo "  JAVA_LOGPROP_FILE - path and file name of logging.properties."
+	echo "                      (default lib/logging.properties)"
 	echo "  LD_LIBRARY_PATH   - list of folders the dynamic link loader searches"
 	echo "                      for nested objects (e.g. caa.so -> aaplus.so)."
+	echo "                      (default lib:\$LD_LIBRARY_PATH)"
 	echo "  CLASSPATH         - list of directories the JVM looks up class files"
-	echo "                      and JARs."
+	echo "                      and JARs. (default classes:lib:lib/*)"
 	exit 1
 }
 
