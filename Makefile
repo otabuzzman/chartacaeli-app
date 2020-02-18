@@ -101,6 +101,7 @@ endif
 .xml.ps:
 	# note that caa loads aaplus thus needs PATH set as well as java.library.path
 	@time java $$JFRX_OPTS $(JVMX_OPTS) \
+			-Duser.language=$$(echo $${LANG:-en} | sed 's,_.*,,') \
 			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
 			-Djava.util.logging.config.file=lib/logging.properties \
 			-classpath "$(subst $(space),$(sep), \

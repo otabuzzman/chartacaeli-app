@@ -203,9 +203,9 @@ for sample in \
 
 ## Run
 
-There are two scripts to ease running Charta Caeli on Linux and Windows. Both scripts, `chatacaeli.sh` and `chartacaeli.bat`, are intended to exec in the `web/WEB-INF` folder by default. However, with proper configuration, any other folder will do. When on Windows/ Cygwin the Linux script can be used as well, again with proper setup. Below are examples for the various cases, namely Linux, Windows and Windows/ Cygwin with each respective script to be executed in web/WEB-INF as well as the repo's top-level folder. A special font is assumed to live in the top-level folder.
+There are two scripts to ease running Charta Caeli on Linux and Windows. Both scripts, `chatacaeli.sh` and `chartacaeli.bat`, must exec in `web/WEB-INF` folder. When on Windows/ Cygwin the Linux script can be used as well, but a special setup is required. Below are examples for the various cases. A special font is assumed to live in the top-level folder. The JVM executable is expected to be in PATH.
 
-Run the unicode-and-fonts sample on **Linux** in web/WEB-INF
+Run unicode-and-fonts sample on **Linux**
 ```bash
 # if CUDA available
 CUDA_HOME=/usr/local/cuda \
@@ -217,54 +217,18 @@ GS_FONTPATH=~/lab/chartacaeli-app \
 ./chartacaeli.sh -kv ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml
 ```
 
-Run the unicode-and-fonts sample on **Linux** from the repo's top-level folder
-```bash
-# if CUDA available
-CUDA_HOME=/usr/local/cuda \
-JAVA_LIBRARY_PATH=lib:org/chartacaeli/caa \
-LD_LIBRARY_PATH=lib:org/chartacaeli/caa:$CUDA_HOME/lib64:$LD_LIBRARY_PATH \
-CLASSPATH=:lib:lib/* \
-GS_FONTPATH=~/lab/chartacaeli-app \
-./chartacaeli.sh -kv lab/unicode-and-fonts.xml
-# without CUDA
-JAVA_LIBRARY_PATH=lib:org/chartacaeli/caa \
-LD_LIBRARY_PATH=lib:org/chartacaeli/caa:$LD_LIBRARY_PATH \
-CLASSPATH=:lib:lib/* \
-GS_FONTPATH=~/lab/chartacaeli-app \
-./chartacaeli.sh -kv lab/unicode-and-fonts.xml
-```
-
-Run the unicode-and-fonts sample on **Windows** in web\WEB-INF
+Run unicode-and-fonts sample on **Windows**:
 ```cmd
 set GS_FONTPATH=%USERPROFILE%\src\chartacaeli-app
 .\chartacaeli.bat /k /v %USERPROFILE%\src\chartacaeli-app\lab\unicode-and-fonts.xml
 ```
 
-Run the unicode-and-fonts sample on **Windows** from the repo's top-level folder
-```cmd
-set JAVA_LIBRARY_PATH=lib;org\chartacaeli\caa
-set PATH= lib;org\chartacaeli\caa;%PATH%
-set CLASSPATH=;lib;lib\*
-set GS_FONTPATH=%USERPROFILE%\src\chartacaeli-app
-.\chartacaeli.bat /k /v %USERPROFILE%\src\chartacaeli-app\lab\unicode-and-fonts.xml
-```
-
-Run the unicode-and-fonts sample on **Windwos/ Cygwin** in web/WEB-INF
+Run unicode-and-fonts sample on **Windwos/ Cygwin** using Linux script:
 ```bash
-JAVA_LIBRARY_PATH=$(cygpath -m lib) \
-PATH=lib:$PATH \
+PATH=lib:/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH \
 CLASSPATH=$(cygpath -mp classes:lib:lib/*) \
-GS_FONTPATH=$(cygpath -m ~/src/chartacaeli-app) \
+GS_FONTPATH=$(cygpath -mp ~/src/chartacaeli-app) \
 ./chartacaeli.sh -kv $(cygpath -m ~/src/chartacaeli-app/lab/unicode-and-fonts.xml)
-```
-
-Run the unicode-and-fonts sample on **Windwos/ Cygwin** from the repo's top-level folder
-```bash
-JAVA_LIBRARY_PATH=$(cygpath -mp lib:org/chartacaeli/caa) \
-PATH=lib:org/chartacaeli/caa:$PATH \
-CLASSPATH=$(cygpath -mp :lib:lib/*) \
-GS_FONTPATH=$(cygpath -m ~/src/chartacaeli-app) \
-./chartacaeli.sh -kv $(cygpath -m lab/unicode-and-fonts.xml)
 ```
 
 ## Helpful links

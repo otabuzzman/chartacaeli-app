@@ -1,13 +1,7 @@
 # Charta Caeli launch utility.
 #
 
-# if CLASSPATH is set assume propper values for JAVA_LIBRARY_PATH, JAVA_LOGPROP_FILE and LD_LIBRARY_PATH as well
-test -z "$CLASSPATH" && {
-	JAVA_LIBRARY_PATH=lib
-	JAVA_LOGPROP_FILE=lib/logging.properties
-	export LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH 
-	export CLASSPATH=classes:lib:lib/* ; }
-VIEWER=${GS:-gs}\ -dBATCH\ -dNOPAUSE\ -q\ -
+export LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH 
 
 usage() {
 	echo "chartacaeli.sh [ -kv ] <cdefs> [ <prefs> ]"
@@ -16,18 +10,19 @@ usage() {
 	echo "  -v spawn viewer process"
 	echo "  -h show this message and exit"
 	echo ""
-	echo "The script assumes to be executed in web/WEB-INF if CLASSPATH is unset."
-	echo "To run the script from another folder several variable are required:"
-	echo ""
-	echo "  JAVA_LIBRARY_PATH - list (PATH format) of folders the JVM searches for"
-	echo "                      shared objects. (default lib)"
-	echo "  JAVA_LOGPROP_FILE - path and file name of logging.properties."
-	echo "                      (default lib/logging.properties)"
-	echo "  LD_LIBRARY_PATH   - list of folders the dynamic link loader searches"
-	echo "                      for nested objects (e.g. caa.so -> aaplus.so)."
-	echo "                      (default lib:\$LD_LIBRARY_PATH)"
-	echo "  CLASSPATH         - list of directories the JVM looks up class files"
-	echo "                      and JARs. (default classes:lib:lib/*)"
+	echo "Script must exec in web/WEB-INF folder. Control variables are:"
+	echo "  CLASSPATH  - Lookup Java classes, ressources and JAR files."
+	echo "               (default classes:lib:lib/*)"
+	echo "  LANG       - Set language code. Codes for region and variant ignored"
+	echo "               if present. Syntax <lang>[_<region>.<variant>]."
+	echo "               (default en)"
+	echo "  _JAVA_OPTS - Override JVM command line (not recommended: SO#28327620)."
+	echo "               (default -classpath \$CLASSPATH"
+	echo "                   -Duser.language=\$LANG"
+	echo "                   -Djava.library.path=lib"
+	echo "                   -Djava.util.logging.config.file=lib/logging.properties)"
+	echo "  VIEWER     - Command line to spawn viewer process for PS output."
+	echo "               (default gs -dBATCH -d NOPAUSE -q -)"
 	exit 1
 }
 
@@ -40,7 +35,7 @@ while getopts "hkv" opt ; do
 		keep=1
 		;;
 		v)
-		args="viewer=$VIEWER"
+		args="viewer=${VIEWER:-${GS:-gs} -dBATCH -dNOPAUSE -q -}"
 		;;
 		h)
 		usage
@@ -53,13 +48,14 @@ done
 shift $((OPTIND-1))
 
 test $keep -eq 0 && {
-	java -classpath $CLASSPATH \
+	java -classpath ${CLASSPATH:-classes:lib:lib/*} \
 		org.chartacaeli.PreferencesTool tree=user command=delete || exit $?
 }
 
-java -classpath $CLASSPATH \
-	-Djava.library.path=$JAVA_LIBRARY_PATH \
-	-Djava.util.logging.config.file=$JAVA_LOGPROP_FILE \
+java -classpath ${CLASSPATH:-classes:lib:lib/*} \
+	-Duser.language=$(echo ${LANG:-en} | sed 's,_.*,,') \
+	-Djava.library.path=lib \
+	-Djava.util.logging.config.file=lib/logging.properties \
 	org.chartacaeli.ChartaCaeli $args $1 $2
 
 exit $?
