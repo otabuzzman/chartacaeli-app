@@ -91,7 +91,7 @@ export PATH=.:lib:org/chartacaeli/caa:$PATH
 || echo failed to download or unpack CXXWRAP. )
 ( cd ~/src/cxxwrap-20061217 ; ./configure ; make )
 
-# Clone Charta Caeli
+# Clone Charta Caeli core application
 cd ~/src ; git clone https://github.com/otabuzzman/chartacaeli-app.git ; cd chartacaeli-app
 
 ( cd org/chartacaeli/caa ; make ; make all )
@@ -199,6 +199,25 @@ for sample in \
 	milkyway-with-catalogds9 \
 	azimuthal-projection ; do \
 	( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
+```
+## Install
+
+**Linux**
+```bash
+# setup environment (sample values)
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export PATH=$JAVA_HOME/bin:$PATH
+
+make install
+```
+
+**Windows/ Cygwin**
+```bash
+# setup environment (sample values)
+export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
+export PATH=$JAVA_HOME/bin:$PATH
+
+make install
 ```
 
 ## Run
