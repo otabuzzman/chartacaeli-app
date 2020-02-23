@@ -95,7 +95,7 @@ classes: $(CLSUCB)
 ifdef winos
 VIEWER = $${GS:-gswin64c.exe} -dBATCH -dNOPAUSE -q -
 else
-VIEWER = $${GS:-gs} -dBATCH -dNOPAUSE -q -
+# VIEWER = $${GS:-gs} -dBATCH -dNOPAUSE -q -
 endif
 
 .xml.ps:

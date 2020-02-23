@@ -244,7 +244,7 @@ else
 	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \
 	-I../caa/src \
 	-I$(CUDA_HOME)/include \
-	-I$(CUDA_SAMP)/common/inc \
+	-I$(CUDA_HOME)/samples/common/inc \
 	-c $< -o $@
 
 .cxx.o:
@@ -275,7 +275,7 @@ $(C3PEXE):
 	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
 	--use_fast_math --maxrregcount 32 \
 	-I$(CUDA_HOME)/include \
-	-I$(CUDA_SAMP)/common/inc \
+	-I$(CUDA_HOME)/samples/common/inc \
 	-o $@ -dc $<
 
 # double precision DCP test programs (dcp/%.exe)

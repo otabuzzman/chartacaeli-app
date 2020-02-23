@@ -119,12 +119,12 @@ export PATH=$JAVA_HOME/bin:$PATH
 	|| echo failed to download or unpack PJ2 source. )
 
 # build and install JNI
-( cd pj2/lib ; gcc -Wall -shared -fPIC \
+( cd ~/lab/pj2/lib ; gcc -Wall -shared -fPIC \
 	-I$JAVA_HOME/include \
 	-I$JAVA_HOME/include/linux \
 	-I$CUDA_HOME/include \
 	-o libEduRitGpuCuda.so edu_rit_gpu_Cuda.c \
-	-L$CUDA_HOME/lib64 -lcuda \
+	-L$CUDA_HOME/lib64 -lcudart \
 	&& install -m 755 libEduRitGpuCuda.so ~/lab/chartacaeli-app/lib \
 	|| echo failed to compile or install libEduRitGpuCuda.so )
 ```
@@ -170,7 +170,7 @@ Charta Caeli makes use of the [Java Preferences API](https://docs.oracle.com/jav
 # simulate sudo on Windows/ Cygwin
 alias sudo='cygstart --action=runas'
 
-sudo java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
+sudo $JAVA_HOME/bin/java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
 ```
 
 ```bash
