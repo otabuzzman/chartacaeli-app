@@ -49,6 +49,9 @@ sudo yum groupinstall "Development Tools"
 # install JDK 8
 sudo yum install java-1.8.0-openjdk-devel.x86_64
 
+# install Maven
+# find and follow instructions on https://www.google.de/search?q=yum+install+maven+on+ami
+
 # install Ghostscript
 sudo yum install ghostscript
 
@@ -160,7 +163,9 @@ Charta Caeli best supports building kernels on Linux. Windows requires more manu
 
 ## Check
 
-For a rough check if a build works as expected just run the samples and compare the resulting PDF files with those contained in the repository. The samples - especially `unicode-and-fonts` - make use of the [Arial Unicode MS](https://en.wikipedia.org/wiki/Arial_Unicode_MS) font which contains a quite comprehensive collection of Unicode glyphs. Formerly the font was part of the Microsoft Office distribution. Find and get a copy of the font file `ARIALUNI.TTF` from somewhere and save it in the top-level directory.
+For a rough check if a build works as expected just run the samples and compare the resulting PDF files with those contained in the repository.
+
+The samples - especially `unicode-and-fonts` - make use of the [Arial Unicode MS](https://en.wikipedia.org/wiki/Arial_Unicode_MS) font which contains a quite comprehensive collection of Unicode glyphs. Formerly the font was part of the Microsoft Office distribution. Find and get a copy of the font file `ARIALUNI.TTF` from somewhere and save it in the top-level directory.
 
 Charta Caeli makes use of the [Java Preferences API](https://docs.oracle.com/javase/8/docs/technotes/guides/preferences/overview.html). It stores default values of any variable in the `system` tree. To set it up you need to initialize it as a superuser once before the first run on a computer.
 
@@ -227,13 +232,15 @@ There are two scripts to ease running Charta Caeli on Linux and Windows. Both sc
 Run unicode-and-fonts sample on **Linux**
 ```bash
 # if CUDA available
-CUDA_HOME=/usr/local/cuda \
-LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH \
-GS_FONTPATH=~/lab/chartacaeli-app \
-./chartacaeli.sh -kv ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml
+CUDA_HOME=/usr/local/cuda
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+export GS_FONTPATH=~/lab/chartacaeli-app \
+./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
+	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=unicode-and-fonts.pdf -
 # without CUDA
-GS_FONTPATH=~/lab/chartacaeli-app \
-./chartacaeli.sh -kv ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml
+export GS_FONTPATH=~/lab/chartacaeli-app
+./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
+	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=unicode-and-fonts.pdf -
 ```
 
 Run unicode-and-fonts sample on **Windows**:
