@@ -50,7 +50,7 @@ sudo yum groupinstall "Development Tools"
 sudo yum install java-1.8.0-openjdk-devel.x86_64
 
 # install Maven
-# find and follow instructions on https://www.google.de/search?q=yum+install+maven+on+ami
+# https://www.google.de/search?q=install+maven+on+amazon+ec2
 
 # install Ghostscript
 sudo yum install ghostscript

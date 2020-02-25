@@ -133,6 +133,10 @@ endif
 install: $(instdir)
 	mvn compile
 	tar cf - web | ( cd $< ; tar xf - )
+ifdef linos
+	# workaround for https://issues.apache.org/jira/browse/MRESOURCES-236
+	chmod 755 $</web/WEB-INF/chartacaeli.sh
+endif
 
 # compiler objects
 clean:
