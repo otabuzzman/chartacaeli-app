@@ -29,6 +29,7 @@ export CXX=g++
 export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 export PATH=$JAVA_HOME/bin:$PATH
+# if CUDA available
 export CUDA_HOME=/usr/local/cuda
 export PATH=$CUDA_HOME/bin:$PATH
 export LD_LIBRARY_PATH=.:lib:org/chartacaeli/caa:$CUDA_HOME/lib64:$LD_LIBRARY_PATH
@@ -231,16 +232,12 @@ There are two scripts to ease running Charta Caeli on Linux and Windows. Both sc
 
 Run unicode-and-fonts sample on **Linux**
 ```bash
-# if CUDA available
-CUDA_HOME=/usr/local/cuda
-export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
-export GS_FONTPATH=~/lab/chartacaeli-app \
-./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
-	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=unicode-and-fonts.pdf -
-# without CUDA
+# unicode-and-fonts sample depends on layout-and-text
+java org.chartacaeli.PreferencesTool tree=user command=update lab/layout-and-text.preferences
+
 export GS_FONTPATH=~/lab/chartacaeli-app
-./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
-	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=unicode-and-fonts.pdf -
+( cd /opt/chartacaeli/web/WEB-INF ; ./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
+	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=unicode-and-fonts.pdf - )
 ```
 
 Run unicode-and-fonts sample on **Windows**:

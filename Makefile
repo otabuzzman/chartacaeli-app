@@ -124,10 +124,12 @@ endif
 		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
 
 $(instdir):
-	mkdir -p $@ -m 775
 ifdef linos
+	sudo mkdir -p $@ -m 775
 	sudo chown $$(id -u) $@
 	sudo chgrp $$(id -g) $@
+else
+	mkdir -p $@ -m 775
 endif
 
 install: $(instdir)
