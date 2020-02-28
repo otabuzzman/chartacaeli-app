@@ -50,7 +50,7 @@ CLSTST	= $(shell find $(pkgdir) -name '*Test.java' -print)
 # classes excluded from build
 CLSEXC	= $(CLSTST)
 
-.PHONY: all classes clean mclean lclean rclean tidy
+.PHONY: all classes install clean mclean lclean rclean tidy
 .SUFFIXES: .xml .ps .pdf .java .class .map .raw .png
 .SECONDARY: $(APP).ps
 
@@ -123,19 +123,12 @@ endif
 		$(JAREXT))" \
 		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
 
-$(instdir):
-ifdef linos
-	sudo mkdir -p $@ -m 775
-	sudo chown $$(id -u) $@
-	sudo chgrp $$(id -g) $@
-else
-	mkdir -p $@ -m 775
-endif
-
 install: $(instdir)
-	mvn compile
+ifdef winos
 	tar cf - web | ( cd $< ; tar xf - )
-ifdef linos
+else
+	[ "$USER" == "ccaeli" ] || { echo '*** must exec as `ccaeli´ ***' ; false ; }
+	tar cf - --owner=$USER --group=$USER web | ( cd $< ; tar xf - )
 	# workaround for https://issues.apache.org/jira/browse/MRESOURCES-236
 	chmod 755 $</web/WEB-INF/chartacaeli.sh
 endif

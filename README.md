@@ -1,15 +1,13 @@
 # CHARTA CAELI
-A tool to make star charts. Just define your star chart in XML and run the tool. If all goes well you end up with a PDF of your chart. The main purpose of Charta Caeli was to practise Java and related concepts. There are a couple of samples in the lab directory. Read them run them and take a look at the results. Questions? Question!
+A tool to make star charts. Just define your star chart in XML and run the tool. If all goes well you end up with a PDF of your chart. The main purpose of Charta Caeli was to practise Java and related concepts. There are a couple of samples available in the repository. Read them run them and take a look at the results. Questions? Question!
 
 ## Concept
-
 Charta Caeli reads definitions of star charts from XML files. These definition files must match a model given in XSD. The model is designed to allow chart definitions in common terms. Any metrics and other more technical information is in a preferences file. Finally there are property files to support different languages. Putting these files together the tool generates Postscript code on its stdout. Pipe it to Ghostscript (e.g.) to get PDF.
 
 ## Build
-
 Charta Caeli is a Java application with some C/C++ and [CUDA](https://en.wikipedia.org/wiki/CUDA) (Compute Unified Device Architecture) modules accessed via [JNI](https://www.google.de/search?q=oracle+java+native+interface+jni) (Java Native Interface). The build process is entirely controlled from the command line and requires a Linux environment or [Cygwin](https://www.cygwin.com/) in case of Windows. To run the build commands a couple of tools are expected to be installed:
 
-- C/C++ development tools (GCC, make, flex, bison etc. and MinGW if on Windows/ Cygwin)
+- C/C++ development tools ([GCC](https://gcc.gnu.org/), make, flex, bison etc. and [MinGW](http://www.mingw.org/) if on Windows/ Cygwin)
 - Various shell tools (gawk, diff, patch, bzip, gzip, unzip, curl, wget etc.)
 - [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive) 8 to build CUDA programs
 - [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (JDK) 8
@@ -19,7 +17,7 @@ Charta Caeli is a Java application with some C/C++ and [CUDA](https://en.wikiped
 
 Not required to build but handy anyway:
 - [XMLStarlet](http://xmlstar.sourceforge.net/) for CLI based XML manipulation
-- [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/)for CLI based PDF processing
+- [pdf toolkit](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) for CLI based PDF processing
 
 **Linux build commands**
 
@@ -105,7 +103,6 @@ make classes
 ```
 
 ### PJ2 and CUDA
-
 Charta Caeli utilizes the [Parallel Java 2 Library](https://www.cs.rit.edu/~ark/pj2.shtml) (PJ2) to enable Java code for parallel execution on multiple cores and GPU devices. To achieve the latter PJ2 provides a JNI implementation for CUDA. The bad news is you have to build it yourself but it's quite simple: just download the PJ2 source, run the compiler and put the JNI somewhere your JVM can pick it up.
 
 **Build PJ2 CUDA JNI on Linux**
@@ -163,7 +160,6 @@ Things get tricky however if there is no CUDA capable device. Apart from the fac
 Charta Caeli best supports building kernels on Linux. Windows requires more manual steps. Have a look at the `README.md` file and the code in package `org.chartacaeli.gpu` of this repository to find out more about building a CUDA kernel for Charta Caeli to boost image processing of class `org.chartacaeli.Artwork`.
 
 ## Check
-
 For a rough check if a build works as expected just run the samples and compare the resulting PDF files with those contained in the repository.
 
 The samples - especially `unicode-and-fonts` - make use of the [Arial Unicode MS](https://en.wikipedia.org/wiki/Arial_Unicode_MS) font which contains a quite comprehensive collection of Unicode glyphs. Formerly the font was part of the Microsoft Office distribution. Find and get a copy of the font file `ARIALUNI.TTF` from somewhere and save it in the top-level directory.
@@ -176,7 +172,7 @@ Charta Caeli makes use of the [Java Preferences API](https://docs.oracle.com/jav
 # simulate sudo on Windows/ Cygwin
 alias sudo='cygstart --action=runas'
 
-sudo $JAVA_HOME/bin/java org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
+sudo "$JAVA_HOME/bin/java" org.chartacaeli.PreferencesTool tree=system command=update chartacaeli.preferences
 ```
 
 ```bash
@@ -209,53 +205,74 @@ for sample in \
 ## Install
 
 **Linux**
+
+Installation requires a user account `ccaeli` with a HOME of `/opt/chartacaeli`.
+
 ```bash
 # setup environment (sample values)
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 export PATH=$JAVA_HOME/bin:$PATH
 
-make install
+mvn compile
+
+# create Charta Caeli group (if missing)
+sudo groupadd ccaeli
+# create Charta Caeli user (if missing)
+sudo useradd -c "Charta Caeli" -d /opt/chartacaeli -m -s /sbin/nologin -g ccaeli ccaeli
+
+sudo -u ccaeli -- make install
 ```
 
 **Windows/ Cygwin**
+
+User and group are not required. Just create a folder `%USERPROFILE%\opt\chartacaeli` and configure Cygwin to mount `%USERPROFILE%\opt` on `/opt`.
+
 ```bash
 # setup environment (sample values)
 export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
 export PATH=$JAVA_HOME/bin:$PATH
 
+mvn compile
 make install
 ```
 
 ## Run
+There are two scripts to ease running Charta Caeli on Linux and Windows. Both scripts, `chatacaeli.sh` and `chartacaeli.bat`, must exec in `/opt/chartacaeli/web/WEB-INF` folder. When on Windows/ Cygwin the Linux script can be used as well, but a special setup is required. Below are examples for the various cases.
 
-There are two scripts to ease running Charta Caeli on Linux and Windows. Both scripts, `chatacaeli.sh` and `chartacaeli.bat`, must exec in `web/WEB-INF` folder. When on Windows/ Cygwin the Linux script can be used as well, but a special setup is required. Below are examples for the various cases. A special font is assumed to live in the top-level folder. The JVM executable is expected to be in PATH.
+A special font (`ARIALUNI.TTF`) is assumed to live in `/opt/chartacaeli`. The JVM executable is expected to be in PATH.
 
 Run unicode-and-fonts sample on **Linux**
+
 ```bash
 # unicode-and-fonts sample depends on layout-and-text
 java org.chartacaeli.PreferencesTool tree=user command=update lab/layout-and-text.preferences
 
 export GS_FONTPATH=~/lab/chartacaeli-app
 ( cd /opt/chartacaeli/web/WEB-INF ; ./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
-	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=unicode-and-fonts.pdf - )
+	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=/tmp/unicode-and-fonts.pdf - )
 ```
 
 Run unicode-and-fonts sample on **Windows**:
+
 ```cmd
-set GS_FONTPATH=%USERPROFILE%\src\chartacaeli-app
-.\chartacaeli.bat /k /v %USERPROFILE%\src\chartacaeli-app\lab\unicode-and-fonts.xml
+set GS_FONTPATH=%USERPROFILE%\opt\chartacaeli
+cd %USERPROFILE%\opt\chartacaeli\web\WEB-INF
+chartacaeli.bat /k /v %USERPROFILE%\src\chartacaeli-app\lab\unicode-and-fonts.xml
 ```
 
 Run unicode-and-fonts sample on **Windwos/ Cygwin** using Linux script:
+
 ```bash
+install -m 755 chartacaeli.sh /opt/chartacaeli/web/WEB-INF
+
+( cd /opt/chartacaeli/web/WEB-INF ;
 PATH=lib:/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH \
 CLASSPATH=$(cygpath -mp classes:lib:lib/*) \
-GS_FONTPATH=$(cygpath -mp ~/src/chartacaeli-app) \
-./chartacaeli.sh -kv $(cygpath -m ~/src/chartacaeli-app/lab/unicode-and-fonts.xml)
+GS_FONTPATH=$(cygpath -mp /opt/chartacaeli) \
+./chartacaeli.sh -kv $(cygpath -m ~/src/chartacaeli-app/lab/unicode-and-fonts.xml) )
 ```
 
 ## Helpful links
-
 - [Sample Pages](http://www.skymaps.com/store/samples/Millennium%20Star%20Atlas.pdf) from The Millenium Star Atlas
 - [Making Your Own Color Astronomical Images](http://www.kellysky.net/DSScolor.ppt) is a hands-on guide utilizing the [Digitized Sky Survey](https://archive.stsci.edu/cgi-bin/dss_form)
 - The [User Manual](https://github.com/OSGeo/proj.4/blob/master/docs/old/of90-284.pdf) of the [PROJ.4](https://github.com/OSGeo/proj.4) Cartographic Projections Library

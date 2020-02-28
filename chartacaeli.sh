@@ -11,6 +11,7 @@ usage() {
 	echo "  -h show this message and exit"
 	echo ""
 	echo "Script must exec in web/WEB-INF folder. Control variables are:"
+	echo "  JAVA       - The Java Virtual Machine. (default java)"
 	echo "  CLASSPATH  - Lookup Java classes, ressources and JAR files."
 	echo "               (default classes:lib:lib/*)"
 	echo "  LANG       - Set language code. Codes for region and variant ignored"
@@ -48,11 +49,11 @@ done
 shift $((OPTIND-1))
 
 test $keep -eq 0 && {
-	java -classpath ${CLASSPATH:-classes:lib:lib/*} \
+	${JAVA:-java} -classpath ${CLASSPATH:-classes:lib:lib/*} \
 		org.chartacaeli.PreferencesTool tree=user command=delete || exit $?
 }
 
-java -classpath ${CLASSPATH:-classes:lib:lib/*} \
+${JAVA:-java} -classpath ${CLASSPATH:-classes:lib:lib/*} \
 	-Duser.language=$(echo ${LANG:-en} | sed 's,_.*,,') \
 	-Djava.library.path=lib \
 	-Djava.util.logging.config.file=lib/logging.properties \

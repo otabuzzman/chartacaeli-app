@@ -6,6 +6,7 @@ rem update PATH to point at Cygwin DLLs needed by caa.dll (aaplus.dll)
 set PATH=%ProgramFiles%\Cygwin\usr\x86_64-w64-mingw32\sys-root\mingw\bin;%PATH%
 
 set PATH=lib;%PATH%
+if not defined JAVA set JAVA=java.exe
 if not defined CLASSPATH set CLASSPATH=classes;lib;lib\*
 if not defined LANG ( set LANG=en ) else ( for /f "tokens=1 delims=_" %%l in ( "%LANG%" ) do set LANG=%%l )
 if not defined VIEWER set VIEWER=gswin64c.exe -dBATCH -dNOPAUSE -q -
@@ -47,6 +48,7 @@ echo   /v spawn viewer process
 echo   /h show this message and exit
 echo.
 echo Script must exec in web\WEB-INF folder. Control variables are:
+echo   JAVA       - The Java Virtual Machine. (default java.exe)
 echo   CLASSPATH  - Lookup Java classes, ressources and JAR files.
 echo                (default classes;lib;lib\*)
 echo   LANG       - Set language code. Codes for region and variant ignored
