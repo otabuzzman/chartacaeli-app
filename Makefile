@@ -127,8 +127,7 @@ install: $(instdir)
 ifdef winos
 	tar cf - web | ( cd $< ; tar xf - )
 else
-	[ "$USER" == "ccaeli" ] || { echo '*** must exec as `ccaeli´ ***' ; false ; }
-	tar cf - --owner=$USER --group=$USER web | ( cd $< ; tar xf - )
+	tar cf - --owner=ccaeli --group=ccaeli web | ( cd $< ; tar xf - )
 	# workaround for https://issues.apache.org/jira/browse/MRESOURCES-236
 	chmod 755 $</web/WEB-INF/chartacaeli.sh
 endif

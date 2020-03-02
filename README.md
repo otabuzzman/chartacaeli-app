@@ -233,6 +233,7 @@ export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
 export PATH=$JAVA_HOME/bin:$PATH
 
 mvn compile
+
 make install
 ```
 
