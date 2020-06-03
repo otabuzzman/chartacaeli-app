@@ -1,11 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns="http://www.chartacaeli.org/model" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.chartacaeli.org/model" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>
+The Charta Caeli chart specification can be seen as a star map author's vocabulary to write chart definitions to let the Charta Caeli application create custom star maps. A chart definition describes a star map as a set of nested parameterized features. Features are grouped by classes. Parameters are discrete or composite.
+
+In a technical world, the specification is an XSD and a definition an XML file. Features are XML elements. Parameters are XML attributes-value pairs or elements in case of composite ones. Feature classes are XSD choices of belonging feature elements. Features of the same class are specializations of XSD types used to put shared parameters of those features together.
+
+    &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    &lt;ChartaCaeli
+      name=&quot;chart-definition-jumpstart&quot;
+      xmlns=&quot;http://www.chartacaeli.org/model&quot;
+      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+      xsi:schemaLocation=&quot;http://www.chartacaeli.org/model https://raw.githubusercontent.com/otabuzzman/chartacaeli/master/chartacaeli.xsd&quot;&gt;
+      &lt;Chart&gt;
+        &lt;ChartAzimuthal projection=&quot;stereographic&quot; scale=&quot;100&quot;&gt;
+          &lt;ChartPage view=&quot;100&quot; size=&quot;a4&quot;/&gt;
+          &lt;Horizon&gt;
+            &lt;HorizonEquatorial practicality=&quot;always&quot;&gt;
+              &lt;AnnotationStraight reverse=&quot;false&quot; radiant=&quot;false&quot; anchor=&quot;topleft&quot;&gt;
+                &lt;Script purpose=&quot;none&quot; value=&quot;none&quot;/&gt;
+              &lt;/AnnotationStraight&gt;
+              &lt;Catalog&gt;
+                &lt;CatalogADC5050 url=&quot;ftp://cdsarc.u-strasbg.fr/pub/cats/V/50/catalog.gz&quot;&gt;
+                  &lt;CatalogADC5050Record select=&quot;true&quot;&gt;
+                    &lt;Script purpose=&quot;1.0&quot; value=&quot;&amp;#xf811;&quot;/&gt;
+                  &lt;/CatalogADC5050Record&gt;
+                &lt;/CatalogADC5050&gt;
+              &lt;/Catalog&gt;
+            &lt;/HorizonEquatorial&gt;
+          &lt;/Horizon&gt;
+        &lt;/ChartAzimuthal&gt;
+      &lt;/Chart&gt;
+    &lt;/ChartaCaeli&gt;
+
+The simple chart definition starts with the `Chart` class element *after* the `ChartaCaeli` root element. `ChartAzimuthal` is the feature element picked from the `Chart` choice. The feature has two discrete parameters, namely `projection` and `scale` and a composite one as well, namely `ChartPage` which in turn has two discrete parameters, namely `view` and `size`. On `ChartAzimthal` follows the `Horizon` class with the `HorizonEquatorial` feature, which in turn contains the `Catalog` class with it's `CatalogADC5050` feature. Both of these features have discrete and composite parameters with the latter even in a nested fashion: The composite parameter `Script` is part of two containing composite parameters, namely `CatalogADC5050Record` and `AnnotationStraight`, and thus forming a nested composite parameter structure.
+
+Many elements have a `@name` attribute defined. It identifies a particular element to be referenced elsewhere. An example would be an element specific configuration in chart preferences that deviate from the default ones.
+
+#### Glossary
+Chart specification - An XSD defininig the set of features and parameters a Charta Caeli star map can have.
+
+Chart definition    - An valid XML defining a custom star map to be created by the Charta Caeli application.
+
+Chart preferences   - A [Java Preferences API](https://docs.oracle.com/javase/7/docs/api/java/util/prefs/Preferences.html) compliant XML file to configure the Charta Caeli application.
+
+Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutorial/essential/environment/properties.html) file to configure language specific settings of a chart definition.
+		</xs:documentation>
+	</xs:annotation>
 	<xs:complexType name="ChartaCaeliType">
 		<xs:sequence>
 			<xs:element ref="Epoch" minOccurs="0"/>
 			<xs:element ref="Chart" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attribute name="name" use="required">
+			<xs:annotation>
+				<xs:documentation>The element identifier.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:maxLength value="256"/>
@@ -14,7 +64,16 @@
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="ChartaCaeli" type="ChartaCaeliType"/>
+	<xs:element name="ChartaCaeli">
+		<xs:annotation>
+			<xs:documentation>The root element.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ChartaCaeliType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Epoch">
 		<xs:complexType>
 			<xs:complexContent>
