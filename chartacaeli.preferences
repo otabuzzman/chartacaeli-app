@@ -6,6 +6,11 @@
 	<!--HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\JavaSoft\Prefs\org\chartacaeli-->
 	<!--Windows 7, user node storage-->
 	<!--HKEY_CURRENT_USER\SOFTWARE\JavaSoft\Prefs\org\chartacaeli-->
+	<!--
+A node corresponds with a particular Java class of the application. That way a node might also correspond with an XML element in a chart definition as these are Java classes, too. If a chart definition element has it's `@name` attribute defined the application appends an extra node. The simple mechanism allows for configurations specific to particular elements.
+
+To find the node of a class or a chart definition element the application first maps the absolute class name to a corresponding structure of nested nodes. Each Java package element, the related class itself, and sub-classes if given have nodes assigned at their respective levels. The application first tries a lookup of the resulting node structure in the user tree. In case of failure, it uses the system tree. If that fails too, the application walks up the class inheritance chain and repeats the lookup until it finally succeeds or cannot find a given node at all.
+	-->
 	<root type="system">
 		<map/>
 		<node name="java">
