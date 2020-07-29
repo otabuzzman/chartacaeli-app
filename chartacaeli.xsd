@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns="http://www.chartacaeli.org/model" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.chartacaeli.org/model" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:annotation>
-		<xs:documentation>
+		<xs:documentation>#### Overview
 The Charta Caeli chart specification can be seen as a star map author's vocabulary to write chart definitions to let the Charta Caeli application create custom star maps. A chart definition describes a star map as a set of nested parameterized features. Features are grouped by classes. Parameters are discrete or composite.
 
 In a technical world, the specification is an XSD and a definition an XML file. Features are XML elements. Parameters are XML attributes-value pairs or elements in case of composite ones. Feature classes are XSD choices of belonging feature elements. Features of the same class are specializations of XSD types used to put shared parameters of those features together.
@@ -38,14 +38,13 @@ The simple chart definition starts with the `Chart` class element *after* the `C
 Many elements have a `@name` attribute defined. It identifies a particular element to be referenced elsewhere. An example would be an element specific configuration in chart preferences that deviate from the default ones.
 
 #### Glossary
-Chart specification - An XSD defininig the set of features and parameters a Charta Caeli star map can have.
+Chart definition    - Chart specification compliant XML data defining a custom star map to be created by the Charta Caeli application.
 
-Chart definition    - An valid XML defining a custom star map to be created by the Charta Caeli application.
-
-Chart preferences   - A [Java Preferences API](https://docs.oracle.com/javase/7/docs/api/java/util/prefs/Preferences.html) compliant XML file to configure the Charta Caeli application.
+Chart preferences   - [Java Preferences API](https://docs.oracle.com/javase/7/docs/api/java/util/prefs/Preferences.html) compliant XML data to configure the Charta Caeli application.
 
 Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutorial/essential/environment/properties.html) file to configure language specific settings of a chart definition.
-		</xs:documentation>
+
+Chart specification - An XSD defininig the set of features and parameters a Charta Caeli star map can have.</xs:documentation>
 	</xs:annotation>
 	<xs:complexType name="ChartaCaeliType">
 		<xs:sequence>
@@ -54,7 +53,7 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:sequence>
 		<xs:attribute name="name" use="required">
 			<xs:annotation>
-				<xs:documentation>The element identifier.</xs:documentation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
@@ -75,11 +74,18 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Epoch">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="DateType">
 					<xs:sequence>
-						<xs:element name="Finis" type="DateType" minOccurs="0"/>
+						<xs:element name="Finis" type="DateType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Composite chart parameter.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -91,8 +97,15 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="Oblique" minOccurs="0"/>
 			<xs:element ref="Horizon" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="scale" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:double">
 					<xs:minExclusive value="0"/>
@@ -101,6 +114,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Chart">
+		<xs:annotation>
+			<xs:documentation>Chart feature class.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
 				<xs:element ref="ChartAzimuthal"/>
@@ -108,10 +124,21 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Oblique" type="SphericalType"/>
+	<xs:element name="Oblique" type="SphericalType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="ChartPageType">
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="size" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="a[0-5]"/>
@@ -120,6 +147,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="view" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:double">
 					<xs:maxInclusive value="100"/>
@@ -128,12 +158,22 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="ChartPage" type="ChartPageType"/>
+	<xs:element name="ChartPage" type="ChartPageType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:element name="ChartAzimuthal">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="ChartType">
 					<xs:attribute name="projection" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:pattern value="orthographic"/>
@@ -146,10 +186,16 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ChartPseudoCylindrical">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="ChartType">
 					<xs:attribute name="projection" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:pattern value="mollweide"/>
@@ -166,8 +212,15 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="Circle" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="Body" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="practicality" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="none"/>
@@ -180,6 +233,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Horizon">
+		<xs:annotation>
+			<xs:documentation>Chart feature class.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
 				<xs:element ref="HorizonEquatorial"/>
@@ -190,6 +246,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="HorizonEquatorial">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="HorizonType">
@@ -201,6 +260,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="HorizonLocal">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="HorizonType">
@@ -213,6 +275,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="HorizonEcliptical">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="HorizonType"/>
@@ -220,6 +285,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="HorizonGalactic">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="HorizonType"/>
@@ -253,9 +321,20 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="DialDeg" minOccurs="0"/>
 			<xs:element ref="Annotation" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
-		<xs:attribute name="fieldofview" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="fieldofview" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="importance" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="canonical"/>
@@ -265,6 +344,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Circle">
+		<xs:annotation>
+			<xs:documentation>Chart feature class.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
 				<xs:element ref="CircleParallel"/>
@@ -278,6 +360,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 	</xs:element>
 	<xs:complexType name="IndirectType">
 		<xs:attribute name="value" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="[^,]+"/>
@@ -285,6 +370,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="node" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="chasing"/>
@@ -295,6 +383,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 	</xs:complexType>
 	<xs:element name="Indirect" type="IndirectType"/>
 	<xs:element name="CircleParallel">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CircleType">
@@ -306,6 +397,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CircleMeridian">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CircleType">
@@ -317,6 +411,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CircleSouthernPolar">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CircleType"/>
@@ -324,6 +421,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CircleNorthernPolar">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CircleType"/>
@@ -331,6 +431,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CircleSouthernTropic">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CircleType"/>
@@ -338,6 +441,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CircleNorthernTropic">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CircleType"/>
@@ -354,16 +460,30 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="Scaleline" maxOccurs="unbounded"/>
 			<xs:element ref="Annotation" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="division" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:positiveInteger">
 					<xs:minInclusive value="1"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
-		<xs:attribute name="reflect" type="xs:boolean" use="required"/>
+		<xs:attribute name="reflect" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="baseline" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value=".+"/>
@@ -372,6 +492,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="DialDeg">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="DialType"/>
@@ -379,6 +502,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DialDay">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="DialType"/>
@@ -389,8 +515,15 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		<xs:sequence>
 			<xs:element ref="AnnotationStraight" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="value" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:double">
 					<xs:minExclusive value="0"/>
@@ -399,6 +532,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Scaleline">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="ScalelineType"/>
@@ -406,17 +542,40 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="ScalebaseType">
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="ScalebaseNone" type="ScalebaseType"/>
-	<xs:element name="ScalebaseLine" type="ScalebaseType"/>
-	<xs:element name="ScalebaseRail" type="ScalebaseType"/>
+	<xs:element name="ScalebaseNone" type="ScalebaseType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ScalebaseLine" type="ScalebaseType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ScalebaseRail" type="ScalebaseType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="AnnotationType">
 		<xs:sequence>
 			<xs:element ref="Script" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="anchor" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="topleft"/>
@@ -433,6 +592,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="reverse" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="true"/>
@@ -443,6 +605,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Annotation">
+		<xs:annotation>
+			<xs:documentation>Chart feature class.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
 				<xs:element ref="AnnotationStraight"/>
@@ -451,13 +616,22 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="AnnotationStraight">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="AnnotationType">
 					<xs:sequence>
 						<xs:element name="Frame" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Composite chart parameter.</xs:documentation>
+							</xs:annotation>
 							<xs:complexType>
 								<xs:attribute name="anchor" use="required">
+									<xs:annotation>
+										<xs:documentation>Discrete chart parameter.</xs:documentation>
+									</xs:annotation>
 									<xs:simpleType>
 										<xs:restriction base="xs:string">
 											<xs:pattern value="topleft"/>
@@ -474,6 +648,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 									</xs:simpleType>
 								</xs:attribute>
 								<xs:attribute name="number" use="required">
+									<xs:annotation>
+										<xs:documentation>Discrete chart parameter.</xs:documentation>
+									</xs:annotation>
 									<xs:simpleType>
 										<xs:restriction base="xs:string">
 											<xs:pattern value="([1-9][0-9]*)"/>
@@ -484,16 +661,26 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 							</xs:complexType>
 						</xs:element>
 					</xs:sequence>
-					<xs:attribute name="radiant" type="xs:boolean" use="required"/>
+					<xs:attribute name="radiant" type="xs:boolean" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="AnnotationCurved">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="AnnotationType">
 					<xs:attribute name="distance" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:double">
 								<xs:minExclusive value="0"/>
@@ -510,8 +697,15 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="Superscript" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="Subscript" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="value" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value=".+"/>
@@ -520,10 +714,16 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Script">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="TextType">
 					<xs:attribute name="purpose" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:pattern value="none"/>
@@ -545,9 +745,20 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Superscript" type="TextType"/>
-	<xs:element name="Subscript" type="TextType"/>
+	<xs:element name="Superscript" type="TextType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="Subscript" type="TextType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:element name="Body">
+		<xs:annotation>
+			<xs:documentation>Chart feature class.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
 				<xs:element ref="BodyStellar"/>
@@ -566,8 +777,15 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="Position"/>
 			<xs:element ref="Script"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="turn" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:double">
 					<xs:minInclusive value="0"/>
@@ -576,6 +794,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="spin" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:double">
 					<xs:maxInclusive value="0"/>
@@ -584,12 +805,23 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="BodyStellar" type="BodyStellarType"/>
+	<xs:element name="BodyStellar" type="BodyStellarType">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:element name="Position">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="SphericalType">
-					<xs:attribute name="name" type="xs:string" use="optional"/>
+					<xs:attribute name="name" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -602,8 +834,15 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 				<xs:element ref="ShapeElliptical"/>
 			</xs:choice>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="nature" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="arbitrary"/>
@@ -613,6 +852,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="BodyAreal">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="BodyArealType"/>
@@ -620,6 +862,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ShapeElliptical">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="AngleType">
@@ -627,6 +872,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 						<xs:element ref="Position"/>
 					</xs:sequence>
 					<xs:attribute name="proportion" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:double">
 								<xs:minExclusive value="0"/>
@@ -634,7 +882,11 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>
-					<xs:attribute name="PA" type="xs:double" use="required"/>
+					<xs:attribute name="PA" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -645,9 +897,20 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="Epoch" minOccurs="0"/>
 			<xs:element ref="DialDay" minOccurs="0"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
-		<xs:attribute name="stretch" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="stretch" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="nature" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="artificial"/>
@@ -657,10 +920,16 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="BodyPlanet">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="BodyOrbitalType">
 					<xs:attribute name="type" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:pattern value="mercury"/>
@@ -677,12 +946,22 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="BodyMoon" type="BodyOrbitalType"/>
+	<xs:element name="BodyMoon" type="BodyOrbitalType">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:element name="BodySun">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="BodyOrbitalType">
 					<xs:attribute name="type" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:pattern value="mean"/>
@@ -695,30 +974,88 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BodyElliptical">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="BodyOrbitalType">
-					<xs:attribute name="a" type="xs:double" use="required"/>
-					<xs:attribute name="e" type="xs:double" use="required"/>
-					<xs:attribute name="i" type="xs:double" use="required"/>
-					<xs:attribute name="o" type="xs:double" use="required"/>
-					<xs:attribute name="w" type="xs:double" use="required"/>
-					<xs:attribute name="T" type="xs:double" use="required"/>
-					<xs:attribute name="equinox" type="xs:double" use="required"/>
+					<xs:attribute name="a" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="e" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="i" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="o" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="w" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="T" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="equinox" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BodyParabolical">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="BodyOrbitalType">
-					<xs:attribute name="q" type="xs:double" use="required"/>
-					<xs:attribute name="i" type="xs:double" use="required"/>
-					<xs:attribute name="o" type="xs:double" use="required"/>
-					<xs:attribute name="w" type="xs:double" use="required"/>
-					<xs:attribute name="T" type="xs:double" use="required"/>
-					<xs:attribute name="equinox" type="xs:double" use="required"/>
+					<xs:attribute name="q" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="i" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="o" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="w" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="T" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="equinox" type="xs:double" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -728,10 +1065,21 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="Artwork" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="Sign" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
-		<xs:attribute name="url" type="xs:anyURI" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="url" type="xs:anyURI" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Catalog">
+		<xs:annotation>
+			<xs:documentation>Chart feature class.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
 				<xs:element ref="CatalogADC1239H"/>
@@ -746,6 +1094,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC1239H">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogType">
@@ -757,6 +1108,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC1239T">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogType">
@@ -768,6 +1122,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC5050">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogType">
@@ -779,6 +1136,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC5109">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogType">
@@ -790,6 +1150,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC6049">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogType">
@@ -801,18 +1164,28 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC7118">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogType">
 					<xs:sequence>
 						<xs:element ref="CatalogADC7118Record" maxOccurs="unbounded"/>
 					</xs:sequence>
-					<xs:attribute name="index" type="xs:anyURI" use="required"/>
+					<xs:attribute name="index" type="xs:anyURI" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC7237">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogType">
@@ -824,6 +1197,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogDS9">
+		<xs:annotation>
+			<xs:documentation>Chart feature element.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogType">
@@ -838,8 +1214,15 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		<xs:sequence>
 			<xs:element ref="Annotation" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="select" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="true"/>
@@ -850,6 +1233,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="CatalogADC1239HRecord">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogRecordType">
@@ -861,6 +1247,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC1239TRecord">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogRecordType">
@@ -872,6 +1261,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC5050Record">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogRecordType">
@@ -883,6 +1275,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC5109Record">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogRecordType">
@@ -894,6 +1289,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC6049Record">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogRecordType"/>
@@ -901,6 +1299,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC7118Record">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogRecordType">
@@ -912,6 +1313,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogADC7237Record">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogRecordType">
@@ -923,10 +1327,16 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CatalogDS9Record">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CatalogRecordType">
 					<xs:attribute name="contour" use="optional" default="fill">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:pattern value="fill"/>
@@ -941,6 +1351,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 	<xs:complexType name="ArtworkType">
 		<xs:sequence>
 			<xs:element name="Popper" minOccurs="3" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Composite chart parameter.</xs:documentation>
+				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element ref="Position"/>
@@ -949,23 +1362,49 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
-		<xs:attribute name="url" type="xs:anyURI" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="url" type="xs:anyURI" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="Artwork" type="ArtworkType"/>
+	<xs:element name="Artwork" type="ArtworkType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="SignType">
 		<xs:sequence>
 			<xs:element ref="Annotation" minOccurs="0"/>
 			<xs:element ref="Position" minOccurs="2" maxOccurs="unbounded"/>
-			<xs:element name="Limb" type="SignType" minOccurs="0"/>
+			<xs:element name="Limb" type="SignType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Composite chart parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Sign">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="SignType">
 					<xs:attribute name="nature" use="required">
+						<xs:annotation>
+							<xs:documentation>Discrete chart parameter.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:pattern value="constellation"/>
@@ -979,16 +1418,34 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 	<!---->
 	<xs:complexType name="RationalType">
 		<xs:attribute name="value" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:double"/>
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="Rational" type="RationalType"/>
-	<xs:element name="JD" type="RationalType"/>
+	<xs:element name="Rational" type="RationalType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="JD" type="RationalType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="DMSType">
-		<xs:attribute name="neg" type="xs:boolean" use="required"/>
+		<xs:attribute name="neg" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="deg" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:integer">
 					<xs:minInclusive value="0"/>
@@ -997,6 +1454,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="min" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:integer">
 					<xs:minInclusive value="0"/>
@@ -1005,6 +1465,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="sec" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:double">
 					<xs:minInclusive value="0"/>
@@ -1013,10 +1476,21 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="DMS" type="DMSType"/>
+	<xs:element name="DMS" type="DMSType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="HMSType">
-		<xs:attribute name="neg" type="xs:boolean" use="required"/>
+		<xs:attribute name="neg" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="hrs" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:integer">
 					<xs:minInclusive value="0"/>
@@ -1025,6 +1499,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="min" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:integer">
 					<xs:minInclusive value="0"/>
@@ -1033,6 +1510,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="sec" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:double">
 					<xs:minInclusive value="0"/>
@@ -1041,10 +1521,21 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="HMS" type="HMSType"/>
+	<xs:element name="HMS" type="HMSType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="YMDType">
-		<xs:attribute name="y" type="xs:integer" use="required"/>
+		<xs:attribute name="y" type="xs:integer" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="m" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:integer">
 					<xs:minInclusive value="1"/>
@@ -1053,6 +1544,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="d" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:integer">
 					<xs:minInclusive value="1"/>
@@ -1061,7 +1555,11 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="YMD" type="YMDType"/>
+	<xs:element name="YMD" type="YMDType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="AngleType">
 		<xs:choice>
 			<xs:element ref="DMS"/>
@@ -1069,18 +1567,45 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="Rational"/>
 		</xs:choice>
 	</xs:complexType>
-	<xs:element name="Angle" type="AngleType"/>
-	<xs:element name="Latitude" type="AngleType"/>
-	<xs:element name="Longitude" type="AngleType"/>
-	<xs:element name="HA" type="TimeType"/>
-	<xs:element name="rad" type="RationalType"/>
-	<xs:element name="phi" type="AngleType"/>
+	<xs:element name="Angle" type="AngleType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="Latitude" type="AngleType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="Longitude" type="AngleType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="HA" type="TimeType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="rad" type="RationalType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="phi" type="AngleType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="TimeType">
 		<xs:choice>
 			<xs:element ref="HMS"/>
 			<xs:element ref="Rational"/>
 		</xs:choice>
 		<xs:attribute name="standard" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:pattern value="UTC[-+][0-9][0-9]?(:[0-9][0-9])?"/>
@@ -1088,34 +1613,66 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="Time" type="TimeType"/>
+	<xs:element name="Time" type="TimeType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="DateType">
 		<xs:choice>
 			<xs:element ref="Calendar"/>
 			<xs:element ref="JD"/>
 		</xs:choice>
 	</xs:complexType>
-	<xs:element name="Date" type="DateType"/>
+	<xs:element name="Date" type="DateType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="CalendarType">
 		<xs:sequence>
 			<xs:element ref="YMD"/>
 			<xs:element ref="Time" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:element name="Calendar" type="CalendarType"/>
+	<xs:element name="Calendar" type="CalendarType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="CartesianType">
-		<xs:attribute name="x" type="xs:double" use="required"/>
-		<xs:attribute name="y" type="xs:double" use="required"/>
-		<xs:attribute name="z" type="xs:double" use="optional"/>
+		<xs:attribute name="x" type="xs:double" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="y" type="xs:double" use="required">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="z" type="xs:double" use="optional">
+			<xs:annotation>
+				<xs:documentation>Discrete chart parameter.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
-	<xs:element name="Cartesian" type="CartesianType"/>
+	<xs:element name="Cartesian" type="CartesianType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="PolarType">
 		<xs:sequence>
 			<xs:element ref="phi"/>
 			<xs:element ref="rad" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:element name="Polar" type="PolarType"/>
+	<xs:element name="Polar" type="PolarType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="SphericalType">
 		<xs:sequence>
 			<xs:element ref="Longitude"/>
@@ -1123,5 +1680,9 @@ Chart properties    - A [Java Properties](https://docs.oracle.com/javase/tutoria
 			<xs:element ref="rad" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:element name="Spherical" type="SphericalType"/>
+	<xs:element name="Spherical" type="SphericalType">
+		<xs:annotation>
+			<xs:documentation>Composite chart parameter.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 </xs:schema>
