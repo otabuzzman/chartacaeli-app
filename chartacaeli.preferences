@@ -312,6 +312,7 @@ To find the node of a class or a chart definition element the application first 
 				</node>
 				<node name="ChartPage">
 					<map>
+						<entry key="layout" value="100x100"/>
 						<!--keys must equal to allowed values of concerning attributes in XSD-->
 						<entry key="a0" value="840x1188"/>
 						<entry key="a1" value="594x840"/>
@@ -319,7 +320,6 @@ To find the node of a class or a chart definition element the application first 
 						<entry key="a3" value="297x420"/>
 						<entry key="a4" value="210x297"/>
 						<entry key="a5" value="148x210"/>
-						<entry key="layout" value="100x100"/>
 					</map>
 				</node>
 				<node name="ChartAzimuthal">
@@ -380,20 +380,6 @@ To find the node of a class or a chart definition element the application first 
 						<entry key="linelength" value="2.8"/>
 						<entry key="linewidth" value=".01"/>
 					</map>
-					<node name="half">
-						<map>
-							<entry key="space" value=".4"/>
-							<entry key="linelength" value="3.6"/>
-							<entry key="linewidth" value=".01"/>
-						</map>
-					</node>
-					<node name="full">
-						<map>
-							<entry key="space" value=".4"/>
-							<entry key="linelength" value="4.2"/>
-							<entry key="linewidth" value=".01"/>
-						</map>
-					</node>
 				</node>
 				<node name="AnnotationStraight">
 					<map>
