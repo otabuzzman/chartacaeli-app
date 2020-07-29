@@ -100,7 +100,7 @@ public class ChartPage extends org.chartacaeli.model.ChartPage implements Postsc
 		oy = -size.y/2+size.y*layRTopEdge[row+1] ;
 
 		dx = size.x*( layCLeftEdge[col+1]-layCLeftEdge[col] ) ;
-		dy = size.x*( layRTopEdge[row]-layRTopEdge[row+1] ) ;
+		dy = size.y*( layRTopEdge[row]-layRTopEdge[row+1] ) ;
 
 		return new double[] { ox, oy, dx, dy } ;
 	}
