@@ -1,0 +1,26 @@
+--- src/AAPlanetaryPhenomena2.h	2020-06-11 17:15:32.000000000 +0200
++++ src/AAPlanetaryPhenomena2.h.cc	2020-11-09 12:51:33.130561900 +0100
+@@ -44,7 +44,11 @@
+ {
+ public:
+ //Enums
++#ifdef CC_NO_CXX11
+   enum class Type
++#else
++  enum Type
++#endif
+   {
+     NotDefined = 0,
+     InferiorConjunctionInEclipticLongitude = 1,
+@@ -101,7 +105,11 @@
+ {
+ public:
+ //Enums
++#ifdef CC_NO_CXX11
+   enum class Object
++#else
++  enum Object
++#endif
+   {
+     MERCURY,
+     VENUS,

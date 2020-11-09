@@ -63,7 +63,7 @@ AATest.o: AATest.cpp
 	$(CXX) -DAAPLUS_ELP2000_NO_HIGH_PRECISION -DAAPLUS_NO_ELPMPP02 -std=c++11 -Wall -shared -c $< -o $@
 
 .cpp.o:
-	$(CXX) -DCC_NO_CXX11 -std=c++11 -Wall -shared -c $< -o $@
+	$(CXX) -DCC_NO_CXX11 -std=c++17 -Wall -shared -c $< -o $@
 
 .cxx.o:
 	$(CXX) -Wall -shared \
