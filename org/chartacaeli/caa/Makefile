@@ -35,7 +35,7 @@ $(srcdir): $(AAZIP)
 	( for p in *.diff ; do patch --binary -b -p0 < $$p ; done )
 	# pre-process and rename header files to make CXXWRAP happy
 	# remove C++11 features as these are not supported by CXXWRAP
-	( cd $(srcdir) ; for h in AA[!+]*.h ; do $(CXX) -E $$h | sed \
+	( cd $(srcdir) ; for h in AA[!+]*.h ; do $(CXX) -DCC_CXXWRAP -E $$h | sed \
 		-e s,constexpr,, \
 		-e s,noexcept,, \
 		-e s,enum..*class,enum, > ../C$$h ; done )
@@ -63,7 +63,7 @@ AATest.o: AATest.cpp
 	$(CXX) -DAAPLUS_ELP2000_NO_HIGH_PRECISION -DAAPLUS_NO_ELPMPP02 -std=c++11 -Wall -shared -c $< -o $@
 
 .cpp.o:
-	$(CXX) -DCC_NO_CXX11 -std=c++17 -Wall -shared -c $< -o $@
+	$(CXX) -DCC_CXX11_ENUM_CLASS -std=c++17 -Wall -shared -c $< -o $@
 
 .cxx.o:
 	$(CXX) -Wall -shared \
@@ -81,7 +81,7 @@ AATest.o: AATest.cpp
 	$(CXX) -DAAPLUS_ELP2000_NO_HIGH_PRECISION -DAAPLUS_NO_ELPMPP02 -std=c++11 -Wall -shared -fPIC -c $< -o $@
 
 .cpp.o:
-	$(CXX) -DCC_NO_CXX11 -std=c++11 -Wall -shared -fPIC -c $< -o $@
+	$(CXX) -DCC_CXX11_ENUM_CLASS -std=c++17 -Wall -shared -fPIC -c $< -o $@
 
 .cxx.o:
 	$(CXX) -std=c++11 -Wall -shared -fPIC \

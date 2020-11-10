@@ -1,0 +1,54 @@
+--- src/AAELP2000.h	2020-06-01 17:39:38.000000000 +0200
++++ src/AAELP2000.h.cc	2020-11-10 08:34:14.870015600 +0100
+@@ -35,7 +35,11 @@
+ 
+ /////////////////////// Includes //////////////////////////////////////////////
+ 
++#ifdef CC_CXXWRAP
++#include <vector>
++#else
+ #include <array>
++#endif
+ #include <cstddef>
+ #include "AA3DCoordinate.h"
+ 
+@@ -44,15 +48,27 @@
+ 
+ struct AAPLUS_EXT_CLASS ELP2000MainProblemCoefficient
+ {
++#ifdef CC_CXXWRAP
++  std::vector<int> m_I(4);
++#else
+   std::array<int, 4> m_I;
++#endif
+   double m_A;
++#ifdef CC_CXXWRAP
++  std::vector<double> m_B(6);
++#else
+   std::array<double, 6> m_B;
++#endif
+ };
+ 
+ struct AAPLUS_EXT_CLASS ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient
+ {
+   int m_IZ;
++#ifdef CC_CXXWRAP
++  std::vector<int> m_I(4);
++#else
+   std::array<int, 4> m_I;
++#endif
+   double m_O;
+   double m_A;
+   double m_P;
+@@ -60,7 +76,11 @@
+ 
+ struct AAPLUS_EXT_CLASS ELP2000PlanetPertCoefficient
+ {
++#ifdef CC_CXXWRAP
++  std::vector<int> m_ip(11);
++#else
+   std::array<int, 11> m_ip;
++#endif
+   double m_theta;
+   double m_O;
+   double m_P;

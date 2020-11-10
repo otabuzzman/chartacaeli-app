@@ -6,6 +6,7 @@
 *.ttf	binary
 *.zip	binary
 org/chartacaeli/caa/AADate.h.diff				eol=crlf
+org/chartacaeli/caa/AAELP2000.h.diff			eol=crlf
 org/chartacaeli/caa/AAELPMPP02.h.diff			eol=crlf
 org/chartacaeli/caa/AAElliptical.h.diff			eol=crlf
 org/chartacaeli/caa/AAMoonNodes2.h.diff			eol=crlf
