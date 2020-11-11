@@ -248,7 +248,7 @@ Run unicode-and-fonts sample on **Linux**
 # unicode-and-fonts sample depends on layout-and-text
 java org.chartacaeli.PreferencesTool tree=user command=update lab/layout-and-text.preferences
 
-export GS_FONTPATH=~/lab/chartacaeli-app
+export GS_FONTPATH=/opt/chartacaeli-app
 ( cd /opt/chartacaeli/web/WEB-INF ; ./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
 	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=/tmp/unicode-and-fonts.pdf - )
 ```
