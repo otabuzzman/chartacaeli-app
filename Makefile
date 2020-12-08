@@ -39,6 +39,24 @@ JAREXT = \
 		$(libdir)/commons-math3-3.5.jar \
 		$(libdir)/commons-logging-1.2.jar \
 
+SAMPLES = \
+		layout-and-text.pdf \
+		layout-and-text.xml \
+		layout-and-text.preferences \
+		unicode-and-fonts.pdf \
+		unicode-and-fonts.xml \
+		unicode-and-fonts.preferences \
+		field-of-view.pdf \
+		field-of-view.xml \
+		variables-and-expressions.pdf \
+		variables-and-expressions.xml \
+		milkyway-with-catalogds9.pdf \
+		milkyway-with-catalogds9.xml \
+		milkyway-with-catalogds9.preferences \
+		azimuthal-projection.pdf \
+		azimuthal-projection.xml \
+		azimuthal-projection.preferences \
+
 CLSUCB = $(pkgdir)/UnicodeBlock.java
 UCBCMD = prepUnicodeBlock.sh
 UCBDEF = Blocks-4.1.0.txt
@@ -50,7 +68,7 @@ CLSTST	= $(shell find $(pkgdir) -name '*Test.java' -print)
 # classes excluded from build
 CLSEXC	= $(CLSTST)
 
-.PHONY: all classes install clean mclean lclean rclean tidy
+.PHONY: all classes install instdep clean mclean lclean rclean tidy
 .SUFFIXES: .xml .ps .pdf .java .class .map .raw .png
 .SECONDARY: $(APP).ps
 
@@ -122,6 +140,12 @@ endif
 		-classpath "$(subst $(space),$(sep), \
 		$(JAREXT))" \
 		org.exolab.castor.tools.MappingTool -i $(subst /,.,$(subst .class,,$<)) -o $@
+
+# deploy
+ifdef linos
+instdep: install
+	for s in $(SAMPLES) ; do install -D -m 644 lab/$$s $(instdir)/www/samples ; done
+endif
 
 install: $(instdir)
 ifdef winos
