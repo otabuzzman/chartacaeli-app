@@ -24,7 +24,7 @@ public class Epoch extends org.chartacaeli.model.Epoch {
 			return alpha = valueOf( getJD() ) ;
 
 		y = Calendar.getInstance().get( Calendar.YEAR ) ;
-		a = new CAADate( y, 1, 1, 12, 0, 0, true ) ;
+		a = new CAADate( y, 1, 1, 12, 0, 0, y>1582?true:false ) ;
 		alpha = a.Julian() ;
 		a.delete() ;
 
@@ -35,9 +35,6 @@ public class Epoch extends org.chartacaeli.model.Epoch {
 	}
 
 	public double finis() {
-		double alpha ;
-		CAADate t, a ;
-
 		if ( omega>Double.NEGATIVE_INFINITY )
 			return omega ;
 
@@ -47,15 +44,6 @@ public class Epoch extends org.chartacaeli.model.Epoch {
 			return omega = valueOf( getFinis().getJD() ) ;
 		}
 
-		alpha = alpha() ;
-		t = new CAADate( alpha, true ) ;
-		a = new CAADate(
-				t.Year()+1, t.Month(), t.Day(),
-				t.Hour(), t.Minute(), t.Second(), true ) ;
-		omega = a.Julian() ;
-		t.delete() ;
-		a.delete() ;
-
-		return omega ;
+		return omega = alpha+365 ;
 	}
 }

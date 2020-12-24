@@ -195,6 +195,7 @@ public class Peer {
 		double r, t ;
 		CAADate d ;
 		long[] c ;
+		boolean g ;
 
 		c = valueOf( calendar.getYMD() ) ;
 
@@ -203,7 +204,8 @@ public class Peer {
 		else
 			t = 0 ;
 
-		d = new CAADate( c[0], c[1], c[2]+t, true ) ;
+		g = c[0]>1582 || ( c[0]==1582 && c[1]>10 ) || ( c[0]==1582 && c[1]==10 && c[2]>14 ) ;
+		d = new CAADate( c[0], c[1], c[2]+t, g?true:false ) ;
 		r = d.Julian() ;
 		d.delete() ;
 
