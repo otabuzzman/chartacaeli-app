@@ -24,7 +24,7 @@ public class DialDay extends DialDeg {
 		Registry.register( sub, (long) ( jd*100+.5 )/100 ) ;
 
 		date = new CAADate() ;
-		date.Set( jd, 2299160.5>jd?true:false ) ;
+		date.Set( jd, 2299160.5>jd?false:true ) ;
 		date.register( this, QK_DAY ) ;
 		date.delete() ;
 
@@ -53,7 +53,7 @@ public class DialDay extends DialDeg {
 		long dm ;
 
 		d = new CAADate() ;
-		d.Set( mark, 2299160.5>mark?true:false ) ;
+		d.Set( mark, 2299160.5>mark?false:true ) ;
 		dw = d.DayOfWeek() ;
 		dm = d.Day() ;
 		d.delete() ;
