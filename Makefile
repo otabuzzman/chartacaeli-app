@@ -20,42 +20,42 @@ libdir	= lib
 instdir	= /opt/$(APP)
 
 jnilib	= \
-		$(pkgdir)/caa \
-		$(pkgdir)/gpu \
-		$(libdir) \
+	$(pkgdir)/caa \
+	$(pkgdir)/gpu \
+	$(libdir) \
 
 JARMOD = \
-		castor-codegen-1.3.3.jar \
-		castor-xml-schema-1.3.3.jar \
+	castor-codegen-1.3.3.jar \
+	castor-xml-schema-1.3.3.jar \
 
 JAREXT = \
-		$(libdir)/pj2.jar \
-		$(libdir)/castor-core-1.3.3.jar \
-		$(libdir)/castor-xml-1.3.3.jar \
-		$(libdir)/jts-1.14.jar \
-		$(libdir)/jtsio-1.14.jar \
-		$(libdir)/runcc.jar \
-		$(libdir)/commons-lang-2.6.jar \
-		$(libdir)/commons-math3-3.5.jar \
-		$(libdir)/commons-logging-1.2.jar \
+	$(libdir)/pj2.jar \
+	$(libdir)/castor-core-1.3.3.jar \
+	$(libdir)/castor-xml-1.3.3.jar \
+	$(libdir)/jts-1.14.jar \
+	$(libdir)/jtsio-1.14.jar \
+	$(libdir)/runcc.jar \
+	$(libdir)/commons-lang-2.6.jar \
+	$(libdir)/commons-math3-3.5.jar \
+	$(libdir)/commons-logging-1.2.jar \
 
 SAMPLES = \
-		layout-and-text.pdf \
-		layout-and-text.xml \
-		layout-and-text.preferences \
-		unicode-and-fonts.pdf \
-		unicode-and-fonts.xml \
-		unicode-and-fonts.preferences \
-		field-of-view.pdf \
-		field-of-view.xml \
-		variables-and-expressions.pdf \
-		variables-and-expressions.xml \
-		milkyway-with-catalogds9.pdf \
-		milkyway-with-catalogds9.xml \
-		milkyway-with-catalogds9.preferences \
-		azimuthal-projection.pdf \
-		azimuthal-projection.xml \
-		azimuthal-projection.preferences \
+	layout-and-text.pdf \
+	layout-and-text.xml \
+	layout-and-text.preferences \
+	unicode-and-fonts.pdf \
+	unicode-and-fonts.xml \
+	unicode-and-fonts.preferences \
+	field-of-view.pdf \
+	field-of-view.xml \
+	variables-and-expressions.pdf \
+	variables-and-expressions.xml \
+	milkyway-with-catalogds9.pdf \
+	milkyway-with-catalogds9.xml \
+	milkyway-with-catalogds9.preferences \
+	azimuthal-projection.pdf \
+	azimuthal-projection.xml \
+	azimuthal-projection.preferences \
 
 CLSUCB = $(pkgdir)/UnicodeBlock.java
 UCBCMD = prepUnicodeBlock.sh
@@ -105,10 +105,10 @@ $(CLSUCB): $(UCBDEF) $(UCBCMD)
 
 classes: $(CLSUCB)
 	javac \
-			-classpath "$(subst $(space),$(sep), \
-			$(pkgdir) \
-			$(JAREXT))" \
-			-d . $^ $(CLSAPP)
+		-classpath "$(subst $(space),$(sep), \
+		$(pkgdir) \
+		$(JAREXT))" \
+		-d . $^ $(CLSAPP)
 
 ifdef winos
 VIEWER = $${GS:-gswin64c.exe} -dBATCH -dNOPAUSE -q -
@@ -119,14 +119,14 @@ endif
 .xml.ps:
 	# note that caa loads aaplus thus needs PATH set as well as java.library.path
 	@time java $$JFRX_OPTS $(JVMX_OPTS) \
-			-Duser.language=$$(echo $${LANG:-en} | sed 's,_.*,,') \
-			-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
-			-Djava.util.logging.config.file=lib/logging.properties \
-			-classpath "$(subst $(space),$(sep), \
-			$(libdir) \
-			$(pkgdir) \
-			$(JAREXT))" \
-			$(PKG).ChartaCaeli viewer="$(VIEWER)" $< >$@
+		-Duser.language=$$(echo $${LANG:-en} | sed 's,_.*,,') \
+		-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
+		-Djava.util.logging.config.file=lib/logging.properties \
+		-classpath "$(subst $(space),$(sep), \
+		$(libdir) \
+		$(pkgdir) \
+		$(JAREXT))" \
+		$(PKG).ChartaCaeli viewer="$(VIEWER)" $< >$@
 
 .ps.pdf:
 ifdef winos
