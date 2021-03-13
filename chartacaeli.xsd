@@ -942,6 +942,7 @@ Chart specification - An XSD defininig the set of features and parameters a Char
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>
+					<xs:attribute name="geocentric" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

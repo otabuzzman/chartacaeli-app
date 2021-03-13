@@ -1,6 +1,7 @@
 
 package org.chartacaeli;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -8,6 +9,8 @@ import com.vividsolutions.jts.geom.Coordinate;
 
 import org.chartacaeli.caa.CAA2DCoordinate;
 import org.chartacaeli.caa.CAACoordinateTransformation;
+import org.chartacaeli.caa.CAAElliptical;
+import org.chartacaeli.caa.CAAEllipticalPlanetaryDetails;
 import org.chartacaeli.caa.CAANutation;
 
 @SuppressWarnings("serial")
@@ -28,11 +31,14 @@ public class BodyPlanet extends BodyOrbitalType {
 
 	public Coordinate jdToEquatorial( double jd, Coordinate eq ) {
 		double l, b, o ;
-		Class<?> c ;
 		double epoch, stretch ;
-		CAA2DCoordinate c2d ;
+		Class<?> caaPlanet, caaElliptical ;
 		Method eclipticLongitude ;
 		Method eclipticLatitude ;
+		Field fldPlanet ;
+		int planet ;
+		CAA2DCoordinate c2d ;
+		CAAEllipticalPlanetaryDetails details ;
 
 		l = 0 ;
 		b = 0 ;
@@ -45,13 +51,18 @@ public class BodyPlanet extends BodyOrbitalType {
 			stretch = 0 ;
 
 		try {
-			c = Class.forName( "org.chartacaeli.caa.CAA"+peer.getType().substring( 0, 1 ).toUpperCase()+peer.getType().substring( 1 ) ) ;
+			caaPlanet = Class.forName( "org.chartacaeli.caa.CAA"+peer.getType().substring( 0, 1 ).toUpperCase()+peer.getType().substring( 1 ) ) ;
 
-			eclipticLongitude = c.getMethod( "EclipticLongitude", new Class[] { double.class, boolean.class } ) ;
-			eclipticLatitude = c.getMethod( "EclipticLatitude", new Class[] { double.class, boolean.class } ) ;
+			eclipticLongitude = caaPlanet.getMethod( "EclipticLongitude", new Class[] { double.class, boolean.class } ) ;
+			eclipticLatitude = caaPlanet.getMethod( "EclipticLatitude", new Class[] { double.class, boolean.class } ) ;
 
 			l = (Double) eclipticLongitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } ) ;
 			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } ) ;
+
+			caaElliptical = Class.forName( "org.chartacaeli.caa.CAAElliptical" ) ;
+			fldPlanet = caaElliptical.getField( peer.getType().toUpperCase() ) ;
+			planet = fldPlanet.getInt( null ) ;
+
 		} catch ( ClassNotFoundException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		} catch ( NoSuchMethodException e ) {
@@ -59,6 +70,10 @@ public class BodyPlanet extends BodyOrbitalType {
 		} catch ( InvocationTargetException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		} catch ( IllegalAccessException e ) {
+			throw new RuntimeException( e.toString() ) ;
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException( e.toString() ) ;
+		} catch (SecurityException e) {
 			throw new RuntimeException( e.toString() ) ;
 		}
 
@@ -73,6 +88,10 @@ public class BodyPlanet extends BodyOrbitalType {
 		o = CAANutation.MeanObliquityOfEcliptic( epoch ) ;
 		c2d = CAACoordinateTransformation.Ecliptic2Equatorial( l, b, o ) ;
 
-		return new Coordinate( CAACoordinateTransformation.HoursToDegrees( c2d.X() ), c2d.Y() ) ;
+		if ( ! peer.getGeocentric() )
+			return new Coordinate( CAACoordinateTransformation.HoursToDegrees( c2d.X() ), c2d.Y() ) ;
+
+		details = CAAElliptical.Calculate( jd, planet, false ) ;
+		return new Coordinate( CAACoordinateTransformation.HoursToDegrees( details.ApparentGeocentricRA() ), details.ApparentGeocentricDeclination() ) ;
 	}
 }
