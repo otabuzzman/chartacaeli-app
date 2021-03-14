@@ -528,50 +528,47 @@ $(tmpdir)/%.h: $(srcdir)/%.h
 		-e s,noexcept,, \
 		-e s,enum..*class,enum, $< > $@
 
+.cpp.o:
+	$(CXX) -std=c++17 -Wall -fPIC -c $< -o $@
+
 ifdef winos
-AATest.o: AATest.cpp
-	$(CXX) -DAAPLUS_ELP2000_NO_HIGH_PRECISION -DAAPLUS_NO_ELPMPP02 -std=c++11 -Wall -shared -c $< -o $@
-
-.cpp.o:
-	$(CXX) -std=c++17 -Wall -shared -c $< -o $@
-
 .cxx.o:
-	$(CXX) -std=c++11 -Wall -shared \
-	-I"$(JAVA_HOME)/include" \
-	-I"$(JAVA_HOME)/include/win32" \
-	-I. -I$(srcdir) \
-	-c $< -o $@
+	$(CXX) -std=c++11 -Wall -fPIC \
+		-I"$(JAVA_HOME)/include" \
+		-I"$(JAVA_HOME)/include/win32" \
+		-I. -I$(srcdir) \
+		-c $< -o $@
 else
-AATest.o: AATest.cpp
-	$(CXX) -DAAPLUS_ELP2000_NO_HIGH_PRECISION -DAAPLUS_NO_ELPMPP02 -std=c++11 -Wall -shared -fPIC -c $< -o $@
-
-.cpp.o:
-	$(CXX) -std=c++17 -Wall -shared -fPIC -c $< -o $@
-
 .cxx.o:
-	$(CXX) -std=c++11 -Wall -shared -fPIC \
-	-I$(JAVA_HOME)/include \
-	-I$(JAVA_HOME)/include/linux \
-	-I. -I$(srcdir) \
-	-c $< -o $@
+	$(CXX) -std=c++11 -Wall -fPIC \
+		-I$(JAVA_HOME)/include \
+		-I$(JAVA_HOME)/include/linux \
+		-I. -I$(srcdir) \
+		-c $< -o $@
 endif
 
 $(AAZIP):
 	wget -q -O $@ $(AAURL)
 
 $(AADLL): $(AADLLOBJ)
-	$(CXX) -Wall -shared \
-	-o $@ $^
+	$(CXX) -Wall -shared -fPIC \
+		-o $@ $^
+
+$(CAADLL): $(AADLL) $(CAADLLOBJ)
+	$(CXX) -Wall -shared -fPIC \
+		-o $@ $(CAADLLOBJ) \
+		-L. -l$(DST)
+
+all: $(CAADLL)
 
 $(AAEXE): AATest.o $(AADLL)
 	$(CXX) -o $@ $< -L. -l$(DST)
 
-$(CAADLL): $(AADLL) $(CAADLLOBJ)
-	$(CXX) -Wall -shared \
-	-o $@ $(CAADLLOBJ) \
-	-L. -l$(DST)
-
-all: $(CAADLL)
+AATest.o: AATest.cpp
+	$(CXX) \
+		-DAAPLUS_ELP2000_NO_HIGH_PRECISION \
+		-DAAPLUS_NO_ELPMPP02 \
+		-std=c++11 -Wall -c $< -o $@
 
 # compiler objects
 clean:
