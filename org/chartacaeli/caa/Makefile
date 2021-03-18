@@ -568,7 +568,7 @@ AATest.o: AATest.cpp
 	$(CXX) \
 		-DAAPLUS_ELP2000_NO_HIGH_PRECISION \
 		-DAAPLUS_NO_ELPMPP02 \
-		-std=c++11 -Wall -c $< -o $@
+		-std=c++17 -Wall -c $< -o $@
 
 # compiler objects
 clean:
