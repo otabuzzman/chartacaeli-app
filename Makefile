@@ -143,15 +143,18 @@ endif
 
 # deploy
 ifdef linos
-instdep: install
-	for s in $(SAMPLES) ; do install -D -m 644 lab/$$s $(instdir)/www/samples ; done
+instdep: instwww instweb
+instwww: $(instdir)/www
+	( cd lab ; for s in $(SAMPLES) ; do install -D -m 644 $$s $</samples ; done )
+instweb: $(instdir)/web
+	( cd web ; tar cf - --owner=ccaeli --group=ccaeli . ) | ( cd $< ; tar xf - )
+	# workaround for https://issues.apache.org/jira/browse/MRESOURCES-236
+	chmod 755 $</WEB-INF/chartacaeli.sh
 endif
 
 install: $(instdir)
-ifdef winos
 	tar cf - web | ( cd $< ; tar xf - )
-else
-	tar cf - --owner=ccaeli --group=ccaeli web | ( cd $< ; tar xf - )
+ifdef linos
 	# workaround for https://issues.apache.org/jira/browse/MRESOURCES-236
 	chmod 755 $</web/WEB-INF/chartacaeli.sh
 endif
