@@ -1,6 +1,6 @@
 # Astronomical Algorithms in Java
 ---
-A Java wrapper for the [AA+](http://www.naughter.com/aa.html) library from PJ Naughter. AA+ is a comprehensive C++ implementation of astronomical algorithms presented by Jean Meeus in his book [Astronomical Algorithms](http://www.willbell.com/math/mc1.htm).
+A Java wrapper for the [AA+](http://www.naughter.com/aa.html) library from Naughter Software. AA+ is a comprehensive C++ implementation of astronomical algorithms presented by Jean Meeus in his book [Astronomical Algorithms](http://www.willbell.com/math/mc1.htm).
 
 ### Concept
 
@@ -8,91 +8,64 @@ Manually extending a particular C++ library for use from Java code is tedious an
 
 CXXWRAP parses header files for C++ class definitions and generates corresponding JNI wrappers consisting of Java and JNI files. The latter are essentially C++ files that function as bridges between Java and the C++ library in question. Each C++ class gets its own Java and JNI file. In case of multiple classes per header file there will be multiple Java/ JNI pairs as well.
 
-A drawback of CXXWRAP is its age. Maintenance ended in 2006 and there is thus no support for C++ features that came afterward. AA+ is under continuous development and conforms of course with modern C++ standards and so there is some tooling around building the wrapper.
+A disadvantage of CXXWRAP is that development stopped in 2006 while AA+ continues to evolve and conform to modern C++ standards. To deal with this, the Charta Caeli project maintains a specialized version of CXXWRAP. It is on GitHub while the original version is hosted on Sourceforge.
 
-The good news is everything's controlled by a Makefile. So we'll be fine as long as there are no significant changes to the sources of AA+. However, for fresh builds or after a `make tidy` the Makefile will download AA+ as it does not contain a copy of AA+. And this is where the bad news comes in: there is only the newest version of AA+ available for download and depending on what changed it might be necessary to adjust the Makefile.
+### Update AA+ 2.50
 
-### Update AA+
+1. In Makefile update AA+ version in comment `# AA+ X.XX`.
 
-Depending on what changed in a new version of AA+ the Makefile needs one or more of the following adjustments.
-
-1. Update AA+ version. This is an easy one. Just update the comment `# AA+ V2.21` near the beginning of Makefile accordingly.
-
-2. Update variable `AADLLSRC` with a list of `.cpp` files in AA+. This is simply the output of `ls src/*.cpp` with some postprocessing.
+2. Download the source archive.
   ```
-  # sample AADLLSRC
-  # AADLLSRC = \
-  # 	$(srcdir)/AAAberration.cpp \
-  # 	$(srcdir)/AAAngularSeparation.cpp \
-  # 	$(srcdir)/AABinaryStar.cpp \
-  # 	... \
-
+  make tidy # clean-up previous version
+  
+  make src
   ```
 
-3. Update variable `CAADLLSRC` with a list of `.cxx` files. CXXWRAP generates these JNI code files for class definitions in header files. A pipe with some postprocessing will do.
+3. Update variable `AADLLSRC` in Makefile with `AA*.cpp` files in AA+.
   ```
-  # grep header for class definitions, delete CR, construct and output file name
-  grep "class  *AAPLUS_EXT_CLASS" src/*.h | sed 's,\r,,' | gawk '{print $3 "_jni.cxx"}'
-
-  # sample CAADLLSRC
-  # CAADLLSRC = \
-  # 	CAA2DCoordinate_jni.cxx \
-  # 	CAA3DCoordinate_jni.cxx \
-  # 	CAAAberration_jni.cxx \
-  # 	...\
-
+  # list C++ source files of AA+ and format them for Makefile.
+  (cd src ; ls AA*.cpp | gawk '{ print "\t" "$(srcdir)/" $1 " \\" }')
   ```
-
-4. Update JNI code dependencies. CXXWRAP scans AA+ header files for class definitions. For this to function, the header files must comply with a rather old C++ standard and need therefore some preparation first. The rule `$(tmpdir)/%.h: $(srcdir)/%.h` picks each header from AA+ performs the necessary changes and saves it in a new file to be picked by CXXWRAP. These files are the dependencies to set up in this step. Again, a pipe with some postprocessing will do.
+  - exclude file `AATest.cpp` (handled by `test` target)
+  - exclude file `AAVSOP2013.h` (compilation errors on Winos)
+  
+4. Create the header files for CXXWRAP. Remove file `AAVSOP2013.h`.
   ```
-  # grep header for class definitions, delete CR, construct rule, postprocess and output result
-  grep "class  *AAPLUS_EXT_CLASS" src/*.h | sed 's,\r,,' | gawk '{printf("%s_jni.cxx: %s\n",$3, $1)}' | sed -e 's,src/,$(tmpdir)/,' -e 's,:class,,'
-
-  # sample JNI code dependencies
-  # CAA2DCoordinate_jni.cxx: $(tmpdir)/AA2DCoordinate.h
-  # CAA3DCoordinate_jni.cxx: $(tmpdir)/AA3DCoordinate.h
-  # CAAAberration_jni.cxx: $(tmpdir)/AAAberration.h
-  # ...
-
+  make hdr
   ```
 
-5. Update AA+ header inter-dependencies. Some header files depend on others. The Makefile must know about this to schedule work in proper order. The C preprocessor helps to find out, as does some post-processing. Run the processor on all AA+ header files and truncate the resulting list to include entries with no dependencies, that is those with the header file being the only prerequisite.
+5. Create C++ and Java files for JNI.
   ```
-  g++ -MM src/*.h
-
-  # sample inter-dependencies
-  # $(tmpdir)/AACoordinateTransformation.h: $(tmpdir)/AA2DCoordinate.h
-  # $(tmpdir)/AADate.h: $(tmpdir)/AADefines.h
-  # $(tmpdir)/AADiameters.h: $(tmpdir)/AACoordinateTransformation.h $(tmpdir)/AA2DCoordinate.h
-  # ...
-
+  make jni
   ```
 
-6. Update internal dependencies. Some header files include headers without class definitions. To share their location with the other header files eases compilation. Finding these files is a manual task done by scanning preprocessor output in the previous step. Add an appropriate rule for each.
+6. Update variable `CAADLLSRC` in Makefile with `*.cxx` files generated from CXXWRAP.
   ```
-  # internal dependency rule for AADefines.h
-  # $(tmpdir)/AADefines.h:
-  # 	ln $(srcdir)/$(@F) $@
-
+  # list C++ files for JNI and format them for Makefile.
+  ls *.cxx | gawk '{ print "\t" $1 " \\" }'
   ```
 
-### Build
-1. Download AA+
-  ```
-  make
-  ```
+7. Check `stdout` for lines containing
+  - "syntax not parsed correctly"
+    Inspect reported header files. Decide to ignore or fix by grammar extension to CXXWRAP or other.
+  - "cannot be wrapped"
+    Update variable `CXXWRAP_CACHE` in Makefile with files for reported classes if supported by CXXWRAP.
 
-2. Compile JNI code
-  ```
-  make all
-  ```
+8. Replace enumeration casts (types `DOW`, `Type`) with casts to `static_cast<jint>` in files
+  `CAADate_jni.cxx` (type `DOW`),<br>
+  `CAAEquinoxSolsticeDetails2_jni.cxx` (type `Type`),<br>
+  `CAAMoonMaxDeclinationsDetails2_jni.cxx`,<br>
+  `CAAMoonNodesDetails2_jni.cxx`,<br>
+  `CAAMoonPerigeeApogeeDetails2_jni.cxx`,<br>
+  `CAAMoonPhasesDetails2_jni.cxx`,<br>
+  `CAAPlanetPerihelionAphelionDetails2_jni.cxx`,<br>
+  `CAAPlanetaryPhenomenaDetails2_jni.cxx`,<br>
+  `CAARiseTransitSetDetails2_jni.cxx`
 
-3. Compile Java
-  ```
-  cd ../../.. ; make classes
-  ```
+9. Run `make -j` to build libraries
 
-  Read and follow instructions in file `README.md` in top-level directory of repository.
-
-#### Parallelism
-Running make with multiple jobs option demands [proper dependency settings](https://www.cmcrossroads.com/article/pitfalls-and-benefits-gnu-make-parallelization). The Makefile does not allow for parallel execution for the generated JNI code. It works however for AA+. To make use run `make ; make -j $(nproc) aaplus.dll ; make all`.
+### Acknowledgements
+Copyrights (c) 2004, Naughter Software
+- You are allowed to include the source code in any product (commercial, shareware, freeware or otherwise) when your product is released in binary form.
+- You are allowed to modify the source code in any way you want except you cannot modify the copyright details at the top of each module.
+- If you want to distribute source code with your application, then you are only allowed to distribute versions released by the author. This is to maintain a single distribution point for the source code.

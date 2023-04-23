@@ -11,10 +11,6 @@ Blocks-4.1.0.txt
 /generated-sources
 /maven-status
 org/chartacaeli/UnicodeBlock.java
-org/chartacaeli/caa/**
-!org/chartacaeli/caa/*.diff
-!org/chartacaeli/caa/Makefile
-!org/chartacaeli/caa/README.md
 org/chartacaeli/gpu/tst/**
 !org/chartacaeli/gpu/tst/*.launch
 !org/chartacaeli/gpu/tst/*Test.java

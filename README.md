@@ -9,6 +9,7 @@ Charta Caeli is a Java application with some C/C++ and [CUDA](https://en.wikiped
 
 - C/C++ development tools ([GCC](https://gcc.gnu.org/), make, flex, bison etc. and [MinGW](http://www.mingw.org/) if on Windows/ Cygwin)
 - Various shell tools (gawk, diff, patch, bzip, gzip, unzip, curl, wget etc.)
+- [CXXWRAP](https://github.com/otabuzzman/CXXWRAP) JNI wrapper generator for C++ APIs
 - [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive) 8 to build CUDA programs
 - [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (JDK) 8
 - [Apache Maven](https://maven.apache.org/) build tool for Java
@@ -24,7 +25,6 @@ Not required to build but handy anyway:
 ```bash
 # setup environment (sample values)
 export CXX=g++
-export CXXWRAP=~/lab/cxxwrap-20061217/cxxwrap
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 export PATH=$JAVA_HOME/bin:$PATH
 # if CUDA available
@@ -38,12 +38,6 @@ export LD_LIBRARY_PATH=.:lib:org/chartacaeli/caa:$CUDA_HOME/lib64:$LD_LIBRARY_PA
 
 # install C/C++ development tools
 sudo yum groupinstall "Development Tools"
-
-# install CXXWRAP
-( cd ~/lab ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz \
-&& tar -zxf cxxwrap-20061217.tar.gz \
-|| echo failed to download or unpack CXXWRAP. )
-( cd ~/lab/cxxwrap-20061217 ; ./configure ; make )
 
 # install JDK 8
 sudo yum install java-1.8.0-openjdk-devel.x86_64
@@ -70,7 +64,7 @@ sudo yum install git
 # Clone Charta Caeli
 cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli-app.git ; cd chartacaeli-app
 
-( cd org/chartacaeli/caa ; make ; make all )
+( cd org/chartacaeli/caa ; make -j )
 ( cd org/chartacaeli/gpu ; make )
 make
 make classes
@@ -82,21 +76,14 @@ make classes
 # setup environment (sample values)
 export CXX=x86_64-w64-mingw32-c++.exe
 export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
-export CXXWRAP=~/src/cxxwrap-20061217/cxxwrap.exe
-export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
+export JAVA_HOME=/cygdrive/c/program\ files\ \(x86\)/java/jdk1.8.0_361
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=.:lib:org/chartacaeli/caa:$PATH
-
-# install CXXWRAP if missing
-( cd ~/src ; wget -q http://downloads.sourceforge.net/project/cxxwrap/cxxwrap/20061217/cxxwrap-20061217.tar.gz \
-&& tar -zxf cxxwrap-20061217.tar.gz \
-|| echo failed to download or unpack CXXWRAP. )
-( cd ~/src/cxxwrap-20061217 ; ./configure ; make )
 
 # Clone Charta Caeli core application
 cd ~/src ; git clone https://github.com/otabuzzman/chartacaeli-app.git ; cd chartacaeli-app
 
-( cd org/chartacaeli/caa ; make ; make all )
+( cd org/chartacaeli/caa ; make -j )
 ( cd org/chartacaeli/gpu ; make )
 make
 make classes
@@ -134,7 +121,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 ```bash
 # setup environment (sample values)
-export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
+export JAVA_HOME=/cygdrive/c/program\ files\ \(x86\)/java/jdk1.8.0_361
 export CUDA_HOME=/usr/lab/cudacons/cuda_8.0.44_windows/compiler
 export PATH=$JAVA_HOME/bin:$PATH
 
@@ -229,7 +216,7 @@ User and group are not required. Just create a folder `%USERPROFILE%\opt\chartac
 
 ```bash
 # setup environment (sample values)
-export JAVA_HOME=/cygdrive/c/program\ files/java/jdk1.8.0_151
+export JAVA_HOME=/cygdrive/c/program\ files\ \(x86\)/java/jdk1.8.0_361
 export PATH=$JAVA_HOME/bin:$PATH
 
 mvn compile
