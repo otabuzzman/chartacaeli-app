@@ -25,7 +25,7 @@ Not required to build but handy anyway:
 ```bash
 # setup environment (sample values)
 export CXX=g++
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 export PATH=$JAVA_HOME/bin:$PATH
 export LD_LIBRARY_PATH=.:lib:org/chartacaeli/caa:$LD_LIBRARY_PATH
 
@@ -93,7 +93,7 @@ Charta Caeli utilizes the [Parallel Java 2 Library](https://www.cs.rit.edu/~ark/
 
 ```bash
 # setup environment (sample values)
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 export CUDA_HOME=/usr/local/cuda
 export PATH=$JAVA_HOME/bin:$PATH
 
@@ -194,7 +194,7 @@ Installation requires a user account `ccaeli` with a HOME of `/opt/chartacaeli`.
 
 ```bash
 # setup environment (sample values)
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 export PATH=$JAVA_HOME/bin:$PATH
 
 mvn compile
