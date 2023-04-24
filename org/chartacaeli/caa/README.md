@@ -27,12 +27,19 @@ A disadvantage of CXXWRAP is that development stopped in 2006 while AA+ continue
   (cd src ; ls AA*.cpp | gawk '{ print "\t" "$(srcdir)/" $1 " \\" }')
   ```
   - exclude file `AATest.cpp` (handled by `test` target)
-  - exclude file `AAVSOP2013.h` (compilation errors on Winos)
-  
-4. Create the header files for CXXWRAP. Remove file `AAVSOP2013.h`.
+  - exclude file `AAVSOP2013.cpp` (compilation errors on Winos)
+
+4. Create the header files for CXXWRAP.
   ```
   make hdr
   ```
+  - remove file `AAVSOP2013.h`
+  - remove files with preprocessor directives that produce incorrect Java syntax:<br>
+    `AAMoonMaxDeclinations2.h`,<br>
+    `AAMoonNodes2.h`,<br>
+    `AAMoonPerigeeApogee2.h`,<br>
+    `AAMoonPhases2.h`,<br>
+    `AARiseTransitSet2.h`<br>
 
 5. Create C++ and Java files for JNI.
   ```
@@ -51,7 +58,7 @@ A disadvantage of CXXWRAP is that development stopped in 2006 while AA+ continue
   - "cannot be wrapped"
     Update variable `CXXWRAP_CACHE` in Makefile with files for reported classes if supported by CXXWRAP.
 
-8. Replace enumeration casts (types `DOW`, `Type`) with casts to `static_cast<jint>` in files
+8. Replace enumeration casts (types `DOW`, `Type`) with casts to `static_cast<jint>` in files<br>
   `CAADate_jni.cxx` (type `DOW`),<br>
   `CAAEquinoxSolsticeDetails2_jni.cxx` (type `Type`),<br>
   `CAAMoonMaxDeclinationsDetails2_jni.cxx`,<br>
@@ -60,9 +67,9 @@ A disadvantage of CXXWRAP is that development stopped in 2006 while AA+ continue
   `CAAMoonPhasesDetails2_jni.cxx`,<br>
   `CAAPlanetPerihelionAphelionDetails2_jni.cxx`,<br>
   `CAAPlanetaryPhenomenaDetails2_jni.cxx`,<br>
-  `CAARiseTransitSetDetails2_jni.cxx`
+  `CAARiseTransitSetDetails2_jni.cxx`.
 
-9. Run `make -j` to build libraries
+9. Run `make -j` to build libraries.
 
 ### Acknowledgements
 Copyrights (c) 2004, Naughter Software

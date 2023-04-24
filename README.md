@@ -11,7 +11,7 @@ Charta Caeli is a Java application with some C/C++ and [CUDA](https://en.wikiped
 - Various shell tools (gawk, diff, patch, bzip, gzip, unzip, curl, wget etc.)
 - [CXXWRAP](https://github.com/otabuzzman/CXXWRAP) JNI wrapper generator for C++ APIs
 - [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive) 8 to build CUDA programs
-- [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (JDK) 8
+- [Java Development Kit](https://www.oracle.com/de/java/technologies/downloads/) (JDK)
 - [Apache Maven](https://maven.apache.org/) build tool for Java
 - [Ghostscript](http://ghostscript.com/download/) PDF generation program (if on Windows do not use Cygwin package but MSI)
 - [ImageMagick](https://www.imagemagick.org/script/download.php) 7 image processing CLI (if on Windows do not use Cygwin package but MSI)
@@ -27,10 +27,7 @@ Not required to build but handy anyway:
 export CXX=g++
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 export PATH=$JAVA_HOME/bin:$PATH
-# if CUDA available
-export CUDA_HOME=/usr/local/cuda
-export PATH=$CUDA_HOME/bin:$PATH
-export LD_LIBRARY_PATH=.:lib:org/chartacaeli/caa:$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=.:lib:org/chartacaeli/caa:$LD_LIBRARY_PATH
 
 # ##################################
 # # install prerequisites if missing
@@ -76,7 +73,7 @@ make classes
 # setup environment (sample values)
 export CXX=x86_64-w64-mingw32-c++.exe
 export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
-export JAVA_HOME=/cygdrive/c/program\ files\ \(x86\)/java/jdk1.8.0_361
+export JAVA_HOME=/cygdrive/c/program\ files/java/jdk-17
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=.:lib:org/chartacaeli/caa:$PATH
 
@@ -121,7 +118,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 ```bash
 # setup environment (sample values)
-export JAVA_HOME=/cygdrive/c/program\ files\ \(x86\)/java/jdk1.8.0_361
+export JAVA_HOME=/cygdrive/c/program\ files/java/jdk-17
 export CUDA_HOME=/usr/lab/cudacons/cuda_8.0.44_windows/compiler
 export PATH=$JAVA_HOME/bin:$PATH
 
@@ -216,7 +213,7 @@ User and group are not required. Just create a folder `%USERPROFILE%\opt\chartac
 
 ```bash
 # setup environment (sample values)
-export JAVA_HOME=/cygdrive/c/program\ files\ \(x86\)/java/jdk1.8.0_361
+export JAVA_HOME=/cygdrive/c/program\ files/java/jdk-17
 export PATH=$JAVA_HOME/bin:$PATH
 
 mvn compile
@@ -237,7 +234,7 @@ java org.chartacaeli.PreferencesTool tree=user command=update lab/layout-and-tex
 
 export GS_FONTPATH=/opt/chartacaeli-app
 ( cd /opt/chartacaeli/web/WEB-INF ; ./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
-	${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=/tmp/unicode-and-fonts.pdf - )
+	${GS:-gs} -q -dBATCH -dNOPAUSE -dNOSAFER -sDEVICE=pdfwrite -sOutputFile=/tmp/unicode-and-fonts.pdf - )
 ```
 
 Run unicode-and-fonts sample on **Windows**:

@@ -11,7 +11,6 @@ MOD		= $(APP).xsd
 
 # Java VM non-standard options
 JVMX_OPTS = \
-		-Xmx3072m
 
 pkgdir	= $(subst .,/,$(PKG))
 moddir	= $(pkgdir)/model
@@ -111,9 +110,9 @@ classes: $(CLSUCB)
 		-d . $^ $(CLSAPP)
 
 ifdef winos
-VIEWER = $${GS:-gswin64c.exe} -dBATCH -dNOPAUSE -q -
+VIEWER = $${GS:-gswin64c.exe} -dBATCH -dNOPAUSE -dNOSAFER -q -
 else
-# VIEWER = $${GS:-gs} -dBATCH -dNOPAUSE -q -
+# VIEWER = $${GS:-gs} -dBATCH -dNOPAUSE -dNOSAFER -q -
 endif
 
 .xml.ps:
@@ -130,9 +129,9 @@ endif
 
 .ps.pdf:
 ifdef winos
-	@export GS_FONTPATH=$$(cygpath -m $$(pwd)) ; time $${GS:-gswin64c.exe} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
+	@export GS_FONTPATH=$$(cygpath -m $$(pwd)) ; time $${GS:-gswin64c.exe} -q -dBATCH -dNOPAUSE -dNOSAFER -sDEVICE=pdfwrite -sOutputFile=$@ $<
 else
-	@export GS_FONTPATH=$$(pwd) ; time $${GS:-gs} -q -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$@ $<
+	@export GS_FONTPATH=$$(pwd) ; time $${GS:-gs} -q -dBATCH -dNOPAUSE -dNOSAFER -sDEVICE=pdfwrite -sOutputFile=$@ $<
 endif
 
 .class.map:

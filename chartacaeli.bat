@@ -9,7 +9,7 @@ set PATH=lib;%PATH%
 if not defined JAVA set JAVA=java.exe
 if not defined CLASSPATH set CLASSPATH=classes;lib;lib\*
 if not defined LANG ( set LANG=en ) else ( for /f "tokens=1 delims=_" %%l in ( "%LANG%" ) do set LANG=%%l )
-if not defined VIEWER set VIEWER=gswin64c.exe -dBATCH -dNOPAUSE -q -
+if not defined VIEWER set VIEWER=gswin64c.exe -dBATCH -dNOPAUSE -dNOSAFER -q -
 
 set keep=0
 set args=
@@ -60,5 +60,5 @@ echo                    -Duser.language=%LANG%
 echo                    -Djava.library.path=lib
 echo                    -Djava.util.logging.config.file=lib\logging.properties)
 echo   VIEWER     - Command line to spawn viewer process for PS output.
-echo                (default gswin64c.exe -dBATCH -d NOPAUSE -q -)
+echo                (default gswin64c.exe -dBATCH -d NOPAUSE -dNOSAFER -q -)
 exit /b 1

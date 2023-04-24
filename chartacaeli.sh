@@ -23,7 +23,7 @@ usage() {
 	echo "                   -Djava.library.path=lib"
 	echo "                   -Djava.util.logging.config.file=lib/logging.properties)"
 	echo "  VIEWER     - Command line to spawn viewer process for PS output."
-	echo "               (default gs -dBATCH -d NOPAUSE -q -)"
+	echo "               (default gs -dBATCH -d NOPAUSE -dNOSAFER -q -)"
 	exit 1
 }
 
@@ -36,7 +36,7 @@ while getopts "hkv" opt ; do
 		keep=1
 		;;
 		v)
-		args="viewer=${VIEWER:-${GS:-gs} -dBATCH -dNOPAUSE -q -}"
+		args="viewer=${VIEWER:-${GS:-gs} -dBATCH -dNOPAUSE -dNOSAFER -q -}"
 		;;
 		h)
 		usage

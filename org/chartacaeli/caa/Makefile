@@ -32,7 +32,6 @@ endif
 .SUFFIXES: .cache .cxx .dll .so
 
 vpath %.cpp $(srcdir)
-#vpath %.cxx .
 
 # C++ source files in $(AAZIP)
 AADLLSRC = \
@@ -200,16 +199,12 @@ CAADLLSRC = \
 	CAAMars_jni.cxx \
 	CAAMercury_jni.cxx \
 	CAAMoonIlluminatedFraction_jni.cxx \
-	CAAMoonMaxDeclinations2_jni.cxx \
 	CAAMoonMaxDeclinationsDetails2_jni.cxx \
 	CAAMoonMaxDeclinations_jni.cxx \
-	CAAMoonNodes2_jni.cxx \
 	CAAMoonNodesDetails2_jni.cxx \
 	CAAMoonNodes_jni.cxx \
-	CAAMoonPerigeeApogee2_jni.cxx \
 	CAAMoonPerigeeApogeeDetails2_jni.cxx \
 	CAAMoonPerigeeApogee_jni.cxx \
-	CAAMoonPhases2_jni.cxx \
 	CAAMoonPhasesDetails2_jni.cxx \
 	CAAMoonPhases_jni.cxx \
 	CAAMoon_jni.cxx \
@@ -243,7 +238,6 @@ CAADLLSRC = \
 	CAAPluto_jni.cxx \
 	CAAPrecession_jni.cxx \
 	CAARefraction_jni.cxx \
-	CAARiseTransitSet2_jni.cxx \
 	CAARiseTransitSetDetails2_jni.cxx \
 	CAARiseTransitSetDetails_jni.cxx \
 	CAARiseTransitSet_jni.cxx \
