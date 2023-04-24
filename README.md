@@ -170,10 +170,10 @@ for sample in \
 	field-of-view \
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
-	azimuthal-projection ; do ( make ${sample}.pdf ) ; done
+	azimuthal-projection ; do ( ( make ${sample}.pdf ) & ) ; done
 ```
 
-Compare and save results to PNG files. These should be gray if equal. Deviating pixels are marked by color.
+Compare and save results to PNG files. Deviating pixels are marked by color.
 
 ```bash
 # compare samples

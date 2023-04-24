@@ -36,7 +36,7 @@ java -classpath %CLASSPATH% ^
 	-Duser.language=%LANG% ^
 	-Djava.library.path=lib ^
 	-Djava.util.logging.config.file=lib\logging.properties ^
-	org.chartacaeli.ChartaCaeli %args% %1 %2
+	org.chartacaeli.ChartaCaeli "%args%" %1 %2
 
 exit /b %errorlevel%
 
