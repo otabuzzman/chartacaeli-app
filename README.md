@@ -60,7 +60,7 @@ sudo yum install git
 # ######################
 
 # Clone Charta Caeli
-cd ~/src ; git clone https://github.com/otabuzzman/chartacaeli-app.git ; cd chartacaeli-app
+cd ~/lab ; git clone https://github.com/otabuzzman/chartacaeli-app.git ; cd chartacaeli-app
 
 ( cd org/chartacaeli/caa ; make -j )
 ( cd org/chartacaeli/gpu ; make )
@@ -237,7 +237,7 @@ Run unicode-and-fonts sample on **Linux**
 java org.chartacaeli.PreferencesTool tree=user command=update lab/layout-and-text.preferences
 
 export GS_FONTPATH=/opt/chartacaeli
-( cd /opt/chartacaeli/web/WEB-INF ; ./chartacaeli.sh -k ~/src/chartacaeli-app/lab/unicode-and-fonts.xml |\
+( cd /opt/chartacaeli/web/WEB-INF ; ./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
 	${GS:-gs} -q -dBATCH -dNOPAUSE -dNOSAFER -sDEVICE=pdfwrite -sOutputFile=/tmp/unicode-and-fonts.pdf - )
 ```
 
