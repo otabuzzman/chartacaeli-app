@@ -10,7 +10,7 @@ Charta Caeli is a Java application with some C/C++ and [CUDA](https://en.wikiped
 - C/C++ development tools ([GCC](https://gcc.gnu.org/), make, flex, bison etc. and [MinGW](http://www.mingw.org/) if on Windows/ Cygwin)
 - Various shell tools (gawk, diff, patch, bzip, gzip, unzip, curl, wget etc.)
 - [CXXWRAP](https://github.com/otabuzzman/CXXWRAP) JNI wrapper generator for C++ APIs
-- [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive) 8 to build CUDA programs
+- [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive) to build CUDA programs
 - [Java Development Kit](https://www.oracle.com/de/java/technologies/downloads/) (JDK)
 - [Apache Maven](https://maven.apache.org/) build tool for Java
 - [Ghostscript](http://ghostscript.com/download/) PDF generation program (if on Windows do not use Cygwin package but MSI)
@@ -120,7 +120,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 ```bash
 # setup environment (sample values)
 export JAVA_HOME=/cygdrive/c/program\ files/java/jdk-17
-export CUDA_HOME=/usr/lab/cudacons/cuda_8.0.44_windows/compiler
+export CUDA_HOME=/cygdrive/c/program\ files/nvidia\ gpu\ computing\ toolkit/cuda/v12.1/include
 export PATH=$JAVA_HOME/bin:$PATH
 
 # download an unpack PJ2 source
@@ -133,9 +133,9 @@ export PATH=$JAVA_HOME/bin:$PATH
 ( cd ~/src/pj2/lib ; x86_64-w64-mingw32-gcc -Wall -shared \
 	-I"$JAVA_HOME/include" \
 	-I"$JAVA_HOME/include/win32" \
-	-I$CUDA_HOME/include \
+	-I"$CUDA_HOME/include" \
 	-o EduRitGpuCuda.dll edu_rit_gpu_Cuda.c \
-	-L$CUDA_HOME/lib/x64 -lcuda \
+	-L"$CUDA_HOME/lib/x64" -lcuda \
 	&& install -m 755 EduRitGpuCuda.dll ~/src/chartacaeli-app/lib \
 	|| echo failed to compile EduRitGpuCuda.dll )
 ```
