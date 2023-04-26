@@ -36,11 +36,12 @@ export LD_LIBRARY_PATH=.:lib:org/chartacaeli/caa:$LD_LIBRARY_PATH
 # install C/C++ development tools
 sudo yum groupinstall "Development Tools"
 
-# install JDK 8
-sudo yum install java-1.8.0-openjdk-devel.x86_64
+# install JDK
+sudo yum install java-17-openjdk-devel.x86_64
 
 # install Maven
-# https://www.google.de/search?q=install+maven+on+amazon+ec2
+wget -q -O - https://dlcdn.apache.org/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.tar.gz |\
+    ( cd /usr/lib ; sudo tar zxf - )
 
 # install Ghostscript
 sudo yum install ghostscript
@@ -196,13 +197,16 @@ Installation requires a user account `ccaeli` with a HOME of `/opt/chartacaeli`.
 # setup environment (sample values)
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 export PATH=$JAVA_HOME/bin:$PATH
+export PATH=/usr/lib/apache-maven-3.9.1/bin:$PATH
 
 mvn compile
 
 # create Charta Caeli group (if missing)
 sudo groupadd ccaeli
 # create Charta Caeli user (if missing)
-sudo useradd -c "Charta Caeli" -d /opt/chartacaeli -m -s /sbin/nologin -g ccaeli ccaeli
+sudo mkdir -pm 0775 /opt/chartacaeli
+sudo chown ccaeli:ccaeli /opt/chartacaeli
+sudo useradd -c "Charta Caeli" -d /opt/chartacaeli -s /sbin/nologin -g ccaeli ccaeli
 
 sudo -u ccaeli -- make install
 ```
@@ -232,8 +236,8 @@ Run unicode-and-fonts sample on **Linux**
 # unicode-and-fonts sample depends on layout-and-text
 java org.chartacaeli.PreferencesTool tree=user command=update lab/layout-and-text.preferences
 
-export GS_FONTPATH=/opt/chartacaeli-app
-( cd /opt/chartacaeli/web/WEB-INF ; ./chartacaeli.sh -k ~/lab/chartacaeli-app/lab/unicode-and-fonts.xml |\
+export GS_FONTPATH=/opt/chartacaeli
+( cd /opt/chartacaeli/web/WEB-INF ; ./chartacaeli.sh -k ~/src/chartacaeli-app/lab/unicode-and-fonts.xml |\
 	${GS:-gs} -q -dBATCH -dNOPAUSE -dNOSAFER -sDEVICE=pdfwrite -sOutputFile=/tmp/unicode-and-fonts.pdf - )
 ```
 
