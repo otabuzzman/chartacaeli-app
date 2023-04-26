@@ -111,7 +111,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 	-I$CUDA_HOME/include \
 	-o libEduRitGpuCuda.so edu_rit_gpu_Cuda.c \
 	-L$CUDA_HOME/lib64 -lcudart \
-	&& install -m 755 libEduRitGpuCuda.so ~/src/chartacaeli-app/lib \
+	&& install -m 755 libEduRitGpuCuda.so ~/lab/chartacaeli-app/lib \
 	|| echo failed to compile or install libEduRitGpuCuda.so )
 ```
 
