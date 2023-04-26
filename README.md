@@ -263,10 +263,7 @@ GS_FONTPATH=$(cygpath -mp /opt/chartacaeli) \
 
 ## Helpful links
 - [Sample Pages](http://www.skymaps.com/store/samples/Millennium%20Star%20Atlas.pdf) from The Millenium Star Atlas
-- [Making Your Own Color Astronomical Images](http://www.kellysky.net/DSScolor.ppt) is a hands-on guide utilizing the [Digitized Sky Survey](https://archive.stsci.edu/cgi-bin/dss_form)
-- The [User Manual](https://github.com/OSGeo/proj.4/blob/master/docs/old/of90-284.pdf) of the [PROJ.4](https://github.com/OSGeo/proj.4) Cartographic Projections Library
-- A [Star Chart Plot Program](http://www.geocities.jp/toshimi_taki/star_chart_program/star_chart_program.htm) utilizing Microsoft Office tools
-- [The Generic Mapping Tools](http://gmt.soest.hawaii.edu/) is a collection of about 80 tools for manipulating geographic data sets
+- The [User Manual](https://github.com/OSGeo/PROJ/blob/master/docs/old/proj_4_3_12.pdf) of the [PROJ.4](https://github.com/OSGeo/proj.4) Cartographic Projections Library
 - [Map Projections - A Working Manual](http://pubs.usgs.gov/pp/1395/report.pdf) describing history and mathematics of map projections used by the U.S. Geological Survey
 - [An Album Of Map Projections](http://pubs.usgs.gov/pp/1453/report.pdf) containing profiles of many popular projections with general information mathematics and samples
 - [Mark's Blog](http://markchensblog.blogspot.de/2012/11/key-keyref-and-unique-in-xsd.html) demonstrates the use of the XSD elements `key`, `keyref` and `unique`
