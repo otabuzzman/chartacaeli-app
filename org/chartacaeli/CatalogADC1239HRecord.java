@@ -662,9 +662,9 @@ public class CatalogADC1239HRecord extends org.chartacaeli.model.CatalogADC1239H
 		double ra ;
 
 		rams = RAhms.split( "\\p{Space}+" ) ;
-		ra = new Double( rams[0] ).doubleValue()
-				+new Double( rams[1] ).doubleValue()/60.
-				+new Double( rams[2] ).doubleValue()/3600. ;
+		ra = Double.parseDouble( rams[0] )
+				+Double.parseDouble( rams[1] )/60.
+				+Double.parseDouble( rams[2] )/3600. ;
 
 		return ra ;
 	}
@@ -674,9 +674,9 @@ public class CatalogADC1239HRecord extends org.chartacaeli.model.CatalogADC1239H
 		double de ;
 
 		dems = DEdms.split( "\\p{Space}+" ) ;
-		de = new Double( dems[0] ).doubleValue()
-				+new Double( dems[1] ).doubleValue()/60.
-				+new Double( dems[2] ).doubleValue()/3600. ;
+		de = Double.parseDouble( dems[0] )
+				+Double.parseDouble( dems[1] )/60.
+				+Double.parseDouble( dems[2] )/3600. ;
 
 		return de ;
 	}

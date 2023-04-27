@@ -178,10 +178,10 @@ public class CatalogADC5050 extends org.chartacaeli.model.CatalogADC5050 impleme
 			if ( Configuration.getValue( this, CK_PROPROMOT, DEFAULT_PROPROMOT ) ) {
 				pmRA = 0 ;
 				if ( record.pmRA.length()>0 )
-					pmRA = new Double( record.pmRA ).doubleValue() ;
+					pmRA = Double.parseDouble( record.pmRA ) ;
 				pmDE = 0 ;
 				if ( record.pmDE.length()>0 )
-					pmDE = new Double( record.pmDE ).doubleValue() ;
+					pmDE = Double.parseDouble( record.pmDE ) ;
 				cpm = CAAPrecession.AdjustPositionUsingUniformProperMotion(
 						e-2451545., record.RA(), record.de(), pmRA, pmDE ) ;
 				ceq = CAAPrecession.PrecessEquatorial( cpm.X(), cpm.Y(), 2451545./*J2000*/, e ) ;

@@ -252,7 +252,7 @@ public class ParserSubstitute extends ReflectSemantic {
 
 	private Object number( Object value ) {
 		return value instanceof String ?
-				new Long( value.toString().length() ) : value ;
+				Long.valueOf( value.toString().length() ) : value ;
 	}
 
 	public Object FACTOR( Object value ) {

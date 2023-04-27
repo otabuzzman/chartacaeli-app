@@ -86,7 +86,7 @@ public class AnnotationCurved extends org.chartacaeli.model.AnnotationCurved imp
 		ps.op( "currentpoint" ) ;
 		ps.op( "translate" ) ;
 
-		if ( new Boolean( getReverse() ).booleanValue() ) {
+		if ( Boolean.parseBoolean( getReverse() ) ) {
 			ps.op( "gpath" ) ;
 			ps.op( "grev" ) ;
 			ps.op( "newpath" ) ;

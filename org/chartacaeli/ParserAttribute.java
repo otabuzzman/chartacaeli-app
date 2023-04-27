@@ -29,7 +29,7 @@ public class ParserAttribute extends ParserSubstitute {
 	}
 
 	public boolean booleanValue( String string ) {
-		return new Boolean( stringValue( string ) ).booleanValue() ;
+		return Boolean.parseBoolean( stringValue( string ) ) ;
 	}
 
 	public int intValue( String string ) {
@@ -38,7 +38,7 @@ public class ParserAttribute extends ParserSubstitute {
 
 	public long longValue( String string ) {
 		try {
-			return new Double( stringValue( string ) ).longValue() ;
+			return Double.valueOf( stringValue( string ) ).longValue() ;
 		} catch ( NumberFormatException e ) {
 			return 0 ;
 		}
@@ -46,7 +46,7 @@ public class ParserAttribute extends ParserSubstitute {
 
 	public double doubleValue( String string ) {
 		try {
-			return new Double( stringValue( string ) ).doubleValue() ;
+			return Double.valueOf( stringValue( string ) ).doubleValue() ;
 		} catch ( NumberFormatException e ) {
 			return 0 ;
 		}

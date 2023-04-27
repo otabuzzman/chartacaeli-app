@@ -48,8 +48,8 @@ public class BodySun extends BodyOrbitalType {
 			eclipticLongitude = getClass().getMethod( peer.getType()+"EclipticLongitude", new Class[] { double.class } ) ;
 			eclipticLatitude = getClass().getMethod( peer.getType()+"EclipticLatitude", new Class[] { double.class } ) ;
 
-			l = (Double) eclipticLongitude.invoke( null, new Object[] { new Double( jd ) } ) ;
-			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ) } ) ;
+			l = (Double) eclipticLongitude.invoke( null, new Object[] { Double.valueOf( jd ) } ) ;
+			b = (Double) eclipticLatitude.invoke( null, new Object[] { Double.valueOf( jd ) } ) ;
 		} catch ( NoSuchMethodException e ) {
 			throw new RuntimeException( e.toString() ) ;
 		} catch ( InvocationTargetException e ) {

@@ -234,19 +234,19 @@ public class CatalogADC7118Record extends org.chartacaeli.model.CatalogADC7118Re
 	}
 
 	private double RAh() {
-		return new Double( RAh ).doubleValue() ;
+		return Double.parseDouble( RAh ) ;
 	}
 
 	private double RAm() {
-		return new Double( RAm ).doubleValue() ;
+		return Double.parseDouble( RAm ) ;
 	}
 
 	private double DEd() {
-		return new Double( DE+DEd ).doubleValue() ;
+		return Double.parseDouble( DE+DEd ) ;
 	}
 
 	private double DEm() {
-		return new Double( DE+DEm ).doubleValue() ;
+		return Double.parseDouble( DE+DEm ) ;
 	}
 
 	public Geometry list() {

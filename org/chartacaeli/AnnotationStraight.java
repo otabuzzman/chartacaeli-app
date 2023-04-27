@@ -81,8 +81,8 @@ public class AnnotationStraight extends org.chartacaeli.model.AnnotationStraight
 						.split( ":" ) ;
 
 				xyVal = new double[2] ;
-				xyVal[0] = frame[0]+frame[2]*new Double( xyRaw[0] ).doubleValue() ;
-				xyVal[1] = frame[1]+frame[3]*new Double( xyRaw[1] ).doubleValue() ;
+				xyVal[0] = frame[0]+frame[2]*Double.parseDouble( xyRaw[0] ) ;
+				xyVal[1] = frame[1]+frame[3]*Double.parseDouble( xyRaw[1] ) ;
 
 				ps.push( xyVal[0] ) ;
 				ps.push( xyVal[1] ) ;
@@ -150,7 +150,7 @@ public class AnnotationStraight extends org.chartacaeli.model.AnnotationStraight
 			ps.op( "rotate" ) ;
 		}
 
-		if ( new Boolean( getReverse() ).booleanValue() ) {
+		if ( Boolean.parseBoolean( getReverse() ) ) {
 			ps.push( 180 ) ;
 			ps.op( "rotate" ) ;
 		}

@@ -249,27 +249,27 @@ public class CatalogADC7237Record extends org.chartacaeli.model.CatalogADC7237Re
 	}
 
 	private double RAh() {
-		return new Double( RAh ).doubleValue() ;
+		return Double.parseDouble( RAh ) ;
 	}
 
 	private double RAm() {
-		return new Double( RAm ).doubleValue() ;
+		return Double.parseDouble( RAm ) ;
 	}
 
 	private double RAs() {
-		return new Double( RAs ).doubleValue() ;
+		return Double.parseDouble( RAs ) ;
 	}
 
 	private double DEd() {
-		return new Double( DE+DEd ).doubleValue() ;
+		return Double.parseDouble( DE+DEd ) ;
 	}
 
 	private double DEm() {
-		return new Double( DE+DEm ).doubleValue() ;
+		return Double.parseDouble( DE+DEm ) ;
 	}
 
 	private double DEs() {
-		return new Double( DE+DEs ).doubleValue() ;
+		return Double.parseDouble( DE+DEs ) ;
 	}
 
 	public Geometry list() {

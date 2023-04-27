@@ -56,8 +56,8 @@ public class BodyPlanet extends BodyOrbitalType {
 			eclipticLongitude = caaPlanet.getMethod( "EclipticLongitude", new Class[] { double.class, boolean.class } ) ;
 			eclipticLatitude = caaPlanet.getMethod( "EclipticLatitude", new Class[] { double.class, boolean.class } ) ;
 
-			l = (Double) eclipticLongitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } ) ;
-			b = (Double) eclipticLatitude.invoke( null, new Object[] { new Double( jd ), new Boolean( false ) } ) ;
+			l = (Double) eclipticLongitude.invoke( null, new Object[] { Double.valueOf( jd ), Boolean.valueOf( false ) } ) ;
+			b = (Double) eclipticLatitude.invoke( null, new Object[] { Double.valueOf( jd ), Boolean.valueOf( false ) } ) ;
 
 			caaElliptical = Class.forName( "org.chartacaeli.caa.CAAElliptical" ) ;
 			fldPlanet = caaElliptical.getField( peer.getType().toUpperCase() ) ;

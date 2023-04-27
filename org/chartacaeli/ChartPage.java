@@ -67,11 +67,11 @@ public class ChartPage extends org.chartacaeli.model.ChartPage implements Postsc
 			layRVal[0] = 0 ;
 
 			for ( int c=0 ; c<layCRaw.length ; c++ ) {
-				colVal = new Double( layCRaw[c] ).doubleValue() ;
+				colVal = Double.parseDouble( layCRaw[c] ) ;
 				layCVal[c+1] = colVal+layCVal[c] ;
 			}
 			for ( int r=0 ; r<layRRaw.length ; r++ ) {
-				rowVal = new Double( layRRaw[r] ).doubleValue() ;
+				rowVal = Double.parseDouble( layRRaw[r] ) ;
 				layRVal[r+1] = rowVal+layRVal[r] ;
 			}
 
