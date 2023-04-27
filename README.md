@@ -120,7 +120,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 ```bash
 # setup environment (sample values)
 export JAVA_HOME=/cygdrive/c/program\ files/java/jdk-17
-export CUDA_HOME=/cygdrive/c/program\ files/nvidia\ gpu\ computing\ toolkit/cuda/v12.1/include
+export CUDA_HOME=/cygdrive/c/program\ files/nvidia\ gpu\ computing\ toolkit/cuda/v12.1
 export PATH=$JAVA_HOME/bin:$PATH
 
 # download an unpack PJ2 source
@@ -130,12 +130,12 @@ export PATH=$JAVA_HOME/bin:$PATH
 	|| echo download PJ2 source failed. )
 
 # build and install JNI
-( cd ~/src/pj2/lib ; x86_64-w64-mingw32-gcc -Wall -shared \
-	-I"$JAVA_HOME/include" \
-	-I"$JAVA_HOME/include/win32" \
-	-I"$CUDA_HOME/include" \
+( cd ~/src/pj2/lib ; nvcc -shared \
+	-I"$(cygpath -w "$JAVA_HOME/include")" \
+	-I"$(cygpath -w "$JAVA_HOME/include/win32")" \
+	-I"$(cygpath -w "$CUDA_HOME/include")" \
 	-o EduRitGpuCuda.dll edu_rit_gpu_Cuda.c \
-	-L"$CUDA_HOME/lib/x64" -lcuda \
+	-L"$(cygpath -w "$CUDA_HOME/lib/x64")" -lcuda \
 	&& install -m 755 EduRitGpuCuda.dll ~/src/chartacaeli-app/lib \
 	|| echo failed to compile EduRitGpuCuda.dll )
 ```
@@ -262,9 +262,11 @@ GS_FONTPATH=$(cygpath -mp /opt/chartacaeli) \
 ```
 
 ## Model or Java updates
-After an update of the XSD model, a new Java representation must be generated. During compilation, Java reports various warnings or even errors due to deprecated or removed features. Because the work on Castor has long ended and newer Java standards are no longer supported. Fixing these issues is a manual task.
+After an update of the XSD model, new Java source files must be generated. While compiling these, Java reports various warnings or errors due to deprecated or removed features. This is because the work on Castor has long ended and newer Java standards are thus not supported. Fixing these issues is a manual task.
 ```
+# remove old
 rm -r model
+# create new
 make model
 
 make classes # fix warnings and errors manually
