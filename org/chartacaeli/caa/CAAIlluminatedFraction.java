@@ -224,7 +224,7 @@ return __retval;
 private native static double __m19(long __imp, double r, double Delta);
 public CAAIlluminatedFraction() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -9,7 +9,7 @@ public static CAASolarEclipseDetails CalculateSolar(double k)
 {
 long __retval = 0;
 __retval = __m0(0, k);
-return (__retval == 0 ? null : new CAASolarEclipseDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAASolarEclipseDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double k);
 /**
@@ -20,12 +20,12 @@ public static CAALunarEclipseDetails CalculateLunar(double k)
 {
 long __retval = 0;
 __retval = __m1(0, k);
-return (__retval == 0 ? null : new CAALunarEclipseDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAALunarEclipseDetails(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, double k);
 public CAAEclipses() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

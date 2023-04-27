@@ -10,7 +10,7 @@ public CAA3DCoordinate TrueRectangularCoordinates()
 {
 long __retval = 0;
 __retval = __m0(implementation.longValue());
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native long __m0(long __imp);
 /**
@@ -21,7 +21,7 @@ public CAA3DCoordinate ApparentRectangularCoordinates()
 {
 long __retval = 0;
 __retval = __m1(implementation.longValue());
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native long __m1(long __imp);
 /**
@@ -70,7 +70,7 @@ return __retval;
 private native boolean __m5(long __imp);
 public CAASaturnMoonDetail() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

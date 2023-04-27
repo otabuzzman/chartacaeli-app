@@ -61,13 +61,8 @@ A disadvantage of CXXWRAP is that development stopped in 2006 while AA+ continue
 8. Replace enumeration casts (types `DOW`, `Type`) with casts to `static_cast<jint>` in files<br>
   `CAADate_jni.cxx` (type `DOW`),<br>
   `CAAEquinoxSolsticeDetails2_jni.cxx` (type `Type`),<br>
-  `CAAMoonMaxDeclinationsDetails2_jni.cxx`,<br>
-  `CAAMoonNodesDetails2_jni.cxx`,<br>
-  `CAAMoonPerigeeApogeeDetails2_jni.cxx`,<br>
-  `CAAMoonPhasesDetails2_jni.cxx`,<br>
   `CAAPlanetPerihelionAphelionDetails2_jni.cxx`,<br>
   `CAAPlanetaryPhenomenaDetails2_jni.cxx`,<br>
-  `CAARiseTransitSetDetails2_jni.cxx`.
 
 9. Run `make -j` to build libraries.
 

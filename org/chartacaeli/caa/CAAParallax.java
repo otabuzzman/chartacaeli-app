@@ -9,7 +9,7 @@ public static CAA2DCoordinate Equatorial2TopocentricDelta(double Alpha, double D
 {
 long __retval = 0;
 __retval = __m0(0, Alpha, Delta, Distance, Longitude, Latitude, Height, JD);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD);
 /**
@@ -20,7 +20,7 @@ public static CAA2DCoordinate Equatorial2Topocentric(double Alpha, double Delta,
 {
 long __retval = 0;
 __retval = __m1(0, Alpha, Delta, Distance, Longitude, Latitude, Height, JD);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD);
 /**
@@ -31,7 +31,7 @@ public static CAATopocentricEclipticDetails Ecliptic2Topocentric(double Lambda, 
 {
 long __retval = 0;
 __retval = __m2(0, Lambda, Beta, Semidiameter, Distance, Epsilon, Latitude, Height, JD);
-return (__retval == 0 ? null : new CAATopocentricEclipticDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAATopocentricEclipticDetails(Long.valueOf(__retval)));
 }
 private native static long __m2(long __imp, double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD);
 /**
@@ -58,7 +58,7 @@ return __retval;
 private native static double __m4(long __imp, double Distance);
 public CAAParallax() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

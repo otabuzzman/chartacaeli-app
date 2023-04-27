@@ -9,7 +9,7 @@ public CAAGalileanMoonDetail Satellite1()
 {
 long __retval = 0;
 __retval = __m0(implementation.longValue());
-return (__retval == 0 ? null : new CAAGalileanMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAAGalileanMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m0(long __imp);
 /**
@@ -20,7 +20,7 @@ public CAAGalileanMoonDetail Satellite2()
 {
 long __retval = 0;
 __retval = __m1(implementation.longValue());
-return (__retval == 0 ? null : new CAAGalileanMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAAGalileanMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m1(long __imp);
 /**
@@ -31,7 +31,7 @@ public CAAGalileanMoonDetail Satellite3()
 {
 long __retval = 0;
 __retval = __m2(implementation.longValue());
-return (__retval == 0 ? null : new CAAGalileanMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAAGalileanMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m2(long __imp);
 /**
@@ -42,12 +42,12 @@ public CAAGalileanMoonDetail Satellite4()
 {
 long __retval = 0;
 __retval = __m3(implementation.longValue());
-return (__retval == 0 ? null : new CAAGalileanMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAAGalileanMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m3(long __imp);
 public CAAGalileanMoonsDetails() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

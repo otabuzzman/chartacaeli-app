@@ -26,7 +26,7 @@ return __retval;
 private native static double __m1(long __imp, double JD);
 public CAASidereal() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -9,7 +9,7 @@ public static CAANearParabolicObjectDetails Calculate(double JD, CAANearParaboli
 {
 long __retval = 0;
 __retval = __m0(0, JD, (elements == null ? 0 : elements.getCxxwrapImpl().longValue()), bHighPrecision);
-return (__retval == 0 ? null : new CAANearParabolicObjectDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAANearParabolicObjectDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double JD, long elements, boolean bHighPrecision);
 /**
@@ -34,7 +34,7 @@ __m2(0, JD, (elements == null ? 0 : elements.getCxxwrapImpl().longValue()), v, r
 private native static void __m2(long __imp, double JD, long elements, double[] v, double[] r);
 public CAANearParabolic() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

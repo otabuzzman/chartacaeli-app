@@ -9,12 +9,12 @@ public VSOP87Coefficient pCoefficients()
 {
 long __retval = 0;
 __retval = __m0(implementation.longValue());
-return (__retval == 0 ? null : new VSOP87Coefficient(new Long(__retval)));
+return (__retval == 0 ? null : new VSOP87Coefficient(Long.valueOf(__retval)));
 }
 private native long __m0(long __imp);
 public VSOP87Coefficient2() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

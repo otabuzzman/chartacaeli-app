@@ -10,7 +10,7 @@ public static CAA3DCoordinate EarthVelocity(double JD, boolean bHighPrecision)
 {
 long __retval = 0;
 __retval = __m0(0, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double JD, boolean bHighPrecision);
 /**
@@ -21,7 +21,7 @@ public static CAA2DCoordinate EclipticAberration(double Alpha, double Delta, dou
 {
 long __retval = 0;
 __retval = __m1(0, Alpha, Delta, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, double Alpha, double Delta, double JD, boolean bHighPrecision);
 /**
@@ -32,12 +32,12 @@ public static CAA2DCoordinate EquatorialAberration(double Lambda, double Beta, d
 {
 long __retval = 0;
 __retval = __m2(0, Lambda, Beta, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m2(long __imp, double Lambda, double Beta, double JD, boolean bHighPrecision);
 public CAAAberration() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

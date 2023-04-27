@@ -26,7 +26,7 @@ return __retval;
 private native static double __m1(long __imp, double Altitude, double Pressure, double Temperature);
 public CAARefraction() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

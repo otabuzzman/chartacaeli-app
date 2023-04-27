@@ -70,7 +70,7 @@ return __retval;
 private native static double __m5(long __imp, double JD);
 public CAAVSOP87_Mercury() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

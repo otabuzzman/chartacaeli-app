@@ -10,7 +10,7 @@ public static CAA2DCoordinate PrecessEquatorial(double Alpha, double Delta, doub
 {
 long __retval = 0;
 __retval = __m0(0, Alpha, Delta, JD0, JD);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double Alpha, double Delta, double JD0, double JD);
 /**
@@ -21,7 +21,7 @@ public static CAA2DCoordinate PrecessEquatorialFK4(double Alpha, double Delta, d
 {
 long __retval = 0;
 __retval = __m1(0, Alpha, Delta, JD0, JD);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, double Alpha, double Delta, double JD0, double JD);
 /**
@@ -32,7 +32,7 @@ public static CAA2DCoordinate PrecessEcliptic(double Lambda, double Beta, double
 {
 long __retval = 0;
 __retval = __m2(0, Lambda, Beta, JD0, JD);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m2(long __imp, double Lambda, double Beta, double JD0, double JD);
 /**
@@ -43,7 +43,7 @@ public static CAA2DCoordinate EquatorialPMToEcliptic(double Alpha, double Delta,
 {
 long __retval = 0;
 __retval = __m3(0, Alpha, Delta, Beta, PMAlpha, PMDelta, Epsilon);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m3(long __imp, double Alpha, double Delta, double Beta, double PMAlpha, double PMDelta, double Epsilon);
 /**
@@ -54,7 +54,7 @@ public static CAA2DCoordinate AdjustPositionUsingUniformProperMotion(double t, d
 {
 long __retval = 0;
 __retval = __m4(0, t, Alpha, Delta, PMAlpha, PMDelta);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m4(long __imp, double t, double Alpha, double Delta, double PMAlpha, double PMDelta);
 /**
@@ -65,12 +65,12 @@ public static CAA2DCoordinate AdjustPositionUsingMotionInSpace(double r, double 
 {
 long __retval = 0;
 __retval = __m5(0, r, deltar, t, Alpha, Delta, PMAlpha, PMDelta);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m5(long __imp, double r, double deltar, double t, double Alpha, double Delta, double PMAlpha, double PMDelta);
 public CAAPrecession() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

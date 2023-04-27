@@ -26,7 +26,7 @@ return __retval;
 private native long __m1(long __imp);
 public CAAEasterDetails() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

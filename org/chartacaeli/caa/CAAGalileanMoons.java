@@ -9,12 +9,12 @@ public static CAAGalileanMoonsDetails Calculate(double JD, boolean bHighPrecisio
 {
 long __retval = 0;
 __retval = __m0(0, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAAGalileanMoonsDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAGalileanMoonsDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double JD, boolean bHighPrecision);
 public CAAGalileanMoons() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

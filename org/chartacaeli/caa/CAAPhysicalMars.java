@@ -9,12 +9,12 @@ public static CAAPhysicalMarsDetails Calculate(double JD, boolean bHighPrecision
 {
 long __retval = 0;
 __retval = __m0(0, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAAPhysicalMarsDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAPhysicalMarsDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double JD, boolean bHighPrecision);
 public CAAPhysicalMars() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

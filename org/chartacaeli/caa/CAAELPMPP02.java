@@ -81,7 +81,7 @@ public static CAA3DCoordinate EclipticRectangularCoordinates(double JD, int corr
 {
 long __retval = 0;
 __retval = __m7(0, JD, correction, (pDerivative == null ? 0 : pDerivative.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m7(long __imp, double JD, int correction, long pDerivative);
 /**
@@ -92,7 +92,7 @@ public static CAA3DCoordinate EclipticRectangularCoordinates(double[] pT, int nT
 {
 long __retval = 0;
 __retval = __m8(0, pT, nTSize, correction, (pDerivative == null ? 0 : pDerivative.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m8(long __imp, double[] pT, int nTSize, int correction, long pDerivative);
 /**
@@ -103,7 +103,7 @@ public static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, int
 {
 long __retval = 0;
 __retval = __m9(0, JD, correction, (pDerivative == null ? 0 : pDerivative.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m9(long __imp, double JD, int correction, long pDerivative);
 /**
@@ -114,12 +114,12 @@ public static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double[] pT, i
 {
 long __retval = 0;
 __retval = __m10(0, pT, nTSize, correction, (pDerivative == null ? 0 : pDerivative.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m10(long __imp, double[] pT, int nTSize, int correction, long pDerivative);
 public CAAELPMPP02() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -64,7 +64,7 @@ return __retval;
 private native static double __m5(long __imp, double k, int planet, boolean bEastern);
 public CAAPlanetaryPhenomena() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -3,7 +3,7 @@ package org.chartacaeli.caa;
 public class CAAVSOP87 extends Object {
 public CAAVSOP87() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

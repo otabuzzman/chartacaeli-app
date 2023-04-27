@@ -41,7 +41,7 @@ return __retval;
 private native double __m3(long __imp);
 public CAAPlanetPerihelionAphelionDetails2() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

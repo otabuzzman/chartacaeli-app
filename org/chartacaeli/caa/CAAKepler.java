@@ -15,7 +15,7 @@ return __retval;
 private native static double __m0(long __imp, double M, double e, int nIterations);
 public CAAKepler() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

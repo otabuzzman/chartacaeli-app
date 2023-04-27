@@ -20,12 +20,12 @@ public static CAAParabolicObjectDetails Calculate(double JD, CAAParabolicObjectE
 {
 long __retval = 0;
 __retval = __m1(0, JD, (elements == null ? 0 : elements.getCxxwrapImpl().longValue()), bHighPrecision, epsilon);
-return (__retval == 0 ? null : new CAAParabolicObjectDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAParabolicObjectDetails(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, double JD, long elements, boolean bHighPrecision, double epsilon);
 public CAAParabolic() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

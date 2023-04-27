@@ -9,7 +9,7 @@ public static CAABinaryStarDetails Calculate(double t, double P, double T, doubl
 {
 long __retval = 0;
 __retval = __m0(0, t, P, T, e, a, i, omega, w);
-return (__retval == 0 ? null : new CAABinaryStarDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAABinaryStarDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double t, double P, double T, double e, double a, double i, double omega, double w);
 /**
@@ -25,7 +25,7 @@ return __retval;
 private native static double __m1(long __imp, double e, double i, double w);
 public CAABinaryStar() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -10,7 +10,7 @@ public static CAACalendarDate DateOfPesach(long Year, boolean bGregorianCalendar
 {
 long __retval = 0;
 __retval = __m0(0, Year, bGregorianCalendar);
-return (__retval == 0 ? null : new CAACalendarDate(new Long(__retval)));
+return (__retval == 0 ? null : new CAACalendarDate(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, long Year, boolean bGregorianCalendar);
 /**
@@ -37,7 +37,7 @@ return __retval;
 private native static long __m2(long __imp, long Year);
 public CAAJewishCalendar() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -873,7 +873,7 @@ return __retval;
 private native static double __m78(long __imp, double JD);
 public CAAElementsPlanetaryOrbit() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

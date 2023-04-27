@@ -75,7 +75,7 @@ public static CAA3DCoordinate EclipticRectangularCoordinates(double JD)
 {
 long __retval = 0;
 __retval = __m6(0, JD);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m6(long __imp, double JD);
 /**
@@ -86,7 +86,7 @@ public static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD)
 {
 long __retval = 0;
 __retval = __m7(0, JD);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m7(long __imp, double JD);
 /**
@@ -97,7 +97,7 @@ public static CAA3DCoordinate EquatorialRectangularCoordinatesFK5(double JD)
 {
 long __retval = 0;
 __retval = __m8(0, JD);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m8(long __imp, double JD);
 /**
@@ -377,7 +377,7 @@ return __retval;
 private native static double __m33(long __imp, double T);
 public CAAELP2000() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

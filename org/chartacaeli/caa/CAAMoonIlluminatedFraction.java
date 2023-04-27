@@ -48,7 +48,7 @@ return __retval;
 private native static double __m3(long __imp, double Alpha0, double Delta0, double Alpha, double Delta);
 public CAAMoonIlluminatedFraction() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

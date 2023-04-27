@@ -10,7 +10,7 @@ public static CAA2DCoordinate Equatorial2Ecliptic(double Alpha, double Delta, do
 {
 long __retval = 0;
 __retval = __m0(0, Alpha, Delta, Epsilon);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double Alpha, double Delta, double Epsilon);
 /**
@@ -21,7 +21,7 @@ public static CAA2DCoordinate Ecliptic2Equatorial(double Lambda, double Beta, do
 {
 long __retval = 0;
 __retval = __m1(0, Lambda, Beta, Epsilon);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, double Lambda, double Beta, double Epsilon);
 /**
@@ -32,7 +32,7 @@ public static CAA2DCoordinate Equatorial2Horizontal(double LocalHourAngle, doubl
 {
 long __retval = 0;
 __retval = __m2(0, LocalHourAngle, Delta, Latitude);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m2(long __imp, double LocalHourAngle, double Delta, double Latitude);
 /**
@@ -43,7 +43,7 @@ public static CAA2DCoordinate Horizontal2Equatorial(double A, double h, double L
 {
 long __retval = 0;
 __retval = __m3(0, A, h, Latitude);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m3(long __imp, double A, double h, double Latitude);
 /**
@@ -54,7 +54,7 @@ public static CAA2DCoordinate Equatorial2Galactic(double Alpha, double Delta)
 {
 long __retval = 0;
 __retval = __m4(0, Alpha, Delta);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m4(long __imp, double Alpha, double Delta);
 /**
@@ -65,7 +65,7 @@ public static CAA2DCoordinate Galactic2Equatorial(double l, double b)
 {
 long __retval = 0;
 __retval = __m5(0, l, b);
-return (__retval == 0 ? null : new CAA2DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA2DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m5(long __imp, double l, double b);
 /**Inlined functions
@@ -202,7 +202,7 @@ return __retval;
 private native static double __m17(long __imp, double Degrees, double Minutes, double Seconds, boolean bPositive);
 public CAACoordinateTransformation() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

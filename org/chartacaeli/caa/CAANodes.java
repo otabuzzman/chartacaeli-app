@@ -9,7 +9,7 @@ public static CAANodeObjectDetails PassageThroAscendingNode(CAAEllipticalObjectE
 {
 long __retval = 0;
 __retval = __m0(0, (elements == null ? 0 : elements.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAANodeObjectDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAANodeObjectDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, long elements);
 /**
@@ -20,7 +20,7 @@ public static CAANodeObjectDetails PassageThroDescendingNode(CAAEllipticalObject
 {
 long __retval = 0;
 __retval = __m1(0, (elements == null ? 0 : elements.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAANodeObjectDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAANodeObjectDetails(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, long elements);
 /**
@@ -31,7 +31,7 @@ public static CAANodeObjectDetails PassageThroAscendingNode(CAAParabolicObjectEl
 {
 long __retval = 0;
 __retval = __m2(0, (elements == null ? 0 : elements.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAANodeObjectDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAANodeObjectDetails(Long.valueOf(__retval)));
 }
 private native static long __m2(long __imp, long elements);
 /**
@@ -42,12 +42,12 @@ public static CAANodeObjectDetails PassageThroDescendingNode(CAAParabolicObjectE
 {
 long __retval = 0;
 __retval = __m3(0, (elements == null ? 0 : elements.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAANodeObjectDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAANodeObjectDetails(Long.valueOf(__retval)));
 }
 private native static long __m3(long __imp, long elements);
 public CAANodes() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

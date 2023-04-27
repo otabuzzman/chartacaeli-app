@@ -103,7 +103,7 @@ $(CLSUCB): $(UCBDEF) $(UCBCMD)
 	$${SHELL:-sh} $(UCBCMD) $(UCBDEF) >$@
 
 classes: $(CLSUCB)
-	javac \
+	javac -Xmaxwarns 1000 \
 		-classpath "$(subst $(space),$(sep), \
 		$(pkgdir) \
 		$(JAREXT))" \

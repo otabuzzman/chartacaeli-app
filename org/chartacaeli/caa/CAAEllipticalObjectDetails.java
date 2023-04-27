@@ -135,7 +135,7 @@ return __retval;
 private native double __m13(long __imp);
 public CAAEllipticalObjectDetails() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

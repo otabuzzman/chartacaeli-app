@@ -192,7 +192,7 @@ JNIEXPORT jint JNICALL Java_org_chartacaeli_caa_CAADate__1_1m27(JNIEnv* __env, j
 {
 CAADate* __obj = (CAADate*) __imp;
 CAADate::DOW __retval = __obj->DayOfWeek();
-return static_cast<jint> (__retval);
+return static_cast<jint>(__retval);
 }
 
 JNIEXPORT jdouble JNICALL Java_org_chartacaeli_caa_CAADate__1_1m28(JNIEnv* __env, jobject, jlong __imp)

@@ -109,7 +109,7 @@ public static CAA3DCoordinate EquatorialRectangularCoordinatesMeanEquinox(double
 {
 long __retval = 0;
 __retval = __m9(0, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m9(long __imp, double JD, boolean bHighPrecision);
 /**
@@ -120,7 +120,7 @@ public static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, boo
 {
 long __retval = 0;
 __retval = __m10(0, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m10(long __imp, double JD, boolean bHighPrecision);
 /**
@@ -131,7 +131,7 @@ public static CAA3DCoordinate EquatorialRectangularCoordinatesJ2000(double JD, b
 {
 long __retval = 0;
 __retval = __m11(0, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m11(long __imp, double JD, boolean bHighPrecision);
 /**
@@ -142,7 +142,7 @@ public static CAA3DCoordinate EquatorialRectangularCoordinatesB1950(double JD, b
 {
 long __retval = 0;
 __retval = __m12(0, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m12(long __imp, double JD, boolean bHighPrecision);
 /**
@@ -153,12 +153,12 @@ public static CAA3DCoordinate EquatorialRectangularCoordinatesAnyEquinox(double 
 {
 long __retval = 0;
 __retval = __m13(0, JD, JDEquinox, bHighPrecision);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m13(long __imp, double JD, double JDEquinox, boolean bHighPrecision);
 public CAASun() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

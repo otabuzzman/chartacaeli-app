@@ -48,7 +48,7 @@ return __retval;
 private native static double __m3(long __imp, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, boolean[] bType1);
 public CAAAngularSeparation() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -9,7 +9,7 @@ public CAASaturnMoonDetail Satellite1()
 {
 long __retval = 0;
 __retval = __m0(implementation.longValue());
-return (__retval == 0 ? null : new CAASaturnMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAASaturnMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m0(long __imp);
 /**
@@ -20,7 +20,7 @@ public CAASaturnMoonDetail Satellite2()
 {
 long __retval = 0;
 __retval = __m1(implementation.longValue());
-return (__retval == 0 ? null : new CAASaturnMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAASaturnMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m1(long __imp);
 /**
@@ -31,7 +31,7 @@ public CAASaturnMoonDetail Satellite3()
 {
 long __retval = 0;
 __retval = __m2(implementation.longValue());
-return (__retval == 0 ? null : new CAASaturnMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAASaturnMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m2(long __imp);
 /**
@@ -42,7 +42,7 @@ public CAASaturnMoonDetail Satellite4()
 {
 long __retval = 0;
 __retval = __m3(implementation.longValue());
-return (__retval == 0 ? null : new CAASaturnMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAASaturnMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m3(long __imp);
 /**
@@ -53,7 +53,7 @@ public CAASaturnMoonDetail Satellite5()
 {
 long __retval = 0;
 __retval = __m4(implementation.longValue());
-return (__retval == 0 ? null : new CAASaturnMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAASaturnMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m4(long __imp);
 /**
@@ -64,7 +64,7 @@ public CAASaturnMoonDetail Satellite6()
 {
 long __retval = 0;
 __retval = __m5(implementation.longValue());
-return (__retval == 0 ? null : new CAASaturnMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAASaturnMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m5(long __imp);
 /**
@@ -75,7 +75,7 @@ public CAASaturnMoonDetail Satellite7()
 {
 long __retval = 0;
 __retval = __m6(implementation.longValue());
-return (__retval == 0 ? null : new CAASaturnMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAASaturnMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m6(long __imp);
 /**
@@ -86,12 +86,12 @@ public CAASaturnMoonDetail Satellite8()
 {
 long __retval = 0;
 __retval = __m7(implementation.longValue());
-return (__retval == 0 ? null : new CAASaturnMoonDetail(new Long(__retval)));
+return (__retval == 0 ? null : new CAASaturnMoonDetail(Long.valueOf(__retval)));
 }
 private native long __m7(long __imp);
 public CAASaturnMoonsDetails() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

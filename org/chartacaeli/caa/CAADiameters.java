@@ -290,7 +290,7 @@ return __retval;
 private native static double __m25(long __imp, double H, double A);
 public CAADiameters() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

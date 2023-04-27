@@ -59,7 +59,7 @@ return __retval;
 private native static double __m4(long __imp, double k, boolean bNortherly);
 public CAAMoonMaxDeclinations() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

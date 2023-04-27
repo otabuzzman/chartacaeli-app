@@ -9,7 +9,7 @@ public static CAAEclipticalElementDetails Calculate(double i0, double w0, double
 {
 long __retval = 0;
 __retval = __m0(0, i0, w0, omega0, JD0, JD);
-return (__retval == 0 ? null : new CAAEclipticalElementDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAEclipticalElementDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double i0, double w0, double omega0, double JD0, double JD);
 /**
@@ -20,12 +20,12 @@ public static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w
 {
 long __retval = 0;
 __retval = __m1(0, i0, w0, omega0);
-return (__retval == 0 ? null : new CAAEclipticalElementDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAEclipticalElementDetails(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, double i0, double w0, double omega0);
 public CAAEclipticalElements() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -9,7 +9,7 @@ public CAA3DCoordinate HeliocentricRectangularEquatorial()
 {
 long __retval = 0;
 __retval = __m0(implementation.longValue());
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native long __m0(long __imp);
 /**
@@ -20,7 +20,7 @@ public CAA3DCoordinate HeliocentricRectangularEcliptical()
 {
 long __retval = 0;
 __retval = __m1(implementation.longValue());
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native long __m1(long __imp);
 /**
@@ -157,7 +157,7 @@ return __retval;
 private native double __m13(long __imp);
 public CAANearParabolicObjectDetails() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

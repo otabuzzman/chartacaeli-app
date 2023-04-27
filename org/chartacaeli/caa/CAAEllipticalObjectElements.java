@@ -81,7 +81,7 @@ return __retval;
 private native double __m6(long __imp);
 public CAAEllipticalObjectElements() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

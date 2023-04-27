@@ -37,7 +37,7 @@ return __retval;
 private native static double __m2(long __imp, double JD, boolean bHighPrecision);
 public CAAUranus() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

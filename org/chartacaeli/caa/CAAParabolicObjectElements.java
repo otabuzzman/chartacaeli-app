@@ -70,7 +70,7 @@ return __retval;
 private native double __m5(long __imp);
 public CAAParabolicObjectElements() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

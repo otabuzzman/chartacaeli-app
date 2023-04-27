@@ -114,7 +114,7 @@ return __retval;
 private native static double __m9(long __imp, double Y1, double Y2, double Y3, double Y4, double Y5, double epsilon);
 public CAAInterpolate() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

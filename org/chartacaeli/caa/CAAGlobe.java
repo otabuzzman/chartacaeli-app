@@ -59,7 +59,7 @@ return __retval;
 private native static double __m4(long __imp, double GeographicalLatitude1, double GeographicalLongitude1, double GeographicalLatitude2, double GeographicalLongitude2);
 public CAAGlobe() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -37,7 +37,7 @@ return __retval;
 private native long __m2(long __imp);
 public CAACalendarDate() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

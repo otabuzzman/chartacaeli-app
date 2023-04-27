@@ -11,7 +11,7 @@ public final static int URANUS = SATURN + 1;
 public final static int NEPTUNE = URANUS + 1;
 public CAAPlanetaryPhenomena2() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

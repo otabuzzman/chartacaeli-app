@@ -37,7 +37,7 @@ return __retval;
 private native double __m2(long __imp);
 public CAAEclipticalElementDetails() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

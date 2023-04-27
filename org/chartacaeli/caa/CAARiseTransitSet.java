@@ -9,7 +9,7 @@ public static CAARiseTransitSetDetails Calculate(double JD, double Alpha1, doubl
 {
 long __retval = 0;
 __retval = __m0(0, JD, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, h0);
-return (__retval == 0 ? null : new CAARiseTransitSetDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAARiseTransitSetDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double JD, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double h0);
 /**
@@ -23,7 +23,7 @@ __m1(0, Alpha1, Alpha2, Alpha3);
 private native static void __m1(long __imp, double[] Alpha1, double[] Alpha2, double[] Alpha3);
 public CAARiseTransitSet() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

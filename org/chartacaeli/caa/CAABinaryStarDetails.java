@@ -59,7 +59,7 @@ return __retval;
 private native double __m4(long __imp);
 public CAABinaryStarDetails() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

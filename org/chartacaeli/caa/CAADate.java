@@ -12,25 +12,25 @@ public final static int SATURDAY = 6;
 /**Constructors / Destructors*/
 public CAADate()
 {
-implementation = new Long(__c1());
+implementation = Long.valueOf(__c1());
 }
 private native long __c1();
 /***/
 public CAADate(long Year, long Month, double Day, boolean bGregorianCalendar)
 {
-implementation = new Long(__c2(Year, Month, Day, bGregorianCalendar));
+implementation = Long.valueOf(__c2(Year, Month, Day, bGregorianCalendar));
 }
 private native long __c2(long Year, long Month, double Day, boolean bGregorianCalendar);
 /***/
 public CAADate(long Year, long Month, double Day, double Hour, double Minute, double Second, boolean bGregorianCalendar)
 {
-implementation = new Long(__c3(Year, Month, Day, Hour, Minute, Second, bGregorianCalendar));
+implementation = Long.valueOf(__c3(Year, Month, Day, Hour, Minute, Second, bGregorianCalendar));
 }
 private native long __c3(long Year, long Month, double Day, double Hour, double Minute, double Second, boolean bGregorianCalendar);
 /***/
 public CAADate(double JD, boolean bGregorianCalendar)
 {
-implementation = new Long(__c4(JD, bGregorianCalendar));
+implementation = Long.valueOf(__c4(JD, bGregorianCalendar));
 }
 private native long __c4(double JD, boolean bGregorianCalendar);
 /**Static Methods
@@ -72,7 +72,7 @@ public static CAACalendarDate JulianToGregorian(long Year, long Month, long Day)
 {
 long __retval = 0;
 __retval = __m8(0, Year, Month, Day);
-return (__retval == 0 ? null : new CAACalendarDate(new Long(__retval)));
+return (__retval == 0 ? null : new CAACalendarDate(Long.valueOf(__retval)));
 }
 private native static long __m8(long __imp, long Year, long Month, long Day);
 /**
@@ -83,7 +83,7 @@ public static CAACalendarDate GregorianToJulian(long Year, long Month, long Day)
 {
 long __retval = 0;
 __retval = __m9(0, Year, Month, Day);
-return (__retval == 0 ? null : new CAACalendarDate(new Long(__retval)));
+return (__retval == 0 ? null : new CAACalendarDate(Long.valueOf(__retval)));
 }
 private native static long __m9(long __imp, long Year, long Month, long Day);
 /**

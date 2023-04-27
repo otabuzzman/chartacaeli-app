@@ -26,7 +26,7 @@ return __retval;
 private native double __m1(long __imp);
 public CAANodeObjectDetails() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

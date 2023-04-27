@@ -48,7 +48,7 @@ return __retval;
 private native static double __m3(long __imp, double Lambda, double Beta, double ObliquityOfEcliptic);
 public CAAParallactic() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

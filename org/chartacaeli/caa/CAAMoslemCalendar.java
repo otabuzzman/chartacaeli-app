@@ -10,7 +10,7 @@ public static CAACalendarDate MoslemToJulian(long Year, long Month, long Day)
 {
 long __retval = 0;
 __retval = __m0(0, Year, Month, Day);
-return (__retval == 0 ? null : new CAACalendarDate(new Long(__retval)));
+return (__retval == 0 ? null : new CAACalendarDate(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, long Year, long Month, long Day);
 /**
@@ -21,7 +21,7 @@ public static CAACalendarDate JulianToMoslem(long Year, long Month, long Day)
 {
 long __retval = 0;
 __retval = __m1(0, Year, Month, Day);
-return (__retval == 0 ? null : new CAACalendarDate(new Long(__retval)));
+return (__retval == 0 ? null : new CAACalendarDate(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, long Year, long Month, long Day);
 /**
@@ -37,7 +37,7 @@ return __retval;
 private native static boolean __m2(long __imp, long Year);
 public CAAMoslemCalendar() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -9,12 +9,12 @@ public static CAAEasterDetails Calculate(int nYear, boolean GregorianCalendar)
 {
 long __retval = 0;
 __retval = __m0(0, nYear, GregorianCalendar);
-return (__retval == 0 ? null : new CAAEasterDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAEasterDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, int nYear, boolean GregorianCalendar);
 public CAAEaster() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

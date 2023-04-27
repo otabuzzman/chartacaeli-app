@@ -9,7 +9,7 @@ public static CAAPhysicalMoonDetails CalculateGeocentric(double JD)
 {
 long __retval = 0;
 __retval = __m0(0, JD);
-return (__retval == 0 ? null : new CAAPhysicalMoonDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAPhysicalMoonDetails(Long.valueOf(__retval)));
 }
 private native static long __m0(long __imp, double JD);
 /**
@@ -20,7 +20,7 @@ public static CAAPhysicalMoonDetails CalculateTopocentric(double JD, double Long
 {
 long __retval = 0;
 __retval = __m1(0, JD, Longitude, Latitude);
-return (__retval == 0 ? null : new CAAPhysicalMoonDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAPhysicalMoonDetails(Long.valueOf(__retval)));
 }
 private native static long __m1(long __imp, double JD, double Longitude, double Latitude);
 /**
@@ -31,7 +31,7 @@ public static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(do
 {
 long __retval = 0;
 __retval = __m2(0, JD, bHighPrecision);
-return (__retval == 0 ? null : new CAASelenographicMoonDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAASelenographicMoonDetails(Long.valueOf(__retval)));
 }
 private native static long __m2(long __imp, double JD, boolean bHighPrecision);
 /**
@@ -69,7 +69,7 @@ return __retval;
 private native static double __m5(long __imp, double JD, double Longitude, double Latitude, boolean bHighPrecision);
 public CAAPhysicalMoon() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

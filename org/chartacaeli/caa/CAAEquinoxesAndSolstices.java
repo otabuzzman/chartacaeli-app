@@ -92,7 +92,7 @@ return __retval;
 private native static double __m7(long __imp, long Year, boolean bNorthernHemisphere, boolean bHighPrecision);
 public CAAEquinoxesAndSolstices() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

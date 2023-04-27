@@ -29,7 +29,7 @@ public static CAAEllipticalPlanetaryDetails Calculate(double JD, int object, boo
 {
 long __retval = 0;
 __retval = __m2(0, JD, object, bHighPrecision);
-return (__retval == 0 ? null : new CAAEllipticalPlanetaryDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAEllipticalPlanetaryDetails(Long.valueOf(__retval)));
 }
 private native static long __m2(long __imp, double JD, int object, boolean bHighPrecision);
 /**
@@ -62,7 +62,7 @@ public static CAAEllipticalObjectDetails Calculate(double JD, CAAEllipticalObjec
 {
 long __retval = 0;
 __retval = __m5(0, JD, (elements == null ? 0 : elements.getCxxwrapImpl().longValue()), bHighPrecision);
-return (__retval == 0 ? null : new CAAEllipticalObjectDetails(new Long(__retval)));
+return (__retval == 0 ? null : new CAAEllipticalObjectDetails(Long.valueOf(__retval)));
 }
 private native static long __m5(long __imp, double JD, long elements, boolean bHighPrecision);
 /**
@@ -133,7 +133,7 @@ return __retval;
 private native static double __m11(long __imp, double H, double delta, double G, double r, double PhaseAngle);
 public CAAElliptical() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -3,7 +3,7 @@ package org.chartacaeli.caa;
 public class CAAEquinoxesAndSolstices2 extends Object {
 public CAAEquinoxesAndSolstices2() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

@@ -42,16 +42,16 @@ AADLLSRC = \
 	$(srcdir)/AADate.cpp \
 	$(srcdir)/AADiameters.cpp \
 	$(srcdir)/AADynamicalTime.cpp \
-	$(srcdir)/AAELP2000.cpp \
-	$(srcdir)/AAELPMPP02.cpp \
 	$(srcdir)/AAEarth.cpp \
 	$(srcdir)/AAEclipses.cpp \
 	$(srcdir)/AAEclipticalElements.cpp \
 	$(srcdir)/AAElementsPlanetaryOrbit.cpp \
 	$(srcdir)/AAElliptical.cpp \
+	$(srcdir)/AAELP2000.cpp \
+	$(srcdir)/AAELPMPP02.cpp \
 	$(srcdir)/AAEquationOfTime.cpp \
-	$(srcdir)/AAEquinoxesAndSolstices.cpp \
 	$(srcdir)/AAEquinoxesAndSolstices2.cpp \
+	$(srcdir)/AAEquinoxesAndSolstices.cpp \
 	$(srcdir)/AAFK5.cpp \
 	$(srcdir)/AAGalileanMoons.cpp \
 	$(srcdir)/AAGlobe.cpp \
@@ -64,14 +64,14 @@ AADLLSRC = \
 	$(srcdir)/AAMercury.cpp \
 	$(srcdir)/AAMoon.cpp \
 	$(srcdir)/AAMoonIlluminatedFraction.cpp \
-	$(srcdir)/AAMoonMaxDeclinations.cpp \
 	$(srcdir)/AAMoonMaxDeclinations2.cpp \
-	$(srcdir)/AAMoonNodes.cpp \
+	$(srcdir)/AAMoonMaxDeclinations.cpp \
 	$(srcdir)/AAMoonNodes2.cpp \
-	$(srcdir)/AAMoonPerigeeApogee.cpp \
+	$(srcdir)/AAMoonNodes.cpp \
 	$(srcdir)/AAMoonPerigeeApogee2.cpp \
-	$(srcdir)/AAMoonPhases.cpp \
+	$(srcdir)/AAMoonPerigeeApogee.cpp \
 	$(srcdir)/AAMoonPhases2.cpp \
+	$(srcdir)/AAMoonPhases.cpp \
 	$(srcdir)/AAMoslemCalendar.cpp \
 	$(srcdir)/AANearParabolic.cpp \
 	$(srcdir)/AANeptune.cpp \
@@ -84,15 +84,15 @@ AADLLSRC = \
 	$(srcdir)/AAPhysicalMars.cpp \
 	$(srcdir)/AAPhysicalMoon.cpp \
 	$(srcdir)/AAPhysicalSun.cpp \
-	$(srcdir)/AAPlanetPerihelionAphelion.cpp \
-	$(srcdir)/AAPlanetPerihelionAphelion2.cpp \
-	$(srcdir)/AAPlanetaryPhenomena.cpp \
 	$(srcdir)/AAPlanetaryPhenomena2.cpp \
+	$(srcdir)/AAPlanetaryPhenomena.cpp \
+	$(srcdir)/AAPlanetPerihelionAphelion2.cpp \
+	$(srcdir)/AAPlanetPerihelionAphelion.cpp \
 	$(srcdir)/AAPluto.cpp \
 	$(srcdir)/AAPrecession.cpp \
 	$(srcdir)/AARefraction.cpp \
-	$(srcdir)/AARiseTransitSet.cpp \
 	$(srcdir)/AARiseTransitSet2.cpp \
+	$(srcdir)/AARiseTransitSet.cpp \
 	$(srcdir)/AASaturn.cpp \
 	$(srcdir)/AASaturnMoons.cpp \
 	$(srcdir)/AASaturnRings.cpp \
@@ -100,7 +100,7 @@ AADLLSRC = \
 	$(srcdir)/AAStellarMagnitudes.cpp \
 	$(srcdir)/AASun.cpp \
 	$(srcdir)/AAUranus.cpp \
-	$(srcdir)/AAVSOP87.cpp \
+	$(srcdir)/AAVenus.cpp \
 	$(srcdir)/AAVSOP87A_EAR.cpp \
 	$(srcdir)/AAVSOP87A_EMB.cpp \
 	$(srcdir)/AAVSOP87A_JUP.cpp \
@@ -123,6 +123,7 @@ AADLLSRC = \
 	$(srcdir)/AAVSOP87C_MAR.cpp \
 	$(srcdir)/AAVSOP87C_MER.cpp \
 	$(srcdir)/AAVSOP87C_NEP.cpp \
+	$(srcdir)/AAVSOP87.cpp \
 	$(srcdir)/AAVSOP87C_SAT.cpp \
 	$(srcdir)/AAVSOP87C_URA.cpp \
 	$(srcdir)/AAVSOP87C_VEN.cpp \
@@ -137,13 +138,13 @@ AADLLSRC = \
 	$(srcdir)/AAVSOP87E_EAR.cpp \
 	$(srcdir)/AAVSOP87E_JUP.cpp \
 	$(srcdir)/AAVSOP87E_MAR.cpp \
+	$(srcdir)/AAVSOP87_EMB.cpp \
 	$(srcdir)/AAVSOP87E_MER.cpp \
 	$(srcdir)/AAVSOP87E_NEP.cpp \
 	$(srcdir)/AAVSOP87E_SAT.cpp \
 	$(srcdir)/AAVSOP87E_SUN.cpp \
 	$(srcdir)/AAVSOP87E_URA.cpp \
 	$(srcdir)/AAVSOP87E_VEN.cpp \
-	$(srcdir)/AAVSOP87_EMB.cpp \
 	$(srcdir)/AAVSOP87_JUP.cpp \
 	$(srcdir)/AAVSOP87_MAR.cpp \
 	$(srcdir)/AAVSOP87_MER.cpp \
@@ -151,7 +152,6 @@ AADLLSRC = \
 	$(srcdir)/AAVSOP87_SAT.cpp \
 	$(srcdir)/AAVSOP87_URA.cpp \
 	$(srcdir)/AAVSOP87_VEN.cpp \
-	$(srcdir)/AAVenus.cpp \
 
 AADLLOBJ = $(patsubst $(srcdir)/%.cpp,%.o,$(AADLLSRC))
 
@@ -199,13 +199,9 @@ CAADLLSRC = \
 	CAAMars_jni.cxx \
 	CAAMercury_jni.cxx \
 	CAAMoonIlluminatedFraction_jni.cxx \
-	CAAMoonMaxDeclinationsDetails2_jni.cxx \
 	CAAMoonMaxDeclinations_jni.cxx \
-	CAAMoonNodesDetails2_jni.cxx \
 	CAAMoonNodes_jni.cxx \
-	CAAMoonPerigeeApogeeDetails2_jni.cxx \
 	CAAMoonPerigeeApogee_jni.cxx \
-	CAAMoonPhasesDetails2_jni.cxx \
 	CAAMoonPhases_jni.cxx \
 	CAAMoon_jni.cxx \
 	CAAMoslemCalendar_jni.cxx \
@@ -238,7 +234,6 @@ CAADLLSRC = \
 	CAAPluto_jni.cxx \
 	CAAPrecession_jni.cxx \
 	CAARefraction_jni.cxx \
-	CAARiseTransitSetDetails2_jni.cxx \
 	CAARiseTransitSetDetails_jni.cxx \
 	CAARiseTransitSet_jni.cxx \
 	CAASaturnMoonDetail_jni.cxx \

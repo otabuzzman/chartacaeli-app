@@ -32,7 +32,7 @@ public static CAA3DCoordinate ConvertVSOPToFK5J2000(CAA3DCoordinate value)
 {
 long __retval = 0;
 __retval = __m2(0, (value == null ? 0 : value.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m2(long __imp, long value);
 /**
@@ -43,7 +43,7 @@ public static CAA3DCoordinate ConvertVSOPToFK5B1950(CAA3DCoordinate value)
 {
 long __retval = 0;
 __retval = __m3(0, (value == null ? 0 : value.getCxxwrapImpl().longValue()));
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m3(long __imp, long value);
 /**
@@ -54,12 +54,12 @@ public static CAA3DCoordinate ConvertVSOPToFK5AnyEquinox(CAA3DCoordinate value, 
 {
 long __retval = 0;
 __retval = __m4(0, (value == null ? 0 : value.getCxxwrapImpl().longValue()), JDEquinox);
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native static long __m4(long __imp, long value, double JDEquinox);
 public CAAFK5() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();

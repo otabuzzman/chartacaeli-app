@@ -65,7 +65,7 @@ public CAA3DCoordinate TrueRectangularCoordinates()
 {
 long __retval = 0;
 __retval = __m5(implementation.longValue());
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native long __m5(long __imp);
 /**
@@ -76,7 +76,7 @@ public CAA3DCoordinate ApparentRectangularCoordinates()
 {
 long __retval = 0;
 __retval = __m6(implementation.longValue());
-return (__retval == 0 ? null : new CAA3DCoordinate(new Long(__retval)));
+return (__retval == 0 ? null : new CAA3DCoordinate(Long.valueOf(__retval)));
 }
 private native long __m6(long __imp);
 /**
@@ -125,7 +125,7 @@ return __retval;
 private native boolean __m10(long __imp);
 public CAAGalileanMoonDetail() {
 
-implementation = new Long(__cdefault());
+implementation = Long.valueOf(__cdefault());
 
 }
 private native long __cdefault();
