@@ -261,6 +261,16 @@ GS_FONTPATH=$(cygpath -mp /opt/chartacaeli) \
 ./chartacaeli.sh -kv $(cygpath -m ~/src/chartacaeli-app/lab/unicode-and-fonts.xml) )
 ```
 
+## Model or Java updates
+After an update of the XSD model, a new Java representation must be generated. During compilation, Java reports various warnings or even errors due to deprecated or removed features. Because the work on Castor has long ended and newer Java standards are no longer supported. Fixing these issues is a manual task.
+```
+rm -r model
+make model
+
+make classes # fix warnings and errors manually
+```
+Updates to newer Java versions may also report warnings or errors during compilation.
+
 ## Helpful links
 - [Sample Pages](http://www.skymaps.com/store/samples/Millennium%20Star%20Atlas.pdf) from The Millenium Star Atlas
 - The [User Manual](https://github.com/OSGeo/PROJ/blob/master/docs/old/proj_4_3_12.pdf) of the [PROJ.4](https://github.com/OSGeo/proj.4) Cartographic Projections Library

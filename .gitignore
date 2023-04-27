@@ -16,7 +16,6 @@ org/chartacaeli/gpu/tst/**
 !org/chartacaeli/gpu/tst/*Test.java
 !org/chartacaeli/gpu/tst/P4Projector.java
 !org/chartacaeli/gpu/tst/RandomDataset.java
-org/chartacaeli/model/
 /web
 /FieldOfView.pdf
 /FieldOfView.ps
