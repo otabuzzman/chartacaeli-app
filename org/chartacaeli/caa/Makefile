@@ -168,8 +168,6 @@ CAADLLSRC = \
 	CAADate_jni.cxx \
 	CAADiameters_jni.cxx \
 	CAADynamicalTime_jni.cxx \
-	CAAELP2000_jni.cxx \
-	CAAELPMPP02_jni.cxx \
 	CAAEarth_jni.cxx \
 	CAAEasterDetails_jni.cxx \
 	CAAEaster_jni.cxx \
@@ -177,14 +175,16 @@ CAADLLSRC = \
 	CAAEclipticalElementDetails_jni.cxx \
 	CAAEclipticalElements_jni.cxx \
 	CAAElementsPlanetaryOrbit_jni.cxx \
+	CAAElliptical_jni.cxx \
 	CAAEllipticalObjectDetails_jni.cxx \
 	CAAEllipticalObjectElements_jni.cxx \
 	CAAEllipticalPlanetaryDetails_jni.cxx \
-	CAAElliptical_jni.cxx \
+	CAAELP2000_jni.cxx \
+	CAAELPMPP02_jni.cxx \
 	CAAEquationOfTime_jni.cxx \
-	CAAEquinoxSolsticeDetails2_jni.cxx \
 	CAAEquinoxesAndSolstices2_jni.cxx \
 	CAAEquinoxesAndSolstices_jni.cxx \
+	CAAEquinoxSolsticeDetails2_jni.cxx \
 	CAAFK5_jni.cxx \
 	CAAGalileanMoonDetail_jni.cxx \
 	CAAGalileanMoonsDetails_jni.cxx \
@@ -199,22 +199,22 @@ CAADLLSRC = \
 	CAAMars_jni.cxx \
 	CAAMercury_jni.cxx \
 	CAAMoonIlluminatedFraction_jni.cxx \
+	CAAMoon_jni.cxx \
 	CAAMoonMaxDeclinations_jni.cxx \
 	CAAMoonNodes_jni.cxx \
 	CAAMoonPerigeeApogee_jni.cxx \
 	CAAMoonPhases_jni.cxx \
-	CAAMoon_jni.cxx \
 	CAAMoslemCalendar_jni.cxx \
+	CAANearParabolic_jni.cxx \
 	CAANearParabolicObjectDetails_jni.cxx \
 	CAANearParabolicObjectElements_jni.cxx \
-	CAANearParabolic_jni.cxx \
 	CAANeptune_jni.cxx \
 	CAANodeObjectDetails_jni.cxx \
 	CAANodes_jni.cxx \
 	CAANutation_jni.cxx \
+	CAAParabolic_jni.cxx \
 	CAAParabolicObjectDetails_jni.cxx \
 	CAAParabolicObjectElements_jni.cxx \
-	CAAParabolic_jni.cxx \
 	CAAParallactic_jni.cxx \
 	CAAParallax_jni.cxx \
 	CAAPhysicalJupiterDetails_jni.cxx \
@@ -225,23 +225,23 @@ CAADLLSRC = \
 	CAAPhysicalMoon_jni.cxx \
 	CAAPhysicalSunDetails_jni.cxx \
 	CAAPhysicalSun_jni.cxx \
-	CAAPlanetPerihelionAphelion2_jni.cxx \
-	CAAPlanetPerihelionAphelionDetails2_jni.cxx \
-	CAAPlanetPerihelionAphelion_jni.cxx \
 	CAAPlanetaryPhenomena2_jni.cxx \
 	CAAPlanetaryPhenomenaDetails2_jni.cxx \
 	CAAPlanetaryPhenomena_jni.cxx \
+	CAAPlanetPerihelionAphelion2_jni.cxx \
+	CAAPlanetPerihelionAphelionDetails2_jni.cxx \
+	CAAPlanetPerihelionAphelion_jni.cxx \
 	CAAPluto_jni.cxx \
 	CAAPrecession_jni.cxx \
 	CAARefraction_jni.cxx \
 	CAARiseTransitSetDetails_jni.cxx \
 	CAARiseTransitSet_jni.cxx \
+	CAASaturn_jni.cxx \
 	CAASaturnMoonDetail_jni.cxx \
 	CAASaturnMoonsDetails_jni.cxx \
 	CAASaturnMoons_jni.cxx \
 	CAASaturnRingDetails_jni.cxx \
 	CAASaturnRings_jni.cxx \
-	CAASaturn_jni.cxx \
 	CAASelenographicMoonDetails_jni.cxx \
 	CAASidereal_jni.cxx \
 	CAASolarEclipseDetails_jni.cxx \
@@ -249,8 +249,9 @@ CAADLLSRC = \
 	CAASun_jni.cxx \
 	CAATopocentricEclipticDetails_jni.cxx \
 	CAAUranus_jni.cxx \
-	CAAVSOP87A_EMB_jni.cxx \
+	CAAVenus_jni.cxx \
 	CAAVSOP87A_Earth_jni.cxx \
+	CAAVSOP87A_EMB_jni.cxx \
 	CAAVSOP87A_Jupiter_jni.cxx \
 	CAAVSOP87A_Mars_jni.cxx \
 	CAAVSOP87A_Mercury_jni.cxx \
@@ -285,13 +286,14 @@ CAADLLSRC = \
 	CAAVSOP87E_Earth_jni.cxx \
 	CAAVSOP87E_Jupiter_jni.cxx \
 	CAAVSOP87E_Mars_jni.cxx \
+	CAAVSOP87_EMB_jni.cxx \
 	CAAVSOP87E_Mercury_jni.cxx \
 	CAAVSOP87E_Neptune_jni.cxx \
 	CAAVSOP87E_Saturn_jni.cxx \
 	CAAVSOP87E_Sun_jni.cxx \
 	CAAVSOP87E_Uranus_jni.cxx \
 	CAAVSOP87E_Venus_jni.cxx \
-	CAAVSOP87_EMB_jni.cxx \
+	CAAVSOP87_jni.cxx \
 	CAAVSOP87_Jupiter_jni.cxx \
 	CAAVSOP87_Mars_jni.cxx \
 	CAAVSOP87_Mercury_jni.cxx \
@@ -299,8 +301,6 @@ CAADLLSRC = \
 	CAAVSOP87_Saturn_jni.cxx \
 	CAAVSOP87_Uranus_jni.cxx \
 	CAAVSOP87_Venus_jni.cxx \
-	CAAVSOP87_jni.cxx \
-	CAAVenus_jni.cxx \
 	VSOP87Coefficient2_jni.cxx \
 	VSOP87Coefficient_jni.cxx \
 
