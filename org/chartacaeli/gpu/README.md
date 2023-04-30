@@ -145,7 +145,7 @@ PATH=org/chartacaeli/gpu:$PATH java -classpath "org/chartacaeli;lib/jts-1.14.jar
 These are for testing the C3P classes from inside the application (JUnit not involved). `Artwork$PJ2TextureMapperJni` is a C3P version of `Artwork$PJ2TextureMapperSeq`. It uses C3P objects (e.g. `RealMatrix`, `Plane`, `P4Projector`) instead of corresponding objects in `org/chartacaeli`. `Artwork$PJ2TextureMapperC3p` is a pure C++ implementation of `Artwork$PJ2TextureMapperSeq`. Both are marked as comments in `Artwork`. To use them run `make testbuild` in `gpu` folder. Then remove comments and compile `Artwork`.
 
 ### Cues and findings
-- A really nice [Introduction to Parallel Computing](https://computing.llnl.gov/tutorials/parallel_comp/)
+- A really nice [Introduction to Parallel Computing](https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial)
 - Online book about [Programming on Parallel Machines](http://heather.cs.ucdavis.edu/~matloff/158/PLN/ParProcBook.pdf)
 - Processing results on Windows differ from Linux near the edges. Use [ImageMagick](https://www.imagemagick.org/script/index.php) command `compare -compose src <win pdf> <lin pdf> <result>` for details. Neither Linux T2/ G2 nor Linux T2/ G2/ GPU differ.
 
