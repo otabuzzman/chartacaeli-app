@@ -204,10 +204,9 @@ mvn compile
 # create Charta Caeli group (if missing)
 sudo groupadd ccaeli
 # create Charta Caeli user (if missing)
-sudo mkdir -pm 0775 /opt/chartacaeli
-sudo useradd -c "Charta Caeli" -d /opt/chartacaeli -s /sbin/nologin -g ccaeli ccaeli
+sudo useradd -c "Charta Caeli" -d /opt/chartacaeli -m -s /sbin/nologin -g ccaeli ccaeli
+sudo chmod 0775 /opt/chartacaeli
 
-sudo -u ccaeli -- bash -c "chmod 775 ~"
 sudo -u ccaeli -- make install
 ```
 
