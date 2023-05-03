@@ -31,6 +31,8 @@ org/chartacaeli/gpu/tst/**
 /unicode-and-fonts.png
 /variables-and-expressions.pdf
 /variables-and-expressions.png
+/artwork-computations.pdf
+/artwork-computations.png
 *.class
 *.cubin
 *.d

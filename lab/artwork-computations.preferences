@@ -16,7 +16,7 @@
 						<!--org.chartacaeli.Artwork$PJ2TextureMapperC3p (notes on experimental classes in README.md in gpu package)-->
 						<!--org.chartacaeli.Artwork$PJ2TextureMapperSmp-->
 						<!--org.chartacaeli.Artwork$PJ2TextureMapperGpu-->
-						<entry key="pj2worker" value="org.chartacaeli.Artwork$PJ2TextureMapperSmp"/>
+						<entry key="pj2worker" value="org.chartacaeli.Artwork$PJ2TextureMapperGpu"/>
 						<!--convert image to PNG32 (background RGB (0..255) in %1, %2 or %3)-->
 						<entry key="prefilter" value="magick convert - -negate -gamma 2.8 png32:-"/>
 						<!--filter RGB mapping (x, y or background RGB (0..255) in %1 to %5)-->

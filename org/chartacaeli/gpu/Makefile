@@ -35,14 +35,6 @@ C3POBJ = \
 	$(subst .cpp,.o,$(C3PIMP)) \
 	$(subst .cxx,.o,$(C3PJXX)) \
 
-ifdef winos
-C3PDLL = $(JNI).dll
-C3PEXE = $(addsuffix .exe,$(basename $(C3PIMP)))
-else
-C3PDLL = lib$(JNI).so
-C3PEXE = $(basename $(C3PIMP))
-endif
-
 # JNI wrapper for JUnit testing
 C3PJNI = $(patsubst $(c3psrc)/%.cpp,$(c3ptst)/%.java,$(C3PIMP) $(c3psrc)/PJ2TextureMapperC3p.cpp)
 C3PJXX = $(subst .java,_jni.cxx,$(C3PJNI))
@@ -63,8 +55,6 @@ DCPIMP = \
 
 DCPOBJ = $(subst .cu,.o,$(DCPIMP))
 
-DCPEXE = $(basename $(DCPIMP))
-
 # derived CUDA peer implementations (single precision)
 DCPIMP_F = \
 	$(dcpsrc)/Coordinate_f.cu \
@@ -76,8 +66,6 @@ DCPIMP_F = \
 	$(dcpsrc)/P4Stereographic_f.cu \
 
 DCPOBJ_F = $(subst .cu,.o,$(DCPIMP_F))
-
-DCPEXE_F = $(basename $(DCPIMP_F))
 
 # actual kernel objects (double precision)
 GPUIMP = \
@@ -97,8 +85,20 @@ GPUOBJ = $(subst .cu,.o,$(GPUIMP))
 GPUIMP_F = $(GPUIMP:.cu=_f.cu)
 GPUOBJ_F = $(GPUIMP_F:.cu=.o)
 
+ifdef winos
+C3PDLL   = $(JNI).dll
+C3PEXE   = $(addsuffix .exe,$(basename $(C3PIMP)))
+DCPEXE   = $(addsuffix .exe,$(basename $(DCPIMP)))
+DCPEXE_F = $(addsuffix .exe,$(basename $(DCPIMP_F)))
+else
+C3PDLL   = lib$(JNI).so
+C3PEXE   = $(basename $(C3PIMP))
+DCPEXE   = $(basename $(DCPIMP))
+DCPEXE_F = $(basename $(DCPIMP_F))
+endif
+
 # default goal
-kernel: PJ2TextureMapperGpu_f.cubin
+kernel: PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin
 
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
@@ -142,11 +142,13 @@ testrun: $(C3PTST)
 				$(addprefix $(pkgdir)/,$(JAREXT)))" \
 				org.junit.runner.JUnitCore $(TST).$$t ; done )
 
-.PHONY: all cuda testbuild testrun clean c3pclean dcpclean gpuclean lclean rclean tidy
+.PHONY: kernel testbuild testrun clean c3pclean dcpclean gpuclean lclean rclean tidy
 .SUFFIXES: .cxx .cu .cubin .dll .so
 
 empty =
 space = $(empty) $(empty)
+
+comma := ,
 
 vpath %.cpp $(c3psrc)
 vpath %.cu $(c3psrc)
@@ -170,8 +172,36 @@ $(DCPEXE) $(DCPEXE_F):
 	nvcc -Wno-deprecated-gpu-targets -o $@ $^
 
 ifdef winos
+# ignored warnings (known):
+# C4365: <some type> unsigned int conversion
+# C4458: declaration hides class memeber
+# C4505: unreferenced local function deleted
+# C4514: unreferenced inline function deleted
+# C4626: assign constructor defined as deleted
+# C4668: undefined macro
+# C4711: function automatically inlined
+# C4820: n bytes added
+# C5027: shift constructor defined as deleted
+# C5039: risk of undefined behaviour on exception
+
+IGNORED_WARNINGS = \
+	/wd4365 \
+	/wd4458 \
+	/wd4505 \
+	/wd4514 \
+	/wd4626 \
+	/wd4668 \
+	/wd4711 \
+	/wd4820 \
+	/wd5027 \
+	/wd5039 \
+
+CXXFLAGS  = /Wall $(IGNORED_WARNINGS) /O2
+LDFLAGS   = /WX
+NVCCFLAGS = -Xcompiler $(subst $(space),$(comma),$(CXXFLAGS)) -Xlinker $(subst $(space),$(comma),$(LDFLAGS)) -arch sm_86 -use_fast_math -lineinfo
+
 .cpp.o:
-	$(CXX) $(CXXFLAGS) -Wall -shared \
+	$(CXX) -Wall -shared \
 	-I../caa/src \
 	-c $< -o $@
 
@@ -183,10 +213,9 @@ ifdef winos
 	-c $< -o $@
 
 .cu.o:
-	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
-	--use_fast_math --maxrregcount 32 \
-	-I"$(cygpath -w "$CUDA_HOME/include")" \
-	-I"$(cygpath -w /usr/src/cuda-samples/include)" \
+	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
+	--use_fast_math \
+	-I"$$(cygpath -w /usr/src/cuda-samples/Common)" \
 	-o $@ -dc $<
 
 $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
@@ -226,10 +255,10 @@ $(dcpsrc)/P4Mollweide_f.exe: $(dcpsrc)/P4Mollweide_f.o $(dcpsrc)/Coordinate_f.o 
 $(dcpsrc)/P4Orthographic_f.exe: $(dcpsrc)/P4Orthographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
 $(dcpsrc)/P4Stereographic_f.exe: $(dcpsrc)/P4Stereographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
 
-PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
-PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
+PJ2TextureMapperGpu.exe PJ2TextureMapperGpu.cubin: $(GPUOBJ)
+PJ2TextureMapperGpu_f.exe PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
 
-PJ2TextureMapperGpu PJ2TextureMapperGpu_f:
+PJ2TextureMapperGpu.exe PJ2TextureMapperGpu_f.exe:
 	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
 	-arch=sm_86 -o $@ $^
 
@@ -238,11 +267,14 @@ PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin:
 	--resource-usage -cubin -dlink \
 	-arch=sm_86 -o $@ $^
 else
+CXXFLAGS  = -std=c++11 -Wall
+LDFLAGS   = --fatal-warnings
+NVCCFLAGS = -Xcompiler $(subst $(space),$(comma),$(CXXFLAGS)) -Xlinker $(subst $(space),$(comma),$(LDFLAGS)) -arch sm_75 -use_fast_math -lineinfo
+
 .cpp.o:
-	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \
+	$(CXX) -Wall -shared -fPIC \
 	-I../caa/src \
-	-I$(CUDA_HOME)/include \
-	-I/usr/src/cuda-samples/include \
+	-I/usr/src/cuda-samples/Common \
 	-c $< -o $@
 
 .cxx.o:
@@ -254,9 +286,8 @@ else
 
 .cu.o:
 	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
-	--use_fast_math --maxrregcount 32 \
-	-I$(CUDA_HOME)/include \
-	-I/usr/src/cuda-samples/include \
+	--use_fast_math \
+	-I/usr/src/cuda-samples/Common \
 	-o $@ -dc $<
 
 $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o

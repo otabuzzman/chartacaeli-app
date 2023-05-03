@@ -124,6 +124,7 @@ endif
 		-classpath "$(subst $(space),$(sep), \
 		$(libdir) \
 		$(pkgdir) \
+		$(pkgdir)/gpu \
 		$(JAREXT))" \
 		$(PKG).ChartaCaeli viewer="$(VIEWER)" $< >$@
 
