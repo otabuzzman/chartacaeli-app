@@ -171,7 +171,8 @@ for sample in \
 	field-of-view \
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
-	azimuthal-projection ; do ( ( make ${sample}.pdf ) & ) ; done
+	azimuthal-projection \
+	artwork-computations ; do ( ( make ${sample}.pdf ) & ) ; done
 ```
 
 Compare and save results to PNG files. Deviating pixels are marked by color.
@@ -184,7 +185,8 @@ for sample in \
 	field-of-view \
 	variables-and-expressions \
 	milkyway-with-catalogds9 \
-	azimuthal-projection ; do \
+	azimuthal-projection \
+	artwork-computations ; do \
 	( magick compare ${sample}.pdf lab/${sample}.pdf -compose src ${sample}.png ) ; done
 ```
 ## Install
