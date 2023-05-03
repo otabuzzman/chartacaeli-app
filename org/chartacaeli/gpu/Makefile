@@ -20,12 +20,6 @@ c3ptst = tst
 
 dcpsrc = dcp
 
-ifdef winos
-C3PDLL = $(JNI).dll
-else
-C3PDLL = lib$(JNI).so
-endif
-
 # C++ peer classes
 C3PIMP = \
 	$(c3psrc)/Coordinate.cpp \
@@ -41,7 +35,13 @@ C3POBJ = \
 	$(subst .cpp,.o,$(C3PIMP)) \
 	$(subst .cxx,.o,$(C3PJXX)) \
 
+ifdef winos
+C3PDLL = $(JNI).dll
+C3PEXE = $(addsuffix .exe,$(basename $(C3PIMP)))
+else
+C3PDLL = lib$(JNI).so
 C3PEXE = $(basename $(C3PIMP))
+endif
 
 # JNI wrapper for JUnit testing
 C3PJNI = $(patsubst $(c3psrc)/%.cpp,$(c3ptst)/%.java,$(C3PIMP) $(c3psrc)/PJ2TextureMapperC3p.cpp)
@@ -98,7 +98,7 @@ GPUIMP_F = $(GPUIMP:.cu=_f.cu)
 GPUOBJ_F = $(GPUIMP_F:.cu=.o)
 
 # default goal
-cuda: PJ2TextureMapperGpu_f.cubin
+kernel: PJ2TextureMapperGpu_f.cubin
 
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
@@ -166,6 +166,9 @@ endif
 
 include $(notdir $(C3PIMP:.cpp=.d)) P4ProjectorFactory.d PJ2TextureMapperC3p.d
 
+$(DCPEXE) $(DCPEXE_F):
+	nvcc -Wno-deprecated-gpu-targets -o $@ $^
+
 ifdef winos
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -Wall -shared \
@@ -179,72 +182,67 @@ ifdef winos
 	-I"$(JAVA_HOME)/include/win32" \
 	-c $< -o $@
 
+.cu.o:
+	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
+	--use_fast_math --maxrregcount 32 \
+	-I"$(cygpath -w "$CUDA_HOME/include")" \
+	-I"$(cygpath -w /usr/src/cuda-samples/include)" \
+	-o $@ -dc $<
+
 $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
 	$(CXX) -Wall -shared \
 	-static-libgcc -static-libstdc++ \
 	-o $@ $^
 
-# C3P test programs (c3p/%.exe)
-$(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
-$(c3psrc)/Vector3D: $(c3psrc)/Vector3D.o
-$(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
-$(c3psrc)/Math: $(c3psrc)/Math.o
-$(c3psrc)/RealMatrix: $(c3psrc)/RealMatrix.o
-$(c3psrc)/P4Mollweide: $(c3psrc)/P4Mollweide.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
-$(c3psrc)/P4Orthographic: $(c3psrc)/P4Orthographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
-$(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+# C3P test programs
+$(c3psrc)/Coordinate.exe: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
+$(c3psrc)/Vector3D.exe: $(c3psrc)/Vector3D.o
+$(c3psrc)/Plane.exe: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
+$(c3psrc)/Math.exe: $(c3psrc)/Math.o
+$(c3psrc)/RealMatrix.exe: $(c3psrc)/RealMatrix.o
+$(c3psrc)/P4Mollweide.exe: $(c3psrc)/P4Mollweide.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+$(c3psrc)/P4Orthographic.exe: $(c3psrc)/P4Orthographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
+$(c3psrc)/P4Stereographic.exe: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o $(c3psrc)/P4ProjectorFactory.o
 
 $(C3PEXE):
 	$(CXX) -static-libgcc -static-libstdc++ -o $@ $^
 
-.cu.o:
-	@:
+# double precision DCP test programs
+$(dcpsrc)/Coordinate.exe: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+$(dcpsrc)/Vector3D.exe: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+$(dcpsrc)/Plane.exe: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+$(dcpsrc)/Math.exe: $(dcpsrc)/Math.o
+$(dcpsrc)/RealMatrix.exe: $(dcpsrc)/RealMatrix.o
+$(dcpsrc)/P4Mollweide.exe: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+$(dcpsrc)/P4Orthographic.exe: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
+$(dcpsrc)/P4Stereographic.exe: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 
-# double precision DCP test programs (dcp/%.exe)
-$(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-$(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-$(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-$(dcpsrc)/Math: $(dcpsrc)/Math.o
-$(dcpsrc)/RealMatrix: $(dcpsrc)/RealMatrix.o
-$(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-$(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-$(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
-
-# single precision DCP test programs (dcp/%.exe)
-$(dcpsrc)/Coordinate_f: $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
-$(dcpsrc)/Vector3D_f: $(dcpsrc)/Vector3D_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
-$(dcpsrc)/Plane_f: $(dcpsrc)/Plane_f.o $(dcpsrc)/Vector3D_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
-$(dcpsrc)/Math_f: $(dcpsrc)/Math_f.o
-$(dcpsrc)/P4Mollweide_f: $(dcpsrc)/P4Mollweide_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
-$(dcpsrc)/P4Orthographic_f: $(dcpsrc)/P4Orthographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
-$(dcpsrc)/P4Stereographic_f: $(dcpsrc)/P4Stereographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
-
-$(DCPEXE) $(DCPEXE_F):
-	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli-app\org\chartacaeli\gpu
-	@echo .\$(subst /,\,$@).cmd
+# single precision DCP test programs
+$(dcpsrc)/Coordinate_f.exe: $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
+$(dcpsrc)/Vector3D_f.exe: $(dcpsrc)/Vector3D_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
+$(dcpsrc)/Plane_f.exe: $(dcpsrc)/Plane_f.o $(dcpsrc)/Vector3D_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
+$(dcpsrc)/Math_f.exe: $(dcpsrc)/Math_f.o
+$(dcpsrc)/P4Mollweide_f.exe: $(dcpsrc)/P4Mollweide_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
+$(dcpsrc)/P4Orthographic_f.exe: $(dcpsrc)/P4Orthographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
+$(dcpsrc)/P4Stereographic_f.exe: $(dcpsrc)/P4Stereographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
 
 PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
-	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli-app\org\chartacaeli\gpu
-	@echo .\$(basename $@).cmd
-
 PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
-	@echo "rem *** exec Developer Command Prompt for VS2015 and run commands given below"
-	@echo set JAVA_HOME=c:\program files\java\jdk1.8.0_151
-	@echo set CUDA_HOME=%userprofile%\lab\cudacons\cuda_8.0.44_windows\compiler
-	@echo cd %userprofile%\src\chartacaeli-app\org\chartacaeli\gpu
-	@echo .\$(basename $@).cmd
+
+PJ2TextureMapperGpu PJ2TextureMapperGpu_f:
+	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
+	-arch=sm_86 -o $@ $^
+
+PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin:
+	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
+	--resource-usage -cubin -dlink \
+	-arch=sm_86 -o $@ $^
 else
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -Wall -shared -fPIC \
 	-I../caa/src \
 	-I$(CUDA_HOME)/include \
-	-I$(CUDA_HOME)/samples/common/inc \
+	-I/usr/src/cuda-samples/include \
 	-c $< -o $@
 
 .cxx.o:
@@ -254,11 +252,18 @@ else
 	-I$(JAVA_HOME)/include/linux \
 	-c $< -o $@
 
+.cu.o:
+	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
+	--use_fast_math --maxrregcount 32 \
+	-I$(CUDA_HOME)/include \
+	-I/usr/src/cuda-samples/include \
+	-o $@ -dc $<
+
 $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
 	$(CXX) -Wall -shared \
 	-o $@ $^
 
-# C3P test programs (c3p/%.exe)
+# C3P test programs
 $(c3psrc)/Coordinate: $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
 $(c3psrc)/Vector3D: $(c3psrc)/Vector3D.o
 $(c3psrc)/Plane: $(c3psrc)/Plane.o $(c3psrc)/Vector3D.o $(c3psrc)/Coordinate.o $(c3psrc)/Math.o
@@ -271,14 +276,7 @@ $(c3psrc)/P4Stereographic: $(c3psrc)/P4Stereographic.o $(c3psrc)/Coordinate.o $(
 $(C3PEXE):
 	$(CXX) -o $@ $^
 
-.cu.o:
-	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
-	--use_fast_math --maxrregcount 32 \
-	-I$(CUDA_HOME)/include \
-	-I$(CUDA_HOME)/samples/common/inc \
-	-o $@ -dc $<
-
-# double precision DCP test programs (dcp/%.exe)
+# double precision DCP test programs
 $(dcpsrc)/Coordinate: $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 $(dcpsrc)/Vector3D: $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 $(dcpsrc)/Plane: $(dcpsrc)/Plane.o $(dcpsrc)/Vector3D.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
@@ -288,7 +286,7 @@ $(dcpsrc)/P4Mollweide: $(dcpsrc)/P4Mollweide.o $(dcpsrc)/Coordinate.o $(dcpsrc)/
 $(dcpsrc)/P4Orthographic: $(dcpsrc)/P4Orthographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 $(dcpsrc)/P4Stereographic: $(dcpsrc)/P4Stereographic.o $(dcpsrc)/Coordinate.o $(dcpsrc)/Math.o
 
-# single precision DCP test programs (dcp/%.exe)
+# single precision DCP test programs
 $(dcpsrc)/Coordinate_f: $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
 $(dcpsrc)/Vector3D_f: $(dcpsrc)/Vector3D_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
 $(dcpsrc)/Plane_f: $(dcpsrc)/Plane_f.o $(dcpsrc)/Vector3D_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
@@ -297,23 +295,18 @@ $(dcpsrc)/P4Mollweide_f: $(dcpsrc)/P4Mollweide_f.o $(dcpsrc)/Coordinate_f.o $(dc
 $(dcpsrc)/P4Orthographic_f: $(dcpsrc)/P4Orthographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
 $(dcpsrc)/P4Stereographic_f: $(dcpsrc)/P4Stereographic_f.o $(dcpsrc)/Coordinate_f.o $(dcpsrc)/Math_f.o
 
-$(DCPEXE) $(DCPEXE_F):
-	nvcc -Wno-deprecated-gpu-targets -o $@ $^
-
 PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
 PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
 
 PJ2TextureMapperGpu PJ2TextureMapperGpu_f:
 	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
-	-arch=sm_30 -o $@ $^
+	-arch=sm_75 -o $@ $^
 
 PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin:
 	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
 	--resource-usage -cubin -dlink \
-	-arch=sm_30 -o $@ $^
+	-arch=sm_75 -o $@ $^
 endif
-
-all: cuda
 
 # compiler objects
 clean: c3pclean dcpclean gpuclean
@@ -332,7 +325,11 @@ lclean: clean
 	rm -f $(C3PJXX) $(C3PJNI)
 	rm -f $(C3PDLL)
 	rm -f $(C3PEXE) $(DCPEXE) $(DCPEXE_F)
+ifdef winos
+	rm -f PJ2TextureMapperGpu.exe PJ2TextureMapperGpu_f.exe
+else
 	rm -f PJ2TextureMapperGpu PJ2TextureMapperGpu_f
+endif
 	rm -f PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin
 
 # real clean
