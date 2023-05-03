@@ -213,8 +213,7 @@ NVCCFLAGS = -Xcompiler $(subst $(space),$(comma),$(CXXFLAGS)) -Xlinker $(subst $
 	-c $< -o $@
 
 .cu.o:
-	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
-	--use_fast_math \
+	nvcc $(NVCCFLAGS) \
 	-I"$$(cygpath -w /usr/src/cuda-samples/Common)" \
 	-o $@ -dc $<
 
@@ -259,13 +258,13 @@ PJ2TextureMapperGpu.exe PJ2TextureMapperGpu.cubin: $(GPUOBJ)
 PJ2TextureMapperGpu_f.exe PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
 
 PJ2TextureMapperGpu.exe PJ2TextureMapperGpu_f.exe:
-	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
-	-arch=sm_86 -o $@ $^
+	nvcc $(NVCCFLAGS) \
+	-o $@ $^
 
 PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin:
-	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
+	nvcc $(NVCCFLAGS) \
 	--resource-usage -cubin -dlink \
-	-arch=sm_86 -o $@ $^
+	-o $@ $^
 else
 CXXFLAGS  = -std=c++11 -Wall
 LDFLAGS   = --fatal-warnings
@@ -285,8 +284,7 @@ NVCCFLAGS = -Xcompiler $(subst $(space),$(comma),$(CXXFLAGS)) -Xlinker $(subst $
 	-c $< -o $@
 
 .cu.o:
-	nvcc $(NVCCFLAGS) -std c++11 -Wno-deprecated-gpu-targets \
-	--use_fast_math \
+	nvcc $(NVCCFLAGS) \
 	-I/usr/src/cuda-samples/Common \
 	-o $@ -dc $<
 
@@ -330,13 +328,13 @@ PJ2TextureMapperGpu PJ2TextureMapperGpu.cubin: $(GPUOBJ)
 PJ2TextureMapperGpu_f PJ2TextureMapperGpu_f.cubin: $(GPUOBJ_F)
 
 PJ2TextureMapperGpu PJ2TextureMapperGpu_f:
-	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
-	-arch=sm_75 -o $@ $^
+	nvcc $(NVCCFLAGS) \
+	-o $@ $^
 
 PJ2TextureMapperGpu.cubin PJ2TextureMapperGpu_f.cubin:
-	nvcc $(NVCCFLAGS) -Wno-deprecated-gpu-targets \
+	nvcc $(NVCCFLAGS) \
 	--resource-usage -cubin -dlink \
-	-arch=sm_75 -o $@ $^
+	-o $@ $^
 endif
 
 # compiler objects
