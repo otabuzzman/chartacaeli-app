@@ -273,7 +273,7 @@ NVCCFLAGS = -Xcompiler $(subst $(space),$(comma),$(CXXFLAGS)) -Xlinker $(subst $
 .cpp.o:
 	$(CXX) -Wall -shared -fPIC \
 	-I../caa/src \
-	-I/usr/src/cuda-samples/Common \
+	-I$$HOME/lab/cuda-samples/Common \
 	-c $< -o $@
 
 .cxx.o:
@@ -285,7 +285,7 @@ NVCCFLAGS = -Xcompiler $(subst $(space),$(comma),$(CXXFLAGS)) -Xlinker $(subst $
 
 .cu.o:
 	nvcc $(NVCCFLAGS) \
-	-I/usr/src/cuda-samples/Common \
+	-I$$HOME/lab/cuda-samples/Common \
 	-o $@ -dc $<
 
 $(C3PDLL): $(C3POBJ) $(c3psrc)/P4ProjectorFactory.o $(c3psrc)/PJ2TextureMapperC3p.o
