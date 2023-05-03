@@ -102,7 +102,7 @@ cuda: PJ2TextureMapperGpu_f.cubin
 
 $(C3PJXX):
 	( cd $(c3psrc) ; for c in $(notdir $(basename $(C3PIMP))) PJ2TextureMapperC3p ; do \
-		$(CXXWRAP) \
+		cxxwrap \
 			--jni --jni-attributes \
 			--classpath=$(topdir) \
 			--package-prefix=$(TST) $$c.h ; \

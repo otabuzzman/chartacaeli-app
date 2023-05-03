@@ -26,7 +26,7 @@ Both double and single precision kernels compile to stand-alone programs suitabl
 Executables read 512x512 RGB files from *stdin* (enter `^D` in case no input file) and output kernel results 1360x1517 RGB encoded on *stdout*. Use [ImageMagick](https://www.imagemagick.org/script/index.php) to compare output files from different runs.
 ```
 # get reference image of andromeda and convert to RGB
-curl --output and.png http://bazaar.launchpad.net/~stellarium/stellarium/trunk/download/head:/skycultureswesternan-20080218002651-n5q35t9w2d524frt-1455/andromeda.png
+curl --output and.png http://archaeopoject.pbworks.com/f/1435825436/andromeda.png
 convert and.png and.rgb
 # make double precision projection and convert to PNG
 ./PJ2TextureMapperGpu < and.rgb > and_d.rgb
