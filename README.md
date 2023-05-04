@@ -105,12 +105,13 @@ export PATH=$JAVA_HOME/bin:$PATH
 	|| echo failed to download or unpack PJ2 source. )
 
 # build and install JNI
-( cd ~/lab/pj2/lib ; gcc -Wall -shared -fPIC \
+( cd ~/lab/pj2/lib ; gcc -shared -fPIC \
+	-Wall -Wno-pointer-sign \
 	-I$JAVA_HOME/include \
 	-I$JAVA_HOME/include/linux \
 	-I$CUDA_HOME/include \
 	-o libEduRitGpuCuda.so edu_rit_gpu_Cuda.c \
-	-L$CUDA_HOME/lib64 -lcudart \
+	-L$CUDA_HOME/lib64 -lcuda \
 	&& install -m 755 libEduRitGpuCuda.so ~/lab/chartacaeli-app/lib \
 	|| echo failed to compile or install libEduRitGpuCuda.so )
 ```
