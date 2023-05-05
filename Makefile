@@ -55,6 +55,9 @@ SAMPLES = \
 	azimuthal-projection.pdf \
 	azimuthal-projection.xml \
 	azimuthal-projection.preferences \
+	artwork-computations.pdf \
+	artwork-computations.xml \
+	artwork-computations.preferences \
 
 CLSUCB = $(pkgdir)/UnicodeBlock.java
 UCBCMD = prepUnicodeBlock.sh
