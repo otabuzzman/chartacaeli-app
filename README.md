@@ -258,7 +258,7 @@ install -m 755 chartacaeli.sh /opt/chartacaeli/web/WEB-INF
 
 ( cd /opt/chartacaeli/web/WEB-INF ;
 PATH=lib:/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH \
-CLASSPATH=$(cygpath -mp classes:lib:lib/*) \
+CLASSPATH=$(cygpath -mp lib:lib/*:classes) \
 GS_FONTPATH=$(cygpath -mp /opt/chartacaeli) \
 ./chartacaeli.sh -kv $(cygpath -m ~/src/chartacaeli-app/lab/unicode-and-fonts.xml) )
 ```
