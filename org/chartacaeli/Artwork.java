@@ -40,6 +40,14 @@ import edu.rit.gpu.Module;
 import edu.rit.pj2.Loop;
 import edu.rit.pj2.Task;
 
+import uk.ac.manchester.tornado.api.types.arrays.IntArray;
+import uk.ac.manchester.tornado.api.annotations.Parallel;
+import uk.ac.manchester.tornado.api.TaskGraph;
+import uk.ac.manchester.tornado.api.enums.DataTransferMode;
+import uk.ac.manchester.tornado.api.ImmutableTaskGraph;
+import uk.ac.manchester.tornado.api.TornadoExecutionPlan;
+import uk.ac.manchester.tornado.api.TornadoExecutionResult;
+
 @SuppressWarnings("serial")
 public class Artwork extends org.chartacaeli.model.Artwork implements PostscriptEmitter {
 
@@ -517,6 +525,94 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			d_mapping.free() ;
 			d_texture.free() ;
 			pnam.free() ;
+		}
+	}
+
+	private class PJ2TextureMapperTvm extends Task {
+		private double[] st ;
+		private Coordinate uv ;
+
+		private org.chartacaeli.Coordinate eq ;
+		private double[] ca ;
+
+		public PJ2TextureMapperTvm() {
+			st = new double[] { 0, 0, 1 } ;
+			uv = new Coordinate() ;
+
+			eq = new org.chartacaeli.Coordinate( 0, 0, 0 ) ;
+			ca = new double[] { 0, 0, 0, 1 } ;
+		}
+
+		// formerly `main´ with TornadoVM extensions
+		static void kernel( IntArray source, IntArray result ) {
+			double t0[], op[] ;
+			Coordinate t1 ;
+			Vector3D vca, xca ;
+			double o, p ;
+
+			// the @Parallel annotation instructs TornadoVM
+			// to parallelize the body
+			for ( @Parallel int t=0 ; dimt>t ; t++ ) {
+				st[1] = t*ups ;
+
+				for ( @Parallel int s=0 ; dims>s ; s++ ) {
+					st[0] = s*ups ;
+
+					t0 = tmM2P.operate( st ) ;
+					uv.x = t0[0] ;
+					uv.y = t0[1] ;
+
+					eq.setCoordinate( projector.project( uv, true ) ) ;
+					t1 = eq.cartesian() ;
+
+					vca = new Vector3D( t1.x, t1.y, t1.z ) ;
+					xca = spT.intersection( new Line( Vector3D.ZERO, vca, 1.0e-10 ) ) ;
+					ca[0] = xca.getX() ;
+					ca[1] = xca.getY() ;
+					ca[2] = xca.getZ() ;
+
+					op = tmH2T.operate( ca ) ;
+					o = op[0] ;
+					p = op[1] ;
+
+					if ( 0>o || 0>p || o>=maxo || p>=maxp )
+						continue ;
+
+					// mapping[t*dims+s] = texture[(int) p*dimo+(int) o] ;
+					result.set( t*dims+s, source.get( (int) p*dimo+(int) o ) ) ;
+				}
+			}
+		}
+
+		public void main( String[] argv ) throws Exception {
+			IntArray source = new IntArray(texture.length) ;
+			IntArray result = new IntArray(mapping.length) ;
+
+			// copy image (texture) to source buffer
+			for ( int p=0 ; dimp>p ; p++ )
+				for ( int o=0 ; dimo>o ; o++ )
+					source.set( p*dimo+o, texture[p*dimo+o] ) ;
+
+			// create a TaskGraph with a unique id
+			TaskGraph taskGraph = new TaskGraph("s0")
+				// 1st node: copy source image to accelerator
+				.transferToDevice(DataTransferMode.FIRST_EXECUTION, source)
+				// 2nd node: execute kernel on accelerator
+				.task("t0", Artwork.PJ2TextureMapperTvm::kernel, source, result)
+				// 3rd node: copy projection result to host
+				.transferToHost(DataTransferMode.EVERY_EXECUTION, result) ;
+
+			// make task graph read-only
+			ImmutableTaskGraph immutableTaskGraph = taskGraph.snapshot() ;
+			// TornadoVM defines plans for task graph execution
+			TornadoExecutionPlan executionPlan = new TornadoExecutionPlan(immutableTaskGraph) ;
+			// wait to complete execution on accelerator
+			TornadoExecutionResult executionResult = executionPlan.execute() ;
+
+			// copy result buffer to mapping
+			for ( int t=0 ; dimt>t ; t++ )
+				for ( int s=0 ; dims>s ; s++ )
+					mapping[t*dims+s] = result.get( t*dims+s ) ;
 		}
 	}
 
