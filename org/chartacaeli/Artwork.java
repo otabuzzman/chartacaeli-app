@@ -41,6 +41,7 @@ import edu.rit.pj2.Loop;
 import edu.rit.pj2.Task;
 
 import uk.ac.manchester.tornado.api.types.arrays.IntArray;
+import uk.ac.manchester.tornado.api.types.arrays.FloatArray;
 import uk.ac.manchester.tornado.api.annotations.Parallel;
 import uk.ac.manchester.tornado.api.TaskGraph;
 import uk.ac.manchester.tornado.api.enums.DataTransferMode;
@@ -529,40 +530,84 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 	}
 
 	private class PJ2TextureMapperTvm extends Task {
-		private double[] st ;
-		private Coordinate uv ;
-
-		private org.chartacaeli.Coordinate eq ;
-		private double[] ca ;
 
 		public PJ2TextureMapperTvm() {
-			st = new double[] { 0, 0, 1 } ;
-			uv = new Coordinate() ;
-
-			eq = new org.chartacaeli.Coordinate( 0, 0, 0 ) ;
-			ca = new double[] { 0, 0, 0, 1 } ;
 		}
 
-		// formerly `main´ with TornadoVM extensions
-		static void kernel( IntArray source, IntArray result ) {
+		// former `main´ with TornadoVM extensions
+		static void k3rnel( byte pnam, FloatArray proj,
+				FloatArray m2p,
+				FloatArray h2t,
+				FloatArray plane,
+				int dimo, int dimp, IntArray texture,
+				int dims, int dimt, IntArray mapping,
+				float ups) {
+			// former nested class variables
+			double st[] = new double[] { 0, 0, 1 } ;
+			Coordinate uv = new Coordinate() ;
+
+			org.chartacaeli.Coordinate eq = new org.chartacaeli.Coordinate( 0, 0, 0 ) ;
+			double[] ca = new double[] { 0, 0, 0, 1 } ;
+
+			// locals built from kernel params
+			P4Projector projector = null ;
+			RealMatrix tmM2P ;
+			RealMatrix tmH2T ;
+			Plane spT ;
+
+			// locals as in sequential kernel
 			double t0[], op[] ;
 			Coordinate t1 ;
 			Vector3D vca, xca ;
 			double o, p ;
 
-			// the @Parallel annotation instructs TornadoVM
-			// to parallelize the body
-			for ( @Parallel int t=0 ; dimt>t ; t++ ) {
-				st[1] = t*ups ;
+			// set up projector
+			/*switch ( pnam ) {
+				case 'S':
+					projector = new P4Stereographic() ;
+					break ;
+				case 'O':
+					projector = new P4Orthographic() ;
+					break ;
+				case 'M':
+					projector = new P4Mollweide() ;
+					break ;
+			}
+			projector.init( proj.get(0), proj.get(1), proj.get(2), proj.get(3) ) ;
 
+			// set up mapping to projection coordinates matrix object
+			tmM2P = MatrixUtils.createRealMatrix( new double[][] {
+				{ m2p.get( 0 ), m2p.get( 1 ), m2p.get( 2 ) },
+				{ m2p.get( 3 ), m2p.get( 4 ), m2p.get( 5 ) },
+				{ m2p.get( 6 ), m2p.get( 7 ), m2p.get( 8 ) }
+			} ) ;
+
+			// set up heaven to texture coordinates matrix object
+			tmH2T = MatrixUtils.createRealMatrix( new double[][] {
+				{ h2t.get(  0 ), h2t.get(  1 ), h2t.get(  2 ), h2t.get(  3 ) },
+				{ h2t.get(  4 ), h2t.get(  5 ), h2t.get(  6 ), h2t.get(  7 ) },
+				{ h2t.get(  8 ), h2t.get(  9 ), h2t.get( 10 ), h2t.get( 11 ) },
+				{ h2t.get( 12 ), h2t.get( 13 ), h2t.get( 14 ), h2t.get( 15 ) }
+			} ) ;
+
+			// set up plane object
+			spT = new Plane(
+				new Vector3D( plane.get( 0 ), plane.get( 1 ), plane.get( 2 ) ),
+				new Vector3D( plane.get( 3 ), plane.get( 4 ), plane.get( 5 ) ),
+				new Vector3D( plane.get( 6 ), plane.get( 7 ), plane.get( 8 ) ), 1.0e-10
+				) ;
+
+			// @Parallel instructs TornadoVM to parallelize the body
+			for ( @Parallel int t=0 ; dimt>t ; t++ ) {
 				for ( @Parallel int s=0 ; dims>s ; s++ ) {
+					st[1] = t*ups ;
 					st[0] = s*ups ;
 
 					t0 = tmM2P.operate( st ) ;
 					uv.x = t0[0] ;
 					uv.y = t0[1] ;
 
-					eq.setCoordinate( projector.project( uv, true ) ) ;
+					eq.setCoordinate( projector.inverse( uv ) ) ;
 					t1 = eq.cartesian() ;
 
 					vca = new Vector3D( t1.x, t1.y, t1.z ) ;
@@ -575,32 +620,75 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 					o = op[0] ;
 					p = op[1] ;
 
-					if ( 0>o || 0>p || o>=maxo || p>=maxp )
-						continue ;
-
-					// mapping[t*dims+s] = texture[(int) p*dimo+(int) o] ;
-					result.set( t*dims+s, source.get( (int) p*dimo+(int) o ) ) ;
+					if ( o<dimo && p<dimp )
+						mapping.set( t*dims+s, texture.get( (int) p*dimo+(int) o ) ) ;
 				}
-			}
+			}*/
 		}
 
 		public void main( String[] argv ) throws Exception {
-			IntArray source = new IntArray(texture.length) ;
-			IntArray result = new IntArray(mapping.length) ;
+			P4Projector projector ;
+			byte pnam ;
+			FloatArray proj = new FloatArray(4) ;
+			FloatArray m2p = new FloatArray(9) ;
+			FloatArray h2t = new FloatArray(16) ;
+			FloatArray plane = new FloatArray(9) ;
+			IntArray d_texture = new IntArray(texture.length) ;
+			IntArray d_mapping = new IntArray(mapping.length) ;
+
+			// set up projector params
+			projector = (P4Projector) Registry.retrieve( P4Projector.class.getName() ) ;
+			if ( projector == null ) {
+				log.warn( ParameterNotValidError.errmsg( P4Projector.class.getName(), MessageCatalog.compose( this, MK_ENOREG, null ) ) ) ;
+
+				return ;
+			}
+			proj.set( 0, (float) projector.lam0() ) ;
+			proj.set( 1, (float) projector.phi1() ) ;
+			proj.set( 2, (float) projector.R() ) ;
+			proj.set( 3, (float) projector.k0() ) ;
+
+			// set up projector type
+			pnam = projector.getClass().getSimpleName().getBytes( StandardCharsets.US_ASCII )[2] ;
+
+			// set up mapping to projection coordinates matrix params
+			for ( int r=0 ; 3>r ; r++ )
+				for ( int c=0 ; 3>c ; c++ )
+					m2p.set( r*3+c, (float) tmM2P.getEntry( r, c ) ) ;
+
+			// set up heaven to texture coordinates matrix params
+			for ( int r=0 ; 4>r ; r++ )
+				for ( int c=0 ; 4>c ; c++ )
+					h2t.set( r*4+c, (float) tmH2T.getEntry( r, c ) ) ;
+
+			// set up plane params
+			plane.set( 0, (float) popHP1.x ) ; plane.set( 1, (float) popHP1.y ) ; plane.set( 2, (float) popHP1.z ) ;
+			plane.set( 3, (float) popHP2.x ) ; plane.set( 4, (float) popHP2.y ) ; plane.set( 5, (float) popHP2.z ) ;
+			plane.set( 6, (float) popHP3.x ) ; plane.set( 7, (float) popHP3.y ) ; plane.set( 8, (float) popHP3.z ) ;
 
 			// copy image (texture) to source buffer
 			for ( int p=0 ; dimp>p ; p++ )
 				for ( int o=0 ; dimo>o ; o++ )
-					source.set( p*dimo+o, texture[p*dimo+o] ) ;
+					d_texture.set( p*dimo+o, texture[p*dimo+o] ) ;
 
 			// create a TaskGraph with a unique id
 			TaskGraph taskGraph = new TaskGraph("s0")
-				// 1st node: copy source image to accelerator
-				.transferToDevice(DataTransferMode.FIRST_EXECUTION, source)
-				// 2nd node: execute kernel on accelerator
-				.task("t0", Artwork.PJ2TextureMapperTvm::kernel, source, result)
-				// 3rd node: copy projection result to host
-				.transferToHost(DataTransferMode.EVERY_EXECUTION, result) ;
+				// transfer nodes: copy data to accelerator
+				.transferToDevice(DataTransferMode.FIRST_EXECUTION, proj)
+				.transferToDevice(DataTransferMode.FIRST_EXECUTION, m2p)
+				.transferToDevice(DataTransferMode.FIRST_EXECUTION, h2t)
+				.transferToDevice(DataTransferMode.FIRST_EXECUTION, plane)
+				.transferToDevice(DataTransferMode.FIRST_EXECUTION, d_texture)
+				// task node: execute kernel on accelerator
+				.task("t0", Artwork.PJ2TextureMapperTvm::k3rnel, pnam, proj,
+						m2p,
+						h2t,
+						plane,
+						dimo, dimp, d_texture,
+						dims, dimt, d_mapping,
+						(float) ups)
+				// transfer node: copy projection result to host
+				.transferToHost(DataTransferMode.EVERY_EXECUTION, d_mapping) ;
 
 			// make task graph read-only
 			ImmutableTaskGraph immutableTaskGraph = taskGraph.snapshot() ;
@@ -612,7 +700,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			// copy result buffer to mapping
 			for ( int t=0 ; dimt>t ; t++ )
 				for ( int s=0 ; dims>s ; s++ )
-					mapping[t*dims+s] = result.get( t*dims+s ) ;
+					mapping[t*dims+s] = d_mapping.get( t*dims+s ) ;
 		}
 	}
 

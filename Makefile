@@ -38,6 +38,26 @@ JAREXT = \
 	$(libdir)/commons-math3-3.5.jar \
 	$(libdir)/commons-logging-1.2.jar \
 
+tvmsdk	= ../../lab/TornadoVM/bin/sdk
+tvmjar	= $(tvmsdk)/share/java/tornado
+
+JARTVM	= \
+	$(tvmjar)/collections-23.1.0.jar \
+	$(tvmjar)/ejml-core-0.38.jar \
+	$(tvmjar)/ejml-ddense-0.38.jar \
+	$(tvmjar)/ejml-dsparse-0.38.jar \
+	$(tvmjar)/ejml-simple-0.38.jar \
+	$(tvmjar)/jmh-core-1.29.jar \
+	$(tvmjar)/jopt-simple-4.6.jar \
+	$(tvmjar)/jsr305-3.0.2.jar \
+	$(tvmjar)/log4j-api-2.17.1.jar \
+	$(tvmjar)/log4j-core-2.17.1.jar \
+	$(tvmjar)/nativeimage-23.1.0.jar \
+	$(tvmjar)/polyglot-23.1.0.jar \
+	$(tvmjar)/tornado-api-1.0.4-dev.jar \
+	$(tvmjar)/tornado-matrices-1.0.4-dev.jar \
+	$(tvmjar)/word-23.1.0.jar \
+
 SAMPLES = \
 	layout-and-text.pdf \
 	layout-and-text.xml \
@@ -106,10 +126,13 @@ $(CLSUCB): $(UCBDEF) $(UCBCMD)
 	$${SHELL:-sh} $(UCBCMD) $(UCBDEF) >$@
 
 classes: $(CLSUCB)
+	# runtime crash when compiled without -g:vars
 	javac \
+		-g:vars --enable-preview -target 21 -source 21 \
 		-classpath "$(subst $(space),$(sep), \
 		$(pkgdir) \
-		$(JAREXT))" \
+		$(JAREXT) \
+		$(JARTVM))" \
 		-d . $^ $(CLSAPP)
 
 ifdef winos
@@ -120,16 +143,17 @@ endif
 
 .xml.ps:
 	# note that caa loads aaplus thus needs PATH set as well as java.library.path
-	@time java $$JFRX_OPTS $(JVMX_OPTS) \
-		-Duser.language=$$(echo $${LANG:-en} | sed 's,_.*,,') \
-		-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
-		-Djava.util.logging.config.file=lib/logging.properties \
-		-classpath "$(subst $(space),$(sep), \
-		$(libdir) \
-		$(pkgdir) \
-		$(pkgdir)/gpu \
-		$(JAREXT))" \
-		$(PKG).ChartaCaeli viewer="$(VIEWER)" $< >$@
+	cmd /c tornado.cmd $< $@
+#	@time java $$JFRX_OPTS $(JVMX_OPTS) \
+#		-Duser.language=$$(echo $${LANG:-en} | sed 's,_.*,,') \
+#		-Djava.library.path="$(subst $(space),$(sep),$(jnilib))" \
+#		-Djava.util.logging.config.file=lib/logging.properties \
+#		-classpath "$(subst $(space),$(sep), \
+#		$(libdir) \
+#		$(pkgdir) \
+#		$(pkgdir)/gpu \
+#		$(JAREXT))" \
+#		$(PKG).ChartaCaeli viewer="$(VIEWER)" $< >$@
 
 .ps.pdf:
 ifdef winos
