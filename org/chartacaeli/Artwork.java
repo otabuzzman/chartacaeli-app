@@ -48,6 +48,9 @@ import uk.ac.manchester.tornado.api.enums.DataTransferMode;
 import uk.ac.manchester.tornado.api.ImmutableTaskGraph;
 import uk.ac.manchester.tornado.api.TornadoExecutionPlan;
 import uk.ac.manchester.tornado.api.TornadoExecutionResult;
+import uk.ac.manchester.tornado.api.types.vectors.Float3;
+import uk.ac.manchester.tornado.api.types.vectors.Float4;
+import uk.ac.manchester.tornado.api.TornadoMath;
 
 @SuppressWarnings("serial")
 public class Artwork extends org.chartacaeli.model.Artwork implements PostscriptEmitter {
@@ -534,6 +537,71 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 		public PJ2TextureMapperTvm() {
 		}
 
+		// object replacement methods
+		static Float3 tmM2P_operate( FloatArray m3x3, Float3 v ) {
+			Float3 retval = Float3() ;
+			float sum ;
+
+			for ( int r=0 ; 4>r ; r++ ) {
+				sum = 0 ;
+				for ( int c=0 ; 3>c ; c++ ) {
+					sum += m3x3[3*r+c]*v[c] ;
+				}
+				retval.set( r, sum ) ;
+			}
+			return retval ;
+		}
+
+		static void projS_inverse( Float3 c, Float3 s ) {
+		}
+
+		static void projO_inverse( Float3 c, Float3 s ) {
+		}
+
+		static void projM_inverse( Float3 c, Float3 s ) {
+		}
+
+		static Float3 cartesian( Float3 c ) {
+			float x = TornadoMath.cos( c.getY() )*TornadoMath.cos( c.getX() ) ;
+			float y = TornadoMath.cos( c.getY() )*TornadoMath.sin( c.getX() ) ;
+			float z = TornadoMath.sin( c.getY() ) ;
+			return Float3( x, y, z ) ;
+		}
+
+		static Float3 spT_intersection( FloatArray plane, Float3 l1, Float3 l2 ) {
+			Float3 p1 = Float3( plane.get( 0 ), plane.get( 1 ), plane.get( 2 ) ) ;
+			Float3 p2 = Float3( plane.get( 3 ), plane.get( 4 ), plane.get( 5 ) ) ;
+			Float3 p3 = Float3( plane.get( 6 ), plane.get( 7 ), plane.get( 8 ) ) ;
+			Float3 normal = Float3.cross( Float3.sub( p2, p1 ), Float3.sub( p3, p1 ) ) ;
+
+			Float3 d00 = Float3.sub( p1, l1 ) ;
+
+			Float3 l = Float3.sub( l2, l1 ) ;
+
+			float a = Float3.dot( normal, d00 ) ;
+			float b = Float3.dot( normal, l ) ;
+			float d = a/b ;
+			l = Float3.mul( l, d ) ;
+
+			Float3 x = Float3.add( l1, l ) ;
+
+			return x ;
+		}
+
+		static Float4 tmH2T_operate( FloatArray m4x4, Float4 v ) {
+			Float4 retval = Float4() ;
+			float sum ;
+
+			for ( int r=0 ; 4>r ; r++ ) {
+				sum = 0 ;
+				for ( int c=0 ; 4>c ; c++ ) {
+					sum += m4x4[4*r+c]*v[c] ;
+				}
+				retval.set( r, sum ) ;
+			}
+			return retval ;
+		}
+
 		// former `main´ with TornadoVM extensions
 		static void k3rnel( byte pnam, FloatArray proj,
 				FloatArray m2p,
@@ -543,87 +611,55 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				int dims, int dimt, IntArray mapping,
 				float ups) {
 			// former nested class variables
-			double st[] = new double[] { 0, 0, 1 } ;
-			Coordinate uv = new Coordinate() ;
+			Float3 st = new Float3( 0, 0, 1 ) ;
+			Float3 uv = new Float3( 0, 0, 0 ) ;
 
-			org.chartacaeli.Coordinate eq = new org.chartacaeli.Coordinate( 0, 0, 0 ) ;
-			double[] ca = new double[] { 0, 0, 0, 1 } ;
-
-			// locals built from kernel params
-			P4Projector projector = null ;
-			RealMatrix tmM2P ;
-			RealMatrix tmH2T ;
-			Plane spT ;
+			Float3 eq = new Float3( 0, 0, 0 ) ;
+			Float4 ca = new Float4( 0, 0, 0, 1 ) ;
 
 			// locals as in sequential kernel
-			double t0[], op[] ;
-			Coordinate t1 ;
-			Vector3D vca, xca ;
-			double o, p ;
+			Float3 t0, t1 ;
+			Float3 vca, xca
+			Float4 op ;
+			float o, p ;
 
-			// set up projector
-			/*switch ( pnam ) {
-				case 'S':
-					projector = new P4Stereographic() ;
-					break ;
-				case 'O':
-					projector = new P4Orthographic() ;
-					break ;
-				case 'M':
-					projector = new P4Mollweide() ;
-					break ;
-			}
-			projector.init( proj.get(0), proj.get(1), proj.get(2), proj.get(3) ) ;
-
-			// set up mapping to projection coordinates matrix object
-			tmM2P = MatrixUtils.createRealMatrix( new double[][] {
-				{ m2p.get( 0 ), m2p.get( 1 ), m2p.get( 2 ) },
-				{ m2p.get( 3 ), m2p.get( 4 ), m2p.get( 5 ) },
-				{ m2p.get( 6 ), m2p.get( 7 ), m2p.get( 8 ) }
-			} ) ;
-
-			// set up heaven to texture coordinates matrix object
-			tmH2T = MatrixUtils.createRealMatrix( new double[][] {
-				{ h2t.get(  0 ), h2t.get(  1 ), h2t.get(  2 ), h2t.get(  3 ) },
-				{ h2t.get(  4 ), h2t.get(  5 ), h2t.get(  6 ), h2t.get(  7 ) },
-				{ h2t.get(  8 ), h2t.get(  9 ), h2t.get( 10 ), h2t.get( 11 ) },
-				{ h2t.get( 12 ), h2t.get( 13 ), h2t.get( 14 ), h2t.get( 15 ) }
-			} ) ;
-
-			// set up plane object
-			spT = new Plane(
-				new Vector3D( plane.get( 0 ), plane.get( 1 ), plane.get( 2 ) ),
-				new Vector3D( plane.get( 3 ), plane.get( 4 ), plane.get( 5 ) ),
-				new Vector3D( plane.get( 6 ), plane.get( 7 ), plane.get( 8 ) ), 1.0e-10
-				) ;
-
-			// @Parallel instructs TornadoVM to parallelize the body
+			// @Parallel instructs TornadoVM to parallelize body
 			for ( @Parallel int t=0 ; dimt>t ; t++ ) {
 				for ( @Parallel int s=0 ; dims>s ; s++ ) {
-					st[1] = t*ups ;
-					st[0] = s*ups ;
+					st.set( 1, t*ups ) ;
+					st.set( 0, s*ups ) ;
 
-					t0 = tmM2P.operate( st ) ;
-					uv.x = t0[0] ;
-					uv.y = t0[1] ;
+					t0 = tmM2P_operate( m2p, st ) ;
+					uv.setX( t0.get( 0 ) ) ;
+					uv.setY( t0.get( 1 ) ) ;
 
-					eq.setCoordinate( projector.inverse( uv ) ) ;
-					t1 = eq.cartesian() ;
+					switch ( pnam ) {
+						case 'S':
+							projS_inverse( uv, eq ) ) ;
+							break ;
+						case 'O':
+							projO_inverse( uv, eq ) ) ;
+							break ;
+						case 'M':
+							projM_inverse( uv, eq ) ) ;
+							break ;
+					}
+					t1 = cartesian( eq ) ;
 
-					vca = new Vector3D( t1.x, t1.y, t1.z ) ;
-					xca = spT.intersection( new Line( Vector3D.ZERO, vca, 1.0e-10 ) ) ;
-					ca[0] = xca.getX() ;
-					ca[1] = xca.getY() ;
-					ca[2] = xca.getZ() ;
+					vca = new Float3( t1.getX(), t1.getY(), t1.getZ() ) ;
+					xca = spT_intersection( plane, Float3(), vca ) ;
+					ca.set( 0, xca.getX() ) ;
+					ca.set( 1, xca.getY() ) ;
+					ca.set( 2, xca.getZ() ) ;
 
-					op = tmH2T.operate( ca ) ;
-					o = op[0] ;
-					p = op[1] ;
+					op = tmH2T_operate( h2t, ca ) ;
+					o = op.get( 0 ) ;
+					p = op.get( 1 ) ;
 
 					if ( o<dimo && p<dimp )
 						mapping.set( t*dims+s, texture.get( (int) p*dimo+(int) o ) ) ;
 				}
-			}*/
+			}
 		}
 
 		public void main( String[] argv ) throws Exception {
@@ -680,7 +716,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				.transferToDevice(DataTransferMode.FIRST_EXECUTION, plane)
 				.transferToDevice(DataTransferMode.FIRST_EXECUTION, d_texture)
 				// task node: execute kernel on accelerator
-				.task("t0", Artwork.PJ2TextureMapperTvm::k3rnel, pnam, proj,
+				.task("t0", Artwork.PJ2TextureMapperTvm::k3rnel,
+						pnam, proj,
 						m2p,
 						h2t,
 						plane,
