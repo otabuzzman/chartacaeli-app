@@ -50,7 +50,7 @@ import uk.ac.manchester.tornado.api.TornadoExecutionPlan;
 import uk.ac.manchester.tornado.api.TornadoExecutionResult;
 import uk.ac.manchester.tornado.api.types.vectors.Float3;
 import uk.ac.manchester.tornado.api.types.vectors.Float4;
-import uk.ac.manchester.tornado.api.TornadoMath;
+import uk.ac.manchester.tornado.api.math.TornadoMath;
 
 @SuppressWarnings("serial")
 public class Artwork extends org.chartacaeli.model.Artwork implements PostscriptEmitter {
@@ -539,21 +539,21 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 		private final static int M_EQUATOR = 2 ;
 		private final static int M_OBLIQUE = 3 ;
 
-		private final static double radperdeg = java.lang.Math.PI/180. ;
-		private final static double degperrad = 180./java.lang.Math.PI ;
+		private final static float radperdeg = (float) java.lang.Math.PI/180f ;
+		private final static float degperrad = 180f/(float) java.lang.Math.PI ;
 
 		public TVMTextureMapperGpu() {
 		}
 
 		// object replacement methods
 		static Float3 tmM2P_operate( FloatArray m3x3, Float3 v ) {
-			Float3 retval = Float3() ;
+			Float3 retval = new Float3() ;
 			float sum ;
 
 			for ( int r=0 ; 4>r ; r++ ) {
 				sum = 0 ;
 				for ( int c=0 ; 3>c ; c++ ) {
-					sum += m3x3[3*r+c]*v[c] ;
+					sum += m3x3.get( 3*r+c )*v.get( c ) ;
 				}
 				retval.set( r, sum ) ;
 			}
@@ -564,8 +564,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			int mode ;
 			float lam0 = proj.get( 0 ) ;
 			float phi1 = proj.get( 1 ) ;
-			float sinphi1 = TornadoMath.sinpi( phi1/180. ) ;
-			float cosphi1 = TornadoMath.cospi( phi1/180. ) ;
+			float sinphi1 = TornadoMath.sinpi( phi1/(float)180f ) ;
+			float cosphi1 = TornadoMath.cospi( phi1/(float)180f ) ;
 			float R = proj.get( 2 ) ;
 			float k0 = proj.get( 3 ) ;
 
@@ -581,8 +581,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float p = TornadoMath.sqrt( xy.getX()*xy.getX()+xy.getY()*xy.getY() ) ;
 			float c = 2*TornadoMath.atan2( p, 2*R*k0 )*degperrad ;
 
-			float sinc = TornadoMath.sinpi( c/180. ) ;
-			float cosc = TornadoMath.cospi( c/180. ) ;
+			float sinc = TornadoMath.sinpi( c/180f ) ;
+			float cosc = TornadoMath.cospi( c/180f ) ;
 
 			lamphi.setY( TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ) ;
 
@@ -607,8 +607,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			int mode ;
 			float lam0 = proj.get( 0 ) ;
 			float phi1 = proj.get( 1 ) ;
-			float sinphi1 = TornadoMath.sinpi( phi1/180. ) ;
-			float cosphi1 = TornadoMath.cospi( phi1/180. ) ;
+			float sinphi1 = TornadoMath.sinpi( phi1/180f ) ;
+			float cosphi1 = TornadoMath.cospi( phi1/180f ) ;
 			float R = proj.get( 2 ) ;
 			float k0 = proj.get( 3 ) ;
 
@@ -624,8 +624,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float p = TornadoMath.sqrt( xy.getX()*xy.getX()+xy.getY()*xy.getY() ) ;
 			float c = TornadoMath.asin( p/R )*degperrad ;
 
-			float sinc = TornadoMath.sinpi( c/180. ) ;
-			float cosc = TornadoMath.cospi( c/180. ) ;
+			float sinc = TornadoMath.sinpi( c/180f ) ;
+			float cosc = TornadoMath.cospi( c/180f ) ;
 
 			lamphi.setY( TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ) ;
 
@@ -651,16 +651,16 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float lam0 = proj.get( 0 ) ;
 			float R = proj.get( 2 ) ;
 
-			float tht = TornadoMath.asin( xy.getY()/( 1.41421356237*R ) )*degperrad ;
+			float tht = TornadoMath.asin( xy.getY()/( 1.41421356237f*R ) )*degperrad ;
 
-			float sin2tht = TornadoMath.sinpi( ( 2*tht )/180. ) ;
-			lamphi.setY( TornadoMath.asin( ( 2*tht*radperdeg+sin2tht )/java.lang.Math.PI )*degperrad ) ;
+			float sin2tht = TornadoMath.sinpi( ( 2*tht )/180f ) ;
+			lamphi.setY( TornadoMath.asin( ( 2*tht*radperdeg+sin2tht )/(float) java.lang.Math.PI )*degperrad ) ;
 
-			if ( abs( lamphi.getY() ) == 90 )
+			if ( TornadoMath.abs( lamphi.getY() ) == 90 )
 				lamphi.setX( lam0 ) ;
 			else {
-				float costht = TornadoMath.cospi( tht/180. ) ;
-				lamphi.setX( lam0+( java.lang.Math.PI*xy.x/( 2.82842712475*R*costht ) )*degperrad ) ;
+				float costht = TornadoMath.cospi( tht/180f ) ;
+				lamphi.setX( lam0+( (float) java.lang.Math.PI*xy.getX()/( 2.82842712475f*R*costht ) )*degperrad ) ;
 			}
 		}
 
@@ -668,13 +668,13 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float x = TornadoMath.cos( c.getY() )*TornadoMath.cos( c.getX() ) ;
 			float y = TornadoMath.cos( c.getY() )*TornadoMath.sin( c.getX() ) ;
 			float z = TornadoMath.sin( c.getY() ) ;
-			return Float3( x, y, z ) ;
+			return new Float3( x, y, z ) ;
 		}
 
 		static Float3 spT_intersection( FloatArray plane, Float3 l1, Float3 l2 ) {
-			Float3 p1 = Float3( plane.get( 0 ), plane.get( 1 ), plane.get( 2 ) ) ;
-			Float3 p2 = Float3( plane.get( 3 ), plane.get( 4 ), plane.get( 5 ) ) ;
-			Float3 p3 = Float3( plane.get( 6 ), plane.get( 7 ), plane.get( 8 ) ) ;
+			Float3 p1 = new Float3( plane.get( 0 ), plane.get( 1 ), plane.get( 2 ) ) ;
+			Float3 p2 = new Float3( plane.get( 3 ), plane.get( 4 ), plane.get( 5 ) ) ;
+			Float3 p3 = new Float3( plane.get( 6 ), plane.get( 7 ), plane.get( 8 ) ) ;
 			Float3 normal = Float3.cross( Float3.sub( p2, p1 ), Float3.sub( p3, p1 ) ) ;
 
 			Float3 d00 = Float3.sub( p1, l1 ) ;
@@ -684,7 +684,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float a = Float3.dot( normal, d00 ) ;
 			float b = Float3.dot( normal, l ) ;
 			float d = a/b ;
-			l = Float3.mul( l, d ) ;
+			l = Float3.mult( l, d ) ;
 
 			Float3 x = Float3.add( l1, l ) ;
 
@@ -692,13 +692,13 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 		}
 
 		static Float4 tmH2T_operate( FloatArray m4x4, Float4 v ) {
-			Float4 retval = Float4() ;
+			Float4 retval = new Float4() ;
 			float sum ;
 
 			for ( int r=0 ; 4>r ; r++ ) {
 				sum = 0 ;
 				for ( int c=0 ; 4>c ; c++ ) {
-					sum += m4x4[4*r+c]*v[c] ;
+					sum += m4x4.get( 4*r+c )*v.get( c ) ;
 				}
 				retval.set( r, sum ) ;
 			}
@@ -722,7 +722,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 
 			// locals as in sequential kernel
 			Float3 t0, t1 ;
-			Float3 vca, xca
+			Float3 vca, xca ;
 			Float4 op ;
 			float o, p ;
 
@@ -738,19 +738,19 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 
 					switch ( pnam ) {
 						case 'S':
-							projS_inverse( proj, uv, eq ) ) ;
+							projS_inverse( proj, uv, eq ) ;
 							break ;
 						case 'O':
-							projO_inverse( proj, uv, eq ) ) ;
+							projO_inverse( proj, uv, eq ) ;
 							break ;
 						case 'M':
-							projM_inverse( proj, uv, eq ) ) ;
+							projM_inverse( proj, uv, eq ) ;
 							break ;
 					}
 					t1 = cartesian( eq ) ;
 
 					vca = new Float3( t1.getX(), t1.getY(), t1.getZ() ) ;
-					xca = spT_intersection( plane, Float3(), vca ) ;
+					xca = spT_intersection( plane, new Float3(), vca ) ;
 					ca.set( 0, xca.getX() ) ;
 					ca.set( 1, xca.getY() ) ;
 					ca.set( 2, xca.getZ() ) ;
@@ -813,13 +813,9 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			// create a TaskGraph with a unique id
 			TaskGraph taskGraph = new TaskGraph("s0")
 				// transfer nodes: copy data to accelerator
-				.transferToDevice(DataTransferMode.FIRST_EXECUTION, proj)
-				.transferToDevice(DataTransferMode.FIRST_EXECUTION, m2p)
-				.transferToDevice(DataTransferMode.FIRST_EXECUTION, h2t)
-				.transferToDevice(DataTransferMode.FIRST_EXECUTION, plane)
-				.transferToDevice(DataTransferMode.FIRST_EXECUTION, d_texture)
+				.transferToDevice(DataTransferMode.FIRST_EXECUTION, proj, m2p, h2t, plane, d_texture)
 				// task node: execute kernel on accelerator
-				.task("t0", Artwork.PJ2TextureMapperTvm::k3rnel,
+				.task("t0", Artwork.TVMTextureMapperGpu::k3rnel,
 						pnam, proj,
 						m2p,
 						h2t,
