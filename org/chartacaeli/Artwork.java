@@ -532,9 +532,17 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 		}
 	}
 
-	private class PJ2TextureMapperTvm extends Task {
+	private class TVMTextureMapperGpu extends Task {
 
-		public PJ2TextureMapperTvm() {
+		private final static int M_NORTH = 0 ;
+		private final static int M_SOUTH = 1 ;
+		private final static int M_EQUATOR = 2 ;
+		private final static int M_OBLIQUE = 3 ;
+
+		private final static double radperdeg = java.lang.Math.PI/180. ;
+		private final static double degperrad = 180./java.lang.Math.PI ;
+
+		public TVMTextureMapperGpu() {
 		}
 
 		// object replacement methods
@@ -552,13 +560,108 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			return retval ;
 		}
 
-		static void projS_inverse( Float3 c, Float3 s ) {
+		static void projS_inverse( FloatArray proj, Float3 xy, Float3 lamphi ) {
+			int mode ;
+			float lam0 = proj.get( 0 ) ;
+			float phi1 = proj.get( 1 ) ;
+			float sinphi1 = TornadoMath.sinpi( phi1/180. ) ;
+			float cosphi1 = TornadoMath.cospi( phi1/180. ) ;
+			float R = proj.get( 2 ) ;
+			float k0 = proj.get( 3 ) ;
+
+			if ( phi1 == 90 )
+				mode = M_NORTH ;
+			else if ( phi1 == -90 )
+				mode = M_SOUTH ;
+			else if ( phi1 == 0 )
+				mode = M_EQUATOR ;
+			else
+				mode = M_OBLIQUE ;
+
+			float p = TornadoMath.sqrt( xy.getX()*xy.getX()+xy.getY()*xy.getY() ) ;
+			float c = 2*TornadoMath.atan2( p, 2*R*k0 )*degperrad ;
+
+			float sinc = TornadoMath.sinpi( c/180. ) ;
+			float cosc = TornadoMath.cospi( c/180. ) ;
+
+			lamphi.setY( TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ) ;
+
+			switch ( mode ) {
+			case M_NORTH:
+				lamphi.setX( lam0+TornadoMath.atan2( xy.getX(), -xy.getY() )*degperrad ) ;
+
+				break ;
+			case M_SOUTH:
+				lamphi.setX( lam0+TornadoMath.atan2( xy.getX(), xy.getY() )*degperrad ) ;
+
+				break ;
+			case M_EQUATOR:
+			case M_OBLIQUE:
+				lamphi.setX( lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ) ;
+
+				break ;
+			}
 		}
 
-		static void projO_inverse( Float3 c, Float3 s ) {
+		static void projO_inverse( FloatArray proj, Float3 xy, Float3 lamphi ) {
+			int mode ;
+			float lam0 = proj.get( 0 ) ;
+			float phi1 = proj.get( 1 ) ;
+			float sinphi1 = TornadoMath.sinpi( phi1/180. ) ;
+			float cosphi1 = TornadoMath.cospi( phi1/180. ) ;
+			float R = proj.get( 2 ) ;
+			float k0 = proj.get( 3 ) ;
+
+			if ( phi1 == 90 )
+				mode = M_NORTH ;
+			else if ( phi1 == -90 )
+				mode = M_SOUTH ;
+			else if ( phi1 == 0 )
+				mode = M_EQUATOR ;
+			else
+				mode = M_OBLIQUE ;
+
+			float p = TornadoMath.sqrt( xy.getX()*xy.getX()+xy.getY()*xy.getY() ) ;
+			float c = TornadoMath.asin( p/R )*degperrad ;
+
+			float sinc = TornadoMath.sinpi( c/180. ) ;
+			float cosc = TornadoMath.cospi( c/180. ) ;
+
+			lamphi.setY( TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ) ;
+
+			switch ( mode ) {
+			case M_NORTH:
+				lamphi.setX( lam0+TornadoMath.atan2(xy.getX(), -xy.getY() )*degperrad ) ;
+
+				break ;
+			case M_SOUTH:
+				lamphi.setX( lam0+TornadoMath.atan2(xy.getX(), xy.getY() )*degperrad ) ;
+
+				break ;
+			case M_EQUATOR:
+			case M_OBLIQUE:
+				lamphi.setX( lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ) ;
+
+				break ;
+	}
+
 		}
 
-		static void projM_inverse( Float3 c, Float3 s ) {
+		static void projM_inverse( FloatArray proj, Float3 xy, Float3 lamphi ) {
+			float lam0 = proj.get( 0 ) ;
+			float R = proj.get( 2 ) ;
+
+			float tht = TornadoMath.asin( xy.getY()/( 1.41421356237*R ) )*degperrad ;
+
+			float sin2tht = TornadoMath.sinpi( ( 2*tht )/180. ) ;
+			lamphi.setY( TornadoMath.asin( ( 2*tht*radperdeg+sin2tht )/java.lang.Math.PI )*degperrad ) ;
+
+			if ( abs( lamphi.getY() ) == 90 )
+				lamphi.setX( lam0 ) ;
+			else {
+				float costht = TornadoMath.cospi( tht/180. ) ;
+				lamphi.setX( lam0+( java.lang.Math.PI*xy.x/( 2.82842712475*R*costht ) )*degperrad ) ;
+			}
 		}
 
 		static Float3 cartesian( Float3 c ) {
@@ -635,13 +738,13 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 
 					switch ( pnam ) {
 						case 'S':
-							projS_inverse( uv, eq ) ) ;
+							projS_inverse( proj, uv, eq ) ) ;
 							break ;
 						case 'O':
-							projO_inverse( uv, eq ) ) ;
+							projO_inverse( proj, uv, eq ) ) ;
 							break ;
 						case 'M':
-							projM_inverse( uv, eq ) ) ;
+							projM_inverse( proj, uv, eq ) ) ;
 							break ;
 					}
 					t1 = cartesian( eq ) ;

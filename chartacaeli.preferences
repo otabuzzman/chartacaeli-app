@@ -641,7 +641,7 @@ To find the node of a class or a chart definition element the application first 
 						<!--org.chartacaeli.Artwork$PJ2TextureMapperC3p (notes on experimental classes in README.md in gpu package)-->
 						<!--org.chartacaeli.Artwork$PJ2TextureMapperSmp-->
 						<!--org.chartacaeli.Artwork$PJ2TextureMapperGpu-->
-						<!--org.chartacaeli.Artwork$PJ2TextureMapperTvm-->
+						<!--org.chartacaeli.Artwork$TVMTextureMapperGpu-->
 						<entry key="pj2worker" value="org.chartacaeli.Artwork$PJ2TextureMapperSeq"/>
 						<!--convert image to PNG32 (background RGB (0..255) in %1, %2 or %3)-->
 						<entry key="prefilter" value="magick convert - png32:-"/>
