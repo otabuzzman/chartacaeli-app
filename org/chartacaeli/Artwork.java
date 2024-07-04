@@ -547,20 +547,20 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 
 		// object replacement methods
 		static Float3 tmM2P_operate( FloatArray m3x3, Float3 v ) {
-			Float3 retval = new Float3() ;
+			float[] retval = new float[3] ;
 			float sum ;
 
-			for ( int r=0 ; 4>r ; r++ ) {
+			for ( int r=0 ; 3>r ; r++ ) {
 				sum = 0 ;
 				for ( int c=0 ; 3>c ; c++ ) {
 					sum += m3x3.get( 3*r+c )*v.get( c ) ;
 				}
-				retval.set( r, sum ) ;
+				retval[r] = sum ;
 			}
-			return retval ;
+			return new Float3( retval ) ;
 		}
 
-		static void projS_inverse( FloatArray proj, Float3 xy, Float3 lamphi ) {
+		static Float3 projS_inverse( FloatArray proj, Float3 xy ) {
 			int mode ;
 			float lam0 = proj.get( 0 ) ;
 			float phi1 = proj.get( 1 ) ;
@@ -568,6 +568,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float cosphi1 = TornadoMath.cospi( phi1/(float)180f ) ;
 			float R = proj.get( 2 ) ;
 			float k0 = proj.get( 3 ) ;
+			float lam, phi ;
 
 			if ( phi1 == 90 )
 				mode = M_NORTH ;
@@ -584,26 +585,28 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float sinc = TornadoMath.sinpi( c/180f ) ;
 			float cosc = TornadoMath.cospi( c/180f ) ;
 
-			lamphi.setY( TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ) ;
+			phi = TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ;
 
 			switch ( mode ) {
 			case M_NORTH:
-				lamphi.setX( lam0+TornadoMath.atan2( xy.getX(), -xy.getY() )*degperrad ) ;
+				lam = lam0+TornadoMath.atan2( xy.getX(), -xy.getY() )*degperrad ;
 
 				break ;
 			case M_SOUTH:
-				lamphi.setX( lam0+TornadoMath.atan2( xy.getX(), xy.getY() )*degperrad ) ;
+				lam = lam0+TornadoMath.atan2( xy.getX(), xy.getY() )*degperrad ;
 
 				break ;
 			case M_EQUATOR:
 			case M_OBLIQUE:
-				lamphi.setX( lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ) ;
+				lam = lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ;
 
 				break ;
 			}
+
+			return new Float3( lam, phi, 0 ) ;
 		}
 
-		static void projO_inverse( FloatArray proj, Float3 xy, Float3 lamphi ) {
+		static Float3 projO_inverse( FloatArray proj, Float3 xy ) {
 			int mode ;
 			float lam0 = proj.get( 0 ) ;
 			float phi1 = proj.get( 1 ) ;
@@ -611,6 +614,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float cosphi1 = TornadoMath.cospi( phi1/180f ) ;
 			float R = proj.get( 2 ) ;
 			float k0 = proj.get( 3 ) ;
+			float lam, phi ;
 
 			if ( phi1 == 90 )
 				mode = M_NORTH ;
@@ -627,41 +631,45 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float sinc = TornadoMath.sinpi( c/180f ) ;
 			float cosc = TornadoMath.cospi( c/180f ) ;
 
-			lamphi.setY( TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ) ;
+			phi = TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ;
 
 			switch ( mode ) {
 			case M_NORTH:
-				lamphi.setX( lam0+TornadoMath.atan2(xy.getX(), -xy.getY() )*degperrad ) ;
+				lam = lam0+TornadoMath.atan2(xy.getX(), -xy.getY() )*degperrad ;
 
 				break ;
 			case M_SOUTH:
-				lamphi.setX( lam0+TornadoMath.atan2(xy.getX(), xy.getY() )*degperrad ) ;
+				lam = lam0+TornadoMath.atan2(xy.getX(), xy.getY() )*degperrad ;
 
 				break ;
 			case M_EQUATOR:
 			case M_OBLIQUE:
-				lamphi.setX( lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ) ;
+				lam = lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ;
 
 				break ;
-	}
 
+			return new Float3( lam, phi, 0 ) ;
+			}
 		}
 
-		static void projM_inverse( FloatArray proj, Float3 xy, Float3 lamphi ) {
+		static Float3 projM_inverse( FloatArray proj, Float3 xy ) {
 			float lam0 = proj.get( 0 ) ;
 			float R = proj.get( 2 ) ;
+			float lam, phi ;
 
 			float tht = TornadoMath.asin( xy.getY()/( 1.41421356237f*R ) )*degperrad ;
 
 			float sin2tht = TornadoMath.sinpi( ( 2*tht )/180f ) ;
-			lamphi.setY( TornadoMath.asin( ( 2*tht*radperdeg+sin2tht )/(float) java.lang.Math.PI )*degperrad ) ;
+			phi = TornadoMath.asin( ( 2*tht*radperdeg+sin2tht )/(float) java.lang.Math.PI )*degperrad ;
 
 			if ( TornadoMath.abs( lamphi.getY() ) == 90 )
-				lamphi.setX( lam0 ) ;
+				lam = lam0 ;
 			else {
 				float costht = TornadoMath.cospi( tht/180f ) ;
-				lamphi.setX( lam0+( (float) java.lang.Math.PI*xy.getX()/( 2.82842712475f*R*costht ) )*degperrad ) ;
+				lam = lam0+( (float) java.lang.Math.PI*xy.getX()/( 2.82842712475f*R*costht ) )*degperrad ;
 			}
+
+			return new Float3( lam, phi, 0 ) ;
 		}
 
 		static Float3 cartesian( Float3 c ) {
@@ -692,7 +700,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 		}
 
 		static Float4 tmH2T_operate( FloatArray m4x4, Float4 v ) {
-			Float4 retval = new Float4() ;
+			float[] retval = { 0, 0, 0, 1 } ;
 			float sum ;
 
 			for ( int r=0 ; 4>r ; r++ ) {
@@ -700,9 +708,9 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				for ( int c=0 ; 4>c ; c++ ) {
 					sum += m4x4.get( 4*r+c )*v.get( c ) ;
 				}
-				retval.set( r, sum ) ;
+				retval[r] = sum ;
 			}
-			return retval ;
+			return new Float4( retval ) ;
 		}
 
 		// former `main´ with TornadoVM extensions
@@ -713,51 +721,36 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				int dimo, int dimp, IntArray texture,
 				int dims, int dimt, IntArray mapping,
 				float ups) {
-			// former nested class variables
-			Float3 st = new Float3( 0, 0, 1 ) ;
-			Float3 uv = new Float3( 0, 0, 0 ) ;
-
-			Float3 eq = new Float3( 0, 0, 0 ) ;
-			Float4 ca = new Float4( 0, 0, 0, 1 ) ;
-
-			// locals as in sequential kernel
-			Float3 t0, t1 ;
-			Float3 vca, xca ;
-			Float4 op ;
-			float o, p ;
-
 			// @Parallel instructs TornadoVM to parallelize body
 			for ( @Parallel int t=0 ; dimt>t ; t++ ) {
 				for ( @Parallel int s=0 ; dims>s ; s++ ) {
-					st.set( 1, t*ups ) ;
-					st.set( 0, s*ups ) ;
+					Float3 st = new Float3( s*ups, t*ups, 1 ) ; // was class level
 
-					t0 = tmM2P_operate( m2p, st ) ;
-					uv.setX( t0.get( 0 ) ) ;
-					uv.setY( t0.get( 1 ) ) ;
+					Float3 t0 = tmM2P_operate( m2p, st ) ; // was auto
+					Float3 uv = new Float3( t0.get( 0 ), t0.get( 1 ), 0 ) ; // was class level
 
+					Float3 eq ;
 					switch ( pnam ) {
 						case 'S':
-							projS_inverse( proj, uv, eq ) ;
+							eq = projS_inverse( proj, uv ) ; // was class level
 							break ;
 						case 'O':
-							projO_inverse( proj, uv, eq ) ;
+							eq = projO_inverse( proj, uv ) ;
 							break ;
 						case 'M':
-							projM_inverse( proj, uv, eq ) ;
+							eq = projM_inverse( proj, uv ) ;
 							break ;
 					}
-					t1 = cartesian( eq ) ;
+					Float3 t1 = cartesian( eq ) ; // was auto
 
-					vca = new Float3( t1.getX(), t1.getY(), t1.getZ() ) ;
-					xca = spT_intersection( plane, new Float3(), vca ) ;
-					ca.set( 0, xca.getX() ) ;
-					ca.set( 1, xca.getY() ) ;
-					ca.set( 2, xca.getZ() ) ;
+					 // were auto
+					Float3 vca = new Float3( t1.getX(), t1.getY(), t1.getZ() ) ;
+					Float3 xca = spT_intersection( plane, new Float3(), vca ) ;
+					Float4 ca = new Float4( xca.getX(), xca.getY(), xca.getZ(), 1 ) ;
 
-					op = tmH2T_operate( h2t, ca ) ;
-					o = op.get( 0 ) ;
-					p = op.get( 1 ) ;
+					Float4 op = tmH2T_operate( h2t, ca ) ; // was auto
+					float o = op.get( 0 ) ;
+					float p = op.get( 1 ) ;
 
 					if ( o<dimo && p<dimp )
 						mapping.set( t*dims+s, texture.get( (int) p*dimo+(int) o ) ) ;
