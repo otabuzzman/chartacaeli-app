@@ -557,7 +557,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				}
 				retval[r] = sum ;
 			}
-			return new Float3( retval ) ;
+			return new Float3( retval[0], retval[1], retval[2] ) ;
 		}
 
 		static Float3 projS_inverse( FloatArray proj, Float3 xy ) {
@@ -568,7 +568,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float cosphi1 = TornadoMath.cospi( phi1/(float)180f ) ;
 			float R = proj.get( 2 ) ;
 			float k0 = proj.get( 3 ) ;
-			float lam, phi ;
+			float lam = 0, phi ;
 
 			if ( phi1 == 90 )
 				mode = M_NORTH ;
@@ -614,7 +614,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float cosphi1 = TornadoMath.cospi( phi1/180f ) ;
 			float R = proj.get( 2 ) ;
 			float k0 = proj.get( 3 ) ;
-			float lam, phi ;
+			float lam = 0, phi ;
 
 			if ( phi1 == 90 )
 				mode = M_NORTH ;
@@ -647,9 +647,9 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				lam = lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ;
 
 				break ;
+			}
 
 			return new Float3( lam, phi, 0 ) ;
-			}
 		}
 
 		static Float3 projM_inverse( FloatArray proj, Float3 xy ) {
@@ -662,7 +662,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float sin2tht = TornadoMath.sinpi( ( 2*tht )/180f ) ;
 			phi = TornadoMath.asin( ( 2*tht*radperdeg+sin2tht )/(float) java.lang.Math.PI )*degperrad ;
 
-			if ( TornadoMath.abs( lamphi.getY() ) == 90 )
+			if ( TornadoMath.abs( phi ) == 90 )
 				lam = lam0 ;
 			else {
 				float costht = TornadoMath.cospi( tht/180f ) ;
@@ -710,7 +710,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				}
 				retval[r] = sum ;
 			}
-			return new Float4( retval ) ;
+			return new Float4(  retval[0], retval[1], retval[2], retval[3] ) ;
 		}
 
 		// former `main´ with TornadoVM extensions
@@ -729,7 +729,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 					Float3 t0 = tmM2P_operate( m2p, st ) ; // was auto
 					Float3 uv = new Float3( t0.get( 0 ), t0.get( 1 ), 0 ) ; // was class level
 
-					Float3 eq ;
+					Float3 eq = new Float3() ;
 					switch ( pnam ) {
 						case 'S':
 							eq = projS_inverse( proj, uv ) ; // was class level
@@ -749,11 +749,13 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 					Float4 ca = new Float4( xca.getX(), xca.getY(), xca.getZ(), 1 ) ;
 
 					Float4 op = tmH2T_operate( h2t, ca ) ; // was auto
-					float o = op.get( 0 ) ;
-					float p = op.get( 1 ) ;
+					int o = (int) op.get( 0 ) ;
+					int p = (int) op.get( 1 ) ;
 
-					if ( o<dimo && p<dimp )
-						mapping.set( t*dims+s, texture.get( (int) p*dimo+(int) o ) ) ;
+					if ( 0>o || 0>p || o>=dimo-1 || p>=dimp-1 )
+						continue ;
+
+					mapping.set( t*dims+s, texture.get( p*dimo+o ) ) ;
 				}
 			}
 		}
