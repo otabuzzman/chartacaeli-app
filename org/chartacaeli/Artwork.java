@@ -564,8 +564,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			int mode ;
 			float lam0 = proj.get( 0 ) ;
 			float phi1 = proj.get( 1 ) ;
-			float sinphi1 = TornadoMath.sinpi( phi1/(float)180f ) ;
-			float cosphi1 = TornadoMath.cospi( phi1/(float)180f ) ;
+			float sinphi1 = TornadoMath.sin( phi1 ) ;
+			float cosphi1 = TornadoMath.cos( phi1 ) ;
 			float R = proj.get( 2 ) ;
 			float k0 = proj.get( 3 ) ;
 			float lam = 0, phi ;
@@ -580,25 +580,25 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				mode = M_OBLIQUE ;
 
 			float p = TornadoMath.sqrt( xy.getX()*xy.getX()+xy.getY()*xy.getY() ) ;
-			float c = 2*TornadoMath.atan2( p, 2*R*k0 )*degperrad ;
+			float c = 2*TornadoMath.atan2( p, 2*R*k0 ) ;
 
-			float sinc = TornadoMath.sinpi( c/180f ) ;
-			float cosc = TornadoMath.cospi( c/180f ) ;
+			float sinc = TornadoMath.sin( c ) ;
+			float cosc = TornadoMath.cos( c ) ;
 
-			phi = TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ;
+			phi = TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) ) ;
 
 			switch ( mode ) {
 			case M_NORTH:
-				lam = lam0+TornadoMath.atan2( xy.getX(), -xy.getY() )*degperrad ;
+				lam = lam0+TornadoMath.atan2( xy.getX(), -xy.getY() ) ;
 
 				break ;
 			case M_SOUTH:
-				lam = lam0+TornadoMath.atan2( xy.getX(), xy.getY() )*degperrad ;
+				lam = lam0+TornadoMath.atan2( xy.getX(), xy.getY() ) ;
 
 				break ;
 			case M_EQUATOR:
 			case M_OBLIQUE:
-				lam = lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ;
+				lam = lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc ) ;
 
 				break ;
 			}
@@ -610,8 +610,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			int mode ;
 			float lam0 = proj.get( 0 ) ;
 			float phi1 = proj.get( 1 ) ;
-			float sinphi1 = TornadoMath.sinpi( phi1/180f ) ;
-			float cosphi1 = TornadoMath.cospi( phi1/180f ) ;
+			float sinphi1 = TornadoMath.sin( phi1 ) ;
+			float cosphi1 = TornadoMath.cos( phi1 ) ;
 			float R = proj.get( 2 ) ;
 			float k0 = proj.get( 3 ) ;
 			float lam = 0, phi ;
@@ -626,25 +626,25 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				mode = M_OBLIQUE ;
 
 			float p = TornadoMath.sqrt( xy.getX()*xy.getX()+xy.getY()*xy.getY() ) ;
-			float c = TornadoMath.asin( p/R )*degperrad ;
+			float c = TornadoMath.asin( p/R ) ;
 
-			float sinc = TornadoMath.sinpi( c/180f ) ;
-			float cosc = TornadoMath.cospi( c/180f ) ;
+			float sinc = TornadoMath.sin( c ) ;
+			float cosc = TornadoMath.cos( c ) ;
 
-			phi = TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) )*degperrad ;
+			phi = TornadoMath.asin( cosc*sinphi1+( xy.getY()*sinc*cosphi1/p ) ) ;
 
 			switch ( mode ) {
 			case M_NORTH:
-				lam = lam0+TornadoMath.atan2(xy.getX(), -xy.getY() )*degperrad ;
+				lam = lam0+TornadoMath.atan2(xy.getX(), -xy.getY() ) ;
 
 				break ;
 			case M_SOUTH:
-				lam = lam0+TornadoMath.atan2(xy.getX(), xy.getY() )*degperrad ;
+				lam = lam0+TornadoMath.atan2(xy.getX(), xy.getY() ) ;
 
 				break ;
 			case M_EQUATOR:
 			case M_OBLIQUE:
-				lam = lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc )*degperrad ;
+				lam = lam0+TornadoMath.atan2( xy.getX()*sinc, p*cosphi1*cosc-xy.getY()*sinphi1*sinc ) ;
 
 				break ;
 			}
@@ -657,16 +657,16 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float R = proj.get( 2 ) ;
 			float lam, phi ;
 
-			float tht = TornadoMath.asin( xy.getY()/( 1.41421356237f*R ) )*degperrad ;
+			float tht = TornadoMath.asin( xy.getY()/( 1.41421356237f*R ) ) ;
 
-			float sin2tht = TornadoMath.sinpi( ( 2*tht )/180f ) ;
-			phi = TornadoMath.asin( ( 2*tht*radperdeg+sin2tht )/(float) java.lang.Math.PI )*degperrad ;
+			float sin2tht = TornadoMath.sin( ( 2*tht ) ) ;
+			phi = TornadoMath.asin( ( 2*tht+sin2tht )/(float) java.lang.Math.PI ) ;
 
 			if ( TornadoMath.abs( phi ) == 90 )
 				lam = lam0 ;
 			else {
-				float costht = TornadoMath.cospi( tht/180f ) ;
-				lam = lam0+( (float) java.lang.Math.PI*xy.getX()/( 2.82842712475f*R*costht ) )*degperrad ;
+				float costht = TornadoMath.cos( tht ) ;
+				lam = lam0+(float) java.lang.Math.PI*xy.getX()/( 2.82842712475f*R*costht ) ;
 			}
 
 			return new Float3( lam, phi, 0 ) ;
@@ -777,8 +777,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 
 				return ;
 			}
-			proj.set( 0, (float) projector.lam0() ) ;
-			proj.set( 1, (float) projector.phi1() ) ;
+			proj.set( 0, (float) projector.lam0()*radperdeg ) ;
+			proj.set( 1, (float) projector.phi1()*radperdeg ) ;
 			proj.set( 2, (float) projector.R() ) ;
 			proj.set( 3, (float) projector.k0() ) ;
 
