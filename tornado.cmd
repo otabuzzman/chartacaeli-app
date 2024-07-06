@@ -1,8 +1,21 @@
+@echo off
+
+:l0
+echo %PATH% | findstr /i "TornadoVM" >nul
+if %errorlevel% equ 0 goto :l1
 call ..\..\lab\TornadoVM\setvars.cmd
 
+:l1
+echo %PATH% | findstr /i "chartacaeli" >nul
+if %errorlevel% equ 0 goto :l2
 set PATH=org\chartacaeli\caa;%PATH%
+
+:l2
+echo %PATH% | findstr /i "mingw32" >nul
+if %errorlevel% equ 0 goto :l3
 set PATH=c:\cygwin64\usr\x86_64-w64-mingw32\sys-root\mingw\bin;%PATH%
 
+:l3
 set classpath=^
 lib;^
 org/chartacaeli;^
@@ -21,5 +34,6 @@ set tvmdev=-Ds0.t0.device=1:0
 
 set tvmlib=%TORNADO_SDK%\lib
 
+@echo on
 rem did not get viewer to work properly yet, thus omitted.
 python %TORNADO_SDK%\bin\tornado --jvm "%tvmdev% -Djava.library.path=%tvmlib%;org/chartacaeli/caa;org/chartacaeli/gpu;lib; -Djava.util.logging.config.file=lib/logging.properties -classpath %classpath%" org.chartacaeli.ChartaCaeli %1 >%2

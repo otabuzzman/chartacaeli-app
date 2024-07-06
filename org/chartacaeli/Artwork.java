@@ -726,8 +726,7 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				for ( @Parallel int s=0 ; dims>s ; s++ ) {
 					Float3 st = new Float3( s*ups, t*ups, 1 ) ; // was class level
 
-					Float3 t0 = tmM2P_operate( m2p, st ) ; // was auto
-					Float3 uv = new Float3( t0.get( 0 ), t0.get( 1 ), 0 ) ; // was class level
+					Float3 uv = tmM2P_operate( m2p, st ) ; // was auto
 
 					Float3 eq = new Float3() ;
 					switch ( pnam ) {
@@ -741,13 +740,11 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 							eq = projM_inverse( proj, uv ) ;
 							break ;
 					}
-					Float3 t1 = cartesian( eq ) ; // was auto
 
-					 // were auto
-					Float3 vca = new Float3( t1.getX(), t1.getY(), t1.getZ() ) ;
+					Float3 vca = cartesian( eq ) ; // was auto
 					Float3 xca = spT_intersection( plane, new Float3(), vca ) ;
-					Float4 ca = new Float4( xca.getX(), xca.getY(), xca.getZ(), 1 ) ;
 
+					Float4 ca = new Float4( xca.getX(), xca.getY(), xca.getZ(), 1 ) ;
 					Float4 op = tmH2T_operate( h2t, ca ) ; // was auto
 					int o = (int) op.get( 0 ) ;
 					int p = (int) op.get( 1 ) ;
@@ -767,8 +764,8 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			FloatArray m2p = new FloatArray(9) ;
 			FloatArray h2t = new FloatArray(16) ;
 			FloatArray plane = new FloatArray(9) ;
-			IntArray d_texture = new IntArray(texture.length) ;
-			IntArray d_mapping = new IntArray(mapping.length) ;
+			IntArray d_texture ;
+			IntArray d_mapping ;
 
 			// set up projector params
 			projector = (P4Projector) Registry.retrieve( P4Projector.class.getName() ) ;
@@ -800,15 +797,15 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			plane.set( 3, (float) popHP2.x ) ; plane.set( 4, (float) popHP2.y ) ; plane.set( 5, (float) popHP2.z ) ;
 			plane.set( 6, (float) popHP3.x ) ; plane.set( 7, (float) popHP3.y ) ; plane.set( 8, (float) popHP3.z ) ;
 
-			// copy image (texture) to source buffer
-			for ( int p=0 ; dimp>p ; p++ )
-				for ( int o=0 ; dimo>o ; o++ )
-					d_texture.set( p*dimo+o, texture[p*dimo+o] ) ;
+			// initialize source buffer with image (texture)
+			d_texture = IntArray.fromArray( texture ) ;
+			// initialize result buffer with backround (mapping)
+			d_mapping = IntArray.fromArray( mapping ) ;
 
 			// create a TaskGraph with a unique id
 			TaskGraph taskGraph = new TaskGraph("s0")
 				// transfer nodes: copy data to accelerator
-				.transferToDevice(DataTransferMode.FIRST_EXECUTION, proj, m2p, h2t, plane, d_texture)
+				.transferToDevice(DataTransferMode.FIRST_EXECUTION, proj, m2p, h2t, plane, d_texture, d_mapping)
 				// task node: execute kernel on accelerator
 				.task("t0", Artwork.TVMTextureMapperGpu::k3rnel,
 						pnam, proj,
