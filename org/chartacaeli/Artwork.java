@@ -539,6 +539,9 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 		private final static int M_EQUATOR = 2 ;
 		private final static int M_OBLIQUE = 3 ;
 
+		private final static float eps = 0.001f ;
+		private final static float r90 = (float) java.lang.Math.PI/2f ;
+
 		private final static float radperdeg = (float) java.lang.Math.PI/180f ;
 		private final static float degperrad = 180f/(float) java.lang.Math.PI ;
 
@@ -560,6 +563,10 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			return new Float3( retval[0], retval[1], retval[2] ) ;
 		}
 
+		static boolean isEqual( float a, float b, float epsilon ) {
+			return epsilon > TornadoMath.abs( a-b ) ;
+		}
+
 		static Float3 projS_inverse( FloatArray proj, Float3 xy ) {
 			int mode ;
 			float lam0 = proj.get( 0 ) ;
@@ -570,11 +577,11 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float k0 = proj.get( 3 ) ;
 			float lam = 0, phi ;
 
-			if ( phi1 == 90 )
+			if ( isEqual( phi1, r90, eps ) )
 				mode = M_NORTH ;
-			else if ( phi1 == -90 )
+			else if ( isEqual( phi1, -r90, eps ) )
 				mode = M_SOUTH ;
-			else if ( phi1 == 0 )
+			else if ( isEqual( phi1, 0, eps ) )
 				mode = M_EQUATOR ;
 			else
 				mode = M_OBLIQUE ;
@@ -616,11 +623,11 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 			float k0 = proj.get( 3 ) ;
 			float lam = 0, phi ;
 
-			if ( phi1 == 90 )
+			if ( isEqual( phi1, r90, eps ) )
 				mode = M_NORTH ;
-			else if ( phi1 == -90 )
+			else if ( isEqual( phi1, -r90, eps ) )
 				mode = M_SOUTH ;
-			else if ( phi1 == 0 )
+			else if ( isEqual( phi1, 0, eps ) )
 				mode = M_EQUATOR ;
 			else
 				mode = M_OBLIQUE ;
@@ -726,9 +733,9 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 				for ( @Parallel int s=0 ; dims>s ; s++ ) {
 					Float3 st = new Float3( s*ups, t*ups, 1 ) ; // was class level
 
-					Float3 uv = tmM2P_operate( m2p, st ) ; // was auto
+					Float3 uv = tmM2P_operate( m2p, st ) ; // was class level
 
-					Float3 eq = new Float3() ;
+					Float3 eq = new Float3() ; // was class level
 					switch ( pnam ) {
 						case 'S':
 							eq = projS_inverse( proj, uv ) ; // was class level
@@ -741,11 +748,14 @@ public class Artwork extends org.chartacaeli.model.Artwork implements Postscript
 							break ;
 					}
 
-					Float3 vca = cartesian( eq ) ; // was auto
+					// were auto
+					Float3 vca = cartesian( eq ) ;
 					Float3 xca = spT_intersection( plane, new Float3(), vca ) ;
 
-					Float4 ca = new Float4( xca.getX(), xca.getY(), xca.getZ(), 1 ) ;
-					Float4 op = tmH2T_operate( h2t, ca ) ; // was auto
+					Float4 ca = new Float4( xca.getX(), xca.getY(), xca.getZ(), 1 ) ; // was class level
+
+					// were auto
+					Float4 op = tmH2T_operate( h2t, ca ) ;
 					int o = (int) op.get( 0 ) ;
 					int p = (int) op.get( 1 ) ;
 
